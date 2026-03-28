@@ -69,7 +69,7 @@ export function PersonalLetter({
       {/* This div is always in the DOM but content is hidden until revealed */}
       <div
         id="results-content"
-        className={`scroll-mt-24 transition-opacity duration-700 ${
+        className={`scroll-mt-32 transition-opacity duration-700 ${
           revealed ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
         }`}
       />
