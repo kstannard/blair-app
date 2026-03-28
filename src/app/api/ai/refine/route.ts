@@ -198,11 +198,11 @@ export async function POST(request: NextRequest) {
     const recommendation = await prisma.recommendation.findFirst({
       where: { userId: session.user.id, status: "approved" },
       orderBy: { createdAt: "desc" },
-      include: { user: { include: { quizResult: true } } },
+      include: { user: { include: { profile: true } } },
     });
 
-    if (recommendation?.user?.quizResult) {
-      const qr = recommendation.user.quizResult;
+    if (recommendation?.user?.profile) {
+      const qr = recommendation.user.profile;
       userProfile = {
         strengths: qr.strengths || "",
         traits: qr.traits || "",

@@ -152,13 +152,10 @@ export async function POST(req: NextRequest) {
     // Store quiz submission
     await prisma.quizSubmission.create({
       data: {
-        userId: user.id,
-        formId: form_response.form_id,
-        responseToken: token,
-        rawAnswers: JSON.stringify(rawAnswers),
-        parsedAnswers: JSON.stringify(parsedAnswers),
+        user: { connect: { id: user.id } },
+        answers: JSON.stringify(rawAnswers),
         submittedAt: new Date(submitted_at),
-        status: "pending_review",
+        source: "typeform",
       },
     });
 
