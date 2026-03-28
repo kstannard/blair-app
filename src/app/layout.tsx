@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display, Mrs_Saint_Delafield } from "next/font/google";
+import { DM_Sans, DM_Serif_Display, Cormorant } from "next/font/google";
 import { SessionProvider } from "@/components/shared/SessionProvider";
 import "./globals.css";
 
@@ -16,9 +16,10 @@ const dmSerifDisplay = DM_Serif_Display({
   display: "swap",
 });
 
-const cursiveFont = Mrs_Saint_Delafield({
+const cursiveFont = Cormorant({
   weight: "400",
   subsets: ["latin"],
+  style: "italic",
   variable: "--font-cursive",
 });
 

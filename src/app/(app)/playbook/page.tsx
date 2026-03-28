@@ -108,7 +108,7 @@ export default async function PlaybookPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
           Your 5-Phase Roadmap
         </h2>
-        <div className="mt-4 grid grid-cols-5 gap-0">
+        <div className="mt-4 grid max-w-2xl grid-cols-5 gap-0">
           {[
             { num: 1, name: "Find Your Lane", active: true },
             { num: 2, name: "Design Your Offer", active: false },
