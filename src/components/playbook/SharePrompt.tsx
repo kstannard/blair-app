@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const SHARE_MESSAGE =
-  "I just did this quiz that helps you figure out what kind of business fits your life. It's really good - you should try it: https://hiblair.com";
+  "This helped me finally get clear on what I'm building on the side. You should check it out: https://hiblair.com";
 
 const ENCODED_MESSAGE = encodeURIComponent(SHARE_MESSAGE);
 
@@ -33,7 +33,7 @@ export function SharePrompt() {
         Know a mom who&apos;s been thinking about this?
       </p>
       <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-blair-charcoal/60">
-        Send her the quiz. It takes 5 minutes.
+        Send her a text. It takes 10 seconds.
       </p>
 
       <div className="mx-auto mt-5 max-w-md rounded-lg bg-blair-mist/40 px-4 py-3 text-left">
