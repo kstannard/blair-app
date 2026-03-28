@@ -19,8 +19,10 @@ async function main() {
         description:
           "You embed with 1-2 companies as their part-time operations leader. You own the systems, processes, and execution that keep the business running while the founders focus on growth.",
         whoThisIs: "Senior operators who thrive inside the business.",
+        typicalBackground: "VP/Director of Ops at a growth-stage startup, COO at a smaller company, or senior program manager who's been running cross-functional initiatives for years. You've seen what good ops looks like at scale and you know how to build it from scratch.",
         workMode: "Meetings + async prep",
         salesMotion: "High-trust, relationship-driven",
+        failureMode: "Taking on too many clients and becoming a bottleneck instead of a force multiplier. Or getting sucked into execution work that should be delegated, turning your fractional role into a full-time job at part-time pay.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Fractional Retainer", price: "$5K-$10K/month per client, 15-25 hrs/month" },
@@ -38,6 +40,42 @@ async function main() {
           "Slack",
           "Loom",
           "Google Workspace",
+          "Linear",
+          "Asana",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Fractional VP Ops for Series A/B SaaS companies scaling from 30 to 150 employees",
+          "Fractional COO for bootstrapped e-commerce brands doing $2M-$10M in revenue",
+          "Fractional Head of Operations for venture-backed health tech startups",
+          "Fractional Ops Leader for creative agencies managing 10-50 employees",
+          "Post-acquisition integration specialist for PE-backed roll-ups",
+        ]),
+        positioningTemplate: "I help [growth-stage startups / specific industry] build the operational infrastructure they need to scale - without hiring a full-time VP Ops they're not ready for yet.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "CEO, Founder, or COO",
+          companySize: "20-150 employees, Series A-C or $2M-$20M revenue",
+          triggerEvents: [
+            "Just raised a round and need to professionalize operations",
+            "VP Ops or COO just left and they need interim coverage fast",
+            "Growing faster than their systems can handle - things are breaking",
+            "Board is asking for operational metrics and they don't have them",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "CEO peer groups (YPO, EO, Vistage)",
+            "VC portfolio events and founder Slack communities",
+            "LinkedIn (ops leadership and startup communities)",
+            "On Deck, Pavilion, and other professional communities",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nHope you're doing well. I saw [company] just [raised / hit a milestone / grew the team]. Congrats - that's a big deal.\n\nI've been doing fractional ops work for companies at a similar stage, and I know firsthand how fast things can break when you're growing that quickly. If you ever want to bounce operational challenges off someone who's been in the weeds at companies like yours, I'd love to grab 15 minutes.\n\nNo pitch - just happy to be a sounding board.",
+        gutCheckQuestions: JSON.stringify([
+          "When you think about the day-to-day chaos in your company, what's the one thing that would change everything if it just worked?",
+          "Have you tried hiring for this role full-time? What happened?",
+          "What does your current ops infrastructure actually look like? Be honest - duct tape counts.",
+          "If I could wave a magic wand and fix one operational problem in 90 days, what would it be?",
+          "How are you making decisions about what to build vs. what to buy vs. what to outsource?",
+          "What would need to be true for you to invest $7K/month in a fractional ops leader?",
         ]),
       },
       create: {
@@ -47,8 +85,10 @@ async function main() {
         description:
           "You embed with 1-2 companies as their part-time operations leader. You own the systems, processes, and execution that keep the business running while the founders focus on growth.",
         whoThisIs: "Senior operators who thrive inside the business.",
+        typicalBackground: "VP/Director of Ops at a growth-stage startup, COO at a smaller company, or senior program manager who's been running cross-functional initiatives for years. You've seen what good ops looks like at scale and you know how to build it from scratch.",
         workMode: "Meetings + async prep",
         salesMotion: "High-trust, relationship-driven",
+        failureMode: "Taking on too many clients and becoming a bottleneck instead of a force multiplier. Or getting sucked into execution work that should be delegated, turning your fractional role into a full-time job at part-time pay.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Fractional Retainer", price: "$5K-$10K/month per client, 15-25 hrs/month" },
@@ -66,6 +106,42 @@ async function main() {
           "Slack",
           "Loom",
           "Google Workspace",
+          "Linear",
+          "Asana",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Fractional VP Ops for Series A/B SaaS companies scaling from 30 to 150 employees",
+          "Fractional COO for bootstrapped e-commerce brands doing $2M-$10M in revenue",
+          "Fractional Head of Operations for venture-backed health tech startups",
+          "Fractional Ops Leader for creative agencies managing 10-50 employees",
+          "Post-acquisition integration specialist for PE-backed roll-ups",
+        ]),
+        positioningTemplate: "I help [growth-stage startups / specific industry] build the operational infrastructure they need to scale - without hiring a full-time VP Ops they're not ready for yet.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "CEO, Founder, or COO",
+          companySize: "20-150 employees, Series A-C or $2M-$20M revenue",
+          triggerEvents: [
+            "Just raised a round and need to professionalize operations",
+            "VP Ops or COO just left and they need interim coverage fast",
+            "Growing faster than their systems can handle - things are breaking",
+            "Board is asking for operational metrics and they don't have them",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "CEO peer groups (YPO, EO, Vistage)",
+            "VC portfolio events and founder Slack communities",
+            "LinkedIn (ops leadership and startup communities)",
+            "On Deck, Pavilion, and other professional communities",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nHope you're doing well. I saw [company] just [raised / hit a milestone / grew the team]. Congrats - that's a big deal.\n\nI've been doing fractional ops work for companies at a similar stage, and I know firsthand how fast things can break when you're growing that quickly. If you ever want to bounce operational challenges off someone who's been in the weeds at companies like yours, I'd love to grab 15 minutes.\n\nNo pitch - just happy to be a sounding board.",
+        gutCheckQuestions: JSON.stringify([
+          "When you think about the day-to-day chaos in your company, what's the one thing that would change everything if it just worked?",
+          "Have you tried hiring for this role full-time? What happened?",
+          "What does your current ops infrastructure actually look like? Be honest - duct tape counts.",
+          "If I could wave a magic wand and fix one operational problem in 90 days, what would it be?",
+          "How are you making decisions about what to build vs. what to buy vs. what to outsource?",
+          "What would need to be true for you to invest $7K/month in a fractional ops leader?",
         ]),
         order: 1,
       },
@@ -78,8 +154,10 @@ async function main() {
         description:
           "You walk into confused rooms and see the narrative problem. You shape how a company talks about itself - the story, the one-liner, the pitch, the why-us. Strategic, creative, high-leverage.",
         whoThisIs: "Strategic thinkers who shape narrative.",
+        typicalBackground: "Brand strategist, communications director, copywriter who's evolved into strategy, or marketing leader who always gravitated toward the 'what do we say and why' questions over the 'where do we run ads' questions.",
         workMode: "Deep work + light client interaction",
         salesMotion: "Project-based, high-ticket",
+        failureMode: "Endless revision cycles because the client can't articulate what 'right' looks like. Or underpricing because you think of yourself as a writer instead of a strategist.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "The Brand Sprint", price: "$5K-$12K for a full positioning and messaging overhaul (3-6 weeks)" },
@@ -91,6 +169,40 @@ async function main() {
         }),
         incomeRangeLow: 40000,
         incomeRangeHigh: 175000,
+        nicheExamples: JSON.stringify([
+          "Brand positioning for D2C wellness and beauty brands entering retail",
+          "Messaging overhauls for B2B SaaS companies that can't explain what they do",
+          "Positioning sprints for agencies rebranding or launching new service lines",
+          "Founder personal brand strategy for first-time CEOs raising Series A",
+          "Launch messaging for health tech companies entering regulated markets",
+          "Narrative strategy for professional services firms competing on expertise",
+        ]),
+        positioningTemplate: "I help [type of company] figure out what they actually are, who they're for, and how to say it - so the right people pay attention.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, CEO, or Head of Marketing",
+          companySize: "Agencies, startups, and growing businesses with 10-50 employees",
+          triggerEvents: [
+            "Rebranding or launching a new product line",
+            "Struggling to differentiate from competitors in sales conversations",
+            "Website conversion is low despite decent traffic",
+            "Just hired a marketing team but they have no clear messaging to work from",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "Twitter/X (marketing and startup communities)",
+            "Agency-specific Slack groups and communities",
+            "Substack newsletters about branding and strategy",
+            "Creative Mornings and local founder meetups",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been following what you're building at [company] and I think the product is really strong. I'll be honest though - the way it's positioned right now doesn't do it justice. I think there's a clearer story hiding in there.\n\nI do messaging and positioning work for companies like yours, and I'd love to share a couple of quick observations. No strings - just think you deserve to have the language match the quality of what you've built.\n\nWould you be open to a quick call this week?",
+        gutCheckQuestions: JSON.stringify([
+          "When you describe what your company does at a dinner party, do people immediately get it or do their eyes glaze over?",
+          "What's the last deal you lost? Was it on price, or did the prospect just not understand why you were different?",
+          "If I asked your three best salespeople to describe what you do, would they say the same thing?",
+          "Have you tried to solve this internally? What happened?",
+          "What would it be worth to you if every prospect who landed on your site immediately understood why you're different?",
+        ]),
       },
       create: {
         slug: "messaging-positioning",
@@ -99,8 +211,10 @@ async function main() {
         description:
           "You walk into confused rooms and see the narrative problem. You shape how a company talks about itself - the story, the one-liner, the pitch, the why-us. Strategic, creative, high-leverage.",
         whoThisIs: "Strategic thinkers who shape narrative.",
+        typicalBackground: "Brand strategist, communications director, copywriter who's evolved into strategy, or marketing leader who always gravitated toward the 'what do we say and why' questions over the 'where do we run ads' questions.",
         workMode: "Deep work + light client interaction",
         salesMotion: "Project-based, high-ticket",
+        failureMode: "Endless revision cycles because the client can't articulate what 'right' looks like. Or underpricing because you think of yourself as a writer instead of a strategist.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "The Brand Sprint", price: "$5K-$12K for a full positioning and messaging overhaul (3-6 weeks)" },
@@ -118,6 +232,41 @@ async function main() {
           "Notion",
           "Figma",
           "Loom",
+          "Miro",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Brand positioning for D2C wellness and beauty brands entering retail",
+          "Messaging overhauls for B2B SaaS companies that can't explain what they do",
+          "Positioning sprints for agencies rebranding or launching new service lines",
+          "Founder personal brand strategy for first-time CEOs raising Series A",
+          "Launch messaging for health tech companies entering regulated markets",
+          "Narrative strategy for professional services firms competing on expertise",
+        ]),
+        positioningTemplate: "I help [type of company] figure out what they actually are, who they're for, and how to say it - so the right people pay attention.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, CEO, or Head of Marketing",
+          companySize: "Agencies, startups, and growing businesses with 10-50 employees",
+          triggerEvents: [
+            "Rebranding or launching a new product line",
+            "Struggling to differentiate from competitors in sales conversations",
+            "Website conversion is low despite decent traffic",
+            "Just hired a marketing team but they have no clear messaging to work from",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "Twitter/X (marketing and startup communities)",
+            "Agency-specific Slack groups and communities",
+            "Substack newsletters about branding and strategy",
+            "Creative Mornings and local founder meetups",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been following what you're building at [company] and I think the product is really strong. I'll be honest though - the way it's positioned right now doesn't do it justice. I think there's a clearer story hiding in there.\n\nI do messaging and positioning work for companies like yours, and I'd love to share a couple of quick observations. No strings - just think you deserve to have the language match the quality of what you've built.\n\nWould you be open to a quick call this week?",
+        gutCheckQuestions: JSON.stringify([
+          "When you describe what your company does at a dinner party, do people immediately get it or do their eyes glaze over?",
+          "What's the last deal you lost? Was it on price, or did the prospect just not understand why you were different?",
+          "If I asked your three best salespeople to describe what you do, would they say the same thing?",
+          "Have you tried to solve this internally? What happened?",
+          "What would it be worth to you if every prospect who landed on your site immediately understood why you're different?",
         ]),
         order: 2,
       },
@@ -130,8 +279,10 @@ async function main() {
         description:
           "You help companies launch products, fix broken funnels, and build repeatable revenue engines. High-ticket project work with clear scope and hard end dates.",
         whoThisIs: "Launch/revenue/funnel builders.",
+        typicalBackground: "Head of Growth, VP of Sales, revenue leader, or senior marketing exec who's built go-to-market motions from scratch. You've launched products, designed sales processes, and know why most funnels leak.",
         workMode: "Project sprints",
         salesMotion: "Outcome-based pricing",
+        failureMode: "Promising revenue outcomes you can't control. Or scoping too broadly and turning a 6-week sprint into a 6-month engagement that neither side is happy with.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "The GTM Sprint", price: "$10K-$18K for a scoped go-to-market build or overhaul (4-8 weeks)" },
@@ -143,6 +294,41 @@ async function main() {
         }),
         incomeRangeLow: 60000,
         incomeRangeHigh: 400000,
+        nicheExamples: JSON.stringify([
+          "GTM strategy for B2B SaaS companies moving from founder-led sales to a repeatable motion",
+          "Launch strategy for health tech startups entering enterprise markets",
+          "Pipeline architecture for fintech companies expanding from SMB to mid-market",
+          "Sales process design for dev tools companies selling to engineering leaders",
+          "Channel strategy for marketplace startups building both supply and demand",
+          "Revenue audit for Series B companies whose pipeline has stalled",
+        ]),
+        positioningTemplate: "I help [B2B companies at a specific stage] build the go-to-market engine that turns [product-market fit / early traction] into predictable, scalable revenue.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "VP of Sales, Head of Growth, or CEO/Founder",
+          companySize: "B2B SaaS, 20-100 employees, Series A or B",
+          triggerEvents: [
+            "Just raised a funding round and need to scale pipeline",
+            "Founder-led sales is hitting a ceiling - need to build a repeatable motion",
+            "Entering a new market or segment and need a go-to-market plan",
+            "Pipeline has stalled and leadership is asking why",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (especially SaaS and sales leadership communities)",
+            "Pavilion (formerly Revenue Collective)",
+            "SaaStr events and Slack community",
+            "Modern Sales Pros Slack",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nCongrats on [the raise / the new role / the product launch]. That's a big moment.\n\nI've been helping companies at a similar stage figure out their go-to-market motion - the stuff between 'we have a product' and 'we have a pipeline.' If you're thinking about how to build a repeatable sales process or scale what's working, I'd love to hear what you're wrestling with.\n\n15 minutes, no pitch. Just curious if there's overlap.",
+        gutCheckQuestions: JSON.stringify([
+          "Walk me through how a deal gets from first touch to closed-won today. Where does it break down?",
+          "Are you losing deals to competitors, to 'no decision,' or to something else entirely?",
+          "What does your current ICP look like, and how confident are you that it's right?",
+          "If you could fix one thing about your pipeline in the next 90 days, what would it be?",
+          "Have you tried to solve this with a full-time hire? What happened?",
+          "What's the cost of not fixing this in the next quarter?",
+        ]),
       },
       create: {
         slug: "gtm-growth-strategist",
@@ -151,8 +337,10 @@ async function main() {
         description:
           "You help companies launch products, fix broken funnels, and build repeatable revenue engines. High-ticket project work with clear scope and hard end dates.",
         whoThisIs: "Launch/revenue/funnel builders.",
+        typicalBackground: "Head of Growth, VP of Sales, revenue leader, or senior marketing exec who's built go-to-market motions from scratch. You've launched products, designed sales processes, and know why most funnels leak.",
         workMode: "Project sprints",
         salesMotion: "Outcome-based pricing",
+        failureMode: "Promising revenue outcomes you can't control. Or scoping too broadly and turning a 6-week sprint into a 6-month engagement that neither side is happy with.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "The GTM Sprint", price: "$10K-$18K for a scoped go-to-market build or overhaul (4-8 weeks)" },
@@ -171,6 +359,42 @@ async function main() {
           "Google Sheets",
           "Notion",
           "Loom",
+          "Apollo",
+        ]),
+        nicheExamples: JSON.stringify([
+          "GTM strategy for B2B SaaS companies moving from founder-led sales to a repeatable motion",
+          "Launch strategy for health tech startups entering enterprise markets",
+          "Pipeline architecture for fintech companies expanding from SMB to mid-market",
+          "Sales process design for dev tools companies selling to engineering leaders",
+          "Channel strategy for marketplace startups building both supply and demand",
+          "Revenue audit for Series B companies whose pipeline has stalled",
+        ]),
+        positioningTemplate: "I help [B2B companies at a specific stage] build the go-to-market engine that turns [product-market fit / early traction] into predictable, scalable revenue.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "VP of Sales, Head of Growth, or CEO/Founder",
+          companySize: "B2B SaaS, 20-100 employees, Series A or B",
+          triggerEvents: [
+            "Just raised a funding round and need to scale pipeline",
+            "Founder-led sales is hitting a ceiling - need to build a repeatable motion",
+            "Entering a new market or segment and need a go-to-market plan",
+            "Pipeline has stalled and leadership is asking why",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (especially SaaS and sales leadership communities)",
+            "Pavilion (formerly Revenue Collective)",
+            "SaaStr events and Slack community",
+            "Modern Sales Pros Slack",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nCongrats on [the raise / the new role / the product launch]. That's a big moment.\n\nI've been helping companies at a similar stage figure out their go-to-market motion - the stuff between 'we have a product' and 'we have a pipeline.' If you're thinking about how to build a repeatable sales process or scale what's working, I'd love to hear what you're wrestling with.\n\n15 minutes, no pitch. Just curious if there's overlap.",
+        gutCheckQuestions: JSON.stringify([
+          "Walk me through how a deal gets from first touch to closed-won today. Where does it break down?",
+          "Are you losing deals to competitors, to 'no decision,' or to something else entirely?",
+          "What does your current ICP look like, and how confident are you that it's right?",
+          "If you could fix one thing about your pipeline in the next 90 days, what would it be?",
+          "Have you tried to solve this with a full-time hire? What happened?",
+          "What's the cost of not fixing this in the next quarter?",
         ]),
         order: 3,
       },
@@ -183,8 +407,10 @@ async function main() {
         description:
           "You build the systems, automations, and workflows that make businesses run without constant human intervention. Think Zapier flows, CRM setups, reporting dashboards, and operational infrastructure.",
         whoThisIs: "Process-first, tool-savvy problem solvers.",
+        typicalBackground: "Business systems analyst, Salesforce admin, RevOps specialist, or the person on any team who built the spreadsheet everyone else relies on. You've spent years connecting tools, automating workflows, and wondering why everyone else does things manually.",
         workMode: "Deep work blocks, minimal meetings",
         salesMotion: "Productized builds or retainers",
+        failureMode: "Building something technically elegant that the client can't maintain after you leave. Or undercharging because you think of yourself as 'the tech person' instead of 'the person who saved the company 200 hours a month.'",
         businessModel: JSON.stringify({
           tiers: [
             { name: "System Build", price: "$3K-$8K per project, 2-4 weeks" },
@@ -196,6 +422,42 @@ async function main() {
         }),
         incomeRangeLow: 50000,
         incomeRangeHigh: 250000,
+        nicheExamples: JSON.stringify([
+          "CRM setup and optimization for service businesses outgrowing spreadsheets",
+          "Zapier/Make automation builds for e-commerce brands with manual fulfillment processes",
+          "Salesforce architecture for growing B2B sales teams",
+          "Operations dashboards and reporting for agencies managing 20+ clients",
+          "Data migration specialist for companies switching from legacy systems",
+          "HubSpot implementation for marketing teams with no ops support",
+        ]),
+        positioningTemplate: "I build the [automation / systems / operational infrastructure] that lets [type of company] stop wasting time on manual processes and start scaling without adding headcount.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Head of Operations, VP of Sales, or Founder",
+          companySize: "Small to mid-size companies, 10-200 employees, outgrowing their starter tools",
+          triggerEvents: [
+            "CRM is a mess and the team has stopped trusting the data",
+            "Manually copying data between tools and making errors",
+            "Just hired their 10th/20th/50th employee and everything is breaking",
+            "New leadership wants real reporting but the data doesn't exist yet",
+          ],
+          budgetAuthority: "needs-approval",
+          whereTheyHangOut: [
+            "Salesforce Trailblazer Community and Dreamforce",
+            "RevOps Co-op Slack community",
+            "HubSpot user community and INBOUND conference",
+            "LinkedIn (ops and systems automation groups)",
+            "Zapier and Make community forums",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI noticed you're using [tool] for [process] - I've built automation systems for a few companies in your space and I bet there's a ton of manual work happening behind the scenes that doesn't need to be.\n\nI recently helped a similar company automate their [specific process] and it saved them about 15 hours a week. Would love to share what I learned if it's useful.\n\nHappy to do a quick 15-min audit - no strings attached.",
+        gutCheckQuestions: JSON.stringify([
+          "What's the most time-consuming manual process in your business right now?",
+          "How many tools does your team use daily, and do any of them actually talk to each other?",
+          "What happens when something breaks in your current workflow? Who fixes it?",
+          "Have you tried to solve this with an internal hire or another tool? What happened?",
+          "If I could eliminate 10 hours of busywork per week for your team, what would that be worth?",
+          "What does your dream 'it just works' system look like?",
+        ]),
       },
       create: {
         slug: "automation-systems-builder",
@@ -204,8 +466,10 @@ async function main() {
         description:
           "You build the systems, automations, and workflows that make businesses run without constant human intervention. Think Zapier flows, CRM setups, reporting dashboards, and operational infrastructure.",
         whoThisIs: "Process-first, tool-savvy problem solvers.",
+        typicalBackground: "Business systems analyst, Salesforce admin, RevOps specialist, or the person on any team who built the spreadsheet everyone else relies on. You've spent years connecting tools, automating workflows, and wondering why everyone else does things manually.",
         workMode: "Deep work blocks, minimal meetings",
         salesMotion: "Productized builds or retainers",
+        failureMode: "Building something technically elegant that the client can't maintain after you leave. Or undercharging because you think of yourself as 'the tech person' instead of 'the person who saved the company 200 hours a month.'",
         businessModel: JSON.stringify({
           tiers: [
             { name: "System Build", price: "$3K-$8K per project, 2-4 weeks" },
@@ -224,6 +488,43 @@ async function main() {
           "Airtable",
           "Notion",
           "Slack",
+          "Salesforce",
+        ]),
+        nicheExamples: JSON.stringify([
+          "CRM setup and optimization for service businesses outgrowing spreadsheets",
+          "Zapier/Make automation builds for e-commerce brands with manual fulfillment processes",
+          "Salesforce architecture for growing B2B sales teams",
+          "Operations dashboards and reporting for agencies managing 20+ clients",
+          "Data migration specialist for companies switching from legacy systems",
+          "HubSpot implementation for marketing teams with no ops support",
+        ]),
+        positioningTemplate: "I build the [automation / systems / operational infrastructure] that lets [type of company] stop wasting time on manual processes and start scaling without adding headcount.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Head of Operations, VP of Sales, or Founder",
+          companySize: "Small to mid-size companies, 10-200 employees, outgrowing their starter tools",
+          triggerEvents: [
+            "CRM is a mess and the team has stopped trusting the data",
+            "Manually copying data between tools and making errors",
+            "Just hired their 10th/20th/50th employee and everything is breaking",
+            "New leadership wants real reporting but the data doesn't exist yet",
+          ],
+          budgetAuthority: "needs-approval",
+          whereTheyHangOut: [
+            "Salesforce Trailblazer Community and Dreamforce",
+            "RevOps Co-op Slack community",
+            "HubSpot user community and INBOUND conference",
+            "LinkedIn (ops and systems automation groups)",
+            "Zapier and Make community forums",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI noticed you're using [tool] for [process] - I've built automation systems for a few companies in your space and I bet there's a ton of manual work happening behind the scenes that doesn't need to be.\n\nI recently helped a similar company automate their [specific process] and it saved them about 15 hours a week. Would love to share what I learned if it's useful.\n\nHappy to do a quick 15-min audit - no strings attached.",
+        gutCheckQuestions: JSON.stringify([
+          "What's the most time-consuming manual process in your business right now?",
+          "How many tools does your team use daily, and do any of them actually talk to each other?",
+          "What happens when something breaks in your current workflow? Who fixes it?",
+          "Have you tried to solve this with an internal hire or another tool? What happened?",
+          "If I could eliminate 10 hours of busywork per week for your team, what would that be worth?",
+          "What does your dream 'it just works' system look like?",
         ]),
         order: 4,
       },
@@ -236,8 +537,10 @@ async function main() {
         description:
           "You run the content machine for founders and brands who know they need to be visible but don't have the time or taste to do it themselves. Newsletters, LinkedIn, podcasts, video - you own the strategy and production pipeline.",
         whoThisIs: "People who like turning ideas into distribution.",
+        typicalBackground: "Head of Content, editorial lead, content marketing manager, or social media strategist who's graduated from posting into owning the entire content pipeline. You think in campaigns and calendars, not individual posts.",
         workMode: "Async production",
         salesMotion: "Monthly retainers",
+        failureMode: "Becoming a content mill that trades hours for dollars instead of charging for strategic value. Or taking on clients whose voice you can't authentically capture, leading to mediocre output and churn.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Content Retainer", price: "$3K-$8K/month depending on volume and channels" },
@@ -249,6 +552,41 @@ async function main() {
         }),
         incomeRangeLow: 72000,
         incomeRangeHigh: 400000,
+        nicheExamples: JSON.stringify([
+          "LinkedIn ghostwriting and thought leadership for B2B founders and executives",
+          "Newsletter strategy and production for D2C brands building community",
+          "Podcast production and repurposing pipeline for expert-led businesses",
+          "Social content engine for health and wellness brands on Instagram and TikTok",
+          "Content marketing for SaaS companies targeting developers",
+          "YouTube strategy for professional services firms building authority",
+        ]),
+        positioningTemplate: "I run the content engine for [type of founder/brand] who know they need to be visible but don't have the [time / team / strategy] to make it happen consistently.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, CEO, or VP of Marketing",
+          companySize: "D2C brands, creator businesses, or B2B companies with 5-50 employees",
+          triggerEvents: [
+            "Know they should be posting consistently but can't stay on top of it",
+            "Previous content efforts produced vanity metrics but no leads or sales",
+            "Competitor is blowing up on LinkedIn/social and they're invisible",
+            "Just hired a marketing person who needs content strategy to execute against",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (content creator and founder communities)",
+            "Twitter/X (media, writing, and startup communities)",
+            "Substack and newsletter communities",
+            "Podcasting communities and conferences",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been following your work at [company] and honestly, the product/service is great - but I don't think enough people know about it yet. You've got a story worth telling and I don't think it's being told consistently enough.\n\nI run content engines for [type of company] - strategy, production, distribution, the whole pipeline. Would love to share a couple ideas for how [company] could show up more consistently without you having to become a full-time content creator.\n\n15 minutes this week?",
+        gutCheckQuestions: JSON.stringify([
+          "What have you tried so far with content? What worked, what didn't?",
+          "If your content was working perfectly, what would that look like for your business?",
+          "How much time are you personally spending on content right now? How much do you want to spend?",
+          "What's one piece of content your competitor put out that made you think 'why aren't we doing that?'",
+          "If I could guarantee consistent, high-quality content every week for $5K/month, would that be a no-brainer investment or a stretch?",
+          "Who on your team would I be working with day-to-day?",
+        ]),
       },
       create: {
         slug: "content-engine-operator",
@@ -257,8 +595,10 @@ async function main() {
         description:
           "You run the content machine for founders and brands who know they need to be visible but don't have the time or taste to do it themselves. Newsletters, LinkedIn, podcasts, video - you own the strategy and production pipeline.",
         whoThisIs: "People who like turning ideas into distribution.",
+        typicalBackground: "Head of Content, editorial lead, content marketing manager, or social media strategist who's graduated from posting into owning the entire content pipeline. You think in campaigns and calendars, not individual posts.",
         workMode: "Async production",
         salesMotion: "Monthly retainers",
+        failureMode: "Becoming a content mill that trades hours for dollars instead of charging for strategic value. Or taking on clients whose voice you can't authentically capture, leading to mediocre output and churn.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Content Retainer", price: "$3K-$8K/month depending on volume and channels" },
@@ -277,6 +617,42 @@ async function main() {
           "Canva",
           "Buffer",
           "ChatGPT",
+          "Riverside",
+        ]),
+        nicheExamples: JSON.stringify([
+          "LinkedIn ghostwriting and thought leadership for B2B founders and executives",
+          "Newsletter strategy and production for D2C brands building community",
+          "Podcast production and repurposing pipeline for expert-led businesses",
+          "Social content engine for health and wellness brands on Instagram and TikTok",
+          "Content marketing for SaaS companies targeting developers",
+          "YouTube strategy for professional services firms building authority",
+        ]),
+        positioningTemplate: "I run the content engine for [type of founder/brand] who know they need to be visible but don't have the [time / team / strategy] to make it happen consistently.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, CEO, or VP of Marketing",
+          companySize: "D2C brands, creator businesses, or B2B companies with 5-50 employees",
+          triggerEvents: [
+            "Know they should be posting consistently but can't stay on top of it",
+            "Previous content efforts produced vanity metrics but no leads or sales",
+            "Competitor is blowing up on LinkedIn/social and they're invisible",
+            "Just hired a marketing person who needs content strategy to execute against",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (content creator and founder communities)",
+            "Twitter/X (media, writing, and startup communities)",
+            "Substack and newsletter communities",
+            "Podcasting communities and conferences",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been following your work at [company] and honestly, the product/service is great - but I don't think enough people know about it yet. You've got a story worth telling and I don't think it's being told consistently enough.\n\nI run content engines for [type of company] - strategy, production, distribution, the whole pipeline. Would love to share a couple ideas for how [company] could show up more consistently without you having to become a full-time content creator.\n\n15 minutes this week?",
+        gutCheckQuestions: JSON.stringify([
+          "What have you tried so far with content? What worked, what didn't?",
+          "If your content was working perfectly, what would that look like for your business?",
+          "How much time are you personally spending on content right now? How much do you want to spend?",
+          "What's one piece of content your competitor put out that made you think 'why aren't we doing that?'",
+          "If I could guarantee consistent, high-quality content every week for $5K/month, would that be a no-brainer investment or a stretch?",
+          "Who on your team would I be working with day-to-day?",
         ]),
         order: 5,
       },
@@ -289,8 +665,10 @@ async function main() {
         description:
           "You build and run the systems that generate qualified leads for businesses. Paid ads, email sequences, landing pages, conversion optimization - you own the pipeline from click to booked call.",
         whoThisIs: "Performance-minded, optimization-oriented builders.",
+        typicalBackground: "Performance marketing manager, demand gen specialist, growth marketer, or the person who managed the ad budget and actually knew where the leads were coming from. You love dashboards, A/B tests, and the moment when a funnel starts converting.",
         workMode: "Ongoing management",
         salesMotion: "Recurring retainers tied to ROI",
+        failureMode: "Getting blamed for sales team problems that aren't yours. Or becoming dependent on a single platform (Meta, Google) and watching your results tank when the algorithm changes overnight.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Monthly Management", price: "$3K-$7K/month + ad spend" },
@@ -302,6 +680,42 @@ async function main() {
         }),
         incomeRangeLow: 72000,
         incomeRangeHigh: 450000,
+        nicheExamples: JSON.stringify([
+          "Paid media management for B2B SaaS companies spending $10K-$100K/month on ads",
+          "LinkedIn outbound and paid social for professional services firms",
+          "Meta and Google Ads for e-commerce brands scaling from $1M to $10M",
+          "Full-funnel lead gen for real estate teams and brokerages",
+          "Cold email and outbound systems for agencies and consultancies",
+          "Landing page optimization and CRO for SaaS companies with leaky funnels",
+        ]),
+        positioningTemplate: "I build and run the lead generation engine for [type of company] - turning ad spend into qualified pipeline and making sure every dollar has a measurable return.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "VP of Marketing, Head of Demand Gen, or Founder",
+          companySize: "B2B or B2C companies spending $5K-$100K/month on customer acquisition",
+          triggerEvents: [
+            "Spending money on ads but cost per lead is too high",
+            "Sales team is complaining about lead quality",
+            "Current agency isn't delivering results and trust is broken",
+            "Scaled past word-of-mouth and need a repeatable acquisition channel",
+          ],
+          budgetAuthority: "needs-approval",
+          whereTheyHangOut: [
+            "LinkedIn (growth marketing and demand gen communities)",
+            "Twitter/X (paid media and performance marketing conversations)",
+            "Demand Curve community and newsletter",
+            "AdWorld conference and community",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI was poking around [company]'s ads and landing pages (occupational hazard - I can't stop auditing funnels). I spotted a few things that I think are costing you leads.\n\nI run lead gen systems for companies like yours and I'd love to share what I noticed. Not a pitch - just a few quick wins that might save you some ad spend this month.\n\nWant me to send over a quick breakdown?",
+        gutCheckQuestions: JSON.stringify([
+          "What's your current cost per lead, and what would you need it to be for the math to work?",
+          "Walk me through what happens after a lead comes in. How fast does sales follow up?",
+          "What channels are you running right now? What's working, what isn't?",
+          "Have you worked with an agency or freelancer before? What went wrong?",
+          "If I could cut your cost per lead in half in 60 days, what would that mean for your business?",
+          "What's your monthly ad budget, and do you have flexibility to increase it if ROI is there?",
+          "How do you currently measure success? What metrics does leadership actually care about?",
+        ]),
       },
       create: {
         slug: "lead-gen-operator",
@@ -310,8 +724,10 @@ async function main() {
         description:
           "You build and run the systems that generate qualified leads for businesses. Paid ads, email sequences, landing pages, conversion optimization - you own the pipeline from click to booked call.",
         whoThisIs: "Performance-minded, optimization-oriented builders.",
+        typicalBackground: "Performance marketing manager, demand gen specialist, growth marketer, or the person who managed the ad budget and actually knew where the leads were coming from. You love dashboards, A/B tests, and the moment when a funnel starts converting.",
         workMode: "Ongoing management",
         salesMotion: "Recurring retainers tied to ROI",
+        failureMode: "Getting blamed for sales team problems that aren't yours. Or becoming dependent on a single platform (Meta, Google) and watching your results tank when the algorithm changes overnight.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Monthly Management", price: "$3K-$7K/month + ad spend" },
@@ -329,6 +745,44 @@ async function main() {
           "HubSpot",
           "LinkedIn Sales Navigator",
           "Instantly",
+          "Unbounce",
+          "Google Ads",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Paid media management for B2B SaaS companies spending $10K-$100K/month on ads",
+          "LinkedIn outbound and paid social for professional services firms",
+          "Meta and Google Ads for e-commerce brands scaling from $1M to $10M",
+          "Full-funnel lead gen for real estate teams and brokerages",
+          "Cold email and outbound systems for agencies and consultancies",
+          "Landing page optimization and CRO for SaaS companies with leaky funnels",
+        ]),
+        positioningTemplate: "I build and run the lead generation engine for [type of company] - turning ad spend into qualified pipeline and making sure every dollar has a measurable return.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "VP of Marketing, Head of Demand Gen, or Founder",
+          companySize: "B2B or B2C companies spending $5K-$100K/month on customer acquisition",
+          triggerEvents: [
+            "Spending money on ads but cost per lead is too high",
+            "Sales team is complaining about lead quality",
+            "Current agency isn't delivering results and trust is broken",
+            "Scaled past word-of-mouth and need a repeatable acquisition channel",
+          ],
+          budgetAuthority: "needs-approval",
+          whereTheyHangOut: [
+            "LinkedIn (growth marketing and demand gen communities)",
+            "Twitter/X (paid media and performance marketing conversations)",
+            "Demand Curve community and newsletter",
+            "AdWorld conference and community",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI was poking around [company]'s ads and landing pages (occupational hazard - I can't stop auditing funnels). I spotted a few things that I think are costing you leads.\n\nI run lead gen systems for companies like yours and I'd love to share what I noticed. Not a pitch - just a few quick wins that might save you some ad spend this month.\n\nWant me to send over a quick breakdown?",
+        gutCheckQuestions: JSON.stringify([
+          "What's your current cost per lead, and what would you need it to be for the math to work?",
+          "Walk me through what happens after a lead comes in. How fast does sales follow up?",
+          "What channels are you running right now? What's working, what isn't?",
+          "Have you worked with an agency or freelancer before? What went wrong?",
+          "If I could cut your cost per lead in half in 60 days, what would that mean for your business?",
+          "What's your monthly ad budget, and do you have flexibility to increase it if ROI is there?",
+          "How do you currently measure success? What metrics does leadership actually care about?",
         ]),
         order: 6,
       },
@@ -341,8 +795,10 @@ async function main() {
         description:
           "You take a skill you can do in your sleep and package it into a repeatable offering. Same deliverable, same process, same price, different client every time. You're building a machine, not taking on projects.",
         whoThisIs: "People who want to build an asset, not sell hours.",
+        typicalBackground: "Designer, developer, strategist, or specialist who's done the same type of project enough times to see the pattern. You're tired of reinventing the wheel and you're ready to systematize what you do into something that scales without you in every detail.",
         workMode: "Build once, sell repeatedly",
         salesMotion: "Inbound over time",
+        failureMode: "Trying to productize before you've done enough custom work to know what the repeatable version looks like. Or building something nobody asked for because it felt elegant instead of solving a real pain point.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Productized Package", price: "$5K-$15K per engagement, fixed scope" },
@@ -354,6 +810,41 @@ async function main() {
         }),
         incomeRangeLow: 120000,
         incomeRangeHigh: 600000,
+        nicheExamples: JSON.stringify([
+          "Productized design system builds for SaaS companies ($10K flat, 4 weeks)",
+          "Website-in-a-week studio for professional services firms",
+          "Brand identity package for food and beverage startups launching retail",
+          "Financial model kit for founders preparing to raise their seed round",
+          "SOC 2 readiness sprint for SaaS companies selling to enterprise",
+          "Employee handbook and culture documentation package for startups hitting 50 employees",
+        ]),
+        positioningTemplate: "I run a studio that delivers [specific deliverable] for [type of company] in [timeframe] at a fixed price. Same great result, every time.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, Head of Product, or Operations Lead",
+          companySize: "Startups and growing companies that need a specific deliverable but don't want to hire full-time or manage an agency",
+          triggerEvents: [
+            "Need a specific deliverable done right, fast, and at a predictable price",
+            "Burned by a custom agency engagement that went over budget and over time",
+            "Scaling and need to standardize something that's been done ad hoc",
+            "Preparing for a milestone (fundraise, launch, compliance audit) with a hard deadline",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "Indie Hackers and bootstrapper communities",
+            "Twitter/X (productized service and creator economy conversations)",
+            "Dribbble and Behance (for design studios)",
+            "ProductHunt and Hacker News (for tech-adjacent studios)",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI saw you're [building / scaling / launching] at [company]. I run a studio that does one thing really well: [specific deliverable] for companies at your stage. Fixed price, fixed timeline, no surprises.\n\nI just wrapped one for [similar company] and the result was [specific outcome]. Would love to show you what it looked like.\n\nOpen to a quick look?",
+        gutCheckQuestions: JSON.stringify([
+          "Have you tried to get this done before? What happened?",
+          "What would it mean for your business if this was done perfectly in [timeframe]?",
+          "When you think about working with someone on this, what scares you most - price, quality, or timeline?",
+          "Is this a one-time need, or would you come back for this again as you grow?",
+          "If I could guarantee the deliverable in [X weeks] at a fixed price of [$X], would that be a no-brainer?",
+          "Who else on your team would need to sign off on this?",
+        ]),
       },
       create: {
         slug: "studio-builder",
@@ -362,8 +853,10 @@ async function main() {
         description:
           "You take a skill you can do in your sleep and package it into a repeatable offering. Same deliverable, same process, same price, different client every time. You're building a machine, not taking on projects.",
         whoThisIs: "People who want to build an asset, not sell hours.",
+        typicalBackground: "Designer, developer, strategist, or specialist who's done the same type of project enough times to see the pattern. You're tired of reinventing the wheel and you're ready to systematize what you do into something that scales without you in every detail.",
         workMode: "Build once, sell repeatedly",
         salesMotion: "Inbound over time",
+        failureMode: "Trying to productize before you've done enough custom work to know what the repeatable version looks like. Or building something nobody asked for because it felt elegant instead of solving a real pain point.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Productized Package", price: "$5K-$15K per engagement, fixed scope" },
@@ -382,6 +875,42 @@ async function main() {
           "Webflow",
           "ConvertKit",
           "Loom",
+          "Figma",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Productized design system builds for SaaS companies ($10K flat, 4 weeks)",
+          "Website-in-a-week studio for professional services firms",
+          "Brand identity package for food and beverage startups launching retail",
+          "Financial model kit for founders preparing to raise their seed round",
+          "SOC 2 readiness sprint for SaaS companies selling to enterprise",
+          "Employee handbook and culture documentation package for startups hitting 50 employees",
+        ]),
+        positioningTemplate: "I run a studio that delivers [specific deliverable] for [type of company] in [timeframe] at a fixed price. Same great result, every time.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder, Head of Product, or Operations Lead",
+          companySize: "Startups and growing companies that need a specific deliverable but don't want to hire full-time or manage an agency",
+          triggerEvents: [
+            "Need a specific deliverable done right, fast, and at a predictable price",
+            "Burned by a custom agency engagement that went over budget and over time",
+            "Scaling and need to standardize something that's been done ad hoc",
+            "Preparing for a milestone (fundraise, launch, compliance audit) with a hard deadline",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "Indie Hackers and bootstrapper communities",
+            "Twitter/X (productized service and creator economy conversations)",
+            "Dribbble and Behance (for design studios)",
+            "ProductHunt and Hacker News (for tech-adjacent studios)",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI saw you're [building / scaling / launching] at [company]. I run a studio that does one thing really well: [specific deliverable] for companies at your stage. Fixed price, fixed timeline, no surprises.\n\nI just wrapped one for [similar company] and the result was [specific outcome]. Would love to show you what it looked like.\n\nOpen to a quick look?",
+        gutCheckQuestions: JSON.stringify([
+          "Have you tried to get this done before? What happened?",
+          "What would it mean for your business if this was done perfectly in [timeframe]?",
+          "When you think about working with someone on this, what scares you most - price, quality, or timeline?",
+          "Is this a one-time need, or would you come back for this again as you grow?",
+          "If I could guarantee the deliverable in [X weeks] at a fixed price of [$X], would that be a no-brainer?",
+          "Who else on your team would need to sign off on this?",
         ]),
         order: 7,
       },
@@ -394,8 +923,10 @@ async function main() {
         description:
           "You connect high-growth companies with the specialized talent they can't find on their own. You know what great looks like because you've been doing it, and you know the people because you've worked alongside them.",
         whoThisIs: "Matchmakers with taste and network access.",
+        typicalBackground: "Head of Talent, recruiting lead, HR business partner, or senior operator who's spent years hiring and knows what 'great' looks like in a specific domain. Your LinkedIn DMs are full of people asking if you know anyone who's looking.",
         workMode: "Bursty, deal-driven",
         salesMotion: "Success fees",
+        failureMode: "Spreading too thin across industries or roles where you don't have real conviction about what good looks like. Or spending all your time on business development instead of the matching and closing that actually generates revenue.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Placement Fee", price: "15-20% of first-year salary, typically $25K-$50K per placement" },
@@ -407,6 +938,41 @@ async function main() {
         }),
         incomeRangeLow: 75000,
         incomeRangeHigh: 600000,
+        nicheExamples: JSON.stringify([
+          "Senior engineering placement for Series A-C startups (backend, infra, platform)",
+          "Executive search for VP/C-level marketing roles at growth-stage companies",
+          "Product management placement for B2B SaaS companies",
+          "Revenue leadership (CRO, VP Sales) for fintech companies",
+          "Design leadership placement for startups building their first design team",
+          "Fractional exec matching - connecting companies with vetted fractional leaders",
+        ]),
+        positioningTemplate: "I place [specific role type] at [specific company type] by tapping a network of vetted candidates that generalist recruiters can't reach.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "CTO, VP Engineering, CEO, or Head of People",
+          companySize: "Startups and growth companies, 20-500 employees, hiring senior specialized talent",
+          triggerEvents: [
+            "Been looking for 3+ months and their internal recruiter is striking out",
+            "Need to fill a senior role fast because the team is burning out",
+            "Previous hire didn't work out and they can't afford another miss",
+            "Growing into a new function and don't know what 'great' looks like for the role",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (hiring managers and talent acquisition communities)",
+            "CTO and VP Engineering peer groups",
+            "Startup talent and recruiting Slack communities",
+            "Industry-specific conferences where hiring conversations happen naturally",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI saw you're hiring a [role] at [company]. I've been placing [role type] at companies like yours for a while now, and I might know a few people who'd be a great fit.\n\nI don't do the spray-and-pray thing - I only reach out when I think there's a real match. Would it be helpful if I sent over a couple profiles for you to look at? No commitment, just want to see if we're on the same page about what great looks like for this role.",
+        gutCheckQuestions: JSON.stringify([
+          "What does the ideal candidate for this role actually look like? Not the job description - the real answer.",
+          "What went wrong with the last person in this role (or the last hire that didn't work out)?",
+          "How long have you been looking? What's your internal recruiter been trying?",
+          "What's the real timeline here? Is this urgent-urgent or 'we should probably fill this'?",
+          "What's the comp range you're working with? Is there flexibility if we find someone exceptional?",
+          "If I could put three vetted candidates in front of you in the next two weeks, would you be ready to move?",
+        ]),
       },
       create: {
         slug: "niche-talent-placement",
@@ -415,8 +981,10 @@ async function main() {
         description:
           "You connect high-growth companies with the specialized talent they can't find on their own. You know what great looks like because you've been doing it, and you know the people because you've worked alongside them.",
         whoThisIs: "Matchmakers with taste and network access.",
+        typicalBackground: "Head of Talent, recruiting lead, HR business partner, or senior operator who's spent years hiring and knows what 'great' looks like in a specific domain. Your LinkedIn DMs are full of people asking if you know anyone who's looking.",
         workMode: "Bursty, deal-driven",
         salesMotion: "Success fees",
+        failureMode: "Spreading too thin across industries or roles where you don't have real conviction about what good looks like. Or spending all your time on business development instead of the matching and closing that actually generates revenue.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Placement Fee", price: "15-20% of first-year salary, typically $25K-$50K per placement" },
@@ -434,6 +1002,43 @@ async function main() {
           "Notion",
           "Calendly",
           "Airtable",
+          "Gem",
+          "Loom",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Senior engineering placement for Series A-C startups (backend, infra, platform)",
+          "Executive search for VP/C-level marketing roles at growth-stage companies",
+          "Product management placement for B2B SaaS companies",
+          "Revenue leadership (CRO, VP Sales) for fintech companies",
+          "Design leadership placement for startups building their first design team",
+          "Fractional exec matching - connecting companies with vetted fractional leaders",
+        ]),
+        positioningTemplate: "I place [specific role type] at [specific company type] by tapping a network of vetted candidates that generalist recruiters can't reach.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "CTO, VP Engineering, CEO, or Head of People",
+          companySize: "Startups and growth companies, 20-500 employees, hiring senior specialized talent",
+          triggerEvents: [
+            "Been looking for 3+ months and their internal recruiter is striking out",
+            "Need to fill a senior role fast because the team is burning out",
+            "Previous hire didn't work out and they can't afford another miss",
+            "Growing into a new function and don't know what 'great' looks like for the role",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "LinkedIn (hiring managers and talent acquisition communities)",
+            "CTO and VP Engineering peer groups",
+            "Startup talent and recruiting Slack communities",
+            "Industry-specific conferences where hiring conversations happen naturally",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI saw you're hiring a [role] at [company]. I've been placing [role type] at companies like yours for a while now, and I might know a few people who'd be a great fit.\n\nI don't do the spray-and-pray thing - I only reach out when I think there's a real match. Would it be helpful if I sent over a couple profiles for you to look at? No commitment, just want to see if we're on the same page about what great looks like for this role.",
+        gutCheckQuestions: JSON.stringify([
+          "What does the ideal candidate for this role actually look like? Not the job description - the real answer.",
+          "What went wrong with the last person in this role (or the last hire that didn't work out)?",
+          "How long have you been looking? What's your internal recruiter been trying?",
+          "What's the real timeline here? Is this urgent-urgent or 'we should probably fill this'?",
+          "What's the comp range you're working with? Is there flexibility if we find someone exceptional?",
+          "If I could put three vetted candidates in front of you in the next two weeks, would you be ready to move?",
         ]),
         order: 8,
       },
@@ -446,8 +1051,10 @@ async function main() {
         description:
           "You invest in and advise early-stage companies, bringing operational expertise alongside capital. You're not running the day-to-day - you're governing, advising, and opening doors.",
         whoThisIs: "Capital allocators and governors.",
+        typicalBackground: "Former C-suite exec (CFO, COO, CRO) who's been through an exit or IPO, experienced angel investor, or senior operator with enough capital and credibility to be a value-add investor. You've sat in the seat and know what early-stage companies actually need beyond money.",
         workMode: "Oversight, not execution",
         salesMotion: "Deals, not clients",
+        failureMode: "Overcommitting your time to too many companies and becoming the advisor who never responds. Or investing based on relationship loyalty instead of real conviction about the business.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Advisory Fee + Equity", price: "$2K-$5K/month + 0.5-2% equity" },
@@ -459,6 +1066,42 @@ async function main() {
         }),
         incomeRangeLow: 50000,
         incomeRangeHigh: 500000,
+        nicheExamples: JSON.stringify([
+          "Angel investor and advisor to health tech companies at seed and Series A",
+          "Fractional CFO advisor to first-time founders preparing for fundraise",
+          "Board advisor for B2B SaaS companies navigating $1M-$10M ARR growth",
+          "Operating partner at a micro-PE fund acquiring and improving small software companies",
+          "Advisor to women-led startups with a focus on go-to-market and fundraising strategy",
+          "Strategic advisor to climate tech startups connecting technical founders with enterprise buyers",
+        ]),
+        positioningTemplate: "I invest in and advise [type of company] at [stage] - bringing [specific operational expertise] alongside capital to help founders avoid the mistakes I've already made.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder/CEO at seed or Series A stage",
+          companySize: "Pre-seed to Series A, 2-30 employees, looking for smart money and operational guidance",
+          triggerEvents: [
+            "Raising a round and looking for angels who bring more than just a check",
+            "Hit a growth wall and need someone who's been through it to advise",
+            "Preparing for board formation and need experienced independent directors",
+            "Previous advisor relationship fizzled and they need someone who actually shows up",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "AngelList and angel investing syndicates",
+            "VC portfolio events and demo days",
+            "Founder peer groups and accelerator alumni networks",
+            "Industry-specific conferences (health tech, fintech, climate tech, etc.)",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been watching what you're building at [company] and I'm impressed. The [specific thing] is really smart.\n\nI invest in and advise companies at your stage - I was [previous role] and I've been through [relevant experience]. I think there might be ways I could be helpful beyond just writing a check.\n\nWould you be open to a conversation? I'd love to learn more about where you're headed.",
+        gutCheckQuestions: JSON.stringify([
+          "What's the hardest problem you're facing right now that money alone won't solve?",
+          "What does your cap table look like, and what kind of investor are you actually looking for?",
+          "If I were to advise you for the next 12 months, what would you want me to help with most?",
+          "How do you make decisions when you and your co-founder disagree?",
+          "What does success look like for this company in 3 years? Be honest, not aspirational.",
+          "What's the thing about your business that keeps you up at night that you haven't told your investors?",
+          "If this doesn't work, what's your plan B?",
+        ]),
       },
       create: {
         slug: "investor-operator",
@@ -467,8 +1110,10 @@ async function main() {
         description:
           "You invest in and advise early-stage companies, bringing operational expertise alongside capital. You're not running the day-to-day - you're governing, advising, and opening doors.",
         whoThisIs: "Capital allocators and governors.",
+        typicalBackground: "Former C-suite exec (CFO, COO, CRO) who's been through an exit or IPO, experienced angel investor, or senior operator with enough capital and credibility to be a value-add investor. You've sat in the seat and know what early-stage companies actually need beyond money.",
         workMode: "Oversight, not execution",
         salesMotion: "Deals, not clients",
+        failureMode: "Overcommitting your time to too many companies and becoming the advisor who never responds. Or investing based on relationship loyalty instead of real conviction about the business.",
         businessModel: JSON.stringify({
           tiers: [
             { name: "Advisory Fee + Equity", price: "$2K-$5K/month + 0.5-2% equity" },
@@ -486,6 +1131,44 @@ async function main() {
           "Carta",
           "Google Sheets",
           "Notion",
+          "DocSend",
+          "Visible",
+        ]),
+        nicheExamples: JSON.stringify([
+          "Angel investor and advisor to health tech companies at seed and Series A",
+          "Fractional CFO advisor to first-time founders preparing for fundraise",
+          "Board advisor for B2B SaaS companies navigating $1M-$10M ARR growth",
+          "Operating partner at a micro-PE fund acquiring and improving small software companies",
+          "Advisor to women-led startups with a focus on go-to-market and fundraising strategy",
+          "Strategic advisor to climate tech startups connecting technical founders with enterprise buyers",
+        ]),
+        positioningTemplate: "I invest in and advise [type of company] at [stage] - bringing [specific operational expertise] alongside capital to help founders avoid the mistakes I've already made.",
+        buyerProfile: JSON.stringify({
+          typicalTitle: "Founder/CEO at seed or Series A stage",
+          companySize: "Pre-seed to Series A, 2-30 employees, looking for smart money and operational guidance",
+          triggerEvents: [
+            "Raising a round and looking for angels who bring more than just a check",
+            "Hit a growth wall and need someone who's been through it to advise",
+            "Preparing for board formation and need experienced independent directors",
+            "Previous advisor relationship fizzled and they need someone who actually shows up",
+          ],
+          budgetAuthority: "direct",
+          whereTheyHangOut: [
+            "AngelList and angel investing syndicates",
+            "VC portfolio events and demo days",
+            "Founder peer groups and accelerator alumni networks",
+            "Industry-specific conferences (health tech, fintech, climate tech, etc.)",
+          ],
+        }),
+        outreachTemplate: "Hey [name],\n\nI've been watching what you're building at [company] and I'm impressed. The [specific thing] is really smart.\n\nI invest in and advise companies at your stage - I was [previous role] and I've been through [relevant experience]. I think there might be ways I could be helpful beyond just writing a check.\n\nWould you be open to a conversation? I'd love to learn more about where you're headed.",
+        gutCheckQuestions: JSON.stringify([
+          "What's the hardest problem you're facing right now that money alone won't solve?",
+          "What does your cap table look like, and what kind of investor are you actually looking for?",
+          "If I were to advise you for the next 12 months, what would you want me to help with most?",
+          "How do you make decisions when you and your co-founder disagree?",
+          "What does success look like for this company in 3 years? Be honest, not aspirational.",
+          "What's the thing about your business that keeps you up at night that you haven't told your investors?",
+          "If this doesn't work, what's your plan B?",
         ]),
         order: 9,
       },
@@ -881,22 +1564,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 3: Rachel Torres ──────────────────────────────────────
-  const rachel = await prisma.user.upsert({
-    where: { email: "rachel@demo.blair.com" },
+  // ── Demo User 3: Sarah Chen - Fractional Operator ─────────────────
+  const sarah = await prisma.user.upsert({
+    where: { email: "sarah@demo.blair.com" },
     update: {},
     create: {
-      email: "rachel@demo.blair.com",
-      name: "Rachel Torres",
+      email: "sarah@demo.blair.com",
+      name: "Sarah Chen",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: rachel.id },
+    where: { userId: sarah.id },
     update: {},
     create: {
-      userId: rachel.id,
+      userId: sarah.id,
       traits: JSON.stringify([
         "Execution-oriented",
         "Calm under pressure",
@@ -918,7 +1601,7 @@ async function main() {
         "Optimizing for flexibility and financial independence",
       ]),
       summary:
-        "Rachel spent 12 years in operations at tech companies, most recently as VP of Operations at a Series C startup called Aether Health. She built the ops infrastructure that took them from 40 to 200 employees. She knows what it looks like when a company is growing faster than its systems can handle, and she knows how to fix it.",
+        "Sarah spent 12 years in operations at tech companies, most recently as VP of Operations at a Series C startup called Aether Health. She built the ops infrastructure that took them from 40 to 200 employees. She knows what it looks like when a company is growing faster than its systems can handle, and she knows how to fix it.",
       unfairAdvantageName: "Operational Command",
       unfairAdvantageDescription:
         "People with this advantage walk into chaos and immediately see the load-bearing processes that are about to break. They don't just manage operations - they architect them. They see the system behind the mess and know exactly which levers to pull first.",
@@ -942,12 +1625,12 @@ async function main() {
     },
   });
 
-  const rachelRec = await prisma.recommendation.upsert({
-    where: { id: "rec-rachel" },
+  const sarahRec = await prisma.recommendation.upsert({
+    where: { id: "rec-sarah" },
     update: {},
     create: {
-      id: "rec-rachel",
-      userId: rachel.id,
+      id: "rec-sarah",
+      userId: sarah.id,
       primaryPathId: pathBySlug["fractional-operator"].id,
       status: "approved",
       personalIntro:
@@ -971,13 +1654,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: rachelRec.id,
+        recommendationId: sarahRec.id,
         pathId: pathBySlug["fractional-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: rachelRec.id,
+      recommendationId: sarahRec.id,
       pathId: pathBySlug["fractional-operator"].id,
       rank: 1,
       fitScore: 94,
@@ -989,13 +1672,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: rachelRec.id,
+        recommendationId: sarahRec.id,
         pathId: pathBySlug["automation-systems-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: rachelRec.id,
+      recommendationId: sarahRec.id,
       pathId: pathBySlug["automation-systems-builder"].id,
       rank: 2,
       fitScore: 80,
@@ -1012,13 +1695,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: rachelRec.id,
+        recommendationId: sarahRec.id,
         pathId: pathBySlug["gtm-growth-strategist"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: rachelRec.id,
+      recommendationId: sarahRec.id,
       pathId: pathBySlug["gtm-growth-strategist"].id,
       rank: 3,
       fitScore: 72,
@@ -1032,22 +1715,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 4: Maya Patel ───────────────────────────────────────
-  const maya = await prisma.user.upsert({
-    where: { email: "maya@demo.blair.com" },
+  // ── Demo User 4: Maria Santos - Automation & Systems Builder ───────
+  const maria = await prisma.user.upsert({
+    where: { email: "maria@demo.blair.com" },
     update: {},
     create: {
-      email: "maya@demo.blair.com",
-      name: "Maya Patel",
+      email: "maria@demo.blair.com",
+      name: "Maria Santos",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: maya.id },
+    where: { userId: maria.id },
     update: {},
     create: {
-      userId: maya.id,
+      userId: maria.id,
       traits: JSON.stringify([
         "Detail-oriented",
         "Process-obsessed",
@@ -1069,7 +1752,7 @@ async function main() {
         "Prefers async communication over constant calls",
       ]),
       summary:
-        "Maya spent 8 years in business systems and process engineering, most recently as a Senior Business Systems Analyst at Clarion Software. She's the person teams call when their CRM is a mess, their data doesn't flow between tools, or their processes are held together by manual workarounds. She's a certified Salesforce admin with a talent for seeing inefficiency and building elegant solutions.",
+        "Maria spent 8 years in business systems and process engineering, most recently as a Senior Business Systems Analyst at Clarion Software. She's the person teams call when their CRM is a mess, their data doesn't flow between tools, or their processes are held together by manual workarounds. She's a certified Salesforce admin with a talent for seeing inefficiency and building elegant solutions.",
       unfairAdvantageName: "Systems Thinking",
       unfairAdvantageDescription:
         "People with this advantage see the invisible architecture behind how a business actually runs. They don't just fix the broken thing - they see why it broke and build something that won't break the same way again. It's a rare combination of technical skill and business understanding.",
@@ -1093,12 +1776,12 @@ async function main() {
     },
   });
 
-  const mayaRec = await prisma.recommendation.upsert({
-    where: { id: "rec-maya" },
+  const mariaRec = await prisma.recommendation.upsert({
+    where: { id: "rec-maria" },
     update: {},
     create: {
-      id: "rec-maya",
-      userId: maya.id,
+      id: "rec-maria",
+      userId: maria.id,
       primaryPathId: pathBySlug["automation-systems-builder"].id,
       status: "approved",
       personalIntro:
@@ -1122,13 +1805,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: mayaRec.id,
+        recommendationId: mariaRec.id,
         pathId: pathBySlug["automation-systems-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: mayaRec.id,
+      recommendationId: mariaRec.id,
       pathId: pathBySlug["automation-systems-builder"].id,
       rank: 1,
       fitScore: 93,
@@ -1140,13 +1823,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: mayaRec.id,
+        recommendationId: mariaRec.id,
         pathId: pathBySlug["studio-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: mayaRec.id,
+      recommendationId: mariaRec.id,
       pathId: pathBySlug["studio-builder"].id,
       rank: 2,
       fitScore: 78,
@@ -1163,13 +1846,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: mayaRec.id,
+        recommendationId: mariaRec.id,
         pathId: pathBySlug["fractional-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: mayaRec.id,
+      recommendationId: mariaRec.id,
       pathId: pathBySlug["fractional-operator"].id,
       rank: 3,
       fitScore: 68,
@@ -1183,22 +1866,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 5: Danielle Brooks ──────────────────────────────────
-  const danielle = await prisma.user.upsert({
-    where: { email: "danielle@demo.blair.com" },
+  // ── Demo User 5: Rachel Gaines - Content Engine Operator ──────────
+  const rachel = await prisma.user.upsert({
+    where: { email: "rachel@demo.blair.com" },
     update: {},
     create: {
-      email: "danielle@demo.blair.com",
-      name: "Danielle Brooks",
+      email: "rachel@demo.blair.com",
+      name: "Rachel Gaines",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: danielle.id },
+    where: { userId: rachel.id },
     update: {},
     create: {
-      userId: danielle.id,
+      userId: rachel.id,
       traits: JSON.stringify([
         "Creative with a producer's mindset",
         "Editorially sharp",
@@ -1220,7 +1903,7 @@ async function main() {
         "Wants recurring revenue, not one-off projects",
       ]),
       summary:
-        "Danielle spent 10 years in content marketing and editorial, most recently as Head of Content at Bloom & Vine, a direct-to-consumer wellness brand. She built their content engine from scratch - the newsletter that hit 80K subscribers, the social strategy that drove 40% of organic traffic, the brand voice that made them stand out in a crowded market. She's a producer at heart: she sees the whole pipeline, not just the next post.",
+        "Rachel spent 10 years in content marketing and editorial, most recently as Head of Content at Bloom & Vine, a direct-to-consumer wellness brand. She built their content engine from scratch - the newsletter that hit 80K subscribers, the social strategy that drove 40% of organic traffic, the brand voice that made them stand out in a crowded market. She's a producer at heart: she sees the whole pipeline, not just the next post.",
       unfairAdvantageName: "Editorial Instinct",
       unfairAdvantageDescription:
         "People with this advantage don't just create content - they see the system behind it. They know what to publish, when to publish it, and why it matters to the business. It's the difference between a content creator and a content operator.",
@@ -1244,12 +1927,12 @@ async function main() {
     },
   });
 
-  const danielleRec = await prisma.recommendation.upsert({
-    where: { id: "rec-danielle" },
+  const rachelRec = await prisma.recommendation.upsert({
+    where: { id: "rec-rachel" },
     update: {},
     create: {
-      id: "rec-danielle",
-      userId: danielle.id,
+      id: "rec-rachel",
+      userId: rachel.id,
       primaryPathId: pathBySlug["content-engine-operator"].id,
       status: "approved",
       personalIntro:
@@ -1273,13 +1956,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: danielleRec.id,
+        recommendationId: rachelRec.id,
         pathId: pathBySlug["content-engine-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: danielleRec.id,
+      recommendationId: rachelRec.id,
       pathId: pathBySlug["content-engine-operator"].id,
       rank: 1,
       fitScore: 92,
@@ -1291,13 +1974,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: danielleRec.id,
+        recommendationId: rachelRec.id,
         pathId: pathBySlug["messaging-positioning"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: danielleRec.id,
+      recommendationId: rachelRec.id,
       pathId: pathBySlug["messaging-positioning"].id,
       rank: 2,
       fitScore: 79,
@@ -1314,13 +1997,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: danielleRec.id,
+        recommendationId: rachelRec.id,
         pathId: pathBySlug["studio-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: danielleRec.id,
+      recommendationId: rachelRec.id,
       pathId: pathBySlug["studio-builder"].id,
       rank: 3,
       fitScore: 71,
@@ -1334,22 +2017,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 6: Sarah Kim ────────────────────────────────────────
-  const sarah = await prisma.user.upsert({
-    where: { email: "sarah@demo.blair.com" },
+  // ── Demo User 6: Emma Lawson - Lead Gen Operator ──────────────────
+  const emma = await prisma.user.upsert({
+    where: { email: "emma@demo.blair.com" },
     update: {},
     create: {
-      email: "sarah@demo.blair.com",
-      name: "Sarah Kim",
+      email: "emma@demo.blair.com",
+      name: "Emma Lawson",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: sarah.id },
+    where: { userId: emma.id },
     update: {},
     create: {
-      userId: sarah.id,
+      userId: emma.id,
       traits: JSON.stringify([
         "Data-driven",
         "Competitive",
@@ -1371,7 +2054,7 @@ async function main() {
         "Wants income tied to results, not hours",
       ]),
       summary:
-        "Sarah spent 7 years in performance marketing and paid media, most recently as a Senior Performance Marketing Manager at Relay Commerce. She managed over $5M in annual ad spend across Meta, Google, and LinkedIn, and she's the person who turns ad budgets into pipeline. She's competitive, data-driven, and genuinely enjoys the optimization game.",
+        "Emma spent 7 years in performance marketing and paid media, most recently as a Senior Performance Marketing Manager at Relay Commerce. She managed over $5M in annual ad spend across Meta, Google, and LinkedIn, and she's the person who turns ad budgets into pipeline. She's competitive, data-driven, and genuinely enjoys the optimization game.",
       unfairAdvantageName: "Conversion Intuition",
       unfairAdvantageDescription:
         "People with this advantage can look at a funnel and immediately sense where the leak is. They don't just read the data - they feel the friction. It's pattern recognition built on thousands of hours of watching what makes people click, convert, and buy.",
@@ -1395,12 +2078,12 @@ async function main() {
     },
   });
 
-  const sarahRec = await prisma.recommendation.upsert({
-    where: { id: "rec-sarah" },
+  const emmaRec = await prisma.recommendation.upsert({
+    where: { id: "rec-emma" },
     update: {},
     create: {
-      id: "rec-sarah",
-      userId: sarah.id,
+      id: "rec-emma",
+      userId: emma.id,
       primaryPathId: pathBySlug["lead-gen-operator"].id,
       status: "approved",
       personalIntro:
@@ -1424,13 +2107,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: sarahRec.id,
+        recommendationId: emmaRec.id,
         pathId: pathBySlug["lead-gen-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: sarahRec.id,
+      recommendationId: emmaRec.id,
       pathId: pathBySlug["lead-gen-operator"].id,
       rank: 1,
       fitScore: 91,
@@ -1442,13 +2125,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: sarahRec.id,
+        recommendationId: emmaRec.id,
         pathId: pathBySlug["gtm-growth-strategist"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: sarahRec.id,
+      recommendationId: emmaRec.id,
       pathId: pathBySlug["gtm-growth-strategist"].id,
       rank: 2,
       fitScore: 77,
@@ -1465,13 +2148,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: sarahRec.id,
+        recommendationId: emmaRec.id,
         pathId: pathBySlug["automation-systems-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: sarahRec.id,
+      recommendationId: emmaRec.id,
       pathId: pathBySlug["automation-systems-builder"].id,
       rank: 3,
       fitScore: 69,
@@ -1485,22 +2168,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 7: Ashley Rivera ────────────────────────────────────
-  const ashley = await prisma.user.upsert({
-    where: { email: "ashley@demo.blair.com" },
+  // ── Demo User 7: Danielle Okafor - Studio Builder ─────────────────
+  const danielle = await prisma.user.upsert({
+    where: { email: "danielle@demo.blair.com" },
     update: {},
     create: {
-      email: "ashley@demo.blair.com",
-      name: "Ashley Rivera",
+      email: "danielle@demo.blair.com",
+      name: "Danielle Okafor",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: ashley.id },
+    where: { userId: danielle.id },
     update: {},
     create: {
-      userId: ashley.id,
+      userId: danielle.id,
       traits: JSON.stringify([
         "Methodical creative",
         "Loves building repeatable systems",
@@ -1522,7 +2205,7 @@ async function main() {
         "Needs flexibility but also craves structure in her work",
       ]),
       summary:
-        "Ashley spent 9 years in UX and product design, building design systems at two companies - first at a Series B fintech called Ledger Labs, then as Design Lead at a mid-market SaaS company called Threadline. She's the person who looks at a product with 47 different button styles and says \"we're fixing this.\" She loves the systematic side of design: creating the rules, building the components, making everything work together.",
+        "Danielle spent 9 years in UX and product design, building design systems at two companies - first at a Series B fintech called Ledger Labs, then as Design Lead at a mid-market SaaS company called Threadline. She's the person who looks at a product with 47 different button styles and says \"we're fixing this.\" She loves the systematic side of design: creating the rules, building the components, making everything work together.",
       unfairAdvantageName: "Pattern Recognition",
       unfairAdvantageDescription:
         "People with this advantage see the repeatable structure inside creative work. They don't just design something beautiful - they design something that can be replicated, scaled, and maintained. It's the intersection of aesthetic taste and systems thinking.",
@@ -1546,12 +2229,12 @@ async function main() {
     },
   });
 
-  const ashleyRec = await prisma.recommendation.upsert({
-    where: { id: "rec-ashley" },
+  const danielleRec = await prisma.recommendation.upsert({
+    where: { id: "rec-danielle" },
     update: {},
     create: {
-      id: "rec-ashley",
-      userId: ashley.id,
+      id: "rec-danielle",
+      userId: danielle.id,
       primaryPathId: pathBySlug["studio-builder"].id,
       status: "approved",
       personalIntro:
@@ -1575,13 +2258,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: ashleyRec.id,
+        recommendationId: danielleRec.id,
         pathId: pathBySlug["studio-builder"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: ashleyRec.id,
+      recommendationId: danielleRec.id,
       pathId: pathBySlug["studio-builder"].id,
       rank: 1,
       fitScore: 90,
@@ -1593,13 +2276,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: ashleyRec.id,
+        recommendationId: danielleRec.id,
         pathId: pathBySlug["fractional-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: ashleyRec.id,
+      recommendationId: danielleRec.id,
       pathId: pathBySlug["fractional-operator"].id,
       rank: 2,
       fitScore: 76,
@@ -1616,13 +2299,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: ashleyRec.id,
+        recommendationId: danielleRec.id,
         pathId: pathBySlug["messaging-positioning"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: ashleyRec.id,
+      recommendationId: danielleRec.id,
       pathId: pathBySlug["messaging-positioning"].id,
       rank: 3,
       fitScore: 65,
@@ -1636,7 +2319,7 @@ async function main() {
     },
   });
 
-  // ── Demo User 8: Priya Sharma ─────────────────────────────────────
+  // ── Demo User 8: Priya Sharma - Niche Talent & Placement ──────────
   const priya = await prisma.user.upsert({
     where: { email: "priya@demo.blair.com" },
     update: {},
@@ -1787,22 +2470,22 @@ async function main() {
     },
   });
 
-  // ── Demo User 9: Christine Wu ─────────────────────────────────────
-  const christine = await prisma.user.upsert({
-    where: { email: "christine@demo.blair.com" },
+  // ── Demo User 9: Amanda Reeves - Investor-Operator ────────────────
+  const amanda = await prisma.user.upsert({
+    where: { email: "amanda@demo.blair.com" },
     update: {},
     create: {
-      email: "christine@demo.blair.com",
-      name: "Christine Wu",
+      email: "amanda@demo.blair.com",
+      name: "Amanda Reeves",
       role: "user",
     },
   });
 
   await prisma.userProfile.upsert({
-    where: { userId: christine.id },
+    where: { userId: amanda.id },
     update: {},
     create: {
-      userId: christine.id,
+      userId: amanda.id,
       traits: JSON.stringify([
         "Analytical and decisive",
         "Sees around corners",
@@ -1824,7 +2507,7 @@ async function main() {
         "Optimizing for influence and long-term wealth creation",
       ]),
       summary:
-        "Christine spent 15 years in finance and strategy, rising to CFO at a health tech startup called Meridian Health that exited for $180M. She's been angel investing on the side for three years, with a portfolio of 6 companies. She understands both sides of the table - what founders need and what investors look for. She wants to do more of this, on her own terms.",
+        "Amanda spent 15 years in finance and strategy, rising to CFO at a health tech startup called Meridian Health that exited for $180M. She's been angel investing on the side for three years, with a portfolio of 6 companies. She understands both sides of the table - what founders need and what investors look for. She wants to do more of this, on her own terms.",
       unfairAdvantageName: "Capital Judgment",
       unfairAdvantageDescription:
         "People with this advantage see the financial story behind a business before anyone else does. They know which metrics matter, which ones lie, and when a company is about to hit a wall or break through. It's the intersection of financial acumen and operational intuition.",
@@ -1848,12 +2531,12 @@ async function main() {
     },
   });
 
-  const christineRec = await prisma.recommendation.upsert({
-    where: { id: "rec-christine" },
+  const amandaRec = await prisma.recommendation.upsert({
+    where: { id: "rec-amanda" },
     update: {},
     create: {
-      id: "rec-christine",
-      userId: christine.id,
+      id: "rec-amanda",
+      userId: amanda.id,
       primaryPathId: pathBySlug["investor-operator"].id,
       status: "approved",
       personalIntro:
@@ -1877,13 +2560,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: christineRec.id,
+        recommendationId: amandaRec.id,
         pathId: pathBySlug["investor-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: christineRec.id,
+      recommendationId: amandaRec.id,
       pathId: pathBySlug["investor-operator"].id,
       rank: 1,
       fitScore: 95,
@@ -1895,13 +2578,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: christineRec.id,
+        recommendationId: amandaRec.id,
         pathId: pathBySlug["fractional-operator"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: christineRec.id,
+      recommendationId: amandaRec.id,
       pathId: pathBySlug["fractional-operator"].id,
       rank: 2,
       fitScore: 78,
@@ -1918,13 +2601,13 @@ async function main() {
   await prisma.recommendationPath.upsert({
     where: {
       recommendationId_pathId: {
-        recommendationId: christineRec.id,
+        recommendationId: amandaRec.id,
         pathId: pathBySlug["gtm-growth-strategist"].id,
       },
     },
     update: {},
     create: {
-      recommendationId: christineRec.id,
+      recommendationId: amandaRec.id,
       pathId: pathBySlug["gtm-growth-strategist"].id,
       rank: 3,
       fitScore: 68,
@@ -1952,17 +2635,17 @@ async function main() {
   });
 
   console.log("Seed complete.");
-  console.log(`  - 9 business paths`);
+  console.log(`  - 9 business paths (with path-specific playbook content)`);
   console.log(`  - Phase 1 with 4 tasks`);
   console.log(`  - User: Liz Holloway (liz@demo.blair.com) - Messaging & Positioning`);
   console.log(`  - User: Julie Soper (julie@demo.blair.com) - GTM & Growth Strategist`);
-  console.log(`  - User: Rachel Torres (rachel@demo.blair.com) - Fractional Operator`);
-  console.log(`  - User: Maya Patel (maya@demo.blair.com) - Automation & Systems Builder`);
-  console.log(`  - User: Danielle Brooks (danielle@demo.blair.com) - Content Engine Operator`);
-  console.log(`  - User: Sarah Kim (sarah@demo.blair.com) - Lead Gen Operator`);
-  console.log(`  - User: Ashley Rivera (ashley@demo.blair.com) - Studio Builder`);
+  console.log(`  - User: Sarah Chen (sarah@demo.blair.com) - Fractional Operator`);
+  console.log(`  - User: Maria Santos (maria@demo.blair.com) - Automation & Systems Builder`);
+  console.log(`  - User: Rachel Gaines (rachel@demo.blair.com) - Content Engine Operator`);
+  console.log(`  - User: Emma Lawson (emma@demo.blair.com) - Lead Gen Operator`);
+  console.log(`  - User: Danielle Okafor (danielle@demo.blair.com) - Studio Builder`);
   console.log(`  - User: Priya Sharma (priya@demo.blair.com) - Niche Talent & Placement`);
-  console.log(`  - User: Christine Wu (christine@demo.blair.com) - Investor-Operator`);
+  console.log(`  - User: Amanda Reeves (amanda@demo.blair.com) - Investor-Operator`);
   console.log(`  - Profiles, recommendations, and paths for all 9 users`);
   console.log(`  - Founder video`);
 }
