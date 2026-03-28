@@ -1751,11 +1751,11 @@ async function main() {
         "Liz has spent over a decade in brand and communications. She's strategic, creative, and sharp - the person teams turn to when something needs to sound right. She wants flexibility, autonomy, and income she controls. She hasn't built her own thing yet, not because she can't, but because she hasn't had clear direction on where to point the energy.",
       unfairAdvantageName: "Translation Ability",
       unfairAdvantageDescription:
-        "People with this advantage are translators between what something IS and what it NEEDS TO SAY. They walk into a room where everyone's confused about how to describe their own product, their own value... and they just see it. They turn something complicated into language that makes a customer lean in. It's not about being a good writer (though they often are). It's pattern recognition: spotting the disconnect between what a business actually does and how it's showing up in the world.",
+        "People with this advantage are translators between what something IS and what it NEEDS TO SAY. They walk into a room where everyone's confused about how to describe their own product, their own company, their own value... and they just see it. They turn something complicated into language that makes a customer lean in. This isn't about being a good writer (though they often are). It's about pattern recognition applied to narrative: spotting the disconnect between what a business actually does and how it's showing up in the world.",
       unfairAdvantageEvidence:
-        "You picked \"The Creative\" and \"The Strategy\" as your shoulder taps - people come to you both when they can't explain what they are AND when they have a goal but no plan. That combination is the signature of a translator: you see the narrative problem and the strategic path to fix it. Your work mode backs it up too - you want the brief, a few key conversations, and then space to go build something sharper than what anyone expected.",
+        "You picked \"The Creative\" and \"The Strategy\" as your shoulder taps - people come to you when they can't explain what they are AND when they have a goal but no plan. That combination is the signature of a translator: you see the narrative problem and the strategic path to fix it. Your work mode backs it up too - you want the brief, a few key conversations, and then space to go build something sharper than what anyone expected.",
       unfairAdvantageWhy:
-        "Translation Ability is one of the few skills that companies consistently underpay for when it's buried inside a salaried role and consistently overpay for when it's sold as an outside service. A Brand Message Director at an agency might make $90-$130K. That same skill, packaged as project-based consulting, commands $5K-$12K per engagement. This is genuinely one of the most valuable (and most underleveraged) skills out there.",
+        "Translation Ability is one of the few skills that companies consistently underpay for when it's buried inside a salaried role and consistently overpay for when it's sold as an outside service. The gap between what a brand messaging lead earns on salary and what that same skill commands as project-based consulting is massive. This is genuinely one of the most valuable and most underleveraged skills out there.",
       linkedinSummary:
         "Over a decade in brand and communications strategy. Led messaging, creative direction, and narrative development for agencies and in-house teams. Known for walking into messy brand problems and delivering clarity.",
       onlinePresence: JSON.stringify({
@@ -1910,11 +1910,11 @@ async function main() {
         "Julie has spent 15 years building a career that spans policy research at UCLA, storytelling at National Geographic, and enterprise sales at Stripe and Ramp. She's analytical, relationship-driven, and has a network most people spend a decade trying to build. With three kids under four, she's asking whether the W2 path is the right container for what she wants her life to look like.",
       unfairAdvantageName: "Network Density",
       unfairAdvantageDescription:
-        "People with this advantage already know enough buyers to build a business without ever cold-calling a stranger. They've spent years in rooms with the people who make purchasing decisions, and those relationships don't disappear when you leave a company.",
+        "People with this advantage have spent years building relationships with the exact people who buy what they'd sell. They don't need to cold-call strangers or build an audience from scratch. Their future clients already know their name, trust their judgment, and would take a meeting tomorrow if asked. Most people starting a business spend the first year trying to get in the room. You're already in it.",
       unfairAdvantageEvidence:
-        "Your network is startup and tech decision-makers. After 6 years at Stripe and your current role at Ramp, you know founders, heads of sales, revenue leaders, and partnership leads across fintech and B2B SaaS. You're comfortable with outreach and you're comfortable being visible in your niche. That combination is rare. Most people have the network but hate the outreach, or love the outreach but don't have the network. Excitingly, you have both!",
+        "Your network is startup and tech decision-makers. After 6 years at Stripe and your current role at Ramp, you know founders, heads of sales, revenue leaders, and partnership leads across fintech and B2B SaaS. You're comfortable with outreach and you're comfortable being visible in your niche. Most people have the network but hate the outreach, or love the outreach but don't have the network. You have both.",
       unfairAdvantageWhy:
-        "One of the hardest parts of starting any business is finding your first clients. For you, that's going to be a lot easier than it is for most people. After 15 years in enterprise sales, the people who would hire you have already watched you work. They don't need to be convinced you're good - they need to know you're available.",
+        "One of the hardest parts of starting any business is finding your first clients. For you, that's going to be way easier than it is for most people. After 15 years in enterprise sales, the people who would hire you have already watched you work. They don't need to be convinced you're good - they need to know you're available.",
       linkedinSummary:
         "15 years spanning policy research (UCLA), media (National Geographic), and enterprise sales (Stripe, Ramp). Builds and scales go-to-market motions for B2B companies.",
       onlinePresence: JSON.stringify({
@@ -2066,13 +2066,13 @@ async function main() {
       ]),
       summary:
         "Sarah spent 12 years in operations at tech companies, most recently as VP of Operations at a Series C startup called Aether Health. She built the ops infrastructure that took them from 40 to 200 employees. She knows what it looks like when a company is growing faster than its systems can handle, and she knows how to fix it.",
-      unfairAdvantageName: "Operational Command",
+      unfairAdvantageName: "Pattern Library",
       unfairAdvantageDescription:
-        "People with this advantage walk into chaos and immediately see the load-bearing processes that are about to break. They don't just manage operations - they architect them. They see the system behind the mess and know exactly which levers to pull first.",
+        "People with this advantage have worked across enough environments that they recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, a Pattern Library person walks in and just knows. They've seen this movie. They know how it ends. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
       unfairAdvantageEvidence:
-        "You spent 12 years building operations at tech companies and landed in a VP Ops seat at a Series C. That trajectory tells us you're not just executing playbooks - you're designing them. The people around you have watched you take a department from \"we're figuring it out\" to \"this actually runs.\"",
+        "You spent 12 years building operations at tech companies across different stages and industries, landing in a VP Ops seat at a Series C. You've seen what breaks when companies scale from 40 to 200 people - and you've seen it break the same way more than once. That's why you can walk into a new company and diagnose the problem before the onboarding paperwork is done.",
       unfairAdvantageWhy:
-        "Operational Command is one of those skills that companies desperately need but rarely know how to hire for externally. A full-time VP Ops costs $200K-$300K plus equity. A fractional operator who already knows the playbook? That's $5K-$10K/month for the same quality of thinking.",
+        "When you've seen the same operational breakdowns across enough companies, you don't need months to figure out what's wrong. You can walk in, name the problem, and start fixing it in one conversation. That speed is what makes fractional work so lucrative - clients aren't paying for your time, they're paying for the years of pattern recognition you're bringing to the table.",
       linkedinSummary:
         "12 years in tech operations. VP Ops at Aether Health (Series C). Built operational infrastructure scaling from 40 to 200 employees.",
       onlinePresence: JSON.stringify({
@@ -2217,13 +2217,13 @@ async function main() {
       ]),
       summary:
         "Maria spent 8 years in business systems and process engineering, most recently as a Senior Business Systems Analyst at Clarion Software. She's the person teams call when their CRM is a mess, their data doesn't flow between tools, or their processes are held together by manual workarounds. She's a certified Salesforce admin with a talent for seeing inefficiency and building elegant solutions.",
-      unfairAdvantageName: "Systems Thinking",
+      unfairAdvantageName: "Systems Brain",
       unfairAdvantageDescription:
-        "People with this advantage see the invisible architecture behind how a business actually runs. They don't just fix the broken thing - they see why it broke and build something that won't break the same way again. It's a rare combination of technical skill and business understanding.",
+        "People with this advantage see the invisible architecture behind how a business actually runs. They don't just fix the broken thing. They see why it broke and build something that won't break the same way again. It's a rare combination of technical skill and business understanding. Where other people see a mess, they see a system waiting to be built. And they can't walk away from it.",
       unfairAdvantageEvidence:
-        "You've spent 8 years as the person companies call when their systems don't talk to each other. You're a certified Salesforce admin, you've done complex data migrations, and you've built automation workflows that saved teams hundreds of hours. That's not just technical skill - it's the ability to see the whole system at once.",
+        "You've spent 8 years as the person companies call when their systems don't talk to each other. You're a certified Salesforce admin, you've done complex data migrations, and you've built automation workflows that saved teams hundreds of hours. You don't just fix what's broken - you can't help redesigning the whole thing so it won't break again.",
       unfairAdvantageWhy:
-        "Systems Thinking is incredibly undervalued inside companies and incredibly valuable outside them. A Salesforce admin on salary makes $85K-$120K. That same person, packaging their expertise as project-based consulting, charges $3K-$8K per build. The math gets very interesting very fast.",
+        "Systems Brain is incredibly undervalued inside companies and incredibly valuable outside them. When you're on salary, companies get your systems thinking bundled into a job title that doesn't reflect what you actually do. When you package that same skill as project-based consulting, you're charging for the outcome - and the outcome is worth a lot more than the hourly rate.",
       linkedinSummary:
         "8 years in business systems and process engineering. Senior Business Systems Analyst at Clarion Software. Certified Salesforce Admin.",
       onlinePresence: JSON.stringify({
@@ -2368,13 +2368,13 @@ async function main() {
       ]),
       summary:
         "Rachel spent 10 years in content marketing and editorial, most recently as Head of Content at Bloom & Vine, a direct-to-consumer wellness brand. She built their content engine from scratch - the newsletter that hit 80K subscribers, the social strategy that drove 40% of organic traffic, the brand voice that made them stand out in a crowded market. She's a producer at heart: she sees the whole pipeline, not just the next post.",
-      unfairAdvantageName: "Editorial Instinct",
+      unfairAdvantageName: "Translation Ability",
       unfairAdvantageDescription:
-        "People with this advantage don't just create content - they see the system behind it. They know what to publish, when to publish it, and why it matters to the business. It's the difference between a content creator and a content operator.",
+        "People with this advantage are translators between what something IS and what it NEEDS TO SAY. They walk into a room where everyone's confused about how to describe their own product, their own company, their own value... and they just see it. They turn something complicated into language that makes a customer lean in. This isn't about being a good writer (though they often are). It's about pattern recognition applied to narrative: spotting the disconnect between what a business actually does and how it's showing up in the world.",
       unfairAdvantageEvidence:
-        "You built a content engine at Bloom & Vine that drove real business results - 80K newsletter subscribers, 40% organic traffic from content. That's not just good writing. That's editorial instinct: knowing what story to tell, to whom, and how to measure whether it worked.",
+        "You built a content engine at Bloom & Vine that wasn't just about publishing - it was about translating a brand's value into language that made people lean in. 80K newsletter subscribers and 40% organic traffic don't come from good writing alone. They come from someone who knows how to take a complicated product story and make it land with the right audience.",
       unfairAdvantageWhy:
-        "Editorial Instinct is wildly undervalued on salary and wildly valuable as a service. Companies spend $80K-$120K on a Head of Content. That same strategic brain, sold as a monthly retainer, commands $3K-$8K/month per client. With 3-4 clients, you're outearning your old salary.",
+        "Translation Ability is what turns ideas into distribution. Companies don't just need content - they need someone who can see the gap between what they actually do and how they're showing up in the world. When you can close that gap, you're not just a content person. You're the person who makes everything else work harder.",
       linkedinSummary:
         "10 years in content marketing and editorial. Head of Content at Bloom & Vine (D2C wellness). Built newsletter to 80K subscribers.",
       onlinePresence: JSON.stringify({
@@ -2519,13 +2519,13 @@ async function main() {
       ]),
       summary:
         "Emma spent 7 years in performance marketing and paid media, most recently as a Senior Performance Marketing Manager at Relay Commerce. She managed over $5M in annual ad spend across Meta, Google, and LinkedIn, and she's the person who turns ad budgets into pipeline. She's competitive, data-driven, and genuinely enjoys the optimization game.",
-      unfairAdvantageName: "Conversion Intuition",
+      unfairAdvantageName: "Closer Instinct",
       unfairAdvantageDescription:
-        "People with this advantage can look at a funnel and immediately sense where the leak is. They don't just read the data - they feel the friction. It's pattern recognition built on thousands of hours of watching what makes people click, convert, and buy.",
+        "People with this advantage are natural deal-makers. They read rooms, build trust fast, and know how to move a conversation from interest to commitment without it ever feeling like a pitch. This isn't about being 'salesy.' It's about having spent years understanding what makes people say yes, whether that's closing enterprise deals, building partnerships, landing candidates, or getting buy-in from skeptical stakeholders. Most people dread the selling part of running a business. You've been doing it your whole career without calling it that.",
       unfairAdvantageEvidence:
-        "You managed $5M+ in ad spend and you're still excited about optimization loops. That combination of scale and genuine interest tells us something: you don't just run ads. You see the whole conversion picture - from ad creative to landing page to email sequence to closed deal.",
+        "You managed $5M+ in ad spend and you're still excited about it - because what you actually love is the results. You see the whole conversion picture, from first click to closed deal, and you know how to move people through it. Your competitive streak and data-driven approach aren't just about optimization. They're about getting to yes, over and over again.",
       unfairAdvantageWhy:
-        "Conversion Intuition is one of the most directly monetizable skills out there. Companies are spending money on ads every single day and most of them are wasting 30-50% of their budget. Someone who can fix that? They'll pay you a premium and thank you for it.",
+        "Closer Instinct is what separates people who build businesses from people who just have good ideas. You already know how to tie your work to revenue and prove ROI - that's the hardest part of selling a service. When you can show a client exactly what they'll get for what they spend, the sale practically closes itself.",
       linkedinSummary:
         "7 years in performance marketing. Senior Performance Marketing Manager at Relay Commerce. Managed $5M+ annual ad spend.",
       onlinePresence: JSON.stringify({
@@ -2670,13 +2670,13 @@ async function main() {
       ]),
       summary:
         "Danielle spent 9 years in UX and product design, building design systems at two companies - first at a Series B fintech called Ledger Labs, then as Design Lead at a mid-market SaaS company called Threadline. She's the person who looks at a product with 47 different button styles and says \"we're fixing this.\" She loves the systematic side of design: creating the rules, building the components, making everything work together.",
-      unfairAdvantageName: "Pattern Recognition",
+      unfairAdvantageName: "Pattern Library",
       unfairAdvantageDescription:
-        "People with this advantage see the repeatable structure inside creative work. They don't just design something beautiful - they design something that can be replicated, scaled, and maintained. It's the intersection of aesthetic taste and systems thinking.",
+        "People with this advantage have worked across enough environments that they recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, a Pattern Library person walks in and just knows. They've seen this movie. They know how it ends. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
       unfairAdvantageEvidence:
-        "You built design systems at two different companies. That's not something people stumble into - it requires someone who can look at a messy product and see the patterns underneath. Your brain naturally organizes creative work into repeatable frameworks.",
+        "You built design systems at two different companies in two different industries. That's not something people stumble into - it requires someone who's seen the same design chaos repeat itself and recognized the pattern underneath. You don't just design things. You see the repeatable structure inside creative work, and that's exactly what makes a studio model possible.",
       unfairAdvantageWhy:
-        "Pattern Recognition is the key ingredient for building a studio. While other designers are starting from scratch with every client, you're applying proven frameworks and delivering faster, better, more consistent results. That efficiency is what makes productized design services so profitable.",
+        "When you've seen the same design problems break across enough products, you stop starting from scratch. You bring frameworks, components, and systems that let you deliver faster and more consistently than anyone who's solving it for the first time. That speed and consistency is what turns a freelance practice into a scalable studio.",
       linkedinSummary:
         "9 years in UX/product design. Design Lead at Threadline. Built design systems at Ledger Labs and Threadline.",
       onlinePresence: JSON.stringify({
@@ -2821,13 +2821,13 @@ async function main() {
       ]),
       summary:
         "Priya spent 11 years in recruiting and talent acquisition at tech companies, most recently as Head of Talent at a Series C infrastructure startup called Lattice Core. She's placed hundreds of engineers, from junior devs to VP of Engineering. Her network in the engineering community is deep - she's the person CTOs call when they can't find the senior backend engineer who also wants to work at a startup.",
-      unfairAdvantageName: "Talent Radar",
+      unfairAdvantageName: "Network Density",
       unfairAdvantageDescription:
-        "People with this advantage can assess talent in minutes, not months. They know what great looks like because they've spent years matching people to roles and watching what works. It's part intuition, part pattern recognition, part deep relationship network.",
+        "People with this advantage have spent years building relationships with the exact people who buy what they'd sell. They don't need to cold-call strangers or build an audience from scratch. Their future clients already know their name, trust their judgment, and would take a meeting tomorrow if asked. Most people starting a business spend the first year trying to get in the room. You're already in it.",
       unfairAdvantageEvidence:
-        "You've placed hundreds of engineers over 11 years. You know the difference between a resume that looks great and a person who actually ships. CTOs at your former companies still call you for referrals. That network and that judgment are your most valuable assets.",
+        "You've placed hundreds of engineers over 11 years, and in the process you've built deep relationships on both sides of the table. CTOs call you when they can't find the right person. Senior engineers call you when they're ready to move. You don't just know talent - you know the buyers, and they already trust your judgment.",
       unfairAdvantageWhy:
-        "Talent Radar turns relationships into revenue. Companies pay 15-20% of first-year salary for placements. On senior engineering roles, that's $25K-$50K per placement. Three or four placements a year as a side hustle is serious money for work that comes naturally to you.",
+        "Most people starting a recruiting business spend their first year trying to build a pipeline of clients and candidates. You already have both. Your network isn't just big - it's specific, it's warm, and it's full of people who'd take your call tomorrow. That's the difference between grinding for traction and launching with momentum.",
       linkedinSummary:
         "11 years in recruiting and talent acquisition. Head of Talent at Lattice Core (Series C). Deep network in engineering talent.",
       onlinePresence: JSON.stringify({
@@ -2972,13 +2972,13 @@ async function main() {
       ]),
       summary:
         "Amanda spent 15 years in finance and strategy, rising to CFO at a health tech startup called Meridian Health that exited for $180M. She's been angel investing on the side for three years, with a portfolio of 6 companies. She understands both sides of the table - what founders need and what investors look for. She wants to do more of this, on her own terms.",
-      unfairAdvantageName: "Capital Judgment",
+      unfairAdvantageName: "Closer Instinct",
       unfairAdvantageDescription:
-        "People with this advantage see the financial story behind a business before anyone else does. They know which metrics matter, which ones lie, and when a company is about to hit a wall or break through. It's the intersection of financial acumen and operational intuition.",
+        "People with this advantage are natural deal-makers. They read rooms, build trust fast, and know how to move a conversation from interest to commitment without it ever feeling like a pitch. This isn't about being 'salesy.' It's about having spent years understanding what makes people say yes, whether that's closing enterprise deals, building partnerships, landing candidates, or getting buy-in from skeptical stakeholders. Most people dread the selling part of running a business. You've been doing it your whole career without calling it that.",
       unfairAdvantageEvidence:
-        "You were CFO at a company that exited for $180M. You've been angel investing with your own capital. You see the financial architecture of a business - the unit economics, the cash flow dynamics, the inflection points - in a way that most people never learn to. That's not just finance skills. That's judgment.",
+        "You were CFO at a company that exited for $180M, and now you're angel investing with your own capital. That means you've sat on both sides of the table - getting founders to yes on hard financial decisions, and getting yourself to yes on which companies deserve your money. You don't close deals through pressure. You close them through judgment, trust, and knowing exactly when to move.",
       unfairAdvantageWhy:
-        "Capital Judgment is the rarest advantage on our list. Most people can learn to read a P&L. Very few can look at a startup and know whether the numbers tell the truth. As a CFO who's been through an exit and an angel investor who's deploying capital, you have credibility that can't be faked.",
+        "Closer Instinct is what turns expertise into a business. You already know how to build trust with founders, negotiate terms, and move conversations forward. Most people with your financial background struggle to sell themselves. You've been doing it your whole career - you just called it fundraising, board management, and deal-making instead.",
       linkedinSummary:
         "15 years in finance and strategy. CFO at Meridian Health (exited $180M). Active angel investor with 6-company portfolio.",
       onlinePresence: JSON.stringify({

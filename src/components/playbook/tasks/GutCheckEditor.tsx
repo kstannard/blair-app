@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { RefineButton } from "@/components/playbook/RefineButton";
 
 interface GutCheckEditorProps {
   pathSlug: string;
@@ -69,6 +70,7 @@ export function GutCheckEditor({
   const defaultTemplate = buildOutreachTemplate(pathName, savedData, pathSlug);
   const outreachMessage =
     (savedData.outreachMessage as string) ?? defaultTemplate;
+  const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
   const contacts = (savedData.contacts as ContactSlot[]) ?? defaultContacts;
   const whatIHeard = (savedData.whatIHeard as string) ?? "";
 
@@ -144,6 +146,63 @@ export function GutCheckEditor({
           rows={12}
           className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-relaxed text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
+
+        {/* AI action buttons */}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <RefineButton
+            label="Write it for me"
+            taskType="gut-check"
+            action="write-it"
+            fieldName="outreachMessage"
+            currentValue={outreachMessage}
+            context={{ pathSlug, positioning: (savedData.editedStatement as string) || "" }}
+            onResult={(result) => setRefineSuggestion(result)}
+          />
+          <RefineButton
+            label="Make it warmer"
+            taskType="gut-check"
+            action="warmer"
+            fieldName="outreachMessage"
+            currentValue={outreachMessage}
+            context={{ pathSlug }}
+            onResult={(result) => setRefineSuggestion(result)}
+          />
+          <RefineButton
+            label="Shorten this"
+            taskType="gut-check"
+            action="shorten"
+            fieldName="outreachMessage"
+            currentValue={outreachMessage}
+            context={{ pathSlug }}
+            onResult={(result) => setRefineSuggestion(result)}
+          />
+        </div>
+
+        {/* Inline suggestion */}
+        {refineSuggestion && (
+          <div className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 p-4">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-blair-charcoal/80">
+              {refineSuggestion}
+            </p>
+            <div className="mt-2 flex gap-3">
+              <button
+                onClick={() => {
+                  handleChange("outreachMessage", refineSuggestion);
+                  setRefineSuggestion(null);
+                }}
+                className="text-xs font-medium text-blair-sage-dark hover:text-blair-sage"
+              >
+                Use this
+              </button>
+              <button
+                onClick={() => setRefineSuggestion(null)}
+                className="text-xs text-blair-charcoal/40 hover:text-blair-charcoal/60"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Who to reach out to - suggestions */}

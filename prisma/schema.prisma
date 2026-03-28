@@ -61,12 +61,17 @@ model User {
 }
 
 model QuizSubmission {
-  id          String   @id @default(cuid())
-  userId      String
-  answers     String
-  submittedAt DateTime @default(now())
-  source      String   @default("typeform")
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id @default(cuid())
+  userId         String
+  formId         String?
+  responseToken  String?
+  answers        String
+  rawAnswers     String?
+  parsedAnswers  String?
+  submittedAt    DateTime @default(now())
+  source         String   @default("typeform")
+  status         String   @default("pending_review")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserProfile {

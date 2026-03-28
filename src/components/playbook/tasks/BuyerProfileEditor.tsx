@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { RefineButton } from "@/components/playbook/RefineButton";
 
 interface BuyerProfileEditorProps {
   pathSlug: string;
@@ -140,6 +142,7 @@ export function BuyerProfileEditor({
   savedData,
   onSave,
 }: BuyerProfileEditorProps) {
+  const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
   const defaults = pathDefaults[pathSlug] || fallbackDefaults;
 
   const buyerTitle = (savedData.buyerTitle as string) ?? defaults.buyerTitle;
@@ -252,6 +255,67 @@ export function BuyerProfileEditor({
           onChange={(e) => handleChange("buyerTitle", e.target.value)}
           className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
+
+        {/* AI action buttons */}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <RefineButton
+            label="Suggest a buyer"
+            taskType="buyer-profile-editor"
+            action="suggest-buyer"
+            fieldName="buyerTitle"
+            currentValue={buyerTitle}
+            context={{ pathSlug, fieldName: "buyerTitle" }}
+            onResult={(result) => {
+              setRefineSuggestion(result);
+            }}
+          />
+          <RefineButton
+            label="Add more detail"
+            taskType="buyer-profile-editor"
+            action="add-detail"
+            fieldName="buyerTitle"
+            currentValue={buyerTitle}
+            context={{ pathSlug, fieldName: "buyerTitle" }}
+            onResult={(result) => setRefineSuggestion(result)}
+          />
+          <RefineButton
+            label="Who else?"
+            taskType="buyer-profile-editor"
+            action="who-else"
+            fieldName="buyerTitle"
+            currentValue={buyerTitle}
+            context={{ pathSlug, fieldName: "buyerTitle" }}
+            onResult={(result) => setRefineSuggestion(result)}
+          />
+        </div>
+
+        {/* Inline suggestion */}
+        {refineSuggestion && (
+          <div className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 p-4">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-blair-charcoal/80">
+              {refineSuggestion}
+            </p>
+            <div className="mt-2 flex gap-3">
+              {refineSuggestion.length < 120 && !refineSuggestion.includes("\n") && (
+                <button
+                  onClick={() => {
+                    handleChange("buyerTitle", refineSuggestion);
+                    setRefineSuggestion(null);
+                  }}
+                  className="text-xs font-medium text-blair-sage-dark hover:text-blair-sage"
+                >
+                  Use this
+                </button>
+              )}
+              <button
+                onClick={() => setRefineSuggestion(null)}
+                className="text-xs text-blair-charcoal/40 hover:text-blair-charcoal/60"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Company type */}

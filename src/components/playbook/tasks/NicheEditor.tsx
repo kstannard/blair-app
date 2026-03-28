@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { RefineButton } from "@/components/playbook/RefineButton";
 
 interface RecommendationData {
   personalIntro: string | null;
@@ -99,6 +100,7 @@ const defaultPayForSuggestions = [
 export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }: NicheEditorProps) {
   const hasPrePopulated = useRef(false);
   const [newItemText, setNewItemText] = useState("");
+  const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
 
   // Step 1: chips (array of strings)
   const step1Items = (savedData.step1Items as string[]) || [];
@@ -299,6 +301,52 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                     Add
                   </button>
                 </div>
+
+                {/* AI action buttons */}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <RefineButton
+                    label="Sharpen this"
+                    taskType="niche-editor"
+                    action="sharpen"
+                    fieldName="step1Items"
+                    currentValue={step1Items.join(", ")}
+                    context={{ pathSlug }}
+                    onResult={(result) => setRefineSuggestion(result)}
+                  />
+                  <RefineButton
+                    label="Get more specific"
+                    taskType="niche-editor"
+                    action="get-specific"
+                    fieldName="step1Items"
+                    currentValue={step1Items.join(", ")}
+                    context={{ pathSlug }}
+                    onResult={(result) => setRefineSuggestion(result)}
+                  />
+                  <RefineButton
+                    label="Show me an example"
+                    taskType="niche-editor"
+                    action="example"
+                    fieldName="step1Items"
+                    currentValue={step1Items.join(", ")}
+                    context={{ pathSlug }}
+                    onResult={(result) => setRefineSuggestion(result)}
+                  />
+                </div>
+
+                {/* Inline suggestion */}
+                {refineSuggestion && (
+                  <div className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 p-4">
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-blair-charcoal/80">
+                      {refineSuggestion}
+                    </p>
+                    <button
+                      onClick={() => setRefineSuggestion(null)}
+                      className="mt-2 text-xs text-blair-charcoal/40 hover:text-blair-charcoal/60"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

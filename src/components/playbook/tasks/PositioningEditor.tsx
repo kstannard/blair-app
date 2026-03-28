@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { RefineButton } from "@/components/playbook/RefineButton";
 
 interface PositioningEditorProps {
   pathSlug: string;
@@ -97,6 +98,7 @@ export function PositioningEditor({
   const [editableRefinement, setEditableRefinement] = useState<string>(
     (savedData.suggestedRefinement as string) || ""
   );
+  const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
 
   const handleSelectDraft = (index: number) => {
     onSave({
@@ -230,6 +232,65 @@ export function PositioningEditor({
             onChange={(e) => handleChange("editedStatement", e.target.value)}
             className="mt-4 h-32 w-full resize-none rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-relaxed text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
           />
+
+          {/* AI action buttons */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            <RefineButton
+              label="Make it tighter"
+              taskType="positioning-editor"
+              action="tighter"
+              fieldName="editedStatement"
+              currentValue={editedStatement}
+              context={{ pathSlug }}
+              onResult={(result) => setRefineSuggestion(result)}
+            />
+            <RefineButton
+              label="Try a different angle"
+              taskType="positioning-editor"
+              action="different-angle"
+              fieldName="editedStatement"
+              currentValue={editedStatement}
+              context={{ pathSlug }}
+              onResult={(result) => setRefineSuggestion(result)}
+            />
+            <RefineButton
+              label="See how this sounds"
+              taskType="positioning-editor"
+              action="sound-check"
+              fieldName="editedStatement"
+              currentValue={editedStatement}
+              context={{ pathSlug }}
+              onResult={(result) => setRefineSuggestion(result)}
+            />
+          </div>
+
+          {/* Inline suggestion */}
+          {refineSuggestion && (
+            <div className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 p-4">
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-blair-charcoal/80">
+                {refineSuggestion}
+              </p>
+              <div className="mt-2 flex gap-3">
+                {refineSuggestion.length < 300 && !refineSuggestion.includes("\n\n") && (
+                  <button
+                    onClick={() => {
+                      handleChange("editedStatement", refineSuggestion);
+                      setRefineSuggestion(null);
+                    }}
+                    className="text-xs font-medium text-blair-sage-dark hover:text-blair-sage"
+                  >
+                    Use this
+                  </button>
+                )}
+                <button
+                  onClick={() => setRefineSuggestion(null)}
+                  className="text-xs text-blair-charcoal/40 hover:text-blair-charcoal/60"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          )}
 
           {!showRefinement && (
             <button
