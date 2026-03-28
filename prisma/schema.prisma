@@ -111,6 +111,7 @@ model BusinessPath {
   gutCheckQuestions     String?
   order                 Int     @default(0)
 
+  phases              Phase[]
   founderVideos       FounderVideo[]
   recommendationPaths RecommendationPath[]
 }
@@ -151,11 +152,18 @@ model RecommendationPath {
 }
 
 model Phase {
-  id    String @id @default(cuid())
-  name  String
-  slug  String @unique
-  order Int
-  tasks Task[]
+  id             String       @id @default(cuid())
+  name           String
+  slug           String
+  description    String       @default("")
+  order          Int
+  businessPathId String
+  businessPath   BusinessPath @relation(fields: [businessPathId], references: [id])
+  tasks          Task[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([businessPathId, order])
 }
 
 model Task {

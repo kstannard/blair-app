@@ -1181,71 +1181,535 @@ async function main() {
     pathBySlug[p.slug] = p;
   }
 
-  // ── Phase 1 & Tasks ─────────────────────────────────────────────────
-  const phase1 = await prisma.phase.upsert({
-    where: { slug: "phase-1" },
-    update: {},
-    create: {
-      slug: "phase-1",
-      name: "Foundation",
-      order: 1,
-    },
-  });
+  // ── Delete old phases/tasks so we can recreate them ─────────────────
+  await prisma.generatedArtifact.deleteMany({});
+  await prisma.taskProgress.deleteMany({});
+  await prisma.task.deleteMany({});
+  await prisma.phase.deleteMany({});
 
-  const taskData = [
-    {
-      slug: "figure-out-your-specific-thing",
-      title: "Figure Out Your Specific Thing",
-      description:
-        "You've been solving problems inside companies for years. The question isn't whether you have valuable skills. It's which specific problem you're going to own.",
-      whyItMatters:
-        "This is the hard part. Also the important part. Once this is sharp, everything else - your outreach, your pricing, even your confidence in conversations - gets dramatically easier.",
-      order: 1,
-      taskType: "niche-editor",
-      timeEstimate: "~2 hrs",
-    },
-    {
-      slug: "write-your-one-sentence",
-      title: "Write Your One Sentence",
-      description:
-        "Take your lane and turn it into a single sentence: \"I help [specific type of company] [achieve a specific outcome] by [what you actually do].\"",
-      whyItMatters:
-        "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
-      order: 2,
-      taskType: "positioning-editor",
-      timeEstimate: "~1 hr",
-    },
-    {
-      slug: "get-clear-on-your-buyer",
-      title: "Get Clear on Who Actually Hires You",
-      description:
-        "\"Companies that need help\" isn't a buyer. A buyer is a person with a name, a title, a budget, and a problem that's keeping them up at night.",
-      whyItMatters:
-        "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
-      order: 3,
-      taskType: "buyer-profile-editor",
-      timeEstimate: "~1 hr",
-    },
-    {
-      slug: "gut-check-with-real-people",
-      title: "Gut-Check It With Real People",
-      description:
-        "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
-      whyItMatters:
-        "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
-      order: 4,
-      taskType: "gut-check",
-      timeEstimate: "~1-2 hrs",
-    },
-  ];
+  // ── Path-Specific Phases & Tasks ──────────────────────────────────
+  // Helper to create phases + tasks for a path
+  async function createPhasesForPath(
+    pathSlug: string,
+    phases: Array<{
+      name: string;
+      slug: string;
+      description: string;
+      order: number;
+      tasks?: Array<{
+        slug: string;
+        title: string;
+        description: string;
+        whyItMatters: string;
+        order: number;
+        taskType: string;
+        timeEstimate: string;
+      }>;
+    }>
+  ) {
+    const path = pathBySlug[pathSlug];
+    if (!path) {
+      console.warn(`Path not found: ${pathSlug}`);
+      return;
+    }
 
-  for (const t of taskData) {
-    await prisma.task.upsert({
-      where: { slug: t.slug },
-      update: {},
-      create: { ...t, phaseId: phase1.id },
-    });
+    for (const phase of phases) {
+      const created = await prisma.phase.create({
+        data: {
+          name: phase.name,
+          slug: phase.slug,
+          description: phase.description,
+          order: phase.order,
+          businessPathId: path.id,
+        },
+      });
+
+      if (phase.tasks) {
+        for (const task of phase.tasks) {
+          await prisma.task.create({
+            data: {
+              slug: `${pathSlug}--${task.slug}`,
+              title: task.title,
+              description: task.description,
+              whyItMatters: task.whyItMatters,
+              order: task.order,
+              taskType: task.taskType,
+              timeEstimate: task.timeEstimate,
+              phaseId: created.id,
+            },
+          });
+        }
+      }
+    }
   }
+
+  // ── 1. GTM & Growth Strategist ──────────────────────────────────────
+  await createPhasesForPath("gtm-growth-strategist", [
+    {
+      name: "Find Your Lane",
+      slug: "find-your-lane",
+      description: "Before you build anything, you need to know exactly what you're selling, who you're selling it to, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "figure-out-your-specific-thing",
+          title: "Figure Out Your Specific Thing",
+          description: "You've been solving problems inside companies for years. The question isn't whether you have valuable skills. It's which specific problem you're going to own.",
+          whyItMatters: "This is the hard part. Also the important part. Once this is sharp, everything else - your outreach, your pricing, even your confidence in conversations - gets dramatically easier.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Take your lane and turn it into a single sentence: \"I help [specific type of company] [achieve a specific outcome] by [what you actually do].\"",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "\"Companies that need help\" isn't a buyer. A buyer is a person with a name, a title, a budget, and a problem that's keeping them up at night.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design Your Offer", slug: "design-your-offer", description: "", order: 2 },
+    { name: "Build Your Launchpad", slug: "build-your-launchpad", description: "", order: 3 },
+    { name: "Start Conversations", slug: "start-conversations", description: "", order: 4 },
+    { name: "Close Your First Client", slug: "close-your-first-client", description: "", order: 5 },
+  ]);
+
+  // ── 2. Messaging & Positioning Specialist ───────────────────────────
+  await createPhasesForPath("messaging-positioning", [
+    {
+      name: "Find Your Lane",
+      slug: "find-your-lane",
+      description: "Before you build anything, you need to know exactly what you're selling, who you're selling it to, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "figure-out-your-specific-thing",
+          title: "Figure Out Your Specific Thing",
+          description: "You've been solving problems inside companies for years. The question isn't whether you have valuable skills. It's which specific problem you're going to own.",
+          whyItMatters: "This is the hard part. Also the important part. Once this is sharp, everything else - your outreach, your pricing, even your confidence in conversations - gets dramatically easier.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Take your lane and turn it into a single sentence: \"I help [specific type of company] [achieve a specific outcome] by [what you actually do].\"",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "\"Companies that need help\" isn't a buyer. A buyer is a person with a name, a title, a budget, and a problem that's keeping them up at night.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design Your Offer", slug: "design-your-offer", description: "", order: 2 },
+    { name: "Build Your Launchpad", slug: "build-your-launchpad", description: "", order: 3 },
+    { name: "Start Conversations", slug: "start-conversations", description: "", order: 4 },
+    { name: "Close Your First Client", slug: "close-your-first-client", description: "", order: 5 },
+  ]);
+
+  // ── 3. Fractional Operator ──────────────────────────────────────────
+  await createPhasesForPath("fractional-operator", [
+    {
+      name: "Find Your Lane",
+      slug: "find-your-lane",
+      description: "Before you build anything, you need to know exactly what you're selling, who you're selling it to, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "figure-out-your-specific-thing",
+          title: "Figure Out Your Specific Thing",
+          description: "Fractional covers a lot of ground. Finance ops, people ops, rev ops, general operations. You need to pick the one where you have the deepest expertise and the strongest opinions.",
+          whyItMatters: "Companies don't hire 'a fractional operator.' They hire someone who can fix their specific operational mess. The tighter your focus, the faster they trust you.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Take your ops specialty and turn it into one sentence: 'I help [type of company] [fix what's broken] by [how you actually do it].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "Your buyer is a founder or CEO who knows something's broken but doesn't have time to fix it and can't justify a full-time hire yet.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build anything else, test this with 2-3 people who've seen you operate. Not a pitch. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design Your Engagement", slug: "design-your-engagement", description: "", order: 2 },
+    { name: "Build Your Launchpad", slug: "build-your-launchpad", description: "", order: 3 },
+    { name: "Start Conversations", slug: "start-conversations", description: "", order: 4 },
+    { name: "Land Your First Retainer", slug: "land-your-first-retainer", description: "", order: 5 },
+  ]);
+
+  // ── 4. Automation & Systems Builder ─────────────────────────────────
+  await createPhasesForPath("automation-systems-builder", [
+    {
+      name: "Find Your Lane",
+      slug: "find-your-lane",
+      description: "Before you build anything, you need to know exactly what you're selling, who you're selling it to, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "figure-out-your-specific-thing",
+          title: "Figure Out Your Specific Thing",
+          description: "CRM setup, workflow automation, integrations, internal tools. You need to pick the system type and the industry where you can deliver the most value fastest.",
+          whyItMatters: "Every company has broken systems. The ones who'll pay you well are the ones where the broken system is costing them real money or real time. Pick that problem.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Turn your systems specialty into one sentence: 'I help [type of company] [stop wasting time on X] by [building/fixing what system].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "Your buyer is usually an ops leader or founder drowning in manual processes who knows there's a better way but doesn't have time to figure it out.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Productize Your Build", slug: "productize-your-build", description: "", order: 2 },
+    { name: "Build Your Launchpad", slug: "build-your-launchpad", description: "", order: 3 },
+    { name: "Start Conversations", slug: "start-conversations", description: "", order: 4 },
+    { name: "Close Your First Build", slug: "close-your-first-build", description: "", order: 5 },
+  ]);
+
+  // ── 5. Content Engine Operator ──────────────────────────────────────
+  await createPhasesForPath("content-engine-operator", [
+    {
+      name: "Find Your Format",
+      slug: "find-your-format",
+      description: "Before you build anything, you need to know exactly what content format you own, who you're doing it for, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "pick-your-content-type",
+          title: "Pick Your Content Type",
+          description: "Newsletter production, podcast management, social content, video editing, thought leadership ghostwriting. What's the format where you're fastest and best?",
+          whyItMatters: "Clients don't hire 'a content person.' They hire someone who can take their ideas and turn them into a specific type of content, consistently, without hand-holding.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Turn your content specialty into one sentence: 'I help [type of person/company] [build their audience/authority] by [running their content engine for them].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "Your buyer is a founder, executive, or creator who knows they should be putting out content but never gets around to it. They have ideas but no system.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design Your Retainer", slug: "design-your-retainer", description: "", order: 2 },
+    { name: "Build Your Proof", slug: "build-your-proof", description: "", order: 3 },
+    { name: "Find Your First Client", slug: "find-your-first-client", description: "", order: 4 },
+    { name: "Lock In the Retainer", slug: "lock-in-the-retainer", description: "", order: 5 },
+  ]);
+
+  // ── 6. Lead Gen Operator ────────────────────────────────────────────
+  await createPhasesForPath("lead-gen-operator", [
+    {
+      name: "Find Your Channel",
+      slug: "find-your-channel",
+      description: "Before you build anything, you need to know exactly which channel you own, who you're doing it for, and why they should hire you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "pick-your-specialty",
+          title: "Pick Your Specialty",
+          description: "Paid ads, SEO, email marketing, LinkedIn outbound, landing page optimization. Pick the channel where you consistently drive results and can prove it with numbers.",
+          whyItMatters: "The lead gen world is crowded with generalists who 'do a little of everything.' The operators who command premium retainers are the ones who own a specific channel cold.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Turn your channel expertise into one sentence: 'I help [type of company] [get more qualified leads] by [managing/optimizing their specific channel].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-your-buyer",
+          title: "Get Clear on Who Actually Hires You",
+          description: "Your buyer is a founder or marketing leader who's spending money on lead gen but not getting the ROI they expected. They need someone who can fix it, not just report on it.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design Your Retainer", slug: "design-your-retainer", description: "", order: 2 },
+    { name: "Build Your Proof", slug: "build-your-proof", description: "", order: 3 },
+    { name: "Find Your First Client", slug: "find-your-first-client", description: "", order: 4 },
+    { name: "Lock In the Retainer", slug: "lock-in-the-retainer", description: "", order: 5 },
+  ]);
+
+  // ── 7. Studio Builder ───────────────────────────────────────────────
+  await createPhasesForPath("studio-builder", [
+    {
+      name: "Pick What to Productize",
+      slug: "pick-what-to-productize",
+      description: "Before you build anything, you need to know exactly what you're packaging, who buys it, and why they should pick you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "identify-your-repeatable-skill",
+          title: "Identify Your Repeatable Skill",
+          description: "What do you keep delivering over and over? Look at the last 5-10 projects you've done. Where's the pattern? That's what you productize.",
+          whyItMatters: "Studio builders don't sell time. They sell a defined outcome for a defined price. But you can't package something you haven't done enough times to see the pattern.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "define-your-package",
+          title: "Define Your Package",
+          description: "Turn your repeatable skill into a clear package: 'The [Name]: a [timeline] engagement where I deliver [specific outcome] for [price].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "get-clear-on-who-buys-this",
+          title: "Get Clear on Who Buys This",
+          description: "Your buyer is someone who needs this specific outcome but doesn't want to hire full-time for it. They want to pay once, get the thing, and move on.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Design the Product", slug: "design-the-product", description: "", order: 2 },
+    { name: "Build the Machine", slug: "build-the-machine", description: "", order: 3 },
+    { name: "Get Your First 3 Clients", slug: "get-your-first-3-clients", description: "", order: 4 },
+    { name: "Build Inbound", slug: "build-inbound", description: "", order: 5 },
+  ]);
+
+  // ── 8. Niche Talent & Placement Operator ────────────────────────────
+  await createPhasesForPath("niche-talent-placement", [
+    {
+      name: "Pick Your Talent Vertical",
+      slug: "pick-your-talent-vertical",
+      description: "Before you build anything, you need to know exactly which hiring niche you own, who your clients are, and why they should trust you. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "define-your-hiring-niche",
+          title: "Define Your Hiring Niche",
+          description: "What roles do you know cold? What industry? You need to pick the intersection where you can look at a resume and know in 30 seconds if this person is great or not.",
+          whyItMatters: "The placement business runs on taste and trust. Companies pay you because you save them from bad hires. You can only do that in a space where you've seen enough to know what great looks like.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-one-sentence",
+          title: "Write Your One Sentence",
+          description: "Turn your talent niche into one sentence: 'I help [type of company] find [type of role] by [leveraging your specific network/expertise].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "map-your-buyer-landscape",
+          title: "Map Your Buyer Landscape",
+          description: "Your buyer is a hiring manager or founder who's been burned by bad hires or generic recruiters. They want someone who actually understands what good looks like in their space.",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you build a single other thing, test this with 2-3 people who know your work. Not a sales conversation. A gut-check.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Map Your Network", slug: "map-your-network", description: "", order: 2 },
+    { name: "Build Your Process", slug: "build-your-process", description: "", order: 3 },
+    { name: "Make Your First Match", slug: "make-your-first-match", description: "", order: 4 },
+    { name: "Build Your Pipeline", slug: "build-your-pipeline", description: "", order: 5 },
+  ]);
+
+  // ── 9. Investor-Operator ────────────────────────────────────────────
+  await createPhasesForPath("investor-operator", [
+    {
+      name: "Define Your Thesis",
+      slug: "define-your-thesis",
+      description: "Before you deploy capital, you need to know exactly what your edge is, what deals you're looking for, and why founders should take your money. These four tasks will get you there.",
+      order: 1,
+      tasks: [
+        {
+          slug: "clarify-your-investment-edge",
+          title: "Clarify Your Investment Edge",
+          description: "What do you know better than most investors? What sector, stage, or business model do you understand from the inside because you've operated in it?",
+          whyItMatters: "Every investor says they 'add value.' The ones who actually do are the ones who've done the work themselves. Your operating experience IS your thesis. Name it.",
+          order: 1,
+          taskType: "niche-editor",
+          timeEstimate: "~15 min",
+        },
+        {
+          slug: "write-your-thesis-statement",
+          title: "Write Your Thesis Statement",
+          description: "Turn your edge into a clear thesis: 'I invest in [stage] [sector] companies because [what you understand that others don't].'",
+          whyItMatters: "Read yours out loud. If it could describe 500 people, it's too vague. If your old coworker would hear it and immediately think of a company that needs this, you've got it.",
+          order: 2,
+          taskType: "positioning-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "define-your-ideal-deal",
+          title: "Define Your Ideal Deal",
+          description: "Your 'buyer' is a founder raising capital. What stage? What sector? What check size? What do you need to see before you write a check?",
+          whyItMatters: "The title tells you how they buy and what language to use. The company size tells you the sales cycle. The trigger event tells you when they need you. Budget authority tells you if they can actually say yes.",
+          order: 3,
+          taskType: "buyer-profile-editor",
+          timeEstimate: "~10 min",
+        },
+        {
+          slug: "gut-check-with-real-people",
+          title: "Gut-Check It With Real People",
+          description: "Before you start deploying capital, test your thesis with 2-3 people in your network. Other investors, founders you respect, operators in your target sector.",
+          whyItMatters: "These conversations do double duty. They validate your direction and they quietly let people know what you're building. The person who says \"that makes sense\" today might say \"actually, I know someone you should talk to\" in three weeks.",
+          order: 4,
+          taskType: "gut-check",
+          timeEstimate: "~30 min",
+        },
+      ],
+    },
+    { name: "Assess Your Position", slug: "assess-your-position", description: "", order: 2 },
+    { name: "Build Your Deal Flow", slug: "build-your-deal-flow", description: "", order: 3 },
+    { name: "Make Your First Investment", slug: "make-your-first-investment", description: "", order: 4 },
+    { name: "Add Value Post-Investment", slug: "add-value-post-investment", description: "", order: 5 },
+  ]);
 
   // ── Demo User 1: Liz Holloway ───────────────────────────────────────
   const liz = await prisma.user.upsert({
@@ -2636,7 +3100,7 @@ async function main() {
 
   console.log("Seed complete.");
   console.log(`  - 9 business paths (with path-specific playbook content)`);
-  console.log(`  - Phase 1 with 4 tasks`);
+  console.log(`  - 9 sets of path-specific phases (5 phases each, 4 tasks in Phase 1)`);
   console.log(`  - User: Liz Holloway (liz@demo.blair.com) - Messaging & Positioning`);
   console.log(`  - User: Julie Soper (julie@demo.blair.com) - GTM & Growth Strategist`);
   console.log(`  - User: Sarah Chen (sarah@demo.blair.com) - Fractional Operator`);

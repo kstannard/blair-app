@@ -18,26 +18,6 @@ export default async function PlaybookPage() {
     redirect("/signin");
   }
 
-  // Fetch Phase 1 and its tasks
-  const phase1 = await prisma.phase.findFirst({
-    where: { order: 1 },
-    include: {
-      tasks: {
-        orderBy: { order: "asc" },
-      },
-    },
-  });
-
-  if (!phase1) {
-    return (
-      <div className="py-20 text-center">
-        <p className="text-blair-charcoal/50">
-          Your playbook is being prepared. Check back soon.
-        </p>
-      </div>
-    );
-  }
-
   // Fetch user's recommendation with confirmed path
   const recommendation = await prisma.recommendation.findFirst({
     where: { userId: session.user.id, status: "approved" },
@@ -51,12 +31,44 @@ export default async function PlaybookPage() {
   });
 
   // Determine the confirmed path
-  const confirmedPath = recommendation?.confirmedPathId
-    ? recommendation.paths.find((p) => p.pathId === recommendation.confirmedPathId)?.path
-    : recommendation?.paths.find((p) => p.pathId === recommendation.primaryPathId)?.path;
+  const confirmedPathId =
+    recommendation?.confirmedPathId || recommendation?.primaryPathId;
+  const confirmedPath = confirmedPathId
+    ? recommendation?.paths.find((p) => p.pathId === confirmedPathId)?.path
+    : null;
+
+  if (!confirmedPathId || !confirmedPath) {
+    return (
+      <div className="py-20 text-center">
+        <p className="text-blair-charcoal/50">
+          Your playbook is being prepared. Check back soon.
+        </p>
+      </div>
+    );
+  }
+
+  // Fetch phases for the confirmed path
+  const phases = await prisma.phase.findMany({
+    where: { businessPathId: confirmedPathId },
+    orderBy: { order: "asc" },
+    include: { tasks: { orderBy: { order: "asc" } } },
+  });
+
+  if (!phases.length) {
+    return (
+      <div className="py-20 text-center">
+        <p className="text-blair-charcoal/50">
+          Your playbook is being prepared. Check back soon.
+        </p>
+      </div>
+    );
+  }
+
+  const activePhase = phases[0];
+  const futurePhases = phases.slice(1);
 
   // Fetch user's progress for all Phase 1 tasks
-  const taskIds = phase1.tasks.map((t) => t.id);
+  const taskIds = activePhase.tasks.map((t) => t.id);
   const progressRecords = await prisma.taskProgress.findMany({
     where: {
       userId: session.user.id,
@@ -72,14 +84,14 @@ export default async function PlaybookPage() {
   const completedCount = progressRecords.filter(
     (p) => p.status === "done"
   ).length;
-  const totalTasks = phase1.tasks.length;
+  const totalTasks = activePhase.tasks.length;
   const progressPercent =
     totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
 
   const allTasksComplete = totalTasks > 0 && completedCount === totalTasks;
 
   // Find in-progress task for resume banner
-  const inProgressTask = phase1.tasks.find((t) => {
+  const inProgressTask = activePhase.tasks.find((t) => {
     const progress = progressMap.get(t.id);
     return progress?.status === "in_progress";
   });
@@ -94,9 +106,9 @@ export default async function PlaybookPage() {
           Your Playbook
         </p>
         <h1 className="mt-3 font-serif text-3xl text-blair-midnight sm:text-4xl">
-          {confirmedPath?.name || "Your Path"}
+          {confirmedPath.name}
         </h1>
-        {confirmedPath?.description && (
+        {confirmedPath.description && (
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-blair-charcoal/70">
             {confirmedPath.description}
           </p>
@@ -106,29 +118,23 @@ export default async function PlaybookPage() {
       {/* 5-phase roadmap */}
       <div className="mt-8">
         <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
-          Your 5-Phase Roadmap
+          Your {phases.length}-Phase Roadmap
         </h2>
         <div className="mt-4 grid max-w-2xl grid-cols-5 gap-0">
-          {[
-            { num: 1, name: "Find Your Lane", active: true },
-            { num: 2, name: "Design Your Offer", active: false },
-            { num: 3, name: "Build Your Launchpad", active: false },
-            { num: 4, name: "Start Conversations", active: false },
-            { num: 5, name: "Close Your First Client", active: false },
-          ].map((phase) => (
-            <div key={phase.num} className="flex flex-col items-center text-center px-1">
+          {phases.map((phase) => (
+            <div key={phase.id} className="flex flex-col items-center text-center px-1">
               <div
                 className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                  phase.active
+                  phase.order === 1
                     ? "bg-blair-sage text-white"
                     : "bg-blair-mist text-blair-charcoal/40"
                 }`}
               >
-                {phase.num}
+                {phase.order}
               </div>
               <p
                 className={`mt-2 text-xs leading-tight ${
-                  phase.active
+                  phase.order === 1
                     ? "font-semibold text-blair-midnight"
                     : "text-blair-charcoal/40"
                 }`}
@@ -148,16 +154,16 @@ export default async function PlaybookPage() {
         </div>
       </div>
 
-      {/* Phase 1 header */}
+      {/* Active phase header */}
       <div className="pt-10 pb-2">
         <h2 className="font-serif text-2xl text-blair-midnight sm:text-3xl">
-          Phase 1: Find Your Lane
+          Phase 1: {activePhase.name}
         </h2>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-blair-charcoal/60">
-          Before you build anything, you need to know exactly what you&apos;re
-          selling, who you&apos;re selling it to, and why they should hire you. These
-          four tasks will get you there.
-        </p>
+        {activePhase.description && (
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-blair-charcoal/60">
+            {activePhase.description}
+          </p>
+        )}
       </div>
 
       {/* Progress bar */}
@@ -225,7 +231,7 @@ export default async function PlaybookPage() {
 
       {/* Task cards */}
       <div className="mt-8 space-y-3">
-        {phase1.tasks.map((task) => {
+        {activePhase.tasks.map((task) => {
           const progress = progressMap.get(task.id);
           const status = (progress?.status ?? "not_started") as
             | "not_started"
@@ -246,17 +252,19 @@ export default async function PlaybookPage() {
       </div>
 
       {/* Up next teaser */}
-      <div className="mt-16 rounded-xl border border-blair-mist/60 bg-white/40 px-6 py-6">
-        <p className="text-sm font-semibold text-blair-charcoal/40 uppercase tracking-wider">
-          Up next
-        </p>
-        <p className="mt-2 font-serif text-lg text-blair-charcoal/50">
-          Phase 2: Design Your Offer and Price It
-        </p>
-        <p className="mt-1 text-sm text-blair-charcoal/40">
-          Complete Phase 1 to unlock the next step.
-        </p>
-      </div>
+      {futurePhases.length > 0 && (
+        <div className="mt-16 rounded-xl border border-blair-mist/60 bg-white/40 px-6 py-6">
+          <p className="text-sm font-semibold text-blair-charcoal/40 uppercase tracking-wider">
+            Up next
+          </p>
+          <p className="mt-2 font-serif text-lg text-blair-charcoal/50">
+            Phase 2: {futurePhases[0].name}
+          </p>
+          <p className="mt-1 text-sm text-blair-charcoal/40">
+            Complete Phase 1 to unlock the next step.
+          </p>
+        </div>
+      )}
 
       {/* Share prompt */}
       {!allTasksComplete && (

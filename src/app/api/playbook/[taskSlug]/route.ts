@@ -14,10 +14,35 @@ export async function GET(
 
   const { taskSlug } = await params;
 
-  const task = await prisma.task.findUnique({
-    where: { slug: taskSlug },
+  // Get user's confirmed path
+  const recommendation = await prisma.recommendation.findFirst({
+    where: { userId: session.user.id, status: "approved" },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const confirmedPathId =
+    recommendation?.confirmedPathId || recommendation?.primaryPathId;
+
+  // Find the task by slug, scoped to the user's confirmed path.
+  // Also supports lookup by taskType (e.g., "buyer-profile-editor") as a fallback.
+  let task = await prisma.task.findFirst({
+    where: {
+      slug: taskSlug,
+      ...(confirmedPathId ? { phase: { businessPathId: confirmedPathId } } : {}),
+    },
     include: { phase: true },
   });
+
+  // Fallback: try matching by taskType (for cross-task data lookups)
+  if (!task && confirmedPathId) {
+    task = await prisma.task.findFirst({
+      where: {
+        taskType: taskSlug,
+        phase: { businessPathId: confirmedPathId },
+      },
+      include: { phase: true },
+    });
+  }
 
   if (!task) {
     return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -96,6 +121,7 @@ export async function GET(
       taskType: task.taskType,
       timeEstimate: task.timeEstimate,
       phaseId: task.phaseId,
+      totalTasksInPhase: siblingTasks.length,
     },
     progress: {
       id: progress.id,
@@ -122,8 +148,20 @@ export async function PUT(
   const { taskSlug } = await params;
   const body = await request.json();
 
-  const task = await prisma.task.findUnique({
-    where: { slug: taskSlug },
+  // Get user's confirmed path
+  const recommendation = await prisma.recommendation.findFirst({
+    where: { userId: session.user.id, status: "approved" },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const confirmedPathId =
+    recommendation?.confirmedPathId || recommendation?.primaryPathId;
+
+  const task = await prisma.task.findFirst({
+    where: {
+      slug: taskSlug,
+      ...(confirmedPathId ? { phase: { businessPathId: confirmedPathId } } : {}),
+    },
   });
 
   if (!task) {

@@ -76,7 +76,7 @@ export function GutCheckEditor({
   const [buyerProfile, setBuyerProfile] = useState<BuyerProfileData | null>(null);
 
   useEffect(() => {
-    fetch("/api/playbook/get-clear-on-your-buyer")
+    fetch("/api/playbook/buyer-profile-editor")
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         if (json?.progress?.savedData) {

@@ -179,7 +179,7 @@ export default function TaskWorkspacePage() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-blair-sage">
-              Task {task.order} of 4
+              Task {task.order} of {task.totalTasksInPhase || 4}
             </p>
             <h1 className="mt-2 font-serif text-2xl text-blair-midnight sm:text-3xl">
               {task.title}

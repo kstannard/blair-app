@@ -13,6 +13,7 @@ interface Task {
   taskType: string;
   timeEstimate: string | null;
   phaseId: string;
+  totalTasksInPhase?: number;
 }
 
 interface Progress {
