@@ -1,13 +1,81 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { getQuip } from "@/lib/quips";
 
 interface CompletionAnimationProps {
   show: boolean;
   isLastTask: boolean;
   nextTaskSlug?: string;
   onAutoAdvance?: () => void;
+}
+
+function fireConfetti() {
+  import("canvas-confetti").then((confettiModule) => {
+    const confetti = confettiModule.default;
+
+    // First burst - center
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ["#7E9181", "#1F2041", "#E9E6E1", "#B84A6B", "#FFFCF7"],
+      ticks: 120,
+      gravity: 1.2,
+      scalar: 0.9,
+    });
+
+    // Second burst - slightly delayed, from sides
+    setTimeout(() => {
+      confetti({
+        particleCount: 40,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.6 },
+        colors: ["#7E9181", "#1F2041", "#E9E6E1"],
+        ticks: 100,
+      });
+      confetti({
+        particleCount: 40,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.6 },
+        colors: ["#7E9181", "#1F2041", "#E9E6E1"],
+        ticks: 100,
+      });
+    }, 150);
+  });
+}
+
+function fireBigConfetti() {
+  import("canvas-confetti").then((confettiModule) => {
+    const confetti = confettiModule.default;
+    const duration = 2000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.7 },
+        colors: ["#7E9181", "#1F2041", "#E9E6E1", "#B84A6B"],
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.7 },
+        colors: ["#7E9181", "#1F2041", "#E9E6E1", "#B84A6B"],
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  });
 }
 
 export function CompletionAnimation({
@@ -17,6 +85,18 @@ export function CompletionAnimation({
   onAutoAdvance,
 }: CompletionAnimationProps) {
   const [phase, setPhase] = useState<"idle" | "check" | "transitioning">("idle");
+  const [quip, setQuip] = useState("");
+
+  const handleShow = useCallback(() => {
+    if (isLastTask) {
+      setQuip(getQuip("phase-complete"));
+      fireBigConfetti();
+    } else {
+      setQuip(getQuip("task-complete"));
+      fireConfetti();
+    }
+    setPhase("check");
+  }, [isLastTask]);
 
   useEffect(() => {
     if (!show) {
@@ -24,7 +104,7 @@ export function CompletionAnimation({
       return;
     }
 
-    setPhase("check");
+    handleShow();
 
     const advanceTimer = setTimeout(() => {
       if (!isLastTask && nextTaskSlug && onAutoAdvance) {
@@ -33,16 +113,16 @@ export function CompletionAnimation({
           onAutoAdvance();
         }, 400);
       }
-    }, 1500);
+    }, 2200);
 
     return () => {
       clearTimeout(advanceTimer);
     };
-  }, [show, isLastTask, nextTaskSlug, onAutoAdvance]);
+  }, [show, isLastTask, nextTaskSlug, onAutoAdvance, handleShow]);
 
   if (!show) return null;
 
-  // Celebration for last task
+  // Phase complete celebration
   if (isLastTask && phase === "check") {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-300">
@@ -61,14 +141,15 @@ export function CompletionAnimation({
           <p className="mt-6 font-serif text-2xl text-blair-midnight">
             Phase 1 complete!
           </p>
-          <p className="mt-2 text-sm text-blair-charcoal/50">
-            You've done the hard part. Nice work.
+          <p className="mt-3 max-w-sm mx-auto text-sm leading-relaxed text-blair-charcoal/60">
+            {quip}
           </p>
         </div>
       </div>
     );
   }
 
+  // Task complete with quip
   return (
     <div
       className={cn(
@@ -96,7 +177,9 @@ export function CompletionAnimation({
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </div>
-        <p className="text-sm font-medium text-blair-sage-dark">Done! Moving on...</p>
+        <p className="max-w-xs text-center text-sm font-medium text-blair-charcoal/70">
+          {quip}
+        </p>
       </div>
     </div>
   );

@@ -56,9 +56,17 @@ export function WelcomeBack({
 
   // Has a task in progress
   if (state === "in_progress" && currentTaskSlug) {
-    const greeting = daysSinceLastVisit && daysSinceLastVisit >= 3
-      ? `Welcome back, ${firstName}. No stress - here's exactly where you are.`
-      : `Welcome back, ${firstName}.`;
+    const longAwayMessages = [
+      `It's been a minute, ${firstName}. Life happens. Let's pick it back up.`,
+      `You're back, ${firstName}. The playbook was just sitting here, patiently waiting.`,
+      `Been a few days? Cool. This isn't a race. Let's go.`,
+    ];
+    const shortAwayMessages = [
+      `Welcome back, ${firstName}.`,
+      `${firstName}'s back. Let's keep going.`,
+    ];
+    const pool = daysSinceLastVisit && daysSinceLastVisit >= 3 ? longAwayMessages : shortAwayMessages;
+    const greeting = pool[Math.floor(Math.random() * pool.length)];
 
     return (
       <div className="mb-8 rounded-xl bg-blair-sage/10 border border-blair-sage/20 px-6 py-6 sm:px-8 sm:py-8">
