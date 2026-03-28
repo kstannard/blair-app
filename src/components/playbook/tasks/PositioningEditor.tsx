@@ -48,105 +48,36 @@ const defaultDrafts = [
   "I'm the outside expert that [type of company] brings in when they need [specific result] but don't have the in-house expertise to get there.",
 ];
 
-const refinementQuestions = [
-  "Who specifically have you helped in the past that you would love to work with again? What made that engagement great?",
-  "What's the one result you're most confident you can deliver? The thing where you think: if someone gave me this problem, I'd crush it?",
-];
+const pathMethods: Record<string, string> = {
+  "gtm-growth-strategist": "building focused go-to-market playbooks and launch sprints",
+  "messaging-positioning": "running brand positioning sprints that turn confusion into clarity",
+  "fractional-cmo": "stepping in as a hands-on marketing leader who builds systems that last",
+  "content-thought-leadership": "creating content engines that turn expertise into inbound leads",
+  "revenue-operations": "designing the revenue infrastructure that ties marketing, sales, and CS together",
+};
 
-function extractClientType(answer: string): string {
-  // The user might mention a specific person's name followed by context.
-  // We need to extract the TYPE of client, not the person's name.
-  const text = answer.trim();
-  if (!text) return "companies";
+function buildRefinedStatement(whoInput: string, whatResultInput: string, pathSlug: string): string {
+  const who = whoInput.trim() || "companies";
+  const result = whatResultInput.trim() || "achieve their goals";
+  const method = pathMethods[pathSlug] || "focused, hands-on engagements";
 
-  // Look for patterns that describe a type of client/company
-  const typePatterns = [
-    /(?:work(?:ed|ing)?\s+with\s+)?((?:series\s+[a-c]|seed|growth|early)-?\s*stage\s+\w+)/i,
-    /(?:helped?\s+)?(\w+\s+(?:companies|startups|teams|founders|executives|leaders|businesses|agencies|brands))/i,
-    /(?:companies|startups|businesses)\s+(?:that|who|in)\s+([^.!?\n]+)/i,
-    /((?:b2b|b2c|saas|ecommerce|e-commerce)\s+\w+)/i,
-  ];
-
-  for (const pattern of typePatterns) {
-    const match = text.match(pattern);
-    if (match) {
-      return match[1].trim().toLowerCase();
-    }
+  // Clean up the who input - lowercase first letter if it's not an acronym
+  let cleanWho = who;
+  if (cleanWho.length > 0 && cleanWho[0] === cleanWho[0].toUpperCase() && cleanWho[1] !== cleanWho[1]?.toUpperCase()) {
+    cleanWho = cleanWho[0].toLowerCase() + cleanWho.slice(1);
   }
 
-  // If we can't extract a type, try to generalize from context
-  // Check if the answer mentions titles/roles that hint at the client type
-  const rolePatterns = [
-    /(?:ceo|cto|cmo|vp|director|head of|founder)/i,
-    /(?:executive|leader|manager)/i,
-  ];
-
-  for (const pattern of rolePatterns) {
-    if (pattern.test(text)) {
-      return "leaders and executives";
-    }
+  // Clean up the result - make sure it reads as an action
+  let cleanResult = result;
+  // Remove leading "I help them" or "they" type prefixes
+  cleanResult = cleanResult.replace(/^(I help them|they|to)\s+/i, "");
+  // If it doesn't start with a verb, add "achieve"
+  const startsWithVerb = /^(build|grow|scale|launch|fix|create|design|improve|increase|reduce|transform|turn|get|find|hire|close|convert|generate|drive|develop|establish|ship|deliver|run|set up|figure out|nail|crack|solve|stop|start|go from)/i.test(cleanResult);
+  if (!startsWithVerb) {
+    // It's likely a noun phrase - keep it as is since "I help X [noun phrase]" can work
   }
 
-  // Default: take the first clause but strip any proper names (capitalized words at start)
-  const firstClause = text.split(/[.!?\n,;-]/)[0]?.trim() || "";
-  // Remove what looks like a person's name (1-3 capitalized words at the start)
-  const withoutName = firstClause.replace(/^[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\s*[-,]?\s*/g, "").trim();
-  if (withoutName.length > 5) {
-    return withoutName.toLowerCase();
-  }
-
-  return "companies";
-}
-
-function extractOutcome(answer: string): string {
-  const text = answer.trim();
-  if (!text) return "achieve their goals";
-
-  // Remove leading "I " or "I can " or "I'm able to "
-  let cleaned = text.replace(/^I(?:\s+can|\s+am\s+able\s+to|\s+know\s+how\s+to)?\s+/i, "");
-
-  // Take the first meaningful sentence
-  const firstSentence = cleaned.split(/[.!?\n]/)[0]?.trim() || cleaned;
-
-  // Make sure it doesn't start with a capital person name
-  const result = firstSentence.replace(/^[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\s*[-,]?\s*/g, "").trim();
-
-  if (result.length > 5) {
-    // Lowercase the first letter if it's not an acronym
-    return result.charAt(0).toLowerCase() + result.slice(1);
-  }
-
-  return firstSentence.charAt(0).toLowerCase() + firstSentence.slice(1);
-}
-
-function generateRefinedStatement(
-  currentStatement: string,
-  answer1: string,
-  answer2: string
-): string {
-  const clientType = extractClientType(answer1);
-  const outcome = extractOutcome(answer2);
-
-  // Try to extract the method/approach from the current positioning statement
-  let method = "";
-  const byMatch = currentStatement.match(/by\s+(.+?)(?:\.|$)/i);
-  const throughMatch = currentStatement.match(/through\s+(.+?)(?:\.|$)/i);
-  if (byMatch) {
-    method = byMatch[1].trim();
-  } else if (throughMatch) {
-    method = throughMatch[1].trim();
-  } else {
-    // Fall back to extracting the core action from the statement
-    const helpMatch = currentStatement.match(/I\s+(?:help|work\s+with|run|build|design|create)\s+.+?\s+([-]|by|through|that)\s+(.+?)(?:\.|$)/i);
-    if (helpMatch) {
-      method = helpMatch[2].trim();
-    } else {
-      const parts = currentStatement.split(/[-,]/);
-      method = parts.length > 1 ? parts[parts.length - 1].trim() : "focused, hands-on engagements";
-    }
-  }
-
-  return `I help ${clientType} ${outcome} by ${method}.`;
+  return `I help ${cleanWho} ${cleanResult} by ${method}.`;
 }
 
 export function PositioningEditor({
@@ -158,9 +89,12 @@ export function PositioningEditor({
   const selectedIndex = savedData.selectedDraft as number | undefined;
   const editedStatement = (savedData.editedStatement as string) || "";
   const showRefinement = !!savedData.showRefinement;
-  const refinementAnswer1 = (savedData.refinementAnswer1 as string) || "";
-  const refinementAnswer2 = (savedData.refinementAnswer2 as string) || "";
+  const refineWho = (savedData.refineWho as string) || "";
+  const refineResult = (savedData.refineResult as string) || "";
   const [suggestedRefinement, setSuggestedRefinement] = useState<string>(
+    (savedData.suggestedRefinement as string) || ""
+  );
+  const [editableRefinement, setEditableRefinement] = useState<string>(
     (savedData.suggestedRefinement as string) || ""
   );
 
@@ -169,11 +103,12 @@ export function PositioningEditor({
       ...savedData,
       selectedDraft: index,
       editedStatement: drafts[index],
+      userModified: true,
     });
   };
 
   const handleChange = (field: string, value: unknown) => {
-    onSave({ ...savedData, [field]: value });
+    onSave({ ...savedData, [field]: value, userModified: true });
   };
 
   const handleShowRefinement = () => {
@@ -181,29 +116,32 @@ export function PositioningEditor({
   };
 
   const handleRefine = () => {
-    const refined = generateRefinedStatement(
-      editedStatement,
-      refinementAnswer1,
-      refinementAnswer2
-    );
+    const refined = buildRefinedStatement(refineWho, refineResult, pathSlug);
     setSuggestedRefinement(refined);
+    setEditableRefinement(refined);
     onSave({ ...savedData, suggestedRefinement: refined });
   };
 
   const handleAcceptRefinement = () => {
+    const finalVersion = editableRefinement || suggestedRefinement;
     onSave({
       ...savedData,
-      editedStatement: suggestedRefinement,
+      editedStatement: finalVersion,
       suggestedRefinement: "",
+      userModified: true,
     });
     setSuggestedRefinement("");
+    setEditableRefinement("");
   };
 
-  // Auto-check completion
+  // Auto-check completion based on actual interaction
+  const userHasModified = !!savedData.userModified;
+  const statementHasContent = editedStatement.trim().length > 20;
+
   const autoChecks = {
-    selectedDraftCheck: selectedIndex !== undefined,
-    customizedStatement: !!(editedStatement.trim() && selectedIndex !== undefined && editedStatement !== drafts[selectedIndex]),
-    passesTest: !!(editedStatement.trim() && editedStatement.length > 30),
+    selectedDraftCheck: userHasModified && selectedIndex !== undefined,
+    customizedStatement: userHasModified && statementHasContent && selectedIndex !== undefined && editedStatement !== drafts[selectedIndex],
+    passesTest: userHasModified && statementHasContent && editedStatement.length > 30,
   };
 
   return (
@@ -308,41 +246,39 @@ export function PositioningEditor({
       {showRefinement && (
         <div className="rounded-xl border border-blair-sage/20 bg-blair-sage/5 p-6">
           <h4 className="font-serif text-lg text-blair-midnight">
-            Let&rsquo;s sharpen it
+            Let's sharpen it
           </h4>
           <p className="mt-1 text-sm text-blair-charcoal/50">
-            Answer these two questions, then click Refine to get a tighter version based on what you wrote.
+            Tell us who you help and what result you deliver. We'll combine them into a tighter version.
           </p>
 
           <div className="mt-5 space-y-5">
             <div>
               <label className="text-sm font-medium text-blair-midnight">
-                {refinementQuestions[0]}
+                Who do you help? Be specific about the type of person or company.
               </label>
-              <textarea
-                value={refinementAnswer1}
-                onChange={(e) =>
-                  handleChange("refinementAnswer1", e.target.value)
-                }
-                className="mt-2 h-24 w-full resize-none rounded-lg border border-blair-sage/20 bg-white px-4 py-3 text-sm leading-relaxed text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
-                placeholder="Think about a specific client or project..."
+              <input
+                type="text"
+                value={refineWho}
+                onChange={(e) => handleChange("refineWho", e.target.value)}
+                className="mt-2 w-full rounded-lg border border-blair-sage/20 bg-white px-4 py-3 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                placeholder="e.g., Series A SaaS startups, founder-led agencies, growth-stage B2B companies..."
               />
             </div>
             <div>
               <label className="text-sm font-medium text-blair-midnight">
-                {refinementQuestions[1]}
+                What result do you deliver? Think outcomes, not activities.
               </label>
-              <textarea
-                value={refinementAnswer2}
-                onChange={(e) =>
-                  handleChange("refinementAnswer2", e.target.value)
-                }
-                className="mt-2 h-24 w-full resize-none rounded-lg border border-blair-sage/20 bg-white px-4 py-3 text-sm leading-relaxed text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
-                placeholder="The result you're most confident about..."
+              <input
+                type="text"
+                value={refineResult}
+                onChange={(e) => handleChange("refineResult", e.target.value)}
+                className="mt-2 w-full rounded-lg border border-blair-sage/20 bg-white px-4 py-3 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                placeholder="e.g., build a repeatable pipeline, go from 0 to first 10 enterprise deals..."
               />
             </div>
 
-            {refinementAnswer1 && refinementAnswer2 && (
+            {refineWho && refineResult && (
               <button
                 onClick={handleRefine}
                 className="rounded-lg bg-blair-sage px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark"
@@ -354,22 +290,16 @@ export function PositioningEditor({
             {suggestedRefinement && (
               <div className="rounded-lg border-l-4 border-blair-sage bg-white p-4">
                 <p className="text-sm font-semibold text-blair-sage-dark">
-                  Suggested refinement
+                  Here's a tighter version
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/70">
-                  Based on your answers: you've worked with{" "}
-                  <span className="font-medium text-blair-midnight">
-                    {refinementAnswer1.split(/[.!?\n]/)[0]}
-                  </span>{" "}
-                  and you're most confident delivering{" "}
-                  <span className="font-medium text-blair-midnight">
-                    {refinementAnswer2.split(/[.!?\n]/)[0]}
-                  </span>
-                  . Here's a tighter version:
+                <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/60">
+                  We combined your inputs into the "I help [who] [achieve what] by [method]" format. Edit it below if you want to tweak anything.
                 </p>
-                <p className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 px-4 py-3 text-base leading-relaxed text-blair-midnight italic">
-                  {suggestedRefinement}
-                </p>
+                <textarea
+                  value={editableRefinement}
+                  onChange={(e) => setEditableRefinement(e.target.value)}
+                  className="mt-3 h-24 w-full resize-none rounded-lg border border-blair-sage/20 bg-blair-sage/5 px-4 py-3 text-base leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                />
                 <div className="mt-3 flex gap-3">
                   <button
                     onClick={handleAcceptRefinement}

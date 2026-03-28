@@ -205,16 +205,22 @@ export function BuyerProfileEditor({
   };
 
   // Auto-check completion
-  // Pre-populated fields should NOT auto-check until the user has modified something
+  // Only auto-check when the user has actually interacted with the fields
   const userHasModified = !!savedData.userModified;
-  const hasAnyPreFilled = Object.values(isPreFilled).some((v) => v);
-  const shouldAutoCheck = userHasModified || !hasAnyPreFilled;
+
+  // All 4 core fields have real content
+  const allFieldsFilled = !!(
+    buyerTitle.trim() &&
+    companyType.trim() &&
+    triggerEvents.some((t) => t.trim().length > 0) &&
+    budgetAuthority.length > 0
+  );
 
   const autoChecks = {
-    definedBuyer: shouldAutoCheck && !!buyerTitle.trim() && buyerTitle !== fallbackDefaults.buyerTitle,
-    identifiedTriggers: shouldAutoCheck && triggerEvents.some((t) => t.trim().length > 0),
-    knowWhereToFind: shouldAutoCheck && whereTheyHangOut.some((w) => w.trim().length > 0),
-    couldSpotThem: shouldAutoCheck && !!(buyerTitle.trim() && companyType.trim() && triggerEvents.some((t) => t.trim()) && whereTheyHangOut.some((w) => w.trim())),
+    definedBuyer: userHasModified && !!buyerTitle.trim() && buyerTitle !== fallbackDefaults.buyerTitle,
+    identifiedTriggers: userHasModified && triggerEvents.some((t) => t.trim().length > 0),
+    knowWhereToFind: userHasModified && whereTheyHangOut.some((w) => w.trim().length > 0),
+    couldSpotThem: userHasModified && allFieldsFilled,
   };
 
   return (

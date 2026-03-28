@@ -108,12 +108,12 @@ export function GutCheckEditor({
   };
 
   // Auto-check completion
-  const conversationsCount = contacts.filter(
-    (c) => c.status === "conversation-had" || c.status === "reached-out"
-  ).length;
+  // Check if at least 2 contacts have names filled in
+  const contactsWithNames = contacts.filter((c) => c.name.trim().length > 0).length;
   const autoChecks = {
-    conversationsHad: conversationsCount >= 2,
-    positioningConfirmed: !!(whatIHeard.trim() && whatIHeard.trim().length > 20),
+    conversationsHad: contactsWithNames >= 2,
+    // "Positioning confirmed" stays manual - don't auto-check
+    positioningConfirmed: false,
   };
 
   return (
