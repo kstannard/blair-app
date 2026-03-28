@@ -4,6 +4,8 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { TaskCard } from "@/components/playbook/TaskCard";
+import { PhaseComplete } from "@/components/playbook/PhaseComplete";
+import { SharePrompt } from "@/components/playbook/SharePrompt";
 
 export const metadata = {
   title: "Your Playbook - Blair",
@@ -74,6 +76,8 @@ export default async function PlaybookPage() {
   const progressPercent =
     totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
 
+  const allTasksComplete = totalTasks > 0 && completedCount === totalTasks;
+
   // Find in-progress task for resume banner
   const inProgressTask = phase1.tasks.find((t) => {
     const progress = progressMap.get(t.id);
@@ -82,6 +86,8 @@ export default async function PlaybookPage() {
 
   return (
     <div className="pb-20">
+      {allTasksComplete && <PhaseComplete />}
+
       {/* Path header */}
       <div className="pt-4 pb-2">
         <p className="text-xs font-medium uppercase tracking-widest text-blair-sage">
@@ -251,6 +257,13 @@ export default async function PlaybookPage() {
           Complete Phase 1 to unlock the next step.
         </p>
       </div>
+
+      {/* Share prompt */}
+      {!allTasksComplete && (
+        <div className="mt-10">
+          <SharePrompt />
+        </div>
+      )}
     </div>
   );
 }

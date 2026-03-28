@@ -89,20 +89,27 @@ model UserProfile {
 }
 
 model BusinessPath {
-  id                  String  @id @default(cuid())
-  slug                String  @unique
-  name                String
-  headline            String
-  description         String
-  whoThisIs           String
-  workMode            String
-  salesMotion         String
-  businessModel       String
-  incomeRangeLow      Int
-  incomeRangeHigh     Int
-  timelineMonths      Int
-  toolRecommendations String
-  order               Int     @default(0)
+  id                    String  @id @default(cuid())
+  slug                  String  @unique
+  name                  String
+  headline              String
+  description           String
+  whoThisIs             String
+  typicalBackground     String?
+  workMode              String
+  salesMotion           String
+  failureMode           String?
+  businessModel         String
+  incomeRangeLow        Int
+  incomeRangeHigh       Int
+  timelineMonths        Int
+  toolRecommendations   String
+  nicheExamples         String?
+  positioningTemplate   String?
+  buyerProfile          String?
+  outreachTemplate      String?
+  gutCheckQuestions     String?
+  order                 Int     @default(0)
 
   founderVideos       FounderVideo[]
   recommendationPaths RecommendationPath[]

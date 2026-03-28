@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display, Great_Vibes } from "next/font/google";
+import { DM_Sans, DM_Serif_Display, Mrs_Saint_Delafield } from "next/font/google";
 import { SessionProvider } from "@/components/shared/SessionProvider";
 import "./globals.css";
 
@@ -16,11 +16,10 @@ const dmSerifDisplay = DM_Serif_Display({
   display: "swap",
 });
 
-const greatVibes = Great_Vibes({
+const cursiveFont = Mrs_Saint_Delafield({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-cursive",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${dmSerifDisplay.variable} ${greatVibes.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${dmSerifDisplay.variable} ${cursiveFont.variable} h-full antialiased`}
     >
       <body className="min-h-full font-sans">
         <SessionProvider>{children}</SessionProvider>
