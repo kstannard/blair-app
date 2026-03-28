@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { TaskCard } from "@/components/playbook/TaskCard";
 import { PhaseComplete } from "@/components/playbook/PhaseComplete";
 import { SharePrompt } from "@/components/playbook/SharePrompt";
+import { WelcomeBack } from "@/components/playbook/WelcomeBack";
 
 export const metadata = {
   title: "Your Playbook - Blair",
@@ -96,9 +97,60 @@ export default async function PlaybookPage() {
     return progress?.status === "in_progress";
   });
 
+  // Find the last completed task and next incomplete task
+  const lastCompletedTask = [...activePhase.tasks]
+    .reverse()
+    .find((t) => progressMap.get(t.id)?.status === "done");
+
+  const nextIncompleteTask = activePhase.tasks.find((t) => {
+    const progress = progressMap.get(t.id);
+    return !progress || progress.status !== "done";
+  });
+
+  // Determine welcome-back state
+  const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+  const firstName = user?.name?.split(" ")[0] || "there";
+
+  let welcomeState: "in_progress" | "completed_task" | "not_started" | "all_done";
+  if (allTasksComplete) {
+    welcomeState = "all_done";
+  } else if (inProgressTask) {
+    welcomeState = "in_progress";
+  } else if (completedCount > 0 && nextIncompleteTask) {
+    welcomeState = "completed_task";
+  } else {
+    welcomeState = "not_started";
+  }
+
+  // Estimate days since last activity
+  const lastProgressUpdate = progressRecords.length > 0
+    ? Math.max(...progressRecords.map((p) => new Date(p.updatedAt).getTime()))
+    : null;
+  const daysSinceLastVisit = lastProgressUpdate
+    ? Math.floor((Date.now() - lastProgressUpdate) / (1000 * 60 * 60 * 24))
+    : undefined;
+
   return (
     <div className="mx-auto max-w-3xl pb-20">
       {allTasksComplete && <PhaseComplete />}
+
+      {/* Smart welcome back / resume card */}
+      {!allTasksComplete && (
+        <div className="pt-4">
+          <WelcomeBack
+            firstName={firstName}
+            state={welcomeState}
+            currentTaskTitle={inProgressTask?.title}
+            currentTaskSlug={inProgressTask?.slug}
+            nextTaskTitle={nextIncompleteTask?.title}
+            nextTaskSlug={nextIncompleteTask?.slug}
+            lastCompletedTaskTitle={lastCompletedTask?.title}
+            completedCount={completedCount}
+            totalTasks={totalTasks}
+            daysSinceLastVisit={daysSinceLastVisit}
+          />
+        </div>
+      )}
 
       {/* Path header */}
       <div className="pt-4 pb-2">
@@ -184,50 +236,6 @@ export default async function PlaybookPage() {
         </div>
       </div>
 
-      {/* Resume banner */}
-      {inProgressTask && (
-        <Link
-          href={`/playbook/${inProgressTask.slug}`}
-          className="mt-6 flex items-center gap-4 rounded-xl border border-blair-sage/20 bg-blair-sage/5 px-6 py-4 transition-colors hover:bg-blair-sage/10"
-        >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/15">
-            <svg
-              className="h-4 w-4 text-blair-sage-dark"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
-              />
-            </svg>
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-blair-sage-dark">
-              Resume where you left off
-            </p>
-            <p className="mt-0.5 text-sm text-blair-charcoal/50 truncate">
-              {inProgressTask.title}
-            </p>
-          </div>
-          <svg
-            className="h-5 w-5 shrink-0 text-blair-sage"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </Link>
-      )}
 
       {/* Task cards */}
       <div className="mt-8 space-y-3">
