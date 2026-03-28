@@ -18,6 +18,7 @@ export default async function AdminPage() {
         take: 1,
       },
       taskProgress: {
+        include: { task: true },
         orderBy: { updatedAt: "desc" },
       },
       quizSubmissions: {
@@ -43,6 +44,7 @@ export default async function AdminPage() {
               <th className="pb-3 pr-4">Primary Path</th>
               <th className="pb-3 pr-4">Status</th>
               <th className="pb-3 pr-4">Tasks</th>
+              <th className="pb-3 pr-4">Current Task</th>
               <th className="pb-3 pr-4">Last Active</th>
               <th className="pb-3 pr-4">Joined</th>
             </tr>
@@ -59,20 +61,27 @@ export default async function AdminPage() {
               const inProgressTasks = user.taskProgress.filter((t) => t.status === "in_progress").length;
               const totalTasks = user.taskProgress.length;
 
-              let status = "No playbook";
-              let statusColor = "text-gray-400";
+              const hasQuiz = user.quizSubmissions.length > 0;
+              const hasRec = !!rec && rec.status === "approved";
+              const hasConfirmedPath = !!rec?.confirmedPathId;
+
+              let status = "Purchased";
+              let statusColor = "bg-gray-100 text-gray-600";
               if (completedTasks > 0 && completedTasks === totalTasks && totalTasks > 0) {
-                status = "Phase complete";
-                statusColor = "text-green-600";
-              } else if (inProgressTasks > 0) {
+                status = "Phase 1 complete";
+                statusColor = "bg-green-100 text-green-700";
+              } else if (inProgressTasks > 0 || completedTasks > 0) {
                 status = "In progress";
-                statusColor = "text-blue-600";
-              } else if (completedTasks > 0) {
-                status = "In progress";
-                statusColor = "text-blue-600";
-              } else if (rec) {
-                status = "Has results";
-                statusColor = "text-amber-600";
+                statusColor = "bg-blue-100 text-blue-700";
+              } else if (hasConfirmedPath) {
+                status = "Playbook started";
+                statusColor = "bg-blue-50 text-blue-600";
+              } else if (hasRec) {
+                status = "Results ready";
+                statusColor = "bg-purple-100 text-purple-700";
+              } else if (hasQuiz) {
+                status = "Quiz submitted";
+                statusColor = "bg-amber-100 text-amber-700";
               }
 
               const lastActive = user.taskProgress.length > 0
@@ -99,10 +108,13 @@ export default async function AdminPage() {
                     )}
                   </td>
                   <td className="py-3 pr-4">
-                    <span className={`text-xs font-medium ${statusColor}`}>{status}</span>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColor}`}>{status}</span>
                   </td>
                   <td className="py-3 pr-4 text-gray-600">
                     {totalTasks > 0 ? `${completedTasks}/${totalTasks}` : "-"}
+                  </td>
+                  <td className="py-3 pr-4 text-xs text-gray-600">
+                    {user.taskProgress.find((t) => t.status === "in_progress")?.task?.title || "-"}
                   </td>
                   <td className="py-3 pr-4 text-gray-500 text-xs">
                     {formatDate(lastActive)}
