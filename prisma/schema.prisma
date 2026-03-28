@@ -47,6 +47,7 @@ model User {
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
+  referralCode  String?   @unique
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

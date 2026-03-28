@@ -10,6 +10,7 @@ import { PricingAndMath } from "@/components/results/PricingAndMath";
 import { FounderVideoEmbed } from "@/components/results/FounderVideoEmbed";
 import { ResultsPathChooser } from "@/components/results/ResultsPathChooser";
 import { ResultsReveal } from "@/components/results/ResultsReveal";
+import { ShareSection } from "@/components/results/ShareSection";
 
 export const metadata = {
   title: "Your Results - Blair",
@@ -130,6 +131,8 @@ export default async function ResultsPage() {
           />
         )}
       </ResultsReveal>
+
+      <ShareSection />
     </main>
   );
 }
