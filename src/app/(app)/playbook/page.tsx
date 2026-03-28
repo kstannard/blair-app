@@ -97,7 +97,7 @@ export default async function PlaybookPage() {
   });
 
   return (
-    <div className="pb-20">
+    <div className="mx-auto max-w-3xl pb-20">
       {allTasksComplete && <PhaseComplete />}
 
       {/* Path header */}
@@ -109,7 +109,7 @@ export default async function PlaybookPage() {
           {confirmedPath.name}
         </h1>
         {confirmedPath.description && (
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-blair-charcoal/70">
+          <p className="mt-4 text-base leading-relaxed text-blair-charcoal/70">
             {confirmedPath.description}
           </p>
         )}
@@ -120,7 +120,7 @@ export default async function PlaybookPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
           Your {phases.length}-Phase Roadmap
         </h2>
-        <div className="mt-4 grid max-w-2xl grid-cols-5 gap-0">
+        <div className="mt-4 grid grid-cols-5 gap-0">
           {phases.map((phase) => (
             <div key={phase.id} className="flex flex-col items-center text-center px-1">
               <div
@@ -144,7 +144,7 @@ export default async function PlaybookPage() {
             </div>
           ))}
         </div>
-        <div className="mt-6 max-w-2xl space-y-3 text-sm leading-relaxed text-blair-charcoal/50">
+        <div className="mt-6 space-y-3 text-sm leading-relaxed text-blair-charcoal/50">
           <p>
             We&apos;ve done a lot of the heavy lifting for you - we pre-filled as much as we could based on your quiz answers and publicly available information. Review and adjust anything that doesn&apos;t feel right.
           </p>
@@ -160,7 +160,7 @@ export default async function PlaybookPage() {
           Phase 1: {activePhase.name}
         </h2>
         {activePhase.description && (
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-blair-charcoal/60">
+          <p className="mt-3 text-base leading-relaxed text-blair-charcoal/60">
             {activePhase.description}
           </p>
         )}
