@@ -169,9 +169,9 @@ const STEPS: StepConfig[] = [
   },
   {
     key: "email",
-    question: "Where should we send your results?",
+    question: "Where should we send your unfair advantage?",
     subcopy:
-      "Enter your email to see your results.",
+      "Enter your email to see it now.",
     type: "email",
     placeholder: "you@email.com",
   },
@@ -578,14 +578,14 @@ export default function QuizPage() {
                   className="w-full border-b-2 border-blair-mist bg-transparent pb-3 text-2xl text-blair-midnight outline-none placeholder:text-blair-charcoal/20 focus:border-blair-sage transition-colors"
                 />
                 <p className="mt-3 text-xs text-blair-charcoal/30">
-                  No spam, ever. Just your results.
+                  No spam, ever.
                 </p>
                 <button
                   onClick={handleSubmit}
                   disabled={!canAdvance || isSubmitting}
                   className="mt-8 rounded-lg bg-blair-sage px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  Show me my results
+                  Reveal my unfair advantage
                 </button>
               </div>
             )}
