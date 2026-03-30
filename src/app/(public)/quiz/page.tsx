@@ -171,7 +171,7 @@ const STEPS: StepConfig[] = [
     key: "email",
     question: "Where should we send your results?",
     subcopy:
-      "Your unfair advantage is on us. See it now, no purchase required.",
+      "Enter your email to see your results.",
     type: "email",
     placeholder: "you@email.com",
   },
