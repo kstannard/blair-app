@@ -259,32 +259,22 @@ function ResultsContent() {
 
         {/* Personal note */}
         <div
-          className="mt-10 rounded-2xl border border-blair-mist bg-white p-6 sm:p-8 animate-in fade-in duration-700"
+          className="mt-12 border-t border-blair-mist pt-10 animate-in fade-in duration-700"
           style={{ animationDelay: "1300ms", animationFillMode: "both" }}
         >
-          <div className="flex items-start gap-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 font-serif text-lg text-blair-sage">
-              K
-            </div>
-            <div>
-              <p className="text-sm font-medium text-blair-midnight">
-                Hey {name}, I&apos;m Kristin.
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/60">
-                I built Blair because I spent 3 years stuck in the same place
-                you might be right now. Mom of 3, 15+ years in tech, researched
-                every side business imaginable, built nothing. If you have
-                questions about whether this is right for you, I&apos;m a real
-                person and I&apos;m happy to talk.
-              </p>
-              <a
-                href="mailto:kristin@hiblair.com"
-                className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-blair-sage-dark transition-colors hover:text-blair-sage"
-              >
-                kristin@hiblair.com
-              </a>
-            </div>
-          </div>
+          <p className="text-sm leading-relaxed text-blair-charcoal/50">
+            I&apos;m Kristin. Mom of 3, 15+ years in tech. I spent years stuck
+            in the same place you might be right now, researching every side
+            business imaginable and building nothing. If you have questions
+            about whether this is right for you, I&apos;m happy to
+            talk: {" "}
+            <a
+              href="mailto:kristin@hiblair.com"
+              className="font-medium text-blair-sage-dark transition-colors hover:text-blair-sage"
+            >
+              kristin@hiblair.com
+            </a>
+          </p>
         </div>
 
         {/* Already have an account */}

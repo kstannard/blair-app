@@ -171,7 +171,7 @@ const STEPS: StepConfig[] = [
     key: "email",
     question: "Where should we send your results?",
     subcopy:
-      "We'll reveal your unfair advantage for free. Your full personalized business path and playbook are available inside Blair.",
+      "Your unfair advantage is on us. See it now, no purchase required.",
     type: "email",
     placeholder: "you@email.com",
   },
