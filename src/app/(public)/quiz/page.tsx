@@ -171,7 +171,7 @@ const STEPS: StepConfig[] = [
     key: "email",
     question: "Where should we send your results?",
     subcopy:
-      "We'll show you your unfair advantage and what it means for building a business.",
+      "We'll reveal your unfair advantage for free. Your full personalized business path and playbook are available inside Blair.",
     type: "email",
     placeholder: "you@email.com",
   },
@@ -590,7 +590,7 @@ export default function QuizPage() {
               </div>
             )}
 
-            {/* Single select */}
+            {/* Single select (radio circles) */}
             {currentStep.type === "single" && (
               <div className="space-y-2.5">
                 {currentStep.options?.map((option) => {
@@ -600,12 +600,18 @@ export default function QuizPage() {
                       key={option.label}
                       onClick={() => handleSingleSelect(option.label)}
                       className={cn(
-                        "w-full rounded-xl border px-5 py-4 text-left text-sm leading-relaxed transition-all",
+                        "w-full rounded-xl border px-5 py-4 text-left text-sm leading-relaxed transition-all flex items-center gap-3",
                         isSelected
                           ? "border-blair-sage bg-blair-sage/10 text-blair-midnight"
                           : "border-blair-mist bg-white text-blair-charcoal/80 hover:border-blair-sage/40"
                       )}
                     >
+                      <div className={cn(
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                        isSelected ? "border-blair-sage bg-blair-sage" : "border-blair-charcoal/20"
+                      )}>
+                        {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
+                      </div>
                       {option.label}
                     </button>
                   );
@@ -613,7 +619,7 @@ export default function QuizPage() {
               </div>
             )}
 
-            {/* Multi select */}
+            {/* Multi select (checkboxes) */}
             {currentStep.type === "multi" && (
               <div>
                 <div className="space-y-2.5">
@@ -625,12 +631,23 @@ export default function QuizPage() {
                         key={option.label}
                         onClick={() => handleMultiSelect(option.label)}
                         className={cn(
-                          "w-full rounded-xl border px-5 py-4 text-left transition-all",
+                          "w-full rounded-xl border px-5 py-4 text-left transition-all flex items-start gap-3",
                           isSelected
                             ? "border-blair-sage bg-blair-sage/10"
                             : "border-blair-mist bg-white hover:border-blair-sage/40"
                         )}
                       >
+                        <div className={cn(
+                          "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors",
+                          isSelected ? "border-blair-sage bg-blair-sage" : "border-blair-charcoal/20"
+                        )}>
+                          {isSelected && (
+                            <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                          )}
+                        </div>
+                        <div>
                         <span
                           className={cn(
                             "text-sm font-medium leading-relaxed",
@@ -649,6 +666,7 @@ export default function QuizPage() {
                             {option.description}
                           </span>
                         )}
+                        </div>
                       </button>
                     );
                   })}
