@@ -80,6 +80,44 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Add to Kit (ConvertKit) with mini-quiz tag
+    const kitApiKey = process.env.KIT_API_KEY;
+    if (kitApiKey) {
+      try {
+        // Create/upsert subscriber
+        await fetch("https://api.kit.com/v4/subscribers", {
+          method: "POST",
+          headers: {
+            "X-Kit-Api-Key": kitApiKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email_address: email,
+            first_name: name || undefined,
+            fields: {
+              Role: role || undefined,
+              "Years experience": years || undefined,
+            },
+          }),
+        });
+
+        // Tag with "mini-quiz" (tag ID: 18335026)
+        await fetch("https://api.kit.com/v4/tags/18335026/subscribers", {
+          method: "POST",
+          headers: {
+            "X-Kit-Api-Key": kitApiKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email_address: email }),
+        });
+
+        console.log(`Kit: subscriber added and tagged: ${email}`);
+      } catch (kitError) {
+        // Don't fail the quiz submission if Kit fails
+        console.error("Kit API error (non-blocking):", kitError);
+      }
+    }
+
     console.log(
       `Mini quiz submitted: ${email} (user: ${user.id}) -> ${advantage.name}`
     );
