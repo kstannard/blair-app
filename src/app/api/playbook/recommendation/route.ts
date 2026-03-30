@@ -25,6 +25,13 @@ export async function GET() {
     where: { userId: session.user.id },
   });
 
+  // Fetch quiz answers for company size data
+  const quizSubmission = await prisma.quizSubmission.findFirst({
+    where: { userId: session.user.id },
+    orderBy: { submittedAt: "desc" },
+    select: { parsedAnswers: true },
+  });
+
   if (!recommendation) {
     return NextResponse.json({
       id: null,
@@ -79,5 +86,41 @@ export async function GET() {
           notableExperience: userProfile.notableExperience,
         }
       : null,
+    quizContext: (() => {
+      if (!quizSubmission?.parsedAnswers) return null;
+      try {
+        const parsed = JSON.parse(quizSubmission.parsedAnswers);
+        return {
+          role: parsed.Q2_role || null,
+          years: parsed.Q3_years || null,
+          companySize: parsed.Q4_company_size || null,
+          industries: parsed.Q5_industries || null,
+          businessModels: parsed.Q6_business_models || null,
+          shoulderTap: parsed.Q7_shoulder_tap || null,
+          weirdlyGood: parsed.Q8_weirdly_good || null,
+          managingComfort: parsed.Q9_managing || null,
+          workMode: parsed.Q10_work_mode || null,
+          energyDrains: parsed.Q11_energy_drains || null,
+          sameOrDifferent: parsed.Q12_same_or_different || null,
+          blocker: parsed.Q13_blocker || null,
+          interests: parsed.Q14_interests || null,
+          bestScenario: parsed.Q15_scenario || null,
+          successGoal: parsed.Q16_success || null,
+          whatToAvoid: parsed.Q17_avoid || null,
+          incomeTimeline: parsed.Q18_income_timeline || null,
+          zeroIncomeImpact: parsed.Q19_zero_income || null,
+          liquidCapital: parsed.Q20_capital || null,
+          borrowingComfort: parsed.Q21_borrowing || null,
+          networkContacts: parsed.Q22_network || null,
+          outreachComfort: parsed.Q23_outreach || null,
+          publicVisibility: parsed.Q24_visibility || null,
+          weeklyTime: parsed.Q25_time || null,
+          workingConditions: parsed.Q26_conditions || null,
+          kidsAges: parsed.Q27_kids_ages || null,
+        };
+      } catch {
+        return null;
+      }
+    })(),
   });
 }

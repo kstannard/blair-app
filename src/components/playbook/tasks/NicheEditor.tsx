@@ -134,8 +134,23 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
     }
   }, [recommendationData, step1Items.length, onSave, savedData]);
 
-  // Get suggestions for step 3
-  const payForSuggestions = pathPayForSuggestions[pathSlug] || defaultPayForSuggestions;
+  // Build step 3 options from step 2 selections + path-level suggestions
+  const selectedStep2Items = step2Selections.map((i) => step1Items[i]).filter(Boolean);
+  const pathSuggestions = pathPayForSuggestions[pathSlug] || defaultPayForSuggestions;
+
+  // Combine: user's selected problems reframed as services, plus path defaults
+  const payForSuggestions = (() => {
+    if (selectedStep2Items.length === 0) return pathSuggestions;
+
+    // Turn selected step 2 items into "what companies pay for" framing
+    const fromSelections = selectedStep2Items.map((item) => ({
+      title: item,
+      description: "Based on what you selected as energizing work.",
+    }));
+
+    // Combine: user-derived first, then path defaults they haven't seen
+    return [...fromSelections, ...pathSuggestions];
+  })();
 
   // Handlers
   const handleRemoveChip = (index: number) => {
@@ -168,6 +183,21 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
       e.preventDefault();
       handleAddItem();
     }
+  };
+
+  const handleEditChip = (index: number, newText: string) => {
+    const trimmed = newText.trim();
+    if (!trimmed) {
+      handleRemoveChip(index);
+      return;
+    }
+    const updated = [...step1Items];
+    updated[index] = trimmed;
+    onSave({
+      ...savedData,
+      step1Items: updated,
+      step1Interacted: true,
+    });
   };
 
   const handleToggleStep2 = (index: number) => {
@@ -249,24 +279,35 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
               <div className="flex-1 rounded-xl border border-blair-mist bg-white p-6">
                 <div className="mb-1 flex items-baseline justify-between gap-4">
                   <h4 className="text-base font-semibold text-blair-midnight">
-                    What you've done
+                    Problems you&apos;ve solved
                   </h4>
                   <span className="shrink-0 text-xs font-medium text-blair-charcoal/30 uppercase tracking-wide">
                     Broad
                   </span>
                 </div>
                 <p className="mb-4 text-sm leading-relaxed text-blair-charcoal/60">
-                  Here's what we found from your background. Add anything we missed.
+                  Based on your background, these are problems we think you may have solved. Edit, remove, or add anything we missed.
                 </p>
 
-                {/* Chips */}
-                <div className="flex flex-wrap gap-2">
+                {/* Editable chips */}
+                <div className="space-y-2">
                   {step1Items.map((item, i) => (
                     <div
                       key={i}
                       className="group flex items-center gap-2 rounded-lg border border-blair-mist bg-blair-linen/50 px-3 py-2 text-sm text-blair-charcoal transition-all hover:border-blair-charcoal/20"
                     >
-                      <span className="leading-snug">{item}</span>
+                      <input
+                        type="text"
+                        defaultValue={item}
+                        onBlur={(e) => handleEditChip(i, e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            (e.target as HTMLInputElement).blur();
+                          }
+                        }}
+                        className="flex-1 bg-transparent leading-snug text-blair-charcoal outline-none placeholder:text-blair-charcoal/30"
+                      />
                       <button
                         onClick={() => handleRemoveChip(i)}
                         className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-blair-charcoal/30 transition-colors hover:bg-blair-charcoal/10 hover:text-blair-charcoal/60"
@@ -302,36 +343,43 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                   </button>
                 </div>
 
-                {/* AI action buttons */}
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <RefineButton
-                    label="Sharpen this"
-                    taskType="niche-editor"
-                    action="sharpen"
-                    fieldName="step1Items"
-                    currentValue={step1Items.join(", ")}
-                    context={{ pathSlug }}
-                    onResult={(result) => setRefineSuggestion(result)}
-                  />
-                  <RefineButton
-                    label="Get more specific"
-                    taskType="niche-editor"
-                    action="get-specific"
-                    fieldName="step1Items"
-                    currentValue={step1Items.join(", ")}
-                    context={{ pathSlug }}
-                    onResult={(result) => setRefineSuggestion(result)}
-                  />
-                  <RefineButton
-                    label="Show me an example"
-                    taskType="niche-editor"
-                    action="example"
-                    fieldName="step1Items"
-                    currentValue={step1Items.join(", ")}
-                    context={{ pathSlug }}
-                    onResult={(result) => setRefineSuggestion(result)}
-                  />
-                </div>
+                {/* AI help */}
+                {step1Items.length > 0 && (
+                  <div className="mt-4 border-t border-blair-mist/60 pt-3">
+                    <p className="mb-2 text-xs text-blair-charcoal/40">
+                      Need help with your list?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <RefineButton
+                        label="Sharpen these"
+                        taskType="niche-editor"
+                        action="sharpen"
+                        fieldName="step1Items"
+                        currentValue={step1Items.join(", ")}
+                        context={{ pathSlug }}
+                        onResult={(result) => setRefineSuggestion(result)}
+                      />
+                      <RefineButton
+                        label="Make them more specific"
+                        taskType="niche-editor"
+                        action="get-specific"
+                        fieldName="step1Items"
+                        currentValue={step1Items.join(", ")}
+                        context={{ pathSlug }}
+                        onResult={(result) => setRefineSuggestion(result)}
+                      />
+                      <RefineButton
+                        label="Show me an example"
+                        taskType="niche-editor"
+                        action="example"
+                        fieldName="step1Items"
+                        currentValue={step1Items.join(", ")}
+                        context={{ pathSlug }}
+                        onResult={(result) => setRefineSuggestion(result)}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* Inline suggestion */}
                 {refineSuggestion && (
@@ -425,7 +473,7 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                   </span>
                 </div>
                 <p className="mb-4 text-sm leading-relaxed text-blair-charcoal/60">
-                  Based on what energizes you, here's what companies actually hire for. Pick what fits.
+                  Based on what energizes you, here are problems companies actually pay to solve. Pick 1-2 that feel like the best fit.
                 </p>
 
                 {step2Selections.length === 0 ? (

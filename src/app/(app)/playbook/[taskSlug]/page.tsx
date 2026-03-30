@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTaskProgress } from "@/lib/hooks/useTaskProgress";
 import { HelpPanel } from "@/components/playbook/HelpPanel";
 import { StepNav } from "@/components/playbook/StepNav";
+import { CompletionAnimation } from "@/components/playbook/CompletionAnimation";
 import { NicheEditor } from "@/components/playbook/tasks/NicheEditor";
 import { PositioningEditor } from "@/components/playbook/tasks/PositioningEditor";
 import { BuyerProfileEditor } from "@/components/playbook/tasks/BuyerProfileEditor";
@@ -40,6 +41,34 @@ interface RecommendationData {
     linkedinSummary: string | null;
     notableExperience: string | null;
   } | null;
+  quizContext: {
+    role: string | null;
+    years: string | null;
+    companySize: string | null;
+    industries: string | null;
+    businessModels: string | null;
+    shoulderTap: string | null;
+    weirdlyGood: string | null;
+    managingComfort: string | null;
+    workMode: string | null;
+    energyDrains: string | null;
+    sameOrDifferent: string | null;
+    blocker: string | null;
+    interests: string | null;
+    bestScenario: string | null;
+    successGoal: string | null;
+    whatToAvoid: string | null;
+    incomeTimeline: string | null;
+    zeroIncomeImpact: string | null;
+    liquidCapital: string | null;
+    borrowingComfort: string | null;
+    networkContacts: string | null;
+    outreachComfort: string | null;
+    publicVisibility: string | null;
+    weeklyTime: string | null;
+    workingConditions: string | null;
+    kidsAges: string | null;
+  } | null;
 }
 
 function useRecommendation() {
@@ -59,6 +88,22 @@ function useRecommendation() {
   return { recommendation: data, recommendationLoading: loading };
 }
 
+// Fetch another task's saved data (for cross-task personalization)
+function useCrossTaskData(taskType: string) {
+  const [data, setData] = useState<Record<string, unknown> | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/playbook/${taskType}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.progress?.savedData) setData(json.progress.savedData);
+      })
+      .catch(() => {});
+  }, [taskType]);
+
+  return data;
+}
+
 const saveStatusLabels: Record<string, { text: string; color: string }> = {
   saved: { text: "Saved", color: "text-blair-charcoal/30" },
   saving: { text: "Saving...", color: "text-blair-sage" },
@@ -68,7 +113,9 @@ const saveStatusLabels: Record<string, { text: string; color: string }> = {
 
 export default function TaskWorkspacePage() {
   const params = useParams();
+  const router = useRouter();
   const taskSlug = params.taskSlug as string;
+  const [showCompletion, setShowCompletion] = useState(false);
   const {
     task,
     progress,
@@ -85,6 +132,23 @@ export default function TaskWorkspacePage() {
   } = useTaskProgress(taskSlug);
 
   const { recommendation } = useRecommendation();
+  const nicheData = useCrossTaskData("niche-editor");
+
+  // Reset completion overlay when navigating between tasks
+  useEffect(() => {
+    setShowCompletion(false);
+  }, [taskSlug]);
+
+  const handleMarkComplete = useCallback(() => {
+    markComplete();
+    setShowCompletion(true);
+  }, [markComplete]);
+
+  const handleAutoAdvance = useCallback(() => {
+    if (nextTask) {
+      router.push(`/playbook/${nextTask.slug}`);
+    }
+  }, [nextTask, router]);
 
   if (isLoading) {
     return (
@@ -140,6 +204,8 @@ export default function TaskWorkspacePage() {
           <PositioningEditor
             pathSlug={confirmedPathSlug}
             userProfile={recommendation?.userProfile || null}
+            nicheData={nicheData}
+            quizContext={recommendation?.quizContext || null}
             savedData={savedData}
             onSave={handleSave}
           />
@@ -226,9 +292,17 @@ export default function TaskWorkspacePage() {
       <StepNav
         previousTask={previousTask}
         nextTask={nextTask}
-        onMarkComplete={markComplete}
+        onMarkComplete={handleMarkComplete}
         onUndoComplete={undoComplete}
         isComplete={isComplete}
+      />
+
+      {/* Confetti + quip overlay */}
+      <CompletionAnimation
+        show={showCompletion}
+        isLastTask={!nextTask}
+        nextTaskSlug={nextTask?.slug}
+        onAutoAdvance={handleAutoAdvance}
       />
     </div>
   );

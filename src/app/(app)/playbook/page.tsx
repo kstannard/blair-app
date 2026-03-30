@@ -172,9 +172,9 @@ export default async function PlaybookPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
           Your {phases.length}-Phase Roadmap
         </h2>
-        <div className="mt-4 grid grid-cols-5 gap-0">
+        <div className="mt-4 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-5 sm:gap-0 sm:overflow-visible sm:pb-0">
           {phases.map((phase) => (
-            <div key={phase.id} className="flex flex-col items-center text-center px-1">
+            <div key={phase.id} className="flex shrink-0 flex-col items-center text-center px-2 sm:px-1" style={{ minWidth: "4.5rem" }}>
               <div
                 className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
                   phase.order === 1
@@ -195,14 +195,6 @@ export default async function PlaybookPage() {
               </p>
             </div>
           ))}
-        </div>
-        <div className="mt-6 space-y-3 text-sm leading-relaxed text-blair-charcoal/50">
-          <p>
-            We&apos;ve done a lot of the heavy lifting for you - we pre-filled as much as we could based on your quiz answers and publicly available information. Review and adjust anything that doesn&apos;t feel right.
-          </p>
-          <p>
-            Work at your own pace. Life will happen - a kid gets sick, work implodes, the two hours you carved out disappear. What matters is doing the work, not doing it on schedule.
-          </p>
         </div>
       </div>
 

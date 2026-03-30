@@ -1,92 +1,343 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { RefineButton } from "@/components/playbook/RefineButton";
 
+interface UserProfile {
+  traits?: string;
+  strengths?: string;
+  constraints?: string;
+  linkedinSummary?: string | null;
+  notableExperience?: string | null;
+  summary?: string | null;
+  unfairAdvantageDescription?: string | null;
+}
+
+interface QuizContext {
+  role: string | null;
+  years: string | null;
+  companySize: string | null;
+  industries: string | null;
+  businessModels: string | null;
+  shoulderTap: string | null;
+  weirdlyGood: string | null;
+  managingComfort: string | null;
+  workMode: string | null;
+  energyDrains: string | null;
+  sameOrDifferent: string | null;
+  blocker: string | null;
+  interests: string | null;
+  bestScenario: string | null;
+  successGoal: string | null;
+  whatToAvoid: string | null;
+  incomeTimeline: string | null;
+  zeroIncomeImpact: string | null;
+  liquidCapital: string | null;
+  borrowingComfort: string | null;
+  networkContacts: string | null;
+  outreachComfort: string | null;
+  publicVisibility: string | null;
+  weeklyTime: string | null;
+  workingConditions: string | null;
+  kidsAges: string | null;
+}
+
 interface PositioningEditorProps {
   pathSlug: string;
-  userProfile: {
-    traits?: string;
-    strengths?: string;
-    constraints?: string;
-  } | null;
+  userProfile: UserProfile | null;
+  nicheData: Record<string, unknown> | null;
+  quizContext: QuizContext | null;
   savedData: Record<string, unknown>;
   onSave: (data: Record<string, unknown>) => void;
 }
 
-const positioningDrafts: Record<string, string[]> = {
-  "gtm-growth-strategist": [
-    "I help B2B SaaS startups build their first enterprise sales motion - from ICP definition to outbound playbook to closed deals.",
-    "I run focused GTM sprints for growth-stage companies entering new markets. Strategy, channel design, and launch execution in 8 weeks.",
-    "I help Series A and B companies figure out why their pipeline isn't converting and build the system to fix it.",
-  ],
-  "messaging-positioning": [
-    "I help growing companies figure out what they actually are, who they're for, and how to say it so people pay attention.",
-    "I run brand positioning sprints for agencies and their clients - from audit to one-liner to full messaging framework in 3 weeks.",
-    "I help founders and creative businesses turn what they do into language that makes the right people lean in.",
-  ],
-  "fractional-cmo": [
-    "I step in as the strategic marketing leader for growth-stage companies that aren't ready for a full-time CMO but can't afford to wing it.",
-    "I build and lead marketing teams for Series A-B companies - setting strategy, hiring the right people, and building systems that outlast my engagement.",
-    "I help founder-led companies go from random acts of marketing to a real growth engine, without the $300K full-time hire.",
-  ],
-  "content-thought-leadership": [
-    "I build thought leadership engines for founders and executives who have important ideas but no time to write. Strategy, ghostwriting, and distribution in one engagement.",
-    "I help B2B companies turn their expertise into content that generates inbound leads - not just vanity metrics. Full-stack content strategy and execution.",
-    "I create content systems for companies that know they should be publishing but haven't figured out how to do it consistently or strategically.",
-  ],
-  "revenue-operations": [
-    "I design the revenue infrastructure that high-growth companies need but rarely build - from CRM architecture to pipeline analytics to process automation.",
-    "I help sales-led companies stop leaving money on the table by fixing the operational gaps between marketing, sales, and customer success.",
-    "I build RevOps systems for scaling companies, turning messy data and ad-hoc processes into a revenue engine that leadership can actually trust.",
-  ],
+// Path display names and core methods
+const pathInfo: Record<string, { name: string; method: string; buyer: string }> = {
+  "fractional-operator": {
+    name: "Fractional Operator",
+    method: "embedding inside teams as a senior operator who builds systems that outlast the engagement",
+    buyer: "growth-stage companies",
+  },
+  "messaging-positioning": {
+    name: "Messaging & Positioning Specialist",
+    method: "running focused positioning sprints that turn confused brands into clear stories",
+    buyer: "companies going through a rebrand, launch, or pivot",
+  },
+  "gtm-growth-strategist": {
+    name: "GTM & Growth Strategist",
+    method: "building focused go-to-market playbooks and launch sprints",
+    buyer: "B2B companies entering new markets or scaling past founder-led sales",
+  },
+  "automation-systems-builder": {
+    name: "Automation & Systems Builder",
+    method: "designing and building the operational infrastructure that lets teams scale without hiring",
+    buyer: "growing companies drowning in manual processes",
+  },
+  "content-engine-operator": {
+    name: "Content Engine Operator",
+    method: "building content systems that turn expertise into consistent, strategic distribution",
+    buyer: "founders and companies that know they should be publishing but can't do it consistently",
+  },
+  "lead-gen-operator": {
+    name: "Lead Gen Operator",
+    method: "building and managing lead generation engines tied to real pipeline and ROI",
+    buyer: "B2B companies that need a steady flow of qualified leads",
+  },
+  "studio-builder": {
+    name: "Studio Builder",
+    method: "packaging expertise into repeatable products and systems that sell without trading hours for dollars",
+    buyer: "professionals and companies looking to productize their knowledge",
+  },
+  "niche-talent-placement": {
+    name: "Niche Talent & Placement Operator",
+    method: "matching specialized talent with the right opportunities through deep industry knowledge",
+    buyer: "companies that need niche hires they can't find through traditional recruiting",
+  },
+  "investor-operator": {
+    name: "Investor-Operator",
+    method: "bringing operational expertise and strategic oversight to portfolio companies",
+    buyer: "early-stage companies and investment firms",
+  },
 };
 
-const defaultDrafts = [
-  "I help [type of company] solve [specific problem] by bringing [your unique approach] to deliver [measurable outcome].",
-  "I work with [audience] who are struggling with [challenge]. I bring [time frame] engagements that turn [current state] into [desired state].",
-  "I'm the outside expert that [type of company] brings in when they need [specific result] but don't have the in-house expertise to get there.",
-];
+function parseNotableExperience(raw: string | null | undefined): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed.filter(Boolean);
+  } catch {
+    // Not JSON, try splitting by newlines
+    return raw.split(/\n/).map((l) => l.replace(/^[-*]\s*/, "").trim()).filter(Boolean);
+  }
+  return [];
+}
 
-const pathMethods: Record<string, string> = {
-  "gtm-growth-strategist": "building focused go-to-market playbooks and launch sprints",
-  "messaging-positioning": "running brand positioning sprints that turn confusion into clarity",
-  "fractional-cmo": "stepping in as a hands-on marketing leader who builds systems that last",
-  "content-thought-leadership": "creating content engines that turn expertise into inbound leads",
-  "revenue-operations": "designing the revenue infrastructure that ties marketing, sales, and CS together",
+// Map quiz answers to readable labels for positioning drafts
+const companySizeLabels: Record<string, string> = {
+  "Early startup (0-20 people)": "early-stage startups",
+  "Growing company (21-200 people)": "growing companies",
+  "Mid-size company (201-1000 people)": "mid-size companies",
+  "Enterprise (1001-10000 people)": "enterprise companies",
+  "Global enterprise (10001+ people)": "large enterprise organizations",
 };
+
+const industryLabels: Record<string, string> = {
+  "Education & Learning": "education",
+  "Energy & Utilities": "energy",
+  "Financial Services & Insurance": "financial services",
+  "Healthcare & Life Sciences": "healthcare",
+  "Manufacturing & Industrial": "manufacturing",
+  "Media & Marketing & Advertising": "media and marketing",
+  "Public Sector & Government": "public sector",
+  "Real Estate & Construction": "real estate",
+  "Retail & Ecommerce": "retail and ecommerce",
+  "Transportation & Logistics & Supply Chain": "logistics",
+};
+
+const businessModelLabels: Record<string, string> = {
+  "B2B software / SaaS": "B2B SaaS",
+  "B2C software / consumer apps": "B2C",
+  "E-commerce or DTC": "ecommerce and DTC",
+  "Marketplaces or platforms": "marketplace",
+  "Services & consulting": "services",
+  "Media / content / community": "media and content",
+  "Traditional / cash flow businesses (brick & mortar or local services)": "local and traditional businesses",
+};
+
+function parseQuizArray(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed;
+  } catch {
+    // Might be a single value
+    return [raw];
+  }
+  return [raw];
+}
+
+function generatePersonalizedDrafts(
+  pathSlug: string,
+  profile: UserProfile | null,
+  nicheData: Record<string, unknown> | null,
+  quizContext: QuizContext | null
+): string[] {
+  const info = pathInfo[pathSlug] || {
+    name: "consultant",
+    method: "focused, hands-on engagements",
+    buyer: "companies",
+  };
+
+  // Extract what we know about the user
+  const experience = parseNotableExperience(profile?.notableExperience);
+  const linkedin = profile?.linkedinSummary || "";
+
+  // Get niche selections if available
+  const nicheItems = (nicheData?.step1Items as string[]) || [];
+  const step2Selections = (nicheData?.step2Selections as number[]) || [];
+  const energizingItems = step2Selections.map((i) => nicheItems[i]).filter(Boolean);
+
+  // --- Quiz-based signals (primary source) ---
+  const quizCompanySizes = parseQuizArray(quizContext?.companySize ?? null);
+  const quizIndustries = parseQuizArray(quizContext?.industries ?? null);
+  const quizBusinessModels = parseQuizArray(quizContext?.businessModels ?? null);
+
+  // Build company stage descriptor from quiz
+  let stageHint = "";
+  if (quizCompanySizes.length > 0) {
+    // Use the first (or most common) answer
+    const primary = quizCompanySizes[0];
+    stageHint = companySizeLabels[primary] || "";
+  }
+
+  // Build industry descriptor from quiz
+  let industryHint = "";
+  if (quizIndustries.length > 0) {
+    const mapped = quizIndustries
+      .map((i) => industryLabels[i])
+      .filter(Boolean);
+    if (mapped.length === 1) {
+      industryHint = mapped[0];
+    } else if (mapped.length >= 2) {
+      industryHint = `${mapped[0]} and ${mapped[1]}`;
+    }
+  }
+
+  // Build business model descriptor from quiz
+  let modelHint = "";
+  if (quizBusinessModels.length > 0) {
+    const mapped = quizBusinessModels
+      .map((m) => businessModelLabels[m])
+      .filter(Boolean);
+    if (mapped.length >= 1) {
+      modelHint = mapped[0];
+    }
+  }
+
+  // --- Fallback: text analysis from profile (for seed/demo users without quiz data) ---
+  if (!industryHint && !modelHint) {
+    const allText = [...experience, linkedin].join(" ").toLowerCase();
+    const fallbackIndustries = [
+      { keywords: ["saas", "software", "tech", "product"], label: "SaaS" },
+      { keywords: ["fintech", "payments", "banking"], label: "fintech" },
+      { keywords: ["healthcare", "health", "medical", "wellness"], label: "healthcare" },
+      { keywords: ["retail", "ecommerce", "e-commerce"], label: "ecommerce" },
+      { keywords: ["agency", "agencies", "creative", "brand"], label: "agency" },
+      { keywords: ["b2b", "enterprise", "sales"], label: "B2B" },
+      { keywords: ["media", "content", "publishing"], label: "media" },
+    ];
+    for (const { keywords, label } of fallbackIndustries) {
+      if (keywords.some((k) => allText.includes(k))) {
+        industryHint = label;
+        break;
+      }
+    }
+  }
+  if (!stageHint) {
+    const allText = [...experience, linkedin].join(" ").toLowerCase();
+    const fallbackStages = [
+      { keywords: ["series a", "series b", "venture-backed"], label: "venture-backed" },
+      { keywords: ["growth-stage", "scaling"], label: "growth-stage" },
+      { keywords: ["startup", "early-stage"], label: "early-stage" },
+      { keywords: ["enterprise", "fortune 500"], label: "enterprise" },
+    ];
+    for (const { keywords, label } of fallbackStages) {
+      if (keywords.some((k) => allText.includes(k))) {
+        stageHint = label;
+        break;
+      }
+    }
+  }
+
+  // --- Build audience descriptor ---
+  // Priority: model + stage > industry + stage > stage alone > path default
+  function buildAudience(): string {
+    const parts: string[] = [];
+    if (stageHint) parts.push(stageHint);
+    if (modelHint) {
+      parts.push(`${modelHint} companies`);
+    } else if (industryHint) {
+      parts.push(`${industryHint} companies`);
+    } else {
+      parts.push("companies");
+    }
+    // Join: "growing B2B SaaS companies" or "early-stage healthcare companies"
+    return parts.join(" ");
+  }
+
+  const audience = buildAudience();
+  const topEnergizing = energizingItems.slice(0, 2);
+  const topExperience = experience.slice(0, 3);
+
+  // --- Build two personalized drafts ---
+  const drafts: string[] = [];
+
+  // Draft 1: Grounded in their experience/niche
+  if (topEnergizing.length > 0) {
+    const focus = topEnergizing[0].toLowerCase();
+    drafts.push(
+      `I help ${audience} ${focus} by ${info.method}.`
+    );
+  } else if (topExperience.length > 0) {
+    const skill = topExperience[0];
+    // Clean up the skill for natural reading
+    const cleanSkill = skill.toLowerCase().replace(/^(led|built|created|designed|developed)\s+/i, "");
+    drafts.push(
+      `I help ${audience} with ${cleanSkill} by ${info.method}.`
+    );
+  } else {
+    drafts.push(
+      `I help ${audience} get results by ${info.method}.`
+    );
+  }
+
+  // Draft 2: Different structure, outcome-focused
+  const hasContext = topExperience.length > 0 || industryHint || modelHint;
+  if (hasContext) {
+    drafts.push(
+      `I'm the outside expert that ${audience} bring in when they need ${info.method} but don't have the in-house expertise to get there.`
+    );
+  } else {
+    drafts.push(
+      `I work with ${audience} who need ${info.method} but aren't ready for a full-time hire. I bring focused engagements that deliver results in weeks, not quarters.`
+    );
+  }
+
+  // Clean up: capitalize first letter after "I help", remove double spaces
+  return drafts.map((d) => d.replace(/\s+/g, " ").trim());
+}
 
 function buildRefinedStatement(whoInput: string, whatResultInput: string, pathSlug: string): string {
   const who = whoInput.trim() || "companies";
   const result = whatResultInput.trim() || "achieve their goals";
-  const method = pathMethods[pathSlug] || "focused, hands-on engagements";
+  const info = pathInfo[pathSlug];
+  const method = info?.method || "focused, hands-on engagements";
 
-  // Clean up the who input - lowercase first letter if it's not an acronym
   let cleanWho = who;
   if (cleanWho.length > 0 && cleanWho[0] === cleanWho[0].toUpperCase() && cleanWho[1] !== cleanWho[1]?.toUpperCase()) {
     cleanWho = cleanWho[0].toLowerCase() + cleanWho.slice(1);
   }
 
-  // Clean up the result - make sure it reads as an action
   let cleanResult = result;
-  // Remove leading "I help them" or "they" type prefixes
   cleanResult = cleanResult.replace(/^(I help them|they|to)\s+/i, "");
-  // If it doesn't start with a verb, add "achieve"
-  const startsWithVerb = /^(build|grow|scale|launch|fix|create|design|improve|increase|reduce|transform|turn|get|find|hire|close|convert|generate|drive|develop|establish|ship|deliver|run|set up|figure out|nail|crack|solve|stop|start|go from)/i.test(cleanResult);
-  if (!startsWithVerb) {
-    // It's likely a noun phrase - keep it as is since "I help X [noun phrase]" can work
-  }
 
   return `I help ${cleanWho} ${cleanResult} by ${method}.`;
 }
 
 export function PositioningEditor({
   pathSlug,
+  userProfile,
+  nicheData,
+  quizContext,
   savedData,
   onSave,
 }: PositioningEditorProps) {
-  const drafts = positioningDrafts[pathSlug] || defaultDrafts;
+  const drafts = useMemo(
+    () => generatePersonalizedDrafts(pathSlug, userProfile, nicheData, quizContext),
+    [pathSlug, userProfile, nicheData, quizContext]
+  );
+
   const selectedIndex = savedData.selectedDraft as number | undefined;
   const editedStatement = (savedData.editedStatement as string) || "";
   const showRefinement = !!savedData.showRefinement;
@@ -154,7 +405,7 @@ export function PositioningEditor({
           Quick tip
         </p>
         <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/70">
-          Your positioning statement isn't a tagline. It's the strategic
+          Your positioning statement isn&apos;t a tagline. It&apos;s the strategic
           foundation for everything you say about your business. Get this right,
           and your website, proposals, and sales conversations all become easier
           to write.
@@ -167,7 +418,7 @@ export function PositioningEditor({
           Pick a starting point
         </h3>
         <p className="mt-2 text-sm text-blair-charcoal/50">
-          We wrote three positioning drafts based on your path. Click the one
+          We wrote two positioning drafts based on your path and background. Pick the one
           that feels closest, then make it yours.
         </p>
 
@@ -224,8 +475,8 @@ export function PositioningEditor({
             Make it yours
           </h3>
           <p className="mt-2 text-sm text-blair-charcoal/50">
-            Edit the statement below until it sounds like you. It doesn't need
-            to be perfect - it needs to be true.
+            Edit the statement below until it sounds like you. It doesn&apos;t need
+            to be perfect, it needs to be true.
           </p>
           <textarea
             value={editedStatement}
@@ -307,10 +558,10 @@ export function PositioningEditor({
       {showRefinement && (
         <div className="rounded-xl border border-blair-sage/20 bg-blair-sage/5 p-6">
           <h4 className="font-serif text-lg text-blair-midnight">
-            Let's sharpen it
+            Let&apos;s sharpen it
           </h4>
           <p className="mt-1 text-sm text-blair-charcoal/50">
-            Tell us who you help and what result you deliver. We'll combine them into a tighter version.
+            Tell us who you help and what result you deliver. We&apos;ll combine them into a tighter version.
           </p>
 
           <div className="mt-5 space-y-5">
@@ -351,10 +602,10 @@ export function PositioningEditor({
             {suggestedRefinement && (
               <div className="rounded-lg border-l-4 border-blair-sage bg-white p-4">
                 <p className="text-sm font-semibold text-blair-sage-dark">
-                  Here's a tighter version
+                  Here&apos;s a tighter version
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/60">
-                  We combined your inputs into the "I help [who] [achieve what] by [method]" format. Edit it below if you want to tweak anything.
+                  We combined your inputs into a cleaner format. Edit it below if you want to tweak anything.
                 </p>
                 <textarea
                   value={editableRefinement}

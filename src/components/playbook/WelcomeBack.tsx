@@ -36,13 +36,16 @@ export function WelcomeBack({
         <p className="text-lg font-semibold text-blair-midnight sm:text-xl">
           Hey {firstName}, let&apos;s get started.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/60">
-          Your first task takes about 10 minutes. We&apos;ve already filled in most of it for you.
+        <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/60">
+          We&apos;ve done a lot of the heavy lifting for you, pre-filling as much as we could based on your quiz answers. Your first task takes about 10 minutes. Review it, adjust anything that doesn&apos;t feel right, and make it yours.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/60">
+          Work at your own pace. Life will happen: a kid gets sick, work implodes, the two hours you carved out disappear. What matters is doing the work, not doing it on schedule.
         </p>
         {nextTaskSlug && (
           <Link
             href={`/playbook/${nextTaskSlug}`}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blair-sage px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-blair-sage px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark"
           >
             Start your first task
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
