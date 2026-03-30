@@ -1,718 +1,425 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-interface Kid {
-  age: string;
-}
-
-interface QuizAnswers {
-  name: string;
-  role: string;
-  years: string;
-  companySize: string[];
-  shoulderTap: string[];
-  outreachComfort: string;
-  industries: string[];
-  kids: Kid[];
-  noKids: boolean;
-  email: string;
-}
-
-interface StepConfig {
-  key: string;
-  question: string;
-  subcopy?: string;
-  type: "text" | "single" | "multi" | "kids" | "email";
-  maxSelections?: number;
-  options?: { label: string; description?: string }[];
-  placeholder?: string;
-}
-
-const AGE_OPTIONS = ["0-2", "3-5", "6-8", "9+"];
-
-const STEPS: StepConfig[] = [
+const ADVANTAGES = [
   {
-    key: "name",
-    question: "What should we call you?",
-    type: "text",
-    placeholder: "First name",
-  },
-  {
-    key: "role",
-    question: "Which best describes your current or most recent role?",
-    type: "single",
-    options: [
-      { label: "Product Management" },
-      { label: "Engineering / Technical (incl Data)" },
-      { label: "Product Marketing / Messaging" },
-      { label: "Growth / Performance Marketing / Lifecycle" },
-      { label: "Brand / Content / Communications" },
-      { label: "Sales / Partnerships / RevOps" },
-      { label: "Customer Success / Account Management" },
-      { label: "Operations / BizOps / Program Management" },
-      { label: "Strategy / Chief of Staff / Founder's Office" },
-      { label: "Finance (FP&A, Corp Dev, Investing)" },
-      { label: "Legal / Compliance" },
-      { label: "People / Recruiting / HR" },
-      { label: "Other" },
+    key: "networkDensity",
+    name: "Network Density",
+    oneLiner: "You already know the people who would pay you.",
+    hook: "People come to you for intros, advice, and referrals. Your DMs are full of \"can I pick your brain?\" You've spent years building relationships without realizing you were building a client list.",
+    detail:
+      "The women we talked to who replaced their income fastest didn't build funnels or post content. They sent a few messages to people who already trusted them. One conversation became a project. That project became a referral. Within months, they had more work than they could take on.",
+    sharpPOV:
+      "If you have this advantage, most business advice is wrong for you. You don't need to build an audience. You don't need a content strategy. You need to monetize the network you already have. The fastest path isn't visibility. It's one conversation with someone who already trusts you.",
+    moneyLine: "$8K-$15K/month working 15-25 hours a week",
+    examples: [
+      "Fractional leadership for companies in your network",
+      "Advisory retainers with founders who already know your name",
+      "Referral-driven project work that compounds over time",
     ],
   },
   {
-    key: "years",
-    question: "How long have you been in the workforce?",
-    type: "single",
-    options: [
-      { label: "3-5 years" },
-      { label: "6-9 years" },
-      { label: "10-14 years" },
-      { label: "15+ years" },
+    key: "patternLibrary",
+    name: "Pattern Library",
+    oneLiner:
+      "You've seen this problem break the same way at enough companies that you can diagnose it in one conversation.",
+    hook: "You walk into meetings and already know what's wrong. While everyone else is still figuring out the problem, you're three steps ahead because you've seen this exact movie before, at three other companies.",
+    detail:
+      "You've worked across enough environments that you recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, you walk in and just know. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
+    sharpPOV:
+      "If you have this advantage, you should not be selling hours. You should be selling speed. Companies will pay a massive premium for someone who can diagnose in one conversation what takes their internal team months. Your first engagement should be a diagnostic sprint, not a retainer.",
+    moneyLine: "$10K-$15K per engagement, often completed in 4-6 weeks",
+    examples: [
+      "Diagnostic sprints that solve in weeks what teams struggle with for months",
+      "Strategy engagements where you're paid for pattern recognition, not hours",
+      "Productized frameworks you can adapt and resell across clients",
     ],
   },
   {
-    key: "companySize",
-    question: "What size companies have you spent the most time in?",
-    subcopy: "Pick up to 2",
-    type: "multi",
-    maxSelections: 2,
-    options: [
-      { label: "Early startup (0-20 people)" },
-      { label: "Growing company (21-200 people)" },
-      { label: "Mid-size company (201-1000 people)" },
-      { label: "Enterprise (1001-10000 people)" },
-      { label: "Global enterprise (10001+ people)" },
+    key: "translationAbility",
+    name: "Translation Ability",
+    oneLiner:
+      "You make the complicated clear, the muddled compelling, and the invisible sellable.",
+    hook: "People constantly say you have a way with words, or that you \"just get it.\" You're the one rewriting the deck at midnight because no one else can explain what the company actually does.",
+    detail:
+      "You see what's actually going on and can explain it in a way that makes people act. That skill is wildly undervalued in a salaried role and wildly overvalued as an outside service. The gap between what companies pay for this in-house vs. what they'll pay a specialist is massive.",
+    sharpPOV:
+      "If you have this advantage, do not start with a broad offering. Start with one thing: positioning. Companies will pay $5K-$12K for someone who can walk in and tell them what they actually do in language their customers understand. That single skill is a business.",
+    moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
+    examples: [
+      "Positioning and messaging packages for companies that can't explain what they do",
+      "Launch narratives for products entering crowded markets",
+      "Brand strategy sprints that turn confusion into clarity",
     ],
   },
   {
-    key: "shoulderTap",
-    question:
-      "When people \"tap you on the shoulder\" for help, what kind of problem is it?",
-    subcopy:
-      "Think about the DMs, the \"can I pick your brain\" Slacks, or the projects you get pulled into. Pick up to 2.",
-    type: "multi",
-    maxSelections: 2,
-    options: [
-      {
-        label: "The \"Fixer\" Ask",
-        description:
-          "Everything is a mess, can you build us a process/system that actually works?",
-      },
-      {
-        label: "The \"Strategy\" Ask",
-        description:
-          "We have a big goal but no plan. Can you map out exactly how we get there?",
-      },
-      {
-        label: "The \"Creative\" Ask",
-        description:
-          "We can't explain what we do. Can you write the deck/messaging/story for us?",
-      },
-      {
-        label: "The \"Truth\" Ask",
-        description:
-          "The numbers don't make sense. Can you audit the data/model and tell us where the leak is?",
-      },
-      {
-        label: "The \"People\" Ask",
-        description:
-          "We're hiring/scaling and it's chaotic. Can you help us build the team or culture?",
-      },
+    key: "systemsBrain",
+    name: "Systems Brain",
+    oneLiner:
+      "You see how things should work and you can't help building the fix.",
+    hook: "You look at how things run and immediately see what's broken. You're the person who builds the spreadsheet no one asked for, redesigns the workflow, or automates the thing everyone else does manually.",
+    detail:
+      "You don't just fix things. You see why they broke and build something that won't break the same way again. The work you do for one client becomes a template for the next. By your third engagement, you've essentially built a product that looks like high-end consulting.",
+    sharpPOV:
+      "If you have this advantage, your business gets more profitable with every client, not less. The system you build for client one becomes the template for client two. By client three, you're delivering twice the value in half the time. Most people's businesses scale linearly. Yours scales exponentially.",
+    moneyLine: "$8K-$15K per engagement, with increasing efficiency each time",
+    examples: [
+      "Operational overhauls for companies that have outgrown their starter systems",
+      "Process design that lets small teams scale without hiring",
+      "Automation and infrastructure buildouts sold as scoped sprints",
     ],
   },
   {
-    key: "outreachComfort",
-    question: "How do you feel about reaching out to former colleagues?",
-    type: "single",
-    options: [
-      {
-        label:
-          "Comfortable - I already reach out for advice / referrals / work-related opportunities",
-      },
-      {
-        label:
-          "Somewhat uncomfortable but I would do it with a script or clear ask",
-      },
-      {
-        label:
-          "Very uncomfortable - I strongly prefer not to do outbound outreach",
-      },
+    key: "closerInstinct",
+    name: "Closer Instinct",
+    oneLiner:
+      "You get people to yes. Not through pressure, but through trust, timing, and knowing exactly what to say.",
+    hook: "You're the person who somehow always gets the deal done, the stakeholder aligned, the candidate to accept. People think you're \"persuasive\" but really you just understand what makes people say yes.",
+    detail:
+      "Most people dread the selling part of running a business. You've been doing it your whole career without calling it that. You read rooms, build trust fast, and know how to move a conversation from interest to commitment without it ever feeling like a pitch.",
+    sharpPOV:
+      "If you have this advantage, you will close your first client faster than almost anyone else. While most new business owners spend months building a website and perfecting their offering, you'll have revenue. The thing that scares everyone else about starting a business is the thing you're already great at.",
+    moneyLine:
+      "First paid engagement often closed within 2-4 weeks of deciding to start",
+    examples: [
+      "Revenue and growth engagements where your ability to close directly drives results",
+      "Business development partnerships where you're compensated for deals, not hours",
+      "Advisory work that converts naturally from conversations you're already having",
     ],
-  },
-  {
-    key: "industries",
-    question: "Any industries you know especially well?",
-    subcopy: "Pick up to 3",
-    type: "multi",
-    maxSelections: 3,
-    options: [
-      { label: "Education & Learning" },
-      { label: "Energy & Utilities" },
-      { label: "Financial Services & Insurance" },
-      { label: "Healthcare & Life Sciences" },
-      { label: "Manufacturing & Industrial" },
-      { label: "Media & Marketing & Advertising" },
-      { label: "Public Sector & Government" },
-      { label: "Real Estate & Construction" },
-      { label: "Retail & Ecommerce" },
-      { label: "Transportation & Logistics & Supply Chain" },
-      { label: "Generalist / Industry-Agnostic" },
-      { label: "Other" },
-    ],
-  },
-  {
-    key: "kids",
-    question: "Tell us about your kids",
-    subcopy: "Add each child and their age range. This helps us tailor our advice to your life stage.",
-    type: "kids",
-  },
-  {
-    key: "email",
-    question: "Where should we send your unfair advantage?",
-    subcopy:
-      "Enter your email to see it now.",
-    type: "email",
-    placeholder: "you@email.com",
   },
 ];
 
-function KidsStep({
-  kids,
-  noKids,
-  onAddKid,
-  onRemoveKid,
-  onSetAge,
-  onToggleNoKids,
-}: {
-  kids: Kid[];
-  noKids: boolean;
-  onAddKid: () => void;
-  onRemoveKid: (index: number) => void;
-  onSetAge: (index: number, age: string) => void;
-  onToggleNoKids: () => void;
-}) {
-  return (
-    <div className="space-y-4">
-      {kids.map((kid, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-3 rounded-xl border border-blair-sage/20 bg-blair-sage/5 px-5 py-4"
-        >
-          <span className="text-sm font-medium text-blair-midnight">
-            Child {i + 1}
-          </span>
-          <div className="flex flex-1 flex-wrap gap-2">
-            {AGE_OPTIONS.map((age) => (
-              <button
-                key={age}
-                onClick={() => onSetAge(i, age)}
-                className={cn(
-                  "rounded-lg px-3 py-1.5 text-xs font-medium transition-all",
-                  kid.age === age
-                    ? "bg-blair-sage text-white"
-                    : "bg-white border border-blair-mist text-blair-charcoal/60 hover:border-blair-sage/40"
-                )}
-              >
-                {age}
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={() => onRemoveKid(i)}
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-blair-charcoal/30 transition-colors hover:bg-blair-charcoal/10 hover:text-blair-charcoal/60"
-            aria-label="Remove child"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      ))}
+export default function DiscoverPage() {
+  const [selected, setSelected] = useState<string | null>(null);
+  const advantage = ADVANTAGES.find((a) => a.key === selected);
 
-      {!noKids && (
-        <button
-          onClick={onAddKid}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blair-mist px-5 py-4 text-sm font-medium text-blair-charcoal/50 transition-colors hover:border-blair-sage/40 hover:text-blair-sage-dark"
-        >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-          {kids.length === 0 ? "Add a child" : "Add another child"}
-        </button>
-      )}
-
-      <div className="pt-2">
-        <button
-          onClick={onToggleNoKids}
-          className={cn(
-            "w-full rounded-xl border px-5 py-4 text-left text-sm transition-all",
-            noKids
-              ? "border-blair-sage bg-blair-sage/10 text-blair-midnight font-medium"
-              : "border-blair-mist bg-white text-blair-charcoal/50 hover:border-blair-sage/40"
-          )}
-        >
-          {noKids ? "No kids" : "I don't have kids"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function QuizPage() {
-  const router = useRouter();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<QuizAnswers>({
-    name: "",
-    role: "",
-    years: "",
-    companySize: [],
-    shoulderTap: [],
-    outreachComfort: "",
-    industries: [],
-    kids: [],
-    noKids: false,
-    email: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showAnalyzing, setShowAnalyzing] = useState(false);
-  const [analyzeStep, setAnalyzeStep] = useState(0);
-  const [direction, setDirection] = useState<"forward" | "back">("forward");
-
-  const currentStep = STEPS[step];
-  const totalSteps = STEPS.length;
-  const progress = ((step + 1) / totalSteps) * 100;
-
-  const goNext = useCallback(() => {
-    if (step < totalSteps - 1) {
-      setDirection("forward");
-      setStep((s) => s + 1);
-    }
-  }, [step, totalSteps]);
-
-  const goBack = useCallback(() => {
-    if (step > 0) {
-      setDirection("back");
-      setStep((s) => s - 1);
-    }
-  }, [step]);
-
-  const handleSingleSelect = useCallback(
-    (value: string) => {
-      setAnswers((prev) => ({ ...prev, [currentStep.key]: value }));
-      setTimeout(() => goNext(), 250);
-    },
-    [currentStep.key, goNext]
-  );
-
-  const handleMultiSelect = useCallback(
-    (value: string) => {
-      setAnswers((prev) => {
-        const current = (prev[currentStep.key as keyof QuizAnswers]) as unknown as string[];
-        const max = currentStep.maxSelections;
-
-        if (current.includes(value)) {
-          return { ...prev, [currentStep.key]: current.filter((v) => v !== value) };
-        }
-        if (max && current.length >= max) {
-          return { ...prev, [currentStep.key]: [...current.slice(1), value] };
-        }
-        return { ...prev, [currentStep.key]: [...current, value] };
-      });
-    },
-    [currentStep.key, currentStep.maxSelections]
-  );
-
-  const handleTextChange = useCallback(
-    (value: string) => {
-      setAnswers((prev) => ({ ...prev, [currentStep.key]: value }));
-    },
-    [currentStep.key]
-  );
-
-  // Kids handlers
-  const handleAddKid = useCallback(() => {
-    setAnswers((prev) => ({
-      ...prev,
-      kids: [...prev.kids, { age: "" }],
-      noKids: false,
-    }));
-  }, []);
-
-  const handleRemoveKid = useCallback((index: number) => {
-    setAnswers((prev) => ({
-      ...prev,
-      kids: prev.kids.filter((_, i) => i !== index),
-    }));
-  }, []);
-
-  const handleSetKidAge = useCallback((index: number, age: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      kids: prev.kids.map((k, i) => (i === index ? { age } : k)),
-    }));
-  }, []);
-
-  const handleToggleNoKids = useCallback(() => {
-    setAnswers((prev) => ({
-      ...prev,
-      noKids: !prev.noKids,
-      kids: !prev.noKids ? [] : prev.kids,
-    }));
-  }, []);
-
-  const ANALYZE_MESSAGES = [
-    "Analyzing your background...",
-    "Matching patterns across your experience...",
-    "Scoring your advantages...",
-    "Building your profile...",
-  ];
-
-  const handleSubmit = useCallback(async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setShowAnalyzing(true);
-
-    // Animate through messages
-    let messageIndex = 0;
-    const messageInterval = setInterval(() => {
-      messageIndex++;
-      if (messageIndex < ANALYZE_MESSAGES.length) {
-        setAnalyzeStep(messageIndex);
-      }
-    }, 900);
-
-    try {
-      // Convert kids to kidsAges format for the API
-      const kidsAges = answers.noKids
-        ? ["No kids"]
-        : answers.kids.map((k) => k.age).filter(Boolean);
-
-      const res = await fetch("/api/quiz/mini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...answers, kidsAges }),
-      });
-
-      if (!res.ok) throw new Error("Failed to submit");
-      const data = await res.json();
-
-      // Wait for animation to finish (minimum 3.5 seconds total)
-      await new Promise((resolve) => setTimeout(resolve, 3500));
-      clearInterval(messageInterval);
-
-      const kidsCount = answers.noKids ? "0" : String(answers.kids.length);
-      const youngestKid = answers.noKids ? "" : (answers.kids.map(k => k.age).sort()[0] || "");
-      router.push(
-        `/quiz/results?name=${encodeURIComponent(answers.name)}&advantage=${encodeURIComponent(data.advantageName)}&oneLiner=${encodeURIComponent(data.advantageOneLiner)}&key=${encodeURIComponent(data.advantageKey)}&role=${encodeURIComponent(answers.role)}&years=${encodeURIComponent(answers.years)}&kids=${kidsCount}&youngest=${encodeURIComponent(youngestKid)}`
-      );
-    } catch {
-      clearInterval(messageInterval);
-      setIsSubmitting(false);
-      setShowAnalyzing(false);
-      setAnalyzeStep(0);
-      alert("Something went wrong. Please try again.");
-    }
-  }, [answers, isSubmitting, router, ANALYZE_MESSAGES.length]);
-
-  const canAdvance = (() => {
-    if (currentStep.type === "kids") {
-      return answers.noKids || (answers.kids.length > 0 && answers.kids.every((k) => k.age));
-    }
-    const value = answers[currentStep.key as keyof QuizAnswers];
-    if (currentStep.type === "text" || currentStep.type === "email") {
-      return (value as string).trim().length > 0;
-    }
-    if (currentStep.type === "single") {
-      return (value as string).length > 0;
-    }
-    if (currentStep.type === "multi") {
-      return (value as string[]).length > 0;
-    }
-    return false;
-  })();
-
-  // Analyzing animation overlay
-  if (showAnalyzing) {
+  // If an advantage is selected, show the detail view
+  if (advantage) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-blair-linen px-6">
-        <div className="text-center animate-in fade-in duration-500">
-          {/* Spinner */}
-          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-2 border-blair-mist border-t-blair-sage" />
+      <div className="min-h-screen bg-blair-linen">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-2 sm:px-10">
+          <div className="flex items-center justify-between">
+            <span className="font-serif text-xl text-blair-midnight tracking-tight">
+              blair
+            </span>
+            <button
+              onClick={() => setSelected(null)}
+              className="flex items-center gap-1 text-sm text-blair-charcoal/40 transition-colors hover:text-blair-charcoal/70"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+              See all advantages
+            </button>
+          </div>
+        </div>
 
-          {/* Rotating messages */}
-          <p
-            key={analyzeStep}
-            className="mt-8 text-lg font-medium text-blair-midnight animate-in fade-in duration-300"
+        <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
+          {/* Advantage reveal */}
+          <div className="pt-12 sm:pt-16 animate-in fade-in duration-500">
+            <p className="text-xs uppercase tracking-widest text-blair-charcoal/30">
+              Your unfair advantage
+            </p>
+            <h1 className="mt-3 font-serif text-4xl text-blair-midnight sm:text-5xl">
+              {advantage.name}
+            </h1>
+            <p className="mt-5 text-xl leading-relaxed text-blair-charcoal/60">
+              {advantage.oneLiner}
+            </p>
+          </div>
+
+          {/* Sharp POV — the real value */}
+          <div
+            className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            {ANALYZE_MESSAGES[analyzeStep]}
-          </p>
+            <p className="text-base leading-relaxed text-blair-charcoal/70">
+              {advantage.detail}
+            </p>
+            <div className="mt-6 rounded-xl border-l-4 border-blair-sage bg-white px-6 py-5">
+              <p className="text-base leading-relaxed font-medium text-blair-midnight">
+                {advantage.sharpPOV}
+              </p>
+            </div>
+          </div>
 
-          {/* Progress dots */}
-          <div className="mt-6 flex justify-center gap-2">
-            {ANALYZE_MESSAGES.map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "h-2 w-2 rounded-full transition-all duration-500",
-                  i <= analyzeStep ? "bg-blair-sage" : "bg-blair-mist"
-                )}
-              />
-            ))}
+          {/* What people build */}
+          <div
+            className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: "400ms", animationFillMode: "both" }}
+          >
+            <h2 className="font-serif text-xl text-blair-midnight">
+              What people with this advantage build
+            </h2>
+            <div className="mt-5 space-y-3">
+              {advantage.examples.map((example, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-4 rounded-xl border border-blair-mist bg-white px-5 py-4"
+                >
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 text-sm font-semibold text-blair-sage">
+                    {i + 1}
+                  </div>
+                  <p className="text-sm leading-relaxed text-blair-charcoal/70 pt-1">
+                    {example}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Income highlight */}
+            <div className="mt-5 rounded-xl bg-blair-sage/10 border border-blair-sage/20 px-5 py-4">
+              <p className="text-sm font-medium text-blair-sage-dark">
+                Typical range: {advantage.moneyLine}
+              </p>
+            </div>
+          </div>
+
+          {/* The pivot */}
+          <div
+            className="mt-14 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: "600ms", animationFillMode: "both" }}
+          >
+            <h2 className="font-serif text-2xl text-blair-midnight">
+              Now the question is: which business, exactly?
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
+              Your unfair advantage tells you <em>why</em> you&apos;ll succeed.
+              Blair tells you <em>what</em> to build, <em>how</em> to price it,
+              and exactly where to start. Personalized to your background, your
+              time, and your goals.
+            </p>
+          </div>
+
+          {/* Pricing card */}
+          <div
+            className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: "800ms", animationFillMode: "both" }}
+          >
+            <div className="rounded-2xl border border-blair-midnight/10 bg-white p-8 sm:p-10 shadow-sm">
+              <h2 className="font-serif text-2xl text-blair-midnight">
+                Your personalized Blair plan
+              </h2>
+
+              <div className="mt-6 space-y-3">
+                {[
+                  "A deep-dive assessment that maps your exact skills, experience, and constraints to the right business model",
+                  "Your top business path, matched to your unfair advantage and the hours you actually have",
+                  "Pricing guidance: what to charge, the side hustle math, and the full-time math",
+                  "A step-by-step playbook to go from idea to first paying client",
+                  "Built for moms. Every recommendation fits your real life, not a fantasy schedule",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <svg
+                      className="mt-0.5 h-5 w-5 shrink-0 text-blair-sage"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                    <p className="text-sm leading-relaxed text-blair-charcoal/70">
+                      {item}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8">
+                <div className="flex items-end gap-3">
+                  <span className="font-serif text-4xl text-blair-midnight">
+                    $149
+                  </span>
+                  <span className="mb-1 text-base text-blair-charcoal/30 line-through">
+                    $297
+                  </span>
+                </div>
+                <p className="mt-1 text-sm font-medium text-blair-sage-dark">
+                  Founding member pricing
+                </p>
+              </div>
+
+              <a
+                href="https://www.hiblair.com/#pricing"
+                className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark"
+              >
+                Get my personalized plan
+              </a>
+
+              {/* Guarantee */}
+              <div className="mt-5 flex items-start gap-3 rounded-lg bg-blair-linen px-4 py-3">
+                <svg
+                  className="mt-0.5 h-5 w-5 shrink-0 text-blair-sage"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                  />
+                </svg>
+                <div>
+                  <p className="text-sm font-medium text-blair-midnight">
+                    Clarity guarantee
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-blair-charcoal/50">
+                    If you don&apos;t walk away knowing exactly what to build and
+                    how to start, email me and I&apos;ll refund you. No questions
+                    asked.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal note */}
+          <div
+            className="mt-12 border-t border-blair-mist pt-10 animate-in fade-in duration-500"
+            style={{ animationDelay: "1000ms", animationFillMode: "both" }}
+          >
+            <p className="text-sm leading-relaxed text-blair-charcoal/50">
+              I&apos;m Kristin. Mom of 3, 15+ years in tech. I spent years stuck
+              in the same place you might be right now, researching every side
+              business imaginable and building nothing. If you have questions
+              about whether this is right for you, I&apos;m happy to talk:{" "}
+              <a
+                href="mailto:kristin@hiblair.com"
+                className="font-medium text-blair-sage-dark transition-colors hover:text-blair-sage"
+              >
+                kristin@hiblair.com
+              </a>
+            </p>
+          </div>
+
+          {/* Already have an account */}
+          <div className="mt-8 text-center">
+            <Link
+              href="/signin"
+              className="text-sm text-blair-charcoal/30 transition-colors hover:text-blair-charcoal/50"
+            >
+              Already have an account? Sign in
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 
+  // Default: the advantage picker
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-blair-mist">
-        <div
-          className="h-full bg-blair-sage transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
+    <div className="min-h-screen bg-blair-linen">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 pt-6 pb-2 sm:px-10">
+      <div className="px-6 pt-6 pb-2 sm:px-10">
         <span className="font-serif text-xl text-blair-midnight tracking-tight">
           blair
         </span>
-        {step > 0 && (
-          <button
-            onClick={goBack}
-            className="flex items-center gap-1 text-sm text-blair-charcoal/40 transition-colors hover:text-blair-charcoal/70"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            Back
-          </button>
-        )}
       </div>
 
-      {/* Question area */}
-      <div className="flex flex-1 flex-col items-center justify-center px-6 pb-20 sm:px-10">
-        <div
-          key={step}
-          className={cn(
-            "w-full max-w-xl",
-            direction === "forward"
-              ? "animate-in fade-in slide-in-from-right-4 duration-300"
-              : "animate-in fade-in slide-in-from-left-4 duration-300"
-          )}
-        >
-          {/* Step counter */}
-          <p className="mb-3 text-xs font-medium uppercase tracking-widest text-blair-charcoal/30">
-            {step + 1} of {totalSteps}
-          </p>
-
-          {/* Question */}
-          <h1 className="font-serif text-2xl leading-snug text-blair-midnight sm:text-3xl">
-            {currentStep.question}
+      <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
+        {/* Hero */}
+        <div className="pt-16 sm:pt-20 animate-in fade-in duration-700">
+          <h1 className="font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
+            You have an unfair advantage.
+            <br />
+            <span className="text-blair-sage">You just haven&apos;t named it yet.</span>
           </h1>
-
-          {/* Subcopy */}
-          {currentStep.subcopy && (
-            <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/50">
-              {currentStep.subcopy}
-            </p>
-          )}
-
-          {/* Answer input */}
-          <div className="mt-8">
-            {/* Text input */}
-            {currentStep.type === "text" && (
-              <div>
-                <input
-                  type="text"
-                  value={answers[currentStep.key as keyof QuizAnswers] as unknown as string}
-                  onChange={(e) => handleTextChange(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter" && canAdvance) goNext(); }}
-                  placeholder={currentStep.placeholder}
-                  autoFocus
-                  className="w-full border-b-2 border-blair-mist bg-transparent pb-3 text-2xl text-blair-midnight outline-none placeholder:text-blair-charcoal/20 focus:border-blair-sage transition-colors"
-                />
-                <button
-                  onClick={goNext}
-                  disabled={!canAdvance}
-                  className="mt-8 rounded-lg bg-blair-sage px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
-            )}
-
-            {/* Email input */}
-            {currentStep.type === "email" && (
-              <div>
-                <input
-                  type="email"
-                  value={answers.email}
-                  onChange={(e) => handleTextChange(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter" && canAdvance) handleSubmit(); }}
-                  placeholder={currentStep.placeholder}
-                  autoFocus
-                  className="w-full border-b-2 border-blair-mist bg-transparent pb-3 text-2xl text-blair-midnight outline-none placeholder:text-blair-charcoal/20 focus:border-blair-sage transition-colors"
-                />
-                <p className="mt-3 text-xs text-blair-charcoal/30">
-                  No spam, ever.
-                </p>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!canAdvance || isSubmitting}
-                  className="mt-8 rounded-lg bg-blair-sage px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  Reveal my unfair advantage
-                </button>
-              </div>
-            )}
-
-            {/* Single select (radio circles) */}
-            {currentStep.type === "single" && (
-              <div className="space-y-2.5">
-                {currentStep.options?.map((option) => {
-                  const isSelected = answers[currentStep.key as keyof QuizAnswers] === option.label;
-                  return (
-                    <button
-                      key={option.label}
-                      onClick={() => handleSingleSelect(option.label)}
-                      className={cn(
-                        "w-full rounded-xl border px-5 py-4 text-left text-sm leading-relaxed transition-all flex items-center gap-3",
-                        isSelected
-                          ? "border-blair-sage bg-blair-sage/10 text-blair-midnight"
-                          : "border-blair-mist bg-white text-blair-charcoal/80 hover:border-blair-sage/40"
-                      )}
-                    >
-                      <div className={cn(
-                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-                        isSelected ? "border-blair-sage bg-blair-sage" : "border-blair-charcoal/20"
-                      )}>
-                        {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
-                      </div>
-                      {option.label}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Multi select (checkboxes) */}
-            {currentStep.type === "multi" && (
-              <div>
-                <div className="space-y-2.5">
-                  {currentStep.options?.map((option) => {
-                    const selected = answers[currentStep.key as keyof QuizAnswers] as unknown as string[];
-                    const isSelected = selected.includes(option.label);
-                    return (
-                      <button
-                        key={option.label}
-                        onClick={() => handleMultiSelect(option.label)}
-                        className={cn(
-                          "w-full rounded-xl border px-5 py-4 text-left transition-all flex items-start gap-3",
-                          isSelected
-                            ? "border-blair-sage bg-blair-sage/10"
-                            : "border-blair-mist bg-white hover:border-blair-sage/40"
-                        )}
-                      >
-                        <div className={cn(
-                          "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors",
-                          isSelected ? "border-blair-sage bg-blair-sage" : "border-blair-charcoal/20"
-                        )}>
-                          {isSelected && (
-                            <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
-                          )}
-                        </div>
-                        <div>
-                        <span
-                          className={cn(
-                            "text-sm font-medium leading-relaxed",
-                            isSelected ? "text-blair-midnight" : "text-blair-charcoal/80"
-                          )}
-                        >
-                          {option.label}
-                        </span>
-                        {option.description && (
-                          <span
-                            className={cn(
-                              "mt-1.5 block text-sm leading-relaxed",
-                              isSelected ? "text-blair-charcoal/60" : "text-blair-charcoal/40"
-                            )}
-                          >
-                            {option.description}
-                          </span>
-                        )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-                <button
-                  onClick={goNext}
-                  disabled={!canAdvance}
-                  className="mt-8 rounded-lg bg-blair-sage px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
-            )}
-
-            {/* Kids step */}
-            {currentStep.type === "kids" && (
-              <div>
-                <KidsStep
-                  kids={answers.kids}
-                  noKids={answers.noKids}
-                  onAddKid={handleAddKid}
-                  onRemoveKid={handleRemoveKid}
-                  onSetAge={handleSetKidAge}
-                  onToggleNoKids={handleToggleNoKids}
-                />
-                <button
-                  onClick={goNext}
-                  disabled={!canAdvance}
-                  className="mt-8 rounded-lg bg-blair-sage px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Keyboard hint */}
-      {canAdvance && currentStep.type !== "single" && currentStep.type !== "email" && (
-        <div className="fixed bottom-6 left-0 right-0 text-center">
-          <p className="text-xs text-blair-charcoal/20">
-            press <kbd className="rounded border border-blair-mist px-1.5 py-0.5 text-blair-charcoal/30">Enter ↵</kbd>
+          <p className="mt-6 text-lg leading-relaxed text-blair-charcoal/60">
+            Years of skills, relationships, and hard-won instincts add up to
+            something most people never develop. One of them is the reason your
+            first business will work. Which one sounds like you?
           </p>
         </div>
-      )}
+
+        {/* Advantage cards */}
+        <div className="mt-12 space-y-4">
+          {ADVANTAGES.map((adv, i) => (
+            <button
+              key={adv.key}
+              onClick={() => {
+                setSelected(adv.key);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={cn(
+                "group w-full rounded-2xl border bg-white p-6 sm:p-8 text-left transition-all hover:border-blair-sage/50 hover:shadow-md",
+                "border-blair-mist",
+                "animate-in fade-in slide-in-from-bottom-4 duration-500"
+              )}
+              style={{
+                animationDelay: `${300 + i * 100}ms`,
+                animationFillMode: "both",
+              }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="font-serif text-xl text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
+                    {adv.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/50">
+                    {adv.hook}
+                  </p>
+                </div>
+                <svg
+                  className="mt-1 h-5 w-5 shrink-0 text-blair-charcoal/20 transition-all group-hover:text-blair-sage group-hover:translate-x-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Bottom note */}
+        <div
+          className="mt-12 text-center animate-in fade-in duration-500"
+          style={{ animationDelay: "900ms", animationFillMode: "both" }}
+        >
+          <p className="text-sm text-blair-charcoal/30">
+            Not sure? Pick the one that made you think &quot;that&apos;s me.&quot;
+            <br />
+            You can always come back and explore others.
+          </p>
+        </div>
+
+        {/* Already have an account */}
+        <div className="mt-8 text-center">
+          <Link
+            href="/signin"
+            className="text-sm text-blair-charcoal/30 transition-colors hover:text-blair-charcoal/50"
+          >
+            Already have an account? Sign in
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
