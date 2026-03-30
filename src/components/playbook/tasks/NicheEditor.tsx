@@ -56,46 +56,33 @@ function extractPrePopulationChips(recommendationData: RecommendationData | null
   return [];
 }
 
-// Generate "what companies pay for" suggestions based on selected items and path
-const pathPayForSuggestions: Record<string, { title: string; description: string }[]> = {
-  "gtm-growth-strategist": [
-    { title: "Building the first outbound motion", description: "Companies that hit product-market fit need someone to build a repeatable sales engine from scratch." },
-    { title: "Pipeline architecture and optimization", description: "Growth-stage teams with leaky funnels need someone who can diagnose and fix conversion gaps." },
-    { title: "New market entry strategy", description: "Companies expanding into new segments need a go-to-market plan they can execute in weeks, not quarters." },
-    { title: "Sales process design", description: "Teams scaling past founder-led sales need a structured process that new reps can follow on day one." },
-  ],
-  "messaging-positioning": [
-    { title: "Brand positioning from scratch", description: "Companies that can't explain what makes them different need someone to nail the message." },
-    { title: "Website messaging overhaul", description: "Businesses with decent traffic but low conversion need copy that actually speaks to their buyer." },
-    { title: "Launch messaging and narrative", description: "Teams launching a new product need a story that makes the right people lean in." },
-    { title: "Competitive differentiation strategy", description: "Companies losing deals to competitors need sharper positioning that highlights their unique angle." },
-  ],
-  "fractional-cmo": [
-    { title: "Marketing strategy and team leadership", description: "Growth-stage companies that need a senior marketing leader without the full-time cost." },
-    { title: "Demand generation engine", description: "Companies stuck on random acts of marketing need a system that reliably produces pipeline." },
-    { title: "Marketing team buildout", description: "Founders who don't know who to hire first need someone to design and recruit the right team." },
-    { title: "Investor-ready marketing infrastructure", description: "Post-raise companies need metrics, systems, and strategy that satisfy the board." },
-  ],
-  "content-thought-leadership": [
-    { title: "Thought leadership content engine", description: "Executives with great ideas but no time to write need someone to turn their expertise into content." },
-    { title: "Content strategy and distribution", description: "Companies publishing content with no results need a strategy tied to actual business outcomes." },
-    { title: "Ghostwriting for founders", description: "Founders building a personal brand need a writer who can capture their voice and publish consistently." },
-    { title: "Inbound content system", description: "B2B companies that want content-driven leads need a full-stack system from strategy to distribution." },
-  ],
-  "revenue-operations": [
-    { title: "CRM architecture and cleanup", description: "Companies with messy data and unreliable forecasting need someone to design the right infrastructure." },
-    { title: "Revenue process automation", description: "Scaling teams drowning in manual handoffs need automated workflows that don't break." },
-    { title: "Cross-team revenue alignment", description: "Companies where marketing and sales blame each other need someone to build the connective tissue." },
-    { title: "Pipeline analytics and reporting", description: "Leadership teams flying blind need dashboards and metrics they can actually trust." },
-  ],
-};
+import { pathContent } from "@/lib/pathContent";
 
-const defaultPayForSuggestions = [
-  { title: "Strategic consulting engagements", description: "Companies that need expert guidance on your area of specialty, delivered in focused sprints." },
-  { title: "Implementation and buildout", description: "Teams that know what they need but don't have the in-house expertise to execute." },
-  { title: "Fractional leadership", description: "Organizations that need senior-level thinking without the full-time commitment." },
-  { title: "Training and enablement", description: "Companies that want to build internal capability with expert-led programs." },
-];
+// Parse "what companies pay for" from pathContent into structured suggestions
+function getPathPayForSuggestions(slug: string): { title: string; description: string }[] {
+  const content = pathContent[slug];
+  if (!content?.narrowingExercise?.whatCompaniesPay) {
+    return [
+      { title: "Strategic consulting engagements", description: "Companies that need expert guidance on your area of specialty, delivered in focused sprints." },
+      { title: "Implementation and buildout", description: "Teams that know what they need but don't have the in-house expertise to execute." },
+      { title: "Fractional leadership", description: "Organizations that need senior-level thinking without the full-time commitment." },
+      { title: "Training and enablement", description: "Companies that want to build internal capability with expert-led programs." },
+    ];
+  }
+
+  return content.narrowingExercise.whatCompaniesPay
+    .split("\n")
+    .map((line) => line.replace(/^-\s*/, "").trim())
+    .filter((line) => line.length > 0)
+    .map((line) => {
+      // Split on " - " to get title and description
+      const parts = line.split(" - ");
+      if (parts.length >= 2) {
+        return { title: parts[0].trim(), description: parts.slice(1).join(" - ").trim() };
+      }
+      return { title: line, description: "" };
+    });
+}
 
 export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }: NicheEditorProps) {
   const hasPrePopulated = useRef(false);
@@ -134,23 +121,8 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
     }
   }, [recommendationData, step1Items.length, onSave, savedData]);
 
-  // Build step 3 options from step 2 selections + path-level suggestions
-  const selectedStep2Items = step2Selections.map((i) => step1Items[i]).filter(Boolean);
-  const pathSuggestions = pathPayForSuggestions[pathSlug] || defaultPayForSuggestions;
-
-  // Combine: user's selected problems reframed as services, plus path defaults
-  const payForSuggestions = (() => {
-    if (selectedStep2Items.length === 0) return pathSuggestions;
-
-    // Turn selected step 2 items into "what companies pay for" framing
-    const fromSelections = selectedStep2Items.map((item) => ({
-      title: item,
-      description: "Based on what you selected as energizing work.",
-    }));
-
-    // Combine: user-derived first, then path defaults they haven't seen
-    return [...fromSelections, ...pathSuggestions];
-  })();
+  // Get path-specific "what companies pay for" suggestions from pathContent
+  const payForSuggestions = getPathPayForSuggestions(pathSlug);
 
   // Handlers
   const handleRemoveChip = (index: number) => {
@@ -473,15 +445,10 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                   </span>
                 </div>
                 <p className="mb-4 text-sm leading-relaxed text-blair-charcoal/60">
-                  Based on what energizes you, here are problems companies actually pay to solve. Pick 1-2 that feel like the best fit.
+                  These are the kinds of engagements companies actually hire for on your path. Pick 1-2 that you could see yourself doing.
                 </p>
 
-                {step2Selections.length === 0 ? (
-                  <p className="text-sm italic text-blair-charcoal/30">
-                    Select what energizes you in Step 2, and we'll show you what companies pay for.
-                  </p>
-                ) : (
-                  <div className="space-y-2">
+                <div className="space-y-2">
                     {payForSuggestions.map((suggestion, i) => {
                       const isSelected = step3Selections.includes(i);
                       return (
@@ -514,7 +481,6 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                       Pick 1-2 that resonate most.
                     </p>
                   </div>
-                )}
               </div>
             </div>
           </div>
