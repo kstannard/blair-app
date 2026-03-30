@@ -421,8 +421,10 @@ export default function QuizPage() {
       await new Promise((resolve) => setTimeout(resolve, 3500));
       clearInterval(messageInterval);
 
+      const kidsCount = answers.noKids ? "0" : String(answers.kids.length);
+      const youngestKid = answers.noKids ? "" : (answers.kids.map(k => k.age).sort()[0] || "");
       router.push(
-        `/quiz/results?name=${encodeURIComponent(answers.name)}&advantage=${encodeURIComponent(data.advantageName)}&oneLiner=${encodeURIComponent(data.advantageOneLiner)}&key=${encodeURIComponent(data.advantageKey)}`
+        `/quiz/results?name=${encodeURIComponent(answers.name)}&advantage=${encodeURIComponent(data.advantageName)}&oneLiner=${encodeURIComponent(data.advantageOneLiner)}&key=${encodeURIComponent(data.advantageKey)}&role=${encodeURIComponent(answers.role)}&years=${encodeURIComponent(answers.years)}&kids=${kidsCount}&youngest=${encodeURIComponent(youngestKid)}`
       );
     } catch {
       clearInterval(messageInterval);
