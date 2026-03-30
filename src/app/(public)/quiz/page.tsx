@@ -15,9 +15,9 @@ const ADVANTAGES = [
       "If you have this advantage, most business advice is wrong for you. You don't need to build an audience. You don't need a content strategy. You need to monetize the network you already have. The fastest path isn't visibility. It's one conversation with someone who already trusts you.",
     moneyLine: "$8K-$15K/month working 15-25 hours a week",
     examples: [
-      "Fractional leadership for companies in your network",
-      "Advisory retainers with founders who already know your name",
-      "Referral-driven project work that compounds over time",
+      "A fractional CMO role with a startup founder you used to work with",
+      "A $5K/month advisory retainer with someone who already trusts your judgment",
+      "Three referral-driven projects from a single LinkedIn message",
     ],
   },
   {
@@ -32,9 +32,9 @@ const ADVANTAGES = [
       "If you have this advantage, you should not be selling hours. You should be selling speed. Companies will pay a massive premium for someone who can diagnose in one conversation what takes their internal team months. Your first engagement should be a diagnostic sprint, not a retainer.",
     moneyLine: "$10K-$15K per engagement, often completed in 4-6 weeks",
     examples: [
-      "Diagnostic sprints that solve in weeks what teams struggle with for months",
-      "Strategy engagements where you're paid for pattern recognition, not hours",
-      "Productized frameworks you can adapt and resell across clients",
+      "A $12K diagnostic sprint where you fix in 3 weeks what their team couldn't solve in 6 months",
+      "A repeatable strategy engagement you can sell to every Series B company with the same scaling problem",
+      "A productized framework you build once and resell across industries",
     ],
   },
   {
@@ -49,9 +49,9 @@ const ADVANTAGES = [
       "If you have this advantage, do not start with a broad offering. Start with one thing: positioning. Companies will pay $5K-$12K for someone who can walk in and tell them what they actually do in language their customers understand. That single skill is a business.",
     moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
     examples: [
-      "Positioning and messaging packages for companies that can't explain what they do",
-      "Launch narratives for products entering crowded markets",
-      "Brand strategy sprints that turn confusion into clarity",
+      "A $8K messaging package for a SaaS company that can't explain what it does",
+      "A launch narrative that helps a product stand out in a crowded market",
+      "A brand strategy sprint that turns a founder's rambling pitch into a story customers actually repeat",
     ],
   },
   {
@@ -66,9 +66,9 @@ const ADVANTAGES = [
       "If you have this advantage, your business gets more profitable with every client, not less. The system you build for client one becomes the template for client two. By client three, you're delivering twice the value in half the time. Most people's businesses scale linearly. Yours scales exponentially.",
     moneyLine: "$8K-$15K per engagement, with increasing efficiency each time",
     examples: [
-      "Operational overhauls for companies that have outgrown their starter systems",
-      "Process design that lets small teams scale without hiring",
-      "Automation and infrastructure buildouts sold as scoped sprints",
+      "A $10K operational overhaul for a 50-person company still running on spreadsheets and Slack threads",
+      "A workflow redesign that saves a team 20 hours a week and becomes your template for the next client",
+      "An automation buildout you scope in 2 weeks and deliver in 4, then sell again to 3 more companies",
     ],
   },
   {
@@ -84,9 +84,9 @@ const ADVANTAGES = [
     moneyLine:
       "First paid engagement often closed within 2-4 weeks of deciding to start",
     examples: [
-      "Revenue and growth engagements where your ability to close directly drives results",
-      "Business development partnerships where you're compensated for deals, not hours",
-      "Advisory work that converts naturally from conversations you're already having",
+      "A growth engagement where you close $200K in pipeline for a company in your first month",
+      "A BD partnership where you earn a percentage of every deal instead of billing hours",
+      "An advisory relationship that started as a coffee chat and turned into a $6K/month retainer",
     ],
   },
 ];
@@ -197,10 +197,9 @@ export default function DiscoverPage() {
               Now the question is: which business, exactly?
             </h2>
             <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
-              Your unfair advantage tells you <em>why</em> you&apos;ll succeed.
+              Your unfair advantage tells you <em>why</em>{" "}you&apos;ll succeed.
               Blair tells you <em>what</em> to build, <em>how</em> to price it,
-              and exactly where to start. Personalized to your background, your
-              time, and your goals.
+              and exactly where to start.
             </p>
           </div>
 
