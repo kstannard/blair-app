@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const ADVANTAGES = [
@@ -26,7 +25,7 @@ const ADVANTAGES = [
     name: "Pattern Library",
     oneLiner:
       "You've seen this problem break the same way at enough companies that you can diagnose it in one conversation.",
-    hook: "You walk into meetings and already know what's wrong. While everyone else is still figuring out the problem, you're three steps ahead because you've seen this exact movie before, at three other companies.",
+    hook: "You walk into meetings and already know what's wrong. While everyone else is still figuring out the problem, you're already ahead because you've seen this exact movie before.",
     detail:
       "You've worked across enough environments that you recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, you walk in and just know. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
     sharpPOV:
@@ -43,7 +42,7 @@ const ADVANTAGES = [
     name: "Translation Ability",
     oneLiner:
       "You make the complicated clear, the muddled compelling, and the invisible sellable.",
-    hook: "People constantly say you have a way with words, or that you \"just get it.\" You're the one rewriting the deck at midnight because no one else can explain what the company actually does.",
+    hook: "People constantly say you have a way with words, or that you \"just get it.\" You're the one everyone turns to when no one else can explain what the company actually does.",
     detail:
       "You see what's actually going on and can explain it in a way that makes people act. That skill is wildly undervalued in a salaried role and wildly overvalued as an outside service. The gap between what companies pay for this in-house vs. what they'll pay a specialist is massive.",
     sharpPOV:
@@ -313,15 +312,6 @@ export default function DiscoverPage() {
             </p>
           </div>
 
-          {/* Already have an account */}
-          <div className="mt-8 text-center">
-            <Link
-              href="/signin"
-              className="text-sm text-blair-charcoal/30 transition-colors hover:text-blair-charcoal/50"
-            >
-              Already have an account? Sign in
-            </Link>
-          </div>
         </div>
       </div>
     );
@@ -398,27 +388,6 @@ export default function DiscoverPage() {
           ))}
         </div>
 
-        {/* Bottom note */}
-        <div
-          className="mt-12 text-center animate-in fade-in duration-500"
-          style={{ animationDelay: "900ms", animationFillMode: "both" }}
-        >
-          <p className="text-sm text-blair-charcoal/30">
-            Not sure? Pick the one that made you think &quot;that&apos;s me.&quot;
-            <br />
-            You can always come back and explore others.
-          </p>
-        </div>
-
-        {/* Already have an account */}
-        <div className="mt-8 text-center">
-          <Link
-            href="/signin"
-            className="text-sm text-blair-charcoal/30 transition-colors hover:text-blair-charcoal/50"
-          >
-            Already have an account? Sign in
-          </Link>
-        </div>
       </div>
     </div>
   );
