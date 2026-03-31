@@ -37,7 +37,7 @@ export function WelcomeBack({
           Hey {firstName}, let&apos;s get started.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/60">
-          We&apos;ve done a lot of the heavy lifting for you, pre-filling as much as we could based on your quiz answers. Your first task takes about 10 minutes. Review it, adjust anything that doesn&apos;t feel right, and make it yours.
+          We&apos;ve pre-filled as much as we could based on your quiz answers and what we could find about you online. Your first task takes about 10 minutes. Review it, adjust anything that doesn&apos;t feel right, and make it yours.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/60">
           Work at your own pace. Life will happen: a kid gets sick, work implodes, the two hours you carved out disappear. What matters is doing the work, not doing it on schedule.
