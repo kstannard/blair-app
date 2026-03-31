@@ -194,12 +194,13 @@ export default function DiscoverPage() {
             style={{ animationDelay: "600ms", animationFillMode: "both" }}
           >
             <h2 className="font-serif text-2xl text-blair-midnight">
-              Now the question is: which business, exactly?
+              So. Which business?
             </h2>
             <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
-              Your unfair advantage tells you <em>why</em>{" "}you&apos;ll succeed.
-              Blair tells you <em>what</em> to build, <em>how</em> to price it,
-              and exactly where to start.
+              Knowing your advantage is step one. Step two is turning it into
+              something specific — a business model, a price, a first move.
+              That&apos;s what Blair does. For $149, you get a plan built around
+              exactly who you are and how much time you actually have.
             </p>
           </div>
 
@@ -329,20 +330,27 @@ export default function DiscoverPage() {
       <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
         {/* Hero */}
         <div className="pt-16 sm:pt-20 animate-in fade-in duration-700">
-          <h1 className="font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
-            You have an unfair advantage.
+          <p className="text-xs uppercase tracking-widest text-blair-sage font-medium">
+            Step 1 — Free
+          </p>
+          <h1 className="mt-4 font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
+            You&apos;ve spent years getting really good at something.
             <br />
-            <span className="text-blair-sage">You just haven&apos;t named it yet.</span>
+            <span className="text-blair-sage">That thing is worth more than you think.</span>
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-blair-charcoal/60">
-            Years of skills, relationships, and hard-won instincts add up to
-            something most people never develop. One of them is the reason your
-            first business will work. Which one sounds like you?
+          <p className="mt-6 text-base leading-relaxed text-blair-charcoal/60">
+            Most women trying to start a business look outward — what&apos;s trending,
+            what other people are doing, what sounds good. The ones who actually
+            build something look inward first. They find the thing they already do
+            better than almost anyone. Then they build around it.
+          </p>
+          <p className="mt-4 text-base font-medium text-blair-midnight">
+            Which of these sounds like you?
           </p>
         </div>
 
         {/* Advantage cards */}
-        <div className="mt-12 space-y-4">
+        <div className="mt-8 space-y-3">
           {ADVANTAGES.map((adv, i) => (
             <button
               key={adv.key}
@@ -362,10 +370,13 @@ export default function DiscoverPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
-                  <h3 className="font-serif text-xl text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
+                  <p className="text-xs uppercase tracking-widest text-blair-charcoal/30 font-medium mb-2">
                     {adv.name}
+                  </p>
+                  <h3 className="font-serif text-xl leading-snug text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
+                    &ldquo;{adv.oneLiner}&rdquo;
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/50">
+                  <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/50">
                     {adv.hook}
                   </p>
                 </div>
