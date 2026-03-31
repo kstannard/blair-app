@@ -10,6 +10,7 @@ import { PricingAndMath } from "@/components/results/PricingAndMath";
 import { FounderVideoEmbed } from "@/components/results/FounderVideoEmbed";
 import { ResultsPathChooser } from "@/components/results/ResultsPathChooser";
 import { ResultsReveal } from "@/components/results/ResultsReveal";
+import { ClosingNote } from "@/components/results/ClosingNote";
 
 
 export const metadata = {
@@ -131,6 +132,10 @@ export default async function ResultsPage() {
           />
         )}
       </ResultsReveal>
+
+      {recommendation.closingNote && (
+        <ClosingNote text={recommendation.closingNote} />
+      )}
 
     </main>
   );
