@@ -11,9 +11,7 @@ const ADVANTAGES = [
     oneLiner:
       "People already come to you for advice, intros, and recommendations. You just haven't charged for it.",
     detail:
-      "The women we talked to who replaced their income fastest didn't build funnels or post content. They sent a few messages to people who already trusted them. One conversation became a project. That project became a referral. Within months, they had more work than they could take on.",
-    sharpPOV:
-      "If you have this advantage, most business advice is wrong for you. You don't need to build an audience. You don't need a content strategy. You need to monetize the network you already have. The fastest path isn't visibility. It's one conversation with someone who already trusts you.",
+      "The women who replaced their income fastest didn't build funnels or post content. They sent a few messages to people who already trusted them. One conversation became a project. That project became a referral. Within months, they had more work than they could take on.",
     moneyLine: "$8K-$15K/month working 15-25 hours a week",
     examples: [
       "A fractional CMO role with a startup founder you used to work with",
@@ -29,11 +27,9 @@ const ADVANTAGES = [
     key: "patternLibrary",
     name: "Pattern Library",
     oneLiner:
-      "You've fixed this exact problem at three different companies.",
+      "You walk into a new company and already know what's going to break.",
     detail:
-      "You've worked across enough environments that you recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, you walk in and just know. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
-    sharpPOV:
-      "If you have this advantage, you should not be selling hours. You should be selling speed. Companies will pay a massive premium for someone who can diagnose in one conversation what takes their internal team months. Your first engagement should be a diagnostic sprint, not a retainer.",
+      "You've worked across enough places that you recognize problems before anyone finishes explaining them. While someone else needs months to figure out what's going on, you already know — because you've seen this exact movie before. That speed is worth a lot more than people realize.",
     moneyLine: "$10K-$15K per engagement, often completed in 4-6 weeks",
     examples: [
       "A $12K diagnostic sprint where you fix in 3 weeks what their team couldn't solve in 6 months",
@@ -49,11 +45,9 @@ const ADVANTAGES = [
     key: "translationAbility",
     name: "Translation Ability",
     oneLiner:
-      "Everyone hands you the thing nobody else can explain.",
+      "You're the one who rewrites the deck the night before and suddenly everything clicks.",
     detail:
-      "You see what's actually going on and can explain it in a way that makes people act. That skill is wildly undervalued in a salaried role and wildly overvalued as an outside service. The gap between what companies pay for this in-house vs. what they'll pay a specialist is massive.",
-    sharpPOV:
-      "If you have this advantage, do not start with a broad offering. Start with one thing: positioning. Companies will pay $5K-$12K for someone who can walk in and tell them what they actually do in language their customers understand. That single skill is a business.",
+      "You take something confusing and make it land. A muddled pitch, a product no one can describe, a strategy that only makes sense in the founder's head — you're the person who turns it into something people actually understand and want. That skill is undervalued in a salary and wildly valuable as a service.",
     moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
     examples: [
       "A $8K messaging package for a SaaS company that can't explain what it does",
@@ -71,9 +65,7 @@ const ADVANTAGES = [
     oneLiner:
       "You built the spreadsheet or automation nobody asked for. It changed everything.",
     detail:
-      "You don't just fix things. You see why they broke and build something that won't break the same way again. The work you do for one client becomes a template for the next. By your third engagement, you've essentially built a product that looks like high-end consulting.",
-    sharpPOV:
-      "If you have this advantage, your business gets more profitable with every client, not less. The system you build for client one becomes the template for client two. By client three, you're delivering twice the value in half the time. Most people's businesses scale linearly. Yours scales exponentially.",
+      "You don't just fix things. You see why they broke and build something that won't break the same way again. What you build for one client becomes the template for the next. By your third engagement, you're delivering twice the value in half the time.",
     moneyLine: "$8K-$15K per engagement, with increasing efficiency each time",
     examples: [
       "A $10K operational overhaul for a 50-person company still running on spreadsheets and Slack threads",
@@ -91,9 +83,7 @@ const ADVANTAGES = [
     oneLiner:
       "People call you persuasive. You just know what makes someone say yes.",
     detail:
-      "Most people dread the selling part of running a business. You've been doing it your whole career without calling it that. You read rooms, build trust fast, and know how to move a conversation from interest to commitment without it ever feeling like a pitch.",
-    sharpPOV:
-      "If you have this advantage, you will close your first client faster than almost anyone else. While most new business owners spend months building a website and perfecting their offering, you'll have revenue. The thing that scares everyone else about starting a business is the thing you're already great at.",
+      "Most people dread the selling part of running a business. You've been doing it your whole career without calling it that. You read rooms, build trust fast, and move a conversation from interest to commitment without it ever feeling like a pitch. The thing that scares everyone else about starting a business is the thing you're already great at.",
     moneyLine:
       "First paid engagement often closed within 2-4 weeks of deciding to start",
     examples: [
@@ -198,27 +188,6 @@ function DiscoverContent() {
             <p className="text-base leading-relaxed text-blair-charcoal/70">
               {advantage.detail}
             </p>
-            <div
-              className={cn(
-                "mt-6 relative overflow-hidden rounded-2xl p-6 sm:p-8",
-                advantage.bgColor
-              )}
-            >
-              <span
-                className="absolute -right-2 -top-2 font-serif text-[80px] leading-none select-none pointer-events-none"
-                style={{ color: advantage.decoColor }}
-              >
-                &ldquo;
-              </span>
-              <p
-                className={cn(
-                  "text-base leading-relaxed font-medium relative z-10",
-                  advantage.textColor
-                )}
-              >
-                {advantage.sharpPOV}
-              </p>
-            </div>
           </div>
 
           {/* What people build */}
