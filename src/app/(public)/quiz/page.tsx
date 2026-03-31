@@ -117,48 +117,62 @@ export default function DiscoverPage() {
 
   // Detail view
   if (advantage) {
+    const advIndex = ADVANTAGES.findIndex((a) => a.key === advantage.key);
+
     return (
       <div className="min-h-screen bg-blair-linen">
-        {/* Header */}
-        <div className="px-6 pt-6 pb-2 sm:px-10">
-          <div className="flex items-center justify-between">
-            <span className="font-serif text-xl text-blair-midnight tracking-tight">
-              blair
-            </span>
-            <button
-              onClick={() => setSelected(null)}
-              className="flex items-center gap-1 text-sm text-blair-charcoal/40 transition-colors hover:text-blair-charcoal/70"
-            >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
+        {/* Colored hero banner */}
+        <div className={cn("relative overflow-hidden", advantage.bgColor)}>
+          <div className="px-6 pt-6 pb-2 sm:px-10">
+            <div className="flex items-center justify-between">
+              <span className={cn("font-serif text-xl tracking-tight", advantage.textColor)}>
+                blair
+              </span>
+              <button
+                onClick={() => setSelected(null)}
+                className={cn(
+                  "flex items-center gap-1 text-sm transition-colors",
+                  advantage.ctaColor
+                )}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                />
-              </svg>
-              Back
-            </button>
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                  />
+                </svg>
+                Back
+              </button>
+            </div>
+          </div>
+
+          {/* Decorative number */}
+          <span
+            className="absolute -right-4 -bottom-8 font-serif text-[200px] leading-none select-none pointer-events-none"
+            style={{ color: advantage.decoColor }}
+          >
+            {String(advIndex + 1).padStart(2, "0")}
+          </span>
+
+          <div className="mx-auto max-w-2xl px-6 pt-12 pb-14 sm:px-10 sm:pt-16 sm:pb-16 relative z-10 animate-in fade-in duration-500">
+            <h1 className={cn("font-serif text-4xl sm:text-5xl", advantage.textColor)}>
+              {advantage.name}
+            </h1>
+            <p className={cn("mt-5 text-lg", advantage.ctaColor)}>
+              {advantage.oneLiner}
+            </p>
           </div>
         </div>
 
         <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
-          {/* Advantage reveal */}
-          <div className="pt-12 sm:pt-16 animate-in fade-in duration-500">
-            <h1 className="font-serif text-4xl text-blair-midnight sm:text-5xl">
-              {advantage.name}
-            </h1>
-            <p className="mt-5 text-lg text-blair-charcoal/50">
-              {advantage.oneLiner}
-            </p>
-          </div>
-
-          {/* Sharp POV */}
+          {/* Why this matters */}
           <div
             className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
@@ -166,8 +180,14 @@ export default function DiscoverPage() {
             <p className="text-base leading-relaxed text-blair-charcoal/70">
               {advantage.detail}
             </p>
-            <div className="mt-6 rounded-xl border-l-4 border-blair-sage bg-white px-6 py-5">
-              <p className="text-base leading-relaxed font-medium text-blair-midnight">
+            <div className={cn("mt-6 relative overflow-hidden rounded-2xl p-6 sm:p-8", advantage.bgColor)}>
+              <span
+                className="absolute -right-2 -top-2 font-serif text-[80px] leading-none select-none pointer-events-none"
+                style={{ color: advantage.decoColor }}
+              >
+                &ldquo;
+              </span>
+              <p className={cn("text-base leading-relaxed font-medium relative z-10", advantage.textColor)}>
                 {advantage.sharpPOV}
               </p>
             </div>
@@ -185,12 +205,12 @@ export default function DiscoverPage() {
               {advantage.examples.map((example, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 rounded-xl border border-blair-mist bg-white px-5 py-4"
+                  className="flex items-start gap-4 rounded-2xl border border-blair-mist bg-white px-5 py-5"
                 >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 text-sm font-semibold text-blair-sage">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 text-sm font-semibold text-blair-sage">
                     {i + 1}
                   </div>
-                  <p className="text-sm leading-relaxed text-blair-charcoal/70 pt-1">
+                  <p className="text-base leading-relaxed text-blair-charcoal/70 pt-1">
                     {example}
                   </p>
                 </div>
@@ -198,8 +218,8 @@ export default function DiscoverPage() {
             </div>
 
             {/* Income highlight */}
-            <div className="mt-5 rounded-xl bg-blair-sage/10 border border-blair-sage/20 px-5 py-4">
-              <p className="text-sm font-medium text-blair-sage-dark">
+            <div className="mt-5 rounded-2xl bg-blair-sage/10 border border-blair-sage/20 px-6 py-5">
+              <p className="text-base font-medium text-blair-sage-dark">
                 Typical range: {advantage.moneyLine}
               </p>
             </div>
@@ -211,13 +231,13 @@ export default function DiscoverPage() {
             style={{ animationDelay: "600ms", animationFillMode: "both" }}
           >
             <h2 className="font-serif text-2xl text-blair-midnight">
-              Now turn it into a business.
+              You know the advantage. Blair gives you the plan.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
-              Knowing your advantage is step one. Step two is turning it into
-              something specific: a business model, a price, a first move.
-              That&apos;s what Blair does. For $149, you get a plan built around
-              exactly who you are and how much time you actually have.
+              Your unfair advantage tells you <em>why</em> you&apos;ll succeed.
+              Blair tells you <em>what</em> to build, how to price it, and where
+              to start. For $149, you get a plan built around who you are
+              and the time you actually have.
             </p>
           </div>
 
