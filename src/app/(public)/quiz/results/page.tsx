@@ -222,7 +222,7 @@ function ResultsContent() {
             </div>
 
             <a
-              href="https://www.hiblair.com/#pricing"
+              href="https://www.hiblair.com/store/p/blair-personalized-plan"
               className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark"
             >
               Get my personalized plan
