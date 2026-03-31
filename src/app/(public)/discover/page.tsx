@@ -48,7 +48,7 @@ const ADVANTAGES = [
       "You're the one who rewrites the deck the night before and suddenly everything clicks.",
     detail:
       "You take something confusing and make it land. A muddled pitch, a product no one can describe, a strategy that only makes sense in the founder's head. You're the person who turns it into something people actually understand and want. That skill is undervalued in a salary and wildly valuable as a service.",
-    moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
+    moneyLine: "$5K-$15K per project, typically 15-20 hours of actual work",
     examples: [
       "A $5K-$8K positioning sprint for a founder who knows exactly what they do but cannot explain it to anyone outside their building",
       "A messaging package that turns forgettable website copy into something that makes people say: yes, that is exactly what I need",
