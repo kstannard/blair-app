@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import DraftReviewSection from "@/components/admin/DraftReviewSection";
 
 export const dynamic = "force-dynamic";
 
@@ -83,13 +84,19 @@ export default async function AdminUserPage({
 
       {/* Recommendations */}
       {rec && (
-        <Section title="Recommendations">
+        <Section title={rec.status === "draft" ? "Recommendation — needs review" : "Recommendation"}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="rounded bg-blair-sage/10 px-2 py-1 text-xs font-medium text-blair-sage-dark">Primary</span>
               <span className="text-sm font-medium text-gray-900">{primaryPath?.name}</span>
+              {rec.status === "approved" && (
+                <span className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">Approved</span>
+              )}
+              {rec.status === "draft" && (
+                <span className="rounded bg-amber-100 px-2 py-0.5 text-xs text-amber-700">Draft</span>
+              )}
               {confirmedPath && confirmedPath.id === primaryPath?.id && (
-                <span className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">Confirmed</span>
+                <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">User confirmed</span>
               )}
             </div>
             {alt1 && (
@@ -97,7 +104,7 @@ export default async function AdminUserPage({
                 <span className="rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-500">Alt 1</span>
                 <span className="text-sm text-gray-700">{alt1.name}</span>
                 {confirmedPath && confirmedPath.id === alt1.id && (
-                  <span className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">Confirmed</span>
+                  <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">User confirmed</span>
                 )}
               </div>
             )}
@@ -106,11 +113,41 @@ export default async function AdminUserPage({
                 <span className="rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-500">Alt 2</span>
                 <span className="text-sm text-gray-700">{alt2.name}</span>
                 {confirmedPath && confirmedPath.id === alt2.id && (
-                  <span className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">Confirmed</span>
+                  <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">User confirmed</span>
                 )}
               </div>
             )}
           </div>
+
+          {rec.status === "draft" && (
+            <DraftReviewSection
+              recId={rec.id}
+              initialData={{
+                personalIntro: rec.personalIntro,
+                personalizedWhy: rec.personalizedWhy,
+                pricingDetails: rec.pricingDetails,
+                transitionPlan: rec.transitionPlan,
+                closingNote: rec.closingNote,
+              }}
+            />
+          )}
+
+          {rec.status === "approved" && (rec.personalIntro || rec.closingNote) && (
+            <div className="mt-4 space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-4">
+              {rec.personalIntro && (
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Intro</p>
+                  <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.personalIntro}</p>
+                </div>
+              )}
+              {rec.closingNote && (
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Closing note</p>
+                  <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.closingNote}</p>
+                </div>
+              )}
+            </div>
+          )}
         </Section>
       )}
 

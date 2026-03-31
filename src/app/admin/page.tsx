@@ -4,33 +4,68 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const users = await prisma.user.findMany({
-    include: {
-      profile: true,
-      recommendations: {
-        include: {
-          paths: {
-            include: { path: true },
-            orderBy: { rank: "asc" },
+  const [users, drafts] = await Promise.all([
+    prisma.user.findMany({
+      include: {
+        profile: true,
+        recommendations: {
+          include: {
+            paths: {
+              include: { path: true },
+              orderBy: { rank: "asc" },
+            },
           },
+          orderBy: { createdAt: "desc" },
+          take: 1,
         },
-        orderBy: { createdAt: "desc" },
-        take: 1,
+        taskProgress: {
+          include: { task: true },
+          orderBy: { updatedAt: "desc" },
+        },
+        quizSubmissions: {
+          orderBy: { submittedAt: "desc" },
+          take: 1,
+        },
       },
-      taskProgress: {
-        include: { task: true },
-        orderBy: { updatedAt: "desc" },
+      orderBy: { updatedAt: "desc" },
+    }),
+    prisma.recommendation.findMany({
+      where: { status: "draft" },
+      include: {
+        user: true,
+        paths: { include: { path: true }, orderBy: { rank: "asc" }, take: 1 },
       },
-      quizSubmissions: {
-        orderBy: { submittedAt: "desc" },
-        take: 1,
-      },
-    },
-    orderBy: { updatedAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   return (
     <div>
+      {drafts.length > 0 && (
+        <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 p-5">
+          <h2 className="text-sm font-semibold text-amber-900">
+            {drafts.length === 1 ? "1 recommendation needs your review" : `${drafts.length} recommendations need your review`}
+          </h2>
+          <div className="mt-3 space-y-2">
+            {drafts.map((draft) => (
+              <Link
+                key={draft.id}
+                href={`/admin/${draft.userId}`}
+                className="flex items-center justify-between rounded-lg border border-amber-200 bg-white px-4 py-3 hover:bg-amber-50"
+              >
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{draft.user.name || draft.user.email}</p>
+                  <p className="text-xs text-gray-500">
+                    {draft.paths[0]?.path?.name ?? "Unknown path"} · submitted {formatDate(draft.createdAt)}
+                  </p>
+                </div>
+                <span className="text-xs font-medium text-amber-700">Review →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">{users.length} Customers</h1>
       </div>
