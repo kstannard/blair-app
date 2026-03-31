@@ -11,12 +11,12 @@ const ADVANTAGES = [
     oneLiner:
       "People already come to you for advice, intros, and recommendations. You just haven't charged for it.",
     detail:
-      "The women who replaced their income fastest didn't build funnels or post content. They sent a few messages to people who already trusted them. One conversation became a project. That project became a referral. Within months, they had more work than they could take on.",
-    moneyLine: "$8K-$15K/month working 15-25 hours a week",
+      "The women who replaced their income fastest didn't build funnels or post content. They sent a few messages to people who already trusted them. One conversation became a project, that project became a referral, and within months, they had more work than they could take on.",
+    moneyLine: "$5K-$8K/month working 10-20 hours a week",
     examples: [
-      "A fractional CMO role with a startup founder you used to work with",
-      "A $5K/month advisory retainer with someone who already trusts your judgment",
-      "Three referral-driven projects from a single LinkedIn message",
+      "A $5K-$8K/month advisory retainer that started with one email to someone who already trusted your read",
+      "A talent placement practice where your network becomes the business: make the right introduction, earn a fee",
+      "A fractional strategy role with a founder who would have called you first anyway",
     ],
     bgColor: "bg-[#E2ECE4]",
     textColor: "text-blair-midnight",
@@ -29,12 +29,12 @@ const ADVANTAGES = [
     oneLiner:
       "You walk into a new company and already know what's going to break.",
     detail:
-      "You've worked across enough places that you recognize problems before anyone finishes explaining them. While someone else needs months to figure out what's going on, you already know. You've seen this exact movie before. That speed is worth a lot more than people realize.",
-    moneyLine: "$10K-$15K per engagement, often completed in 4-6 weeks",
+      "You've worked across enough places that you recognize problems before anyone finishes explaining them. While someone else needs months to figure out what's going on, you already know. That speed is worth a lot more than people realize.",
+    moneyLine: "$12K-$15K per engagement, often completed in 4-6 weeks",
     examples: [
-      "A $12K diagnostic sprint where you fix in 3 weeks what their team couldn't solve in 6 months",
-      "A repeatable strategy engagement you can sell to every Series B company with the same scaling problem",
-      "A productized framework you build once and resell across industries",
+      "A $12K-$15K diagnostic engagement where you spot the problem in week one and fix it by week four",
+      "A repeatable strategy package you can sell to every company at the same growth stage with the same breaking points",
+      "A fractional operator role where the fee reflects that you read the situation faster than anyone they could hire full-time",
     ],
     bgColor: "bg-blair-midnight",
     textColor: "text-white",
@@ -50,9 +50,9 @@ const ADVANTAGES = [
       "You take something confusing and make it land. A muddled pitch, a product no one can describe, a strategy that only makes sense in the founder's head. You're the person who turns it into something people actually understand and want. That skill is undervalued in a salary and wildly valuable as a service.",
     moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
     examples: [
-      "A $8K messaging package for a SaaS company that can't explain what it does",
-      "A launch narrative that helps a product stand out in a crowded market",
-      "A brand strategy sprint that turns a founder's rambling pitch into a story customers actually repeat",
+      "A $5K-$8K positioning sprint for a founder who knows exactly what they do but cannot explain it to anyone outside their building",
+      "A messaging package that turns forgettable website copy into something that makes people say: yes, that is exactly what I need",
+      "A launch narrative for a new product or rebrand where the difference between traction and silence is how it is framed",
     ],
     bgColor: "bg-[#F3E1E8]",
     textColor: "text-blair-midnight",
@@ -68,9 +68,9 @@ const ADVANTAGES = [
       "You don't just fix things. You see why they broke and build something that won't break the same way again. What you build for one client becomes the template for the next. By your third engagement, you're delivering twice the value in half the time.",
     moneyLine: "$8K-$15K per engagement, with increasing efficiency each time",
     examples: [
-      "A $10K operational overhaul for a 50-person company still running on spreadsheets and Slack threads",
-      "A workflow redesign that saves a team 20 hours a week and becomes your template for the next client",
-      "An automation buildout you scope in 2 weeks and deliver in 4, then sell again to 3 more companies",
+      "A $10K operations overhaul for a growing service business still running on email threads and manual processes",
+      "An automation system you build once for one client, then package and sell to five others in the same industry",
+      "A fractional ops role where you own the systems everyone else relies on, without the politics of being full-time",
     ],
     bgColor: "bg-blair-sage",
     textColor: "text-white",
@@ -87,9 +87,9 @@ const ADVANTAGES = [
     moneyLine:
       "First paid engagement often closed within 2-4 weeks of deciding to start",
     examples: [
-      "A growth engagement where you close $200K in pipeline for a company in your first month",
-      "A BD partnership where you earn a percentage of every deal instead of billing hours",
-      "An advisory relationship that started as a coffee chat and turned into a $6K/month retainer",
+      "A commission-based growth role where you earn a percentage of the deals you close, not a flat hourly rate",
+      "A sales coaching engagement where founders pay you to teach them the thing that comes naturally to you",
+      "A BD retainer where a company pays you to open doors, move conversations forward, and get to yes",
     ],
     bgColor: "bg-[#EDE6DD]",
     textColor: "text-blair-midnight",
@@ -312,10 +312,10 @@ function DiscoverContent() {
                 </svg>
                 <div>
                   <p className="text-sm font-medium text-blair-midnight">
-                    100% money-back guarantee
+                    Clarity guarantee
                   </p>
                   <p className="mt-0.5 text-xs leading-relaxed text-blair-charcoal/50">
-                    If you don&apos;t walk away knowing exactly what to build and how to start, we&apos;ll refund your purchase in full. No questions asked.
+                    You&apos;ll walk away knowing exactly what to build and how to start. If you don&apos;t, we&apos;ll refund you in full.
                   </p>
                 </div>
               </div>
