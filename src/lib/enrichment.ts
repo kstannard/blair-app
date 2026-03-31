@@ -1,8 +1,8 @@
 /**
- * Person enrichment — combines LinkedIn data (via Proxycurl) with
+ * Person enrichment — combines LinkedIn data (via Enrichlayer) with
  * public web search to build a richer profile before scoring.
  *
- * Proxycurl: set PROXYCURL_API_KEY env var when available.
+ * Enrichlayer: set ENRICHLAYER_API_KEY env var when available.
  * Web search: uses Tavily API (set TAVILY_API_KEY env var).
  */
 
@@ -31,11 +31,11 @@ export interface LinkedinProfile {
 }
 
 /**
- * Fetch LinkedIn profile via Proxycurl.
+ * Fetch LinkedIn profile via Enrichlayer.
  * Returns null if no API key or profile not found.
  */
 async function fetchLinkedin(linkedinUrl: string): Promise<LinkedinProfile | null> {
-  const apiKey = process.env.PROXYCURL_API_KEY;
+  const apiKey = process.env.ENRICHLAYER_API_KEY;
   if (!apiKey || !linkedinUrl) return null;
 
   // Normalize URL
@@ -43,11 +43,11 @@ async function fetchLinkedin(linkedinUrl: string): Promise<LinkedinProfile | nul
 
   try {
     const res = await fetch(
-      `https://nubela.co/proxycurl/api/v2/linkedin?url=${encodeURIComponent(url)}&use_cache=if-present&fallback_to_cache=on-error`,
+      `https://enrichlayer.com/api/v2/profile?url=${encodeURIComponent(url)}&use_cache=if-present&fallback_to_cache=on-error`,
       { headers: { Authorization: `Bearer ${apiKey}` } }
     );
     if (!res.ok) {
-      console.warn(`Proxycurl returned ${res.status} for ${linkedinUrl}`);
+      console.warn(`Enrichlayer returned ${res.status} for ${linkedinUrl}`);
       return null;
     }
     const data = await res.json();
@@ -70,7 +70,7 @@ async function fetchLinkedin(linkedinUrl: string): Promise<LinkedinProfile | nul
         : linkedinUrl,
     };
   } catch (err) {
-    console.error("Proxycurl error:", err);
+    console.error("Enrichlayer error:", err);
     return null;
   }
 }
@@ -166,17 +166,17 @@ export async function enrichPerson(params: {
     publicUrls.push(...urls);
   }
 
-  // Fetch LinkedIn via Proxycurl
+  // Fetch LinkedIn via Enrichlayer
   let linkedinData: LinkedinProfile | undefined;
   if (linkedinUrl) {
     const result = await fetchLinkedin(linkedinUrl);
     if (result) {
       linkedinData = result;
-      notes.push(`LinkedIn fetched via Proxycurl: ${result.currentRole} at ${result.currentCompany}`);
-    } else if (process.env.PROXYCURL_API_KEY) {
-      notes.push("LinkedIn URL provided but Proxycurl returned no data");
+      notes.push(`LinkedIn fetched via Enrichlayer: ${result.currentRole} at ${result.currentCompany}`);
+    } else if (process.env.ENRICHLAYER_API_KEY) {
+      notes.push("LinkedIn URL provided but Enrichlayer returned no data");
     } else {
-      notes.push("LinkedIn URL provided but PROXYCURL_API_KEY not set — skipped");
+      notes.push("LinkedIn URL provided but ENRICHLAYER_API_KEY not set — skipped");
     }
   } else {
     notes.push("No LinkedIn URL provided");
@@ -206,7 +206,7 @@ export function formatEnrichmentForPrompt(profile: EnrichedProfile): string {
 
   if (profile.linkedinData) {
     const li = profile.linkedinData;
-    parts.push(`## LinkedIn Profile (via Proxycurl)`);
+    parts.push(`## LinkedIn Profile (via Enrichlayer)`);
     parts.push(`Name: ${li.fullName}`);
     parts.push(`Headline: ${li.headline}`);
     if (li.summary) parts.push(`About: ${li.summary}`);
