@@ -19,6 +19,7 @@ const ADVANTAGES = [
       "A $5K/month advisory retainer with someone who already trusts your judgment",
       "Three referral-driven projects from a single LinkedIn message",
     ],
+    accentColor: "border-blair-sage",
   },
   {
     key: "patternLibrary",
@@ -36,6 +37,7 @@ const ADVANTAGES = [
       "A repeatable strategy engagement you can sell to every Series B company with the same scaling problem",
       "A productized framework you build once and resell across industries",
     ],
+    accentColor: "border-blair-rose",
   },
   {
     key: "translationAbility",
@@ -53,6 +55,7 @@ const ADVANTAGES = [
       "A launch narrative that helps a product stand out in a crowded market",
       "A brand strategy sprint that turns a founder's rambling pitch into a story customers actually repeat",
     ],
+    accentColor: "border-blair-sage-dark",
   },
   {
     key: "systemsBrain",
@@ -70,6 +73,7 @@ const ADVANTAGES = [
       "A workflow redesign that saves a team 20 hours a week and becomes your template for the next client",
       "An automation buildout you scope in 2 weeks and deliver in 4, then sell again to 3 more companies",
     ],
+    accentColor: "border-blair-midnight",
   },
   {
     key: "closerInstinct",
@@ -88,6 +92,7 @@ const ADVANTAGES = [
       "A BD partnership where you earn a percentage of every deal instead of billing hours",
       "An advisory relationship that started as a coffee chat and turned into a $6K/month retainer",
     ],
+    accentColor: "border-blair-sage-light",
   },
 ];
 
@@ -141,7 +146,7 @@ export default function DiscoverPage() {
             </p>
           </div>
 
-          {/* Sharp POV — the real value */}
+          {/* Sharp POV */}
           <div
             className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
@@ -194,11 +199,11 @@ export default function DiscoverPage() {
             style={{ animationDelay: "600ms", animationFillMode: "both" }}
           >
             <h2 className="font-serif text-2xl text-blair-midnight">
-              So. Which business?
+              Now turn it into a business.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
               Knowing your advantage is step one. Step two is turning it into
-              something specific — a business model, a price, a first move.
+              something specific: a business model, a price, a first move.
               That&apos;s what Blair does. For $149, you get a plan built around
               exactly who you are and how much time you actually have.
             </p>
@@ -219,7 +224,7 @@ export default function DiscoverPage() {
                   "A deep-dive assessment that maps your exact skills, experience, and constraints to the right business model",
                   "Your top business path, matched to your unfair advantage and the hours you actually have",
                   "Pricing guidance: what to charge, the side hustle math, and the full-time math",
-                  "A step-by-step playbook to go from idea to first paying client",
+                  "A step-by-step playbook to go from idea to first revenue",
                   "Built for moms. Every recommendation fits your real life, not a fantasy schedule",
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -327,30 +332,31 @@ export default function DiscoverPage() {
         </span>
       </div>
 
-      <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
+      <div className="mx-auto max-w-3xl px-6 pb-20 sm:px-10">
         {/* Hero */}
         <div className="pt-16 sm:pt-20 animate-in fade-in duration-700">
-          <p className="text-xs uppercase tracking-widest text-blair-sage font-medium">
-            Step 1 — Free
-          </p>
-          <h1 className="mt-4 font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
+          <h1 className="font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
             You&apos;ve spent years getting really good at something.
             <br />
             <span className="text-blair-sage">That thing is worth more than you think.</span>
           </h1>
           <p className="mt-6 text-base leading-relaxed text-blair-charcoal/60">
-            Most women trying to start a business look outward — what&apos;s trending,
+            Most women trying to start a business look outward: what&apos;s trending,
             what other people are doing, what sounds good. The ones who actually
             build something look inward first. They find the thing they already do
             better than almost anyone. Then they build around it.
           </p>
-          <p className="mt-4 text-base font-medium text-blair-midnight">
+        </div>
+
+        {/* Prompt */}
+        <div className="mt-12 mb-6 animate-in fade-in duration-500" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
+          <p className="text-base font-medium text-blair-midnight">
             Which of these sounds like you?
           </p>
         </div>
 
-        {/* Advantage cards */}
-        <div className="mt-8 space-y-3">
+        {/* Advantage cards - 2 column on desktop, 1 on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {ADVANTAGES.map((adv, i) => (
             <button
               key={adv.key}
@@ -359,45 +365,32 @@ export default function DiscoverPage() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className={cn(
-                "group w-full rounded-2xl border bg-white p-6 sm:p-8 text-left transition-all hover:border-blair-sage/50 hover:shadow-md",
-                "border-blair-mist",
-                "animate-in fade-in slide-in-from-bottom-4 duration-500"
+                "group w-full rounded-2xl border-l-4 bg-white p-6 text-left transition-all hover:shadow-lg hover:-translate-y-0.5",
+                adv.accentColor,
+                "animate-in fade-in slide-in-from-bottom-4 duration-500",
+                // Last card spans full width if odd number
+                i === ADVANTAGES.length - 1 && ADVANTAGES.length % 2 !== 0 && "sm:col-span-2 sm:max-w-[calc(50%-0.5rem)]"
               )}
               style={{
-                animationDelay: `${300 + i * 100}ms`,
+                animationDelay: `${300 + i * 80}ms`,
                 animationFillMode: "both",
               }}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <p className="text-xs uppercase tracking-widest text-blair-charcoal/30 font-medium mb-2">
-                    {adv.name}
-                  </p>
-                  <h3 className="font-serif text-xl leading-snug text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
-                    &ldquo;{adv.oneLiner}&rdquo;
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/50">
-                    {adv.hook}
-                  </p>
-                </div>
-                <svg
-                  className="mt-1 h-5 w-5 shrink-0 text-blair-charcoal/20 transition-all group-hover:text-blair-sage group-hover:translate-x-0.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </div>
+              <p className="text-xs uppercase tracking-widest text-blair-charcoal/30 font-medium">
+                {adv.name}
+              </p>
+              <h3 className="mt-2 font-serif text-lg leading-snug text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
+                {adv.oneLiner}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/40">
+                {adv.hook}
+              </p>
+              <p className="mt-4 text-xs font-medium text-blair-sage group-hover:text-blair-sage-dark transition-colors">
+                See what this means for you &rarr;
+              </p>
             </button>
           ))}
         </div>
-
       </div>
     </div>
   );
