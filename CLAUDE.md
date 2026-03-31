@@ -125,6 +125,49 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - No chatbot as primary interface. Contextual AI actions embedded in tasks only.
 - Pre-filled content = "we started this for you, edit anything that doesn't feel right" — never auto-check completions just because fields are pre-filled.
 - Payment gating: mini quiz → free unfair advantage teaser → pay → full quiz → recommendation + playbook
+- Quiz route is now /discover (not /quiz). /quiz redirects to /discover.
+- URL-based advantage selection: /discover?a=networkDensity etc.
+
+## Results Copy Standards (non-negotiable rules)
+- State facts about what they DID, never narrate how they felt about it or what role they played in outcomes
+  - BAD: "You were the person holding everything together"
+  - GOOD: "You led comms through a period that included X, Y, Z"
+- Never assume salary. Don't say "more than your salary" or imply what they earned.
+- Never assume how someone experienced their career (laid off = don't lean into the loss narrative)
+- Tone: warm, direct, confidence-building. Never preachy, never presumptuous.
+- Bath time is 5:30-6pm (use this when referencing parent constraints)
+- Examples in results should NOT be consulting-only. Mix in fractional, advisory, placement, content — whatever fits the path.
+- Price ranges must be validated against real research (Carla: $8K/month for 2-3 hrs advising; Nadine: $250/hr, $15K/month for PE; Erin: $15-20K strategy projects; Kaleana: good money for 8 hrs/week)
+
+## Typeform Quiz (paid full quiz)
+- Form ID: CCNZDjRG, 27+ questions (Q0-Q27+ after recent additions)
+- Added questions: Q13 "What's the main thing stopping you from getting started?" + Q27 "What are your kids' ages?"
+- Field mappings in /src/content/typeform-fields.ts
+
+## Mini Quiz / Discover Page (/discover)
+- 5 unfair advantages shown as colored cards
+- URL-based selection: /discover?a=networkDensity|patternLibrary|translationAbility|systemsBrain|closerInstinct
+- Each detail page: colored hero banner, description, examples, pricing card, Clarity guarantee
+- Guarantee label: "Clarity guarantee" / Body: "You'll walk away knowing exactly what to build and how to start. If you don't, we'll refund you in full."
+- CTA links to: https://www.hiblair.com/store/p/blair-personalized-plan
+
+## Customer Research Notes (from 6 interviews)
+- Carla: $8K/month advisory, 2-3 hours/week. Network-driven. No cold outreach.
+- Nadine: $250/hr, $15K/month for PE firm work. Pattern Library type.
+- Erin: $15-20K strategy projects. Packaged, project-based.
+- Kaleana: Good income for 8 hrs/week. Systems/operations.
+- Key insight: The fastest income replacements came through existing relationships, not content or funnels.
+- Key insight: Packaged project work (clear start/end) works best for moms — open retainers create "on-call" problems.
+
+## Kelsey Merkel Leibel (real beta user)
+- Email: kelseymerkel@gmail.com / User ID: kelsey-merkel-001
+- Path: Messaging & Positioning Specialist (cmnajm4bm0001c39rkjq1b8zj), status: approved
+- Background: Head of Comms & PR at WeightWatchers (~6 yrs), VP at DiGennaro Comms (Pinterest, Spotify, S'well clients, 7.5 yrs), Meta contractor
+- One daughter: Avery (young)
+- Based in Carlsbad, CA
+- Submitted Typeform 3/21. Was already in soft launch mode for her own consultancy.
+- Unfair advantage: Translation Ability
+- DO NOT mention being laid off as a narrative. State facts only.
 
 ## Running Locally
 ```bash
