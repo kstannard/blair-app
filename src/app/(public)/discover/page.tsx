@@ -29,7 +29,7 @@ const ADVANTAGES = [
     oneLiner:
       "You walk into a new company and already know what's going to break.",
     detail:
-      "You've worked across enough places that you recognize problems before anyone finishes explaining them. While someone else needs months to figure out what's going on, you already know — because you've seen this exact movie before. That speed is worth a lot more than people realize.",
+      "You've worked across enough places that you recognize problems before anyone finishes explaining them. While someone else needs months to figure out what's going on, you already know. You've seen this exact movie before. That speed is worth a lot more than people realize.",
     moneyLine: "$10K-$15K per engagement, often completed in 4-6 weeks",
     examples: [
       "A $12K diagnostic sprint where you fix in 3 weeks what their team couldn't solve in 6 months",
@@ -47,7 +47,7 @@ const ADVANTAGES = [
     oneLiner:
       "You're the one who rewrites the deck the night before and suddenly everything clicks.",
     detail:
-      "You take something confusing and make it land. A muddled pitch, a product no one can describe, a strategy that only makes sense in the founder's head — you're the person who turns it into something people actually understand and want. That skill is undervalued in a salary and wildly valuable as a service.",
+      "You take something confusing and make it land. A muddled pitch, a product no one can describe, a strategy that only makes sense in the founder's head. You're the person who turns it into something people actually understand and want. That skill is undervalued in a salary and wildly valuable as a service.",
     moneyLine: "$5K-$12K per project, typically 15-20 hours of actual work",
     examples: [
       "A $8K messaging package for a SaaS company that can't explain what it does",
