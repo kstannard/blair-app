@@ -19,13 +19,16 @@ const ADVANTAGES = [
       "A $5K/month advisory retainer with someone who already trusts your judgment",
       "Three referral-driven projects from a single LinkedIn message",
     ],
-    accentColor: "border-blair-sage",
+    bgColor: "bg-[#E2ECE4]",
+    textColor: "text-blair-midnight",
+    ctaColor: "text-blair-sage-dark",
+    decoColor: "rgba(30,80,50,0.05)",
   },
   {
     key: "patternLibrary",
     name: "Pattern Library",
     oneLiner:
-      "You've seen this problem break the same way at enough companies that you can diagnose it in one conversation.",
+      "You've seen this satisfying problem break the same way at enough companies that you can diagnose it in one conversation.",
     hook: "You walk into meetings and already know what's wrong. While everyone else is still figuring out the problem, you're already ahead because you've seen this exact movie before.",
     detail:
       "You've worked across enough environments that you recognize problems before anyone finishes explaining them. Where someone else needs months to figure out what's going on, you walk in and just know. This isn't just experience. It's experience across enough different contexts that the patterns become obvious.",
@@ -37,7 +40,10 @@ const ADVANTAGES = [
       "A repeatable strategy engagement you can sell to every Series B company with the same scaling problem",
       "A productized framework you build once and resell across industries",
     ],
-    accentColor: "border-blair-rose",
+    bgColor: "bg-blair-midnight",
+    textColor: "text-white",
+    ctaColor: "text-white/50",
+    decoColor: "rgba(255,255,255,0.05)",
   },
   {
     key: "translationAbility",
@@ -55,7 +61,10 @@ const ADVANTAGES = [
       "A launch narrative that helps a product stand out in a crowded market",
       "A brand strategy sprint that turns a founder's rambling pitch into a story customers actually repeat",
     ],
-    accentColor: "border-blair-sage-dark",
+    bgColor: "bg-[#F3E1E8]",
+    textColor: "text-blair-midnight",
+    ctaColor: "text-blair-rose",
+    decoColor: "rgba(184,74,107,0.06)",
   },
   {
     key: "systemsBrain",
@@ -73,7 +82,10 @@ const ADVANTAGES = [
       "A workflow redesign that saves a team 20 hours a week and becomes your template for the next client",
       "An automation buildout you scope in 2 weeks and deliver in 4, then sell again to 3 more companies",
     ],
-    accentColor: "border-blair-midnight",
+    bgColor: "bg-blair-sage",
+    textColor: "text-white",
+    ctaColor: "text-white/50",
+    decoColor: "rgba(255,255,255,0.07)",
   },
   {
     key: "closerInstinct",
@@ -92,7 +104,10 @@ const ADVANTAGES = [
       "A BD partnership where you earn a percentage of every deal instead of billing hours",
       "An advisory relationship that started as a coffee chat and turned into a $6K/month retainer",
     ],
-    accentColor: "border-blair-sage-light",
+    bgColor: "bg-[#EDE6DD]",
+    textColor: "text-blair-midnight",
+    ctaColor: "text-blair-charcoal/40",
+    decoColor: "rgba(80,60,30,0.05)",
   },
 ];
 
@@ -100,7 +115,7 @@ export default function DiscoverPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const advantage = ADVANTAGES.find((a) => a.key === selected);
 
-  // If an advantage is selected, show the detail view
+  // Detail view
   if (advantage) {
     return (
       <div className="min-h-screen bg-blair-linen">
@@ -127,7 +142,7 @@ export default function DiscoverPage() {
                   d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
                 />
               </svg>
-              See all advantages
+              Back
             </button>
           </div>
         </div>
@@ -135,13 +150,10 @@ export default function DiscoverPage() {
         <div className="mx-auto max-w-2xl px-6 pb-20 sm:px-10">
           {/* Advantage reveal */}
           <div className="pt-12 sm:pt-16 animate-in fade-in duration-500">
-            <p className="text-xs uppercase tracking-widest text-blair-charcoal/30">
-              Your unfair advantage
-            </p>
-            <h1 className="mt-3 font-serif text-4xl text-blair-midnight sm:text-5xl">
+            <h1 className="font-serif text-4xl text-blair-midnight sm:text-5xl">
               {advantage.name}
             </h1>
-            <p className="mt-5 text-xl leading-relaxed text-blair-charcoal/60">
+            <p className="mt-5 text-lg text-blair-charcoal/50">
               {advantage.oneLiner}
             </p>
           </div>
@@ -221,7 +233,7 @@ export default function DiscoverPage() {
 
               <div className="mt-6 space-y-3">
                 {[
-                  "A deep-dive assessment that maps your exact skills, experience, and constraints to the right business model",
+                  "A deep-dive assessment that maps your skills and experience to the right business model",
                   "Your top business path, matched to your unfair advantage and the hours you actually have",
                   "Pricing guidance: what to charge, the side hustle math, and the full-time math",
                   "A step-by-step playbook to go from idea to first revenue",
@@ -316,13 +328,12 @@ export default function DiscoverPage() {
               </a>
             </p>
           </div>
-
         </div>
       </div>
     );
   }
 
-  // Default: the advantage picker
+  // Picker view
   return (
     <div className="min-h-screen bg-blair-linen">
       {/* Header */}
@@ -332,31 +343,22 @@ export default function DiscoverPage() {
         </span>
       </div>
 
-      <div className="mx-auto max-w-3xl px-6 pb-20 sm:px-10">
+      <div className="mx-auto max-w-4xl px-6 pb-20 sm:px-10">
         {/* Hero */}
         <div className="pt-16 sm:pt-20 animate-in fade-in duration-700">
-          <h1 className="font-serif text-3xl leading-tight text-blair-midnight sm:text-4xl">
+          <h1 className="font-serif text-4xl leading-tight text-blair-midnight sm:text-5xl max-w-3xl">
             You&apos;ve spent years getting really good at something.
             <br />
-            <span className="text-blair-sage">That thing is worth more than you think.</span>
+            <span className="text-blair-sage">That&apos;s your unfair advantage.</span>
           </h1>
-          <p className="mt-6 text-base leading-relaxed text-blair-charcoal/60">
-            Most women trying to start a business look outward: what&apos;s trending,
-            what other people are doing, what sounds good. The ones who actually
-            build something look inward first. They find the thing they already do
-            better than almost anyone. Then they build around it.
+          <p className="mt-6 text-lg text-blair-charcoal/50 max-w-2xl">
+            Every successful business we&apos;ve seen starts with one thing the founder already does
+            better than almost anyone. Pick the one that sounds like you.
           </p>
         </div>
 
-        {/* Prompt */}
-        <div className="mt-12 mb-6 animate-in fade-in duration-500" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
-          <p className="text-base font-medium text-blair-midnight">
-            Which of these sounds like you?
-          </p>
-        </div>
-
-        {/* Advantage cards - 2 column on desktop, 1 on mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Advantage cards */}
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {ADVANTAGES.map((adv, i) => (
             <button
               key={adv.key}
@@ -365,28 +367,42 @@ export default function DiscoverPage() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className={cn(
-                "group w-full rounded-2xl border-l-4 bg-white p-6 text-left transition-all hover:shadow-lg hover:-translate-y-0.5",
-                adv.accentColor,
+                "group relative overflow-hidden rounded-2xl p-7 sm:p-8 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl min-h-[200px] flex flex-col justify-between",
+                adv.bgColor,
                 "animate-in fade-in slide-in-from-bottom-4 duration-500",
-                // Last card spans full width if odd number
-                i === ADVANTAGES.length - 1 && ADVANTAGES.length % 2 !== 0 && "sm:col-span-2 sm:max-w-[calc(50%-0.5rem)]"
+                i === ADVANTAGES.length - 1 &&
+                  ADVANTAGES.length % 2 !== 0 &&
+                  "sm:col-span-2 sm:max-w-[calc(50%-0.5rem)]"
               )}
               style={{
-                animationDelay: `${300 + i * 80}ms`,
+                animationDelay: `${300 + i * 100}ms`,
                 animationFillMode: "both",
               }}
             >
-              <p className="text-xs uppercase tracking-widest text-blair-charcoal/30 font-medium">
-                {adv.name}
-              </p>
-              <h3 className="mt-2 font-serif text-lg leading-snug text-blair-midnight group-hover:text-blair-sage-dark transition-colors">
+              {/* Decorative number */}
+              <span
+                className="absolute -right-2 -top-4 font-serif text-[100px] leading-none select-none pointer-events-none"
+                style={{ color: adv.decoColor }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              <h3
+                className={cn(
+                  "font-serif text-xl leading-snug relative z-10 max-w-[85%] sm:text-[22px]",
+                  adv.textColor
+                )}
+              >
                 {adv.oneLiner}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/40">
-                {adv.hook}
-              </p>
-              <p className="mt-4 text-xs font-medium text-blair-sage group-hover:text-blair-sage-dark transition-colors">
-                See what this means for you &rarr;
+
+              <p
+                className={cn(
+                  "mt-6 text-sm font-medium relative z-10 transition-all group-hover:translate-x-1",
+                  adv.ctaColor
+                )}
+              >
+                This is me &rarr;
               </p>
             </button>
           ))}
