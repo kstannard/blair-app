@@ -150,7 +150,7 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
 
   // ---- Systems Brain ----
   if (includes(Q7_shoulder_tap, "fixer")) { scores.systemsBrain += 3; evidence.systemsBrain.push("shoulder-tapped as The Fixer"); }
-  if (includes(Q2_role, "operations", "ops", "engineer", "technical", "product", "program manager", "chief of staff", "coo")) {
+  if (textIncludes(Q2_role, "operations", "ops", "engineer", "technical", "product", "program manager", "chief of staff", "coo")) {
     scores.systemsBrain += 2; evidence.systemsBrain.push(`role: ${Q2_role}`);
   }
   if (Q10_work_mode.toLowerCase().includes("deep") || Q10_work_mode.toLowerCase().includes("independent")) {
@@ -160,12 +160,12 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     scores.systemsBrain += 1; evidence.systemsBrain.push(`self-described: "${Q8_weirdly_good.substring(0, 60)}"`);
   }
   // negative: fixer but people-oriented instinct
-  if (includes(Q7_shoulder_tap, "fixer") && includes(Q2_role, "hr", "people", "talent", "recruiter")) {
+  if (includes(Q7_shoulder_tap, "fixer") && textIncludes(Q2_role, "hr", "people", "talent", "recruiter")) {
     scores.systemsBrain = Math.max(0, scores.systemsBrain - 1);
   }
 
   // ---- Closer Instinct ----
-  if (includes(Q2_role, "sales", "partnerships", "revops", "business development", "bd ", "account executive", "ae ", "customer success", "cs ")) {
+  if (textIncludes(Q2_role, "sales", "partnerships", "revops", "business development", "bd ", "account executive", "ae ", "customer success", "cs ")) {
     scores.closerInstinct += 3; evidence.closerInstinct.push(`role: ${Q2_role}`);
   }
   if (isComfortable) { scores.closerInstinct += 1; evidence.closerInstinct.push("comfortable with outreach"); }
@@ -210,7 +210,7 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   }
 
   // GTM & Growth Strategist
-  if (includes(Q2_role, "growth", "gtm", "product marketing", "demand gen", "revenue")) {
+  if (textIncludes(Q2_role, "growth", "gtm", "product marketing", "demand gen", "revenue")) {
     pathScores["gtm-growth-strategist"].score += 3;
     pathScores["gtm-growth-strategist"].reasons.push(`role: ${Q2_role}`);
   }
@@ -228,7 +228,7 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["messaging-positioning"].score += 4;
     pathScores["messaging-positioning"].reasons.push("primary advantage is Translation Ability");
   }
-  if (includes(Q2_role, "brand", "content", "communications", "comms", "pr", "marketing", "messaging", "copywriting")) {
+  if (textIncludes(Q2_role, "brand", "content", "communications", "comms", "pr", "marketing", "messaging", "copywriting")) {
     pathScores["messaging-positioning"].score += 2;
     pathScores["messaging-positioning"].reasons.push(`role: ${Q2_role}`);
   }
@@ -243,7 +243,7 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["fractional-operator"].score += 2;
     pathScores["fractional-operator"].reasons.push("senior + breadth = fractional credibility");
   }
-  if (includes(Q2_role, "vp", "director", "head of", "chief", "cmo", "coo", "cto", "fractional")) {
+  if (textIncludes(Q2_role, "vp", "director", "head of", "chief", "cmo", "coo", "cto", "fractional")) {
     pathScores["fractional-operator"].score += 2;
     pathScores["fractional-operator"].reasons.push(`senior title: ${Q2_role}`);
   }
@@ -255,13 +255,13 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["automation-systems-builder"].score += 4;
     pathScores["automation-systems-builder"].reasons.push("primary advantage is Systems Brain");
   }
-  if (includes(Q2_role, "engineer", "technical", "data", "ops", "product", "automation", "revops")) {
+  if (textIncludes(Q2_role, "engineer", "technical", "data", "ops", "product", "automation", "revops")) {
     pathScores["automation-systems-builder"].score += 2;
     pathScores["automation-systems-builder"].reasons.push(`role: ${Q2_role}`);
   }
 
   // Content Engine Operator
-  if (includes(Q2_role, "content", "media", "editorial", "social media", "creator")) {
+  if (textIncludes(Q2_role, "content", "media", "editorial", "social media", "creator")) {
     pathScores["content-engine-operator"].score += 3;
     pathScores["content-engine-operator"].reasons.push(`role: ${Q2_role}`);
   }
@@ -277,29 +277,29 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["lead-gen-operator"].score += 2;
     pathScores["lead-gen-operator"].reasons.push("closer/systems advantage applies");
   }
-  if (includes(Q2_role, "demand gen", "growth", "performance", "lead gen", "sdr", "bdr")) {
+  if (textIncludes(Q2_role, "demand gen", "growth", "performance", "lead gen", "sdr", "bdr")) {
     pathScores["lead-gen-operator"].score += 3;
     pathScores["lead-gen-operator"].reasons.push(`role: ${Q2_role}`);
   }
 
   // Niche Talent & Placement
-  if (includes(Q2_role, "recruiter", "talent", "hr", "people ops", "sourcing", "headhunter")) {
+  if (textIncludes(Q2_role, "recruiter", "talent", "hr", "people ops", "sourcing", "headhunter")) {
     pathScores["niche-talent-placement"].score += 4;
     pathScores["niche-talent-placement"].reasons.push(`role: ${Q2_role}`);
   }
-  if (bestKey === "networkDensity" && includes(Q2_role, "recruiter", "talent", "hr")) {
+  if (bestKey === "networkDensity" && textIncludes(Q2_role, "recruiter", "talent", "hr")) {
     pathScores["niche-talent-placement"].score += 2;
     pathScores["niche-talent-placement"].reasons.push("network advantage + talent background");
   }
 
   // Studio Builder — only a starting point if they're building a practice they want to scale/productize
-  if (includes(Q17_avoid, "unpredictable income") && includes(Q16_success, "team", "product", "studio", "scale")) {
+  if (includes(Q17_avoid, "unpredictable income") && textIncludes(Q16_success, "team", "product", "studio", "scale")) {
     pathScores["studio-builder"].score += 2;
     pathScores["studio-builder"].reasons.push("wants predictable income + wants to build/scale");
   }
 
   // Investor-Operator — rare, needs specific signals
-  if (includes(Q2_role, "investor", "vc", "venture", "private equity", "pe ", "fund", "angel")) {
+  if (textIncludes(Q2_role, "investor", "vc", "venture", "private equity", "pe ", "fund", "angel")) {
     pathScores["investor-operator"].score += 4;
     pathScores["investor-operator"].reasons.push(`role: ${Q2_role}`);
   }

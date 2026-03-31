@@ -286,7 +286,7 @@ export async function POST(req: NextRequest) {
       recommendation = await prisma.recommendation.create({
         data: {
           userId: user.id,
-          primaryPathId: primaryPath?.id,
+          primaryPathId: primaryPath?.id ?? scoring.primaryPath.pathSlug,
           status: "draft",
           personalIntro: draft.personalIntro,
           personalizedWhy: draft.personalizedWhy,
