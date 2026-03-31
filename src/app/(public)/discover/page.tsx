@@ -85,7 +85,7 @@ const ADVANTAGES = [
     detail:
       "Most people dread the selling part of running a business. You've been doing it your whole career without calling it that. You read rooms, build trust fast, and move a conversation from interest to commitment without it ever feeling like a pitch. The thing that scares everyone else about starting a business is the thing you're already great at.",
     moneyLine:
-      "First paid engagement often closed within 2-4 weeks of deciding to start",
+      "$5K-$10K/month per client on retainer (most fractional sales leaders serve 2-3 clients at once)",
     examples: [
       "A commission-based growth role where you earn a percentage of the deals you close, not a flat hourly rate",
       "A sales coaching engagement where founders pay you to teach them the thing that comes naturally to you",
