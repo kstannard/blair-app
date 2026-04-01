@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
-import { EmbeddedCheckout } from "@/components/checkout/EmbeddedCheckout";
 
 const ADVANTAGES = [
   {
@@ -105,7 +104,7 @@ function DiscoverContent() {
   const router = useRouter();
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
-  const [showCheckout, setShowCheckout] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   const selectAdvantage = (key: string) => {
     router.push(`/discover?a=${key}`, { scroll: false });
@@ -291,18 +290,28 @@ function DiscoverContent() {
                 </p>
               </div>
 
-              {!showCheckout ? (
-                <button
-                  onClick={() => setShowCheckout(true)}
-                  className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark"
-                >
-                  Get my personalized plan
-                </button>
-              ) : (
-                <div className="mt-6 animate-in fade-in duration-500">
-                  <EmbeddedCheckout advantage={advantage.key} />
-                </div>
-              )}
+              <button
+                onClick={async () => {
+                  setCheckingOut(true);
+                  try {
+                    const res = await fetch("/api/checkout", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ advantage: advantage.key }),
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    }
+                  } catch {
+                    setCheckingOut(false);
+                  }
+                }}
+                disabled={checkingOut}
+                className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {checkingOut ? "Loading checkout..." : "Get my personalized plan"}
+              </button>
 
               {/* Guarantee */}
               <div className="mt-5 flex items-start gap-3 rounded-lg bg-blair-linen px-4 py-3">
