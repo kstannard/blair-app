@@ -136,23 +136,23 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
       )}
 
       {/* Personal intro */}
-      <Field label="Personal intro" value={personalIntro} onChange={setPersonalIntro} rows={6} />
+      <Field label="Personal intro" value={personalIntro} onChange={setPersonalIntro} />
 
       {/* Personalized why */}
-      <Field label="Personalized why" value={personalizedWhy} onChange={setPersonalizedWhy} rows={6} />
+      <Field label="Personalized why" value={personalizedWhy} onChange={setPersonalizedWhy} />
 
       {/* Pricing */}
       <div className="space-y-3 rounded-lg border border-gray-100 p-4">
         <p className="text-xs font-medium uppercase tracking-wider text-gray-500">Pricing tiers</p>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Tier 1 name" value={tier1Name} onChange={setTier1Name} rows={1} />
-          <Field label="Tier 1 price" value={tier1Price} onChange={setTier1Price} rows={1} />
-          <Field label="Tier 2 name" value={tier2Name} onChange={setTier2Name} rows={1} />
-          <Field label="Tier 2 price" value={tier2Price} onChange={setTier2Price} rows={1} />
+          <Field label="Tier 1 name" value={tier1Name} onChange={setTier1Name} />
+          <Field label="Tier 1 price" value={tier1Price} onChange={setTier1Price} />
+          <Field label="Tier 2 name" value={tier2Name} onChange={setTier2Name} />
+          <Field label="Tier 2 price" value={tier2Price} onChange={setTier2Price} />
         </div>
-        <Field label="Side hustle math" value={sideHustleMath} onChange={setSideHustleMath} rows={2} />
-        <Field label="Full capacity math" value={fullCapacityMath} onChange={setFullCapacityMath} rows={2} />
-        <Field label="Mom fit" value={momFit} onChange={setMomFit} rows={4} />
+        <Field label="Side hustle math" value={sideHustleMath} onChange={setSideHustleMath} />
+        <Field label="Full capacity math" value={fullCapacityMath} onChange={setFullCapacityMath} />
+        <Field label="Mom fit" value={momFit} onChange={setMomFit} />
       </div>
 
       {/* Transition plan */}
@@ -164,13 +164,13 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
               label={`Step ${i + 1} title`}
               value={step.title}
               onChange={(v) => setSteps(steps.map((s, j) => j === i ? { ...s, title: v } : s))}
-              rows={1}
+             
             />
             <Field
               label={`Step ${i + 1} description`}
               value={step.description}
               onChange={(v) => setSteps(steps.map((s, j) => j === i ? { ...s, description: v } : s))}
-              rows={2}
+             
             />
           </div>
         ))}
@@ -205,12 +205,10 @@ function Field({
   label,
   value,
   onChange,
-  rows = 4,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
-  rows?: number;
 }) {
   return (
     <div>
@@ -219,9 +217,19 @@ function Field({
       </label>
       <textarea
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={rows}
-        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:border-blair-midnight focus:outline-none focus:ring-1 focus:ring-blair-midnight"
+        onChange={(e) => {
+          onChange(e.target.value);
+          e.target.style.height = "auto";
+          e.target.style.height = `${e.target.scrollHeight}px`;
+        }}
+        ref={(el) => {
+          if (el) {
+            el.style.height = "auto";
+            el.style.height = `${el.scrollHeight}px`;
+          }
+        }}
+       
+        className="w-full resize-none overflow-hidden rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:border-blair-midnight focus:outline-none focus:ring-1 focus:ring-blair-midnight"
       />
     </div>
   );
