@@ -71,7 +71,7 @@ What they want to avoid: ${answers.Q17_avoid.join(", ")}
 Income timeline goal: ${answers.Q18_income_timeline}
 Weekly hours available: ${answers.Q25_time}
 Working conditions preference: ${answers.Q26_conditions}
-Kids ages: ${answers.Q27_kids_ages.join(", ") || "not provided"}
+Kids ages: ${answers.Q27_kids_ages || "not provided"}
 
 ## Scoring Results
 

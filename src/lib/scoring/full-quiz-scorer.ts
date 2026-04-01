@@ -34,7 +34,7 @@ export interface FullQuizAnswers {
   Q24_visibility: string;
   Q25_time: string;
   Q26_conditions: string;
-  Q27_kids_ages: string[];       // multi-select
+  Q27_kids_ages: string;          // free text (e.g. "1, 3, 5")
   Q28_linkedin: string;
   Q29_other_links: string;
 }

@@ -103,7 +103,7 @@ function mapToQuizAnswers(
     Q24_visibility: str("Q24_visibility"),
     Q25_time: str("Q25_time"),
     Q26_conditions: str("Q26_conditions"),
-    Q27_kids_ages: multi("Q27_kids_ages"),
+    Q27_kids_ages: str("Q27_kids_ages"),
     Q28_linkedin: str("Q28_linkedin"),
     Q29_other_links: str("Q29_other_links"),
   };
@@ -191,11 +191,12 @@ export async function POST(req: NextRequest) {
       rawValues[answer.field.ref] = extractAnswerValue(answer);
     }
 
-    // Extract name
-    const nameField = definition.fields.find(
-      (f) => f.title.toLowerCase().includes("name") && !f.title.toLowerCase().includes("business")
-    );
-    const rawName = nameField ? rawValues[nameField.ref] : email.split("@")[0];
+    // Extract name from Q1_name answer (first quiz question: "What should we call you?")
+    const quizName = rawValues[
+      Object.keys(TYPEFORM_FIELD_MAP).find(
+        (ref) => TYPEFORM_FIELD_MAP[ref].quizKey === "Q1_name"
+      ) || ""
+    ] || "";
 
     // Find or create user
     let user = await prisma.user.findUnique({ where: { email } });
@@ -203,14 +204,15 @@ export async function POST(req: NextRequest) {
       user = await prisma.user.create({
         data: {
           email,
-          name: rawName,
+          name: quizName || null,
           referralCode: `blair-${Math.random().toString(36).substring(2, 8)}`,
         },
       });
-    } else if (!user.name && rawName) {
+    } else if (quizName) {
+      // Always update name from quiz answer (it's what the user wants to be called)
       user = await prisma.user.update({
         where: { id: user.id },
-        data: { name: rawName },
+        data: { name: quizName },
       });
     }
 
@@ -237,7 +239,7 @@ export async function POST(req: NextRequest) {
 
     // Enrich — do this in parallel with scoring (already scored above)
     const enrichment = await enrichPerson({
-      name: quizAnswers.Q1_name || rawName,
+      name: quizAnswers.Q1_name || quizName,
       role: quizAnswers.Q2_role,
       linkedinUrl: quizAnswers.Q28_linkedin,
       otherLinks: quizAnswers.Q29_other_links,
@@ -323,7 +325,7 @@ export async function POST(req: NextRequest) {
 
     // Send review notification to Kristin
     await sendReviewNotification({
-      userName: quizAnswers.Q1_name || rawName,
+      userName: quizAnswers.Q1_name || quizName,
       userEmail: email,
       userId: user.id,
       advantageName: scoring.primaryAdvantage.name,
