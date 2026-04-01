@@ -170,26 +170,43 @@ export default async function AdminUserPage({
       )}
 
       {/* Playbook Progress */}
-      {user.taskProgress.length > 0 && (
-        <Section title="Playbook Progress">
-          <div className="space-y-2">
-            {user.taskProgress.map((tp) => (
-              <div key={tp.id} className="flex items-center justify-between rounded-lg border border-gray-100 px-4 py-3">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{tp.task.title}</p>
-                  <p className="text-xs text-gray-400">Phase: {tp.task.phase.name}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <StatusBadge status={tp.status} />
-                  <span className="text-xs text-gray-400">
-                    {new Date(tp.updatedAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
+      {user.taskProgress.length > 0 && (() => {
+        // Group tasks by phase
+        const phases = new Map<string, { name: string; tasks: typeof user.taskProgress }>();
+        for (const tp of user.taskProgress) {
+          const phaseName = tp.task.phase.name;
+          if (!phases.has(phaseName)) phases.set(phaseName, { name: phaseName, tasks: [] });
+          phases.get(phaseName)!.tasks.push(tp);
+        }
+        const doneCount = user.taskProgress.filter((t) => t.status === "done").length;
+        const totalCount = user.taskProgress.length;
+
+        return (
+          <Section title={`Playbook Progress (${doneCount}/${totalCount} tasks)`}>
+            <div className="space-y-6">
+              {Array.from(phases.values()).map((phase) => {
+                const phaseDone = phase.tasks.filter((t) => t.status === "done").length;
+                return (
+                  <div key={phase.name}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">{phase.name}</p>
+                      <span className="text-xs text-gray-300">{phaseDone}/{phase.tasks.length}</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {phase.tasks.map((tp) => (
+                        <div key={tp.id} className="flex items-center justify-between rounded-lg border border-gray-100 px-4 py-2.5">
+                          <p className="text-sm text-gray-800">{tp.task.title}</p>
+                          <StatusBadge status={tp.status} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Section>
+        );
+      })()}
 
       {/* Quiz Answers */}
       {user.quizSubmissions.length > 0 && (
