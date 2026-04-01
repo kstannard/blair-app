@@ -9,7 +9,7 @@ export async function PATCH(
   const { recId } = await params;
   const body = await req.json();
 
-  const { personalIntro, personalizedWhy, pricingDetails, transitionPlan, closingNote } = body;
+  const { personalIntro, personalizedWhy, pricingDetails, transitionPlan } = body;
 
   const rec = await prisma.recommendation.findUnique({ where: { id: recId } });
   if (!rec) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -21,7 +21,6 @@ export async function PATCH(
       ...(personalizedWhy !== undefined && { personalizedWhy }),
       ...(pricingDetails !== undefined && { pricingDetails }),
       ...(transitionPlan !== undefined && { transitionPlan }),
-      ...(closingNote !== undefined && { closingNote }),
     },
   });
 

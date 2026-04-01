@@ -1803,8 +1803,6 @@ async function main() {
         { title: "Land your first project at a friends-and-family rate.", description: "First client doesn't need to pay $10K. They need to pay enough that you both take it seriously ($3K-$5K) and you need the case study more than the revenue. Do great work, document the before and after. Now you have proof." },
         { title: "Scope everything with a hard end date.", description: "At 3-5 hours a week, open-ended work will eat you alive. Every project gets a timeline, a deliverable list, and a handoff date. When a client says \"can you also...\" you say \"totally, that's a separate project, here's what it costs.\"" },
       ]),
-      closingNote:
-        "Ponder these recommendations. Talk to your partner about them. Let us know which path feels right. When Blair is fully built out, the next step will be a playbook for your chosen path with client acquisition scripts, pricing templates, and a 90-day plan built around the hours you actually have.\n\nIf your career really has been about making other people's stories make sense, it's a pretty good time to write your own.",
     },
   });
 
@@ -1963,8 +1961,6 @@ async function main() {
         { title: "Protect your time ruthlessly.", description: "With three kids under 4 and a full-time job, your margins are razor thin. Every project gets a hard end date, a clear deliverable list, and a scoping conversation upfront. When a client says \"can you also...\" you say \"absolutely, that's a separate project.\"" },
         { title: "You have runway. Use it wisely.", description: "Whether you stay at Ramp, go part-time, or take time off to be with your kids, the side hustle math works in any of those scenarios. You don't need to make the big decision right now. You just need to start one conversation and land one project. The rest gets clearer from there." },
       ]),
-      closingNote:
-        "Think about these recommendations. Sit with them. Talk to your partner about them, and let us know which path feels right! When Blair is fully built out, the next step will be a playbook for your chosen path with client acquisition scripts, pricing templates, and a 90-day plan built around the hours you actually have.\n\nAnd listen. You told us you're having stress nightmares about missing your kids' early years. That's not something to push through. What you've built over 15 years doesn't expire. It's yours. Whenever you're ready to point it in a new direction, it'll be there. And so will we!",
     },
   });
 
@@ -2117,8 +2113,6 @@ async function main() {
         fullCapacityMath: "2-3 clients at 20-25 hrs/week total = $150K-$300K/year. That's VP-level income without VP-level hours.",
         momFit: "Here's the thing about fractional ops work with elementary-age kids: your schedule actually works in your favor. Kids are at school from 8 to 3. That's a solid block of focused time. You can take your calls, do your deep work, and be standing at the pickup line at 2:55 without anyone knowing you just redesigned a company's entire onboarding flow.\n\nThe work is structured enough that you can plan your week in advance. You know which clients need meetings on which days. You're not waiting for inspiration - you're executing against a clear set of priorities. That predictability is gold when you're also managing homework, activities, and the general chaos of raising humans.",
       }),
-      closingNote:
-        "Sit with this for a day or two. Talk it through with someone you trust. You've spent 12 years building operational excellence for other people's companies. The playbook is already in your head - you just need to point it at a different model. We'll be here when you're ready to start building.",
     },
   });
 
@@ -2270,8 +2264,6 @@ async function main() {
         fullCapacityMath: "3-4 builds plus 2 retainer clients = $150K-$250K/year.",
         momFit: "With a toddler and another on the way, here's what matters: automation and systems work is deep work. You don't need to be on calls all day. You need focused blocks where you can build, test, and deliver. Nap time. After bedtime. A few morning hours while your partner handles the early shift.\n\nThe beauty of this work is that it's project-based with clear deliverables. You know exactly what you're building, you can estimate how long it'll take, and clients don't need you to be available 9-5. They need the thing to work when you hand it over. That kind of flexibility is hard to find in most business models.",
       }),
-      closingNote:
-        "You've been building systems for other companies for 8 years. The skills are already there. The question is just whether you're ready to point them at your own thing. Take some time with this. And when you're ready, we'll help you build it.",
     },
   });
 
@@ -2423,8 +2415,6 @@ async function main() {
         fullCapacityMath: "5-8 clients with a small team = $200K-$400K/year. At this level you're running a content agency.",
         momFit: "Three kids at three different stages means your schedule has a lot of moving parts. But content work has a secret advantage: most of it is async. You're not on calls all day. You're writing, planning, reviewing, and scheduling. That can happen at 6am before the house wakes up, during the school day, or after bedtime.\n\nThe retainer model also means you're not constantly hunting for new clients. Once you've onboarded someone, the work becomes rhythmic - weekly content, monthly strategy check-in, quarterly planning. Predictable work, predictable income, predictable schedule. That's the trifecta when you're managing three kids' lives alongside your own.",
       }),
-      closingNote:
-        "You already know how to build a content engine. You did it at Bloom & Vine and the results speak for themselves. The only difference now is that you're building it for yourself. Take some time to think about which brands and founders you'd love to work with. When you're ready, we'll help you land your first retainer.",
     },
   });
 
@@ -2576,8 +2566,6 @@ async function main() {
         fullCapacityMath: "5-8 clients = $200K-$450K/year. At this level you'd bring on a media buyer to handle day-to-day optimization while you own strategy.",
         momFit: "With two kids and a husband who travels, your schedule is unpredictable. Some days you're solo-parenting and barely have an hour. Other days the stars align and you get a solid work block. Here's why lead gen works for this reality.\n\nCampaign management is check-in work, not all-day work. You set up the campaigns, monitor performance, make adjustments. Most days that's 30-60 minutes per client. The heavy lifting happens upfront (building the funnel, setting up targeting) and then it's optimization mode. You can check dashboards from your phone at the playground. You can adjust bids during nap time. The work flexes because it has to.",
       }),
-      closingNote:
-        "You already know how to turn ad spend into revenue. The shift is just doing it for yourself instead of someone else's P&L. Think about which companies in your network are wasting money on ads right now. That's your starting list. We'll be here when you're ready to reach out.",
     },
   });
 
@@ -2729,8 +2717,6 @@ async function main() {
         fullCapacityMath: "4-6 packages per month plus template sales = $300K-$600K/year. At this level you're running a studio.",
         momFit: "With an 18-month-old, your days have a rhythm: morning energy, nap time focus, evening wind-down. The studio model works with this because the work is predictable. You're not reinventing the wheel with each client. You know exactly what you're delivering, how long it takes, and what the process looks like.\n\nThe other thing about productized work: it gets faster. Your first design system sprint might take 40 hours. By your tenth, you've built templates, refined your process, and it takes 25. That efficiency compounds. You're doing better work in less time, which means more margin and more time with your kid.",
       }),
-      closingNote:
-        "You've already built the hard thing twice - you just did it inside companies instead of for yourself. The studio model lets you take that expertise and own it. Think about what your productized offering looks like. We'll help you build the rest.",
     },
   });
 
@@ -2882,8 +2868,6 @@ async function main() {
         fullCapacityMath: "8-12 placements per year = $200K-$600K. At this level you're running a boutique search firm.",
         momFit: "The talent placement model is uniquely suited to the rhythm of parenting. The work is bursty, not constant. When you have a live search, you're actively reaching out, taking calls, and managing the process. When you don't, you're maintaining relationships and keeping your ear to the ground - which is basically just having coffee and staying in touch.\n\nWith a 4-year-old and a 7-year-old, your weeks have natural structure: school hours for focused work, afternoons for kids, evenings for the occasional candidate call. And the bursty nature means you can take a week off for school events or family trips without clients panicking. The search continues when you come back.",
       }),
-      closingNote:
-        "Your network is your business. You've spent 11 years building it and it's not going anywhere. Take some time to think about which CTOs in your network have the most urgent hiring needs. That first conversation is your first step. We'll be here to help you build from there.",
     },
   });
 
@@ -3035,8 +3019,6 @@ async function main() {
         fullCapacityMath: "Portfolio of 5-8 companies with advisory fees plus equity upside. At scale, the advisory fees alone are $120K-$480K/year, and the equity portfolio has significant upside potential.",
         momFit: "With a 6 and 9-year-old, you're past the baby years and into the phase where kids are more independent but still need you present. The investor-operator model is designed for this stage.\n\nAdvisory work runs on your schedule. A monthly board call, a few ad hoc conversations with founders, and the occasional deep dive on a financial model. Maybe 10-15 hours a month total across all your companies. You can take calls during school hours, review decks in the evening after homework, and still make it to every game and recital.\n\nThe real work here is thinking, connecting, and deciding. That happens in your head, not in a conference room.",
       }),
-      closingNote:
-        "You're in a rare position. You have the experience, the capital, the network, and the judgment. Most people spend their whole career trying to get to where you already are. The question isn't whether you can do this - it's how much of your portfolio you want to build in the next few years. Take some time to think about which founders in your network need what you have. We'll be here when you're ready to formalize it.",
     },
   });
 

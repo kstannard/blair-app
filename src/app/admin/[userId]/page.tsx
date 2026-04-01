@@ -127,25 +127,16 @@ export default async function AdminUserPage({
                 personalizedWhy: rec.personalizedWhy,
                 pricingDetails: rec.pricingDetails,
                 transitionPlan: rec.transitionPlan,
-                closingNote: rec.closingNote,
               }}
             />
           )}
 
-          {rec.status === "approved" && (rec.personalIntro || rec.closingNote) && (
+          {rec.status === "approved" && rec.personalIntro && (
             <div className="mt-4 space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-4">
-              {rec.personalIntro && (
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Intro</p>
-                  <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.personalIntro}</p>
-                </div>
-              )}
-              {rec.closingNote && (
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Closing note</p>
-                  <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.closingNote}</p>
-                </div>
-              )}
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Intro</p>
+                <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.personalIntro}</p>
+              </div>
             </div>
           )}
         </Section>
