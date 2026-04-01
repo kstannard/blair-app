@@ -19,7 +19,7 @@ export default async function AdminPage() {
           take: 1,
         },
         taskProgress: {
-          include: { task: true },
+          include: { task: { include: { phase: true } } },
           orderBy: { updatedAt: "desc" },
         },
         quizSubmissions: {
@@ -84,7 +84,8 @@ export default async function AdminPage() {
           const hasQuiz = user.quizSubmissions.length > 0;
           const hasRec = !!rec && rec.status === "approved";
           const hasConfirmedPath = !!rec?.confirmedPathId;
-          const currentTask = user.taskProgress.find((t) => t.status === "in_progress")?.task?.title;
+          const inProgressEntry = user.taskProgress.find((t) => t.status === "in_progress");
+          const currentPhase = inProgressEntry?.task?.phase?.name ?? null;
 
           let status = "Purchased";
           let statusColor = "bg-gray-100 text-gray-600";
@@ -128,16 +129,13 @@ export default async function AdminPage() {
                   ) : (
                     <p className="text-sm text-gray-300">No path yet</p>
                   )}
-                  {currentTask && (
-                    <p className="mt-0.5 text-xs text-gray-400 truncate max-w-[200px]">{currentTask}</p>
+                  {currentPhase && (
+                    <p className="mt-0.5 text-xs text-gray-400">{currentPhase}</p>
                   )}
                 </div>
                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColor}`}>{status}</span>
               </div>
-              <div className="flex items-center gap-6 text-xs text-gray-400">
-                {completedTasks > 0 && (
-                  <span>{completedTasks} task{completedTasks !== 1 ? "s" : ""} done</span>
-                )}
+              <div className="flex items-center gap-4 text-xs text-gray-400">
                 <span>Active {formatDate(lastActive)}</span>
                 <span className="text-gray-300">→</span>
               </div>

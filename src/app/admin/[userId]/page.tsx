@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import DraftReviewSection from "@/components/admin/DraftReviewSection";
+import { TYPEFORM_FIELD_MAP } from "@/lib/typeform-fields";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +47,19 @@ export default async function AdminUserPage({
     ? rec.paths.find((p) => p.pathId === rec.confirmedPathId)?.path
     : null;
 
+  // Parse key quiz answers for quick display
+  // answers stored as { [fieldRef]: rawStringValue }
+  const quizSnapshot: Record<string, string> = {};
+  const latestQuiz = user.quizSubmissions[0];
+  if (latestQuiz?.answers) {
+    try {
+      const raw = JSON.parse(latestQuiz.answers) as Record<string, string>;
+      for (const [ref, mapping] of Object.entries(TYPEFORM_FIELD_MAP)) {
+        if (raw[ref]) quizSnapshot[mapping.quizKey] = raw[ref];
+      }
+    } catch { /* skip */ }
+  }
+
   return (
     <div>
       <Link href="/admin" className="text-sm text-gray-500 hover:text-gray-700">
@@ -64,20 +79,43 @@ export default async function AdminUserPage({
       </div>
 
       {/* Profile */}
-      {user.profile && (
+      {(user.profile || Object.keys(quizSnapshot).length > 0) && (
         <Section title="Profile">
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Unfair Advantage" value={user.profile.unfairAdvantageName} />
-            <Field label="Summary" value={user.profile.summary} />
-            <JsonListField label="Traits" value={user.profile.traits} />
-            <JsonListField label="Strengths" value={user.profile.strengths} />
-            <JsonListField label="Constraints" value={user.profile.constraints} />
-          </div>
-          {user.profile.unfairAdvantageEvidence && (
-            <div className="mt-4">
-              <p className="text-xs font-medium text-gray-500 uppercase">Scoring evidence</p>
-              <p className="mt-1 text-sm text-gray-700">{user.profile.unfairAdvantageEvidence}</p>
+          {/* Quick stats from quiz */}
+          {Object.keys(quizSnapshot).length > 0 && (
+            <div className="mb-5 flex flex-wrap gap-3">
+              {quizSnapshot.Q2_role && <Stat label="Role" value={quizSnapshot.Q2_role} />}
+              {quizSnapshot.Q3_years && <Stat label="Experience" value={quizSnapshot.Q3_years} />}
+              {quizSnapshot.Q25_time && <Stat label="Hours/week" value={quizSnapshot.Q25_time} />}
+              {quizSnapshot.Q18_income_timeline && <Stat label="Income timeline" value={quizSnapshot.Q18_income_timeline} />}
+              {quizSnapshot.Q27_kids_ages && <Stat label="Kids" value={quizSnapshot.Q27_kids_ages} />}
+              {quizSnapshot.Q13_blocker && <Stat label="Main blocker" value={quizSnapshot.Q13_blocker} />}
+              {quizSnapshot.Q28_linkedin && (
+                <Stat label="LinkedIn" value={
+                  <a href={quizSnapshot.Q28_linkedin.startsWith("http") ? quizSnapshot.Q28_linkedin : `https://${quizSnapshot.Q28_linkedin}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate max-w-[200px] block">
+                    {quizSnapshot.Q28_linkedin.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, "")}
+                  </a>
+                } />
+              )}
             </div>
+          )}
+
+          {user.profile && (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Unfair Advantage" value={user.profile.unfairAdvantageName} />
+                <Field label="Summary" value={user.profile.summary} />
+                <JsonListField label="Traits" value={user.profile.traits} />
+                <JsonListField label="Strengths" value={user.profile.strengths} />
+                <JsonListField label="Constraints" value={user.profile.constraints} />
+              </div>
+              {user.profile.unfairAdvantageEvidence && (
+                <div className="mt-4">
+                  <p className="text-xs font-medium text-gray-500 uppercase">Scoring evidence</p>
+                  <p className="mt-1 text-sm text-gray-700">{user.profile.unfairAdvantageEvidence}</p>
+                </div>
+              )}
+            </>
           )}
         </Section>
       )}
@@ -197,6 +235,15 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <div className="mt-8">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400">{title}</h2>
       <div className="mt-3">{children}</div>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2">
+      <p className="text-xs font-medium text-gray-400">{label}</p>
+      <div className="mt-0.5 text-sm font-medium text-gray-800">{value}</div>
     </div>
   );
 }
