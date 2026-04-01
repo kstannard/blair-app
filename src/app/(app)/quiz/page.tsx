@@ -14,13 +14,12 @@ export default async function QuizPage() {
     redirect("/signin");
   }
 
-  // Check if they already have a quiz submission
-  const existingSubmission = await prisma.quizSubmission.findFirst({
-    where: { userId: session.user.id },
+  // If they already have an approved recommendation, skip to results
+  const approvedRec = await prisma.recommendation.findFirst({
+    where: { userId: session.user.id, status: "approved" },
   });
 
-  if (existingSubmission) {
-    // Already took the quiz, send to results
+  if (approvedRec) {
     redirect("/results");
   }
 
