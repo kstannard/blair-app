@@ -198,18 +198,24 @@ export async function POST(req: NextRequest) {
       ) || ""
     ] || "";
 
-    // Find or create user
+    // Dedup: skip if we already processed this Typeform submission
+    const responseToken = form_response.token;
+    const existingSub = await prisma.quizSubmission.findFirst({
+      where: { responseToken },
+    });
+    if (existingSub) {
+      console.log(`Typeform webhook: already processed token ${responseToken}, skipping`);
+      return NextResponse.json({ ok: true, skipped: true, reason: "duplicate" });
+    }
+
+    // Find user — do NOT create users here (they sign up via /welcome after payment)
     let user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      user = await prisma.user.create({
-        data: {
-          email,
-          name: quizName || null,
-          referralCode: `blair-${Math.random().toString(36).substring(2, 8)}`,
-        },
-      });
-    } else if (quizName) {
-      // Always update name from quiz answer (it's what the user wants to be called)
+      console.log(`Typeform webhook: no user found for ${email}, skipping (they'll submit after signup)`);
+      return NextResponse.json({ ok: true, skipped: true, reason: "no_user" });
+    }
+    if (quizName) {
+      // Update name from quiz answer (it's what the user wants to be called)
       user = await prisma.user.update({
         where: { id: user.id },
         data: { name: quizName },
@@ -220,6 +226,7 @@ export async function POST(req: NextRequest) {
     await prisma.quizSubmission.create({
       data: {
         user: { connect: { id: user.id } },
+        responseToken,
         answers: JSON.stringify(rawValues),
         rawAnswers: JSON.stringify(parsedAnswersByRef),
         submittedAt: new Date(submitted_at),
