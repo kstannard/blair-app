@@ -125,7 +125,7 @@ pricingDetails:
 - tiers: 2 tiers. Name them something memorable (not just "Basic/Premium"). Price based on path and their experience level.
 - sideHustleMath: At their stated weekly hours, what's the realistic annual income?
 - fullCapacityMath: At 20-25 hours/week (full side hustle or part-time), what could it be?
-- momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids. Don't be preachy. Explain why this specific business model works for this stage of life.
+- momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids at their specific ages. Reference their kids' actual ages to make scheduling and time advice concrete. Don't be preachy. Explain why this specific business model works for this stage of life.
 
 Return only the JSON object, no other text.`;
 
