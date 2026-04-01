@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: "Blair Personalized Plan",
               description:
-                "Your personal business coach: a matched path, pricing strategy, and step-by-step playbook built for your life.",
+                "Your matched business path, clear pricing guidance, and a customized playbook built around the time you actually have.",
             },
             unit_amount: FOUNDING_PRICE_CENTS,
           },
