@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
@@ -105,6 +105,23 @@ function DiscoverContent() {
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
   const [checkingOut, setCheckingOut] = useState(false);
+  const preloadedUrl = useRef<string | null>(null);
+
+  // Preload checkout session when advantage detail view mounts
+  useEffect(() => {
+    if (!advantage) return;
+    preloadedUrl.current = null;
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ advantage: advantage.key }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.url) preloadedUrl.current = data.url;
+      })
+      .catch(() => {});
+  }, [advantage]);
 
   const selectAdvantage = (key: string) => {
     router.push(`/discover?a=${key}`, { scroll: false });
@@ -292,6 +309,10 @@ function DiscoverContent() {
 
               <button
                 onClick={async () => {
+                  if (preloadedUrl.current) {
+                    window.location.href = preloadedUrl.current;
+                    return;
+                  }
                   setCheckingOut(true);
                   try {
                     const res = await fetch("/api/checkout", {

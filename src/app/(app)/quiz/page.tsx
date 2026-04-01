@@ -48,12 +48,12 @@ export default async function QuizPage() {
             {firstName ? `${firstName}, let\u2019s build your plan` : "Let\u2019s build your plan"}
           </h1>
           <p className="mt-3 text-base text-blair-charcoal/60">
-            This takes about 10 minutes. Your answers shape everything: your
+            This takes about 7 minutes. Your answers shape everything: your
             matched business path, your pricing, and your step-by-step playbook.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-blair-mist bg-white overflow-hidden shadow-sm" style={{ height: "600px" }}>
+        <div className="rounded-2xl border border-blair-mist bg-white overflow-hidden shadow-sm" style={{ height: "700px" }}>
           <iframe
             src={typeformUrl.toString()}
             className="h-full w-full border-0"
