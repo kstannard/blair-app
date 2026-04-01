@@ -13,9 +13,10 @@ interface ResultsCTAProps {
   confirmedPath: PathInfo | null;
 }
 
-export function ResultsCTA({ primaryPath, confirmedPath }: ResultsCTAProps) {
+export function ResultsCTA({ primaryPath, confirmedPath, onSwitchBack }: ResultsCTAProps & { onSwitchBack?: () => void }) {
   const router = useRouter();
   const [navigating, setNavigating] = useState(false);
+  const [switchingBack, setSwitchingBack] = useState(false);
 
   const activePath = confirmedPath ?? primaryPath;
 
@@ -39,6 +40,21 @@ export function ResultsCTA({ primaryPath, confirmedPath }: ResultsCTAProps) {
     } catch {
       setNavigating(false);
     }
+  };
+
+  const handleSwitchBack = async () => {
+    setSwitchingBack(true);
+    try {
+      const res = await fetch("/api/recommendation/confirm", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pathSlug: primaryPath.slug }),
+      });
+      if (res.ok) {
+        onSwitchBack?.();
+      }
+    } catch { /* skip */ }
+    setSwitchingBack(false);
   };
 
   return (
@@ -65,6 +81,18 @@ export function ResultsCTA({ primaryPath, confirmedPath }: ResultsCTAProps) {
               {navigating ? "Loading..." : "Go to playbook"}
             </button>
           </div>
+
+          {confirmedPath && confirmedPath.slug !== primaryPath.slug && (
+            <div className="mt-4">
+              <button
+                onClick={handleSwitchBack}
+                disabled={switchingBack}
+                className="text-sm text-blair-charcoal/50 underline underline-offset-4 decoration-blair-charcoal/20 hover:text-blair-charcoal/70 transition-colors disabled:opacity-50"
+              >
+                {switchingBack ? "Switching..." : `Switch back to ${primaryPath.name}`}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

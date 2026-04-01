@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display, Pinyon_Script } from "next/font/google";
+import { DM_Sans, DM_Serif_Display, Mrs_Saint_Delafield } from "next/font/google";
 import { SessionProvider } from "@/components/shared/SessionProvider";
 import "./globals.css";
 
@@ -16,7 +16,7 @@ const dmSerifDisplay = DM_Serif_Display({
   display: "swap",
 });
 
-const cursiveFont = Pinyon_Script({
+const cursiveFont = Mrs_Saint_Delafield({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-cursive",

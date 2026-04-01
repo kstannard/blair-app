@@ -35,11 +35,15 @@ export function ResultsPathChooser({
     setConfirmedPath({ slug, name });
   };
 
+  const handleSwitchBack = () => {
+    setConfirmedPath(null);
+  };
+
   return (
     <>
       <SecondaryPaths paths={secondaryPaths} onChoosePath={handleChooseAlt} />
       {founderVideoSlot}
-      <ResultsCTA primaryPath={primaryPath} confirmedPath={confirmedPath} />
+      <ResultsCTA primaryPath={primaryPath} confirmedPath={confirmedPath} onSwitchBack={handleSwitchBack} />
     </>
   );
 }
