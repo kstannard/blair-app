@@ -72,6 +72,9 @@ const PATHS: Record<string, string> = {
   "studio-builder": "Studio Builder",
   "niche-talent-placement": "Niche Talent & Placement Operator",
   "investor-operator": "Investor-Operator",
+  "digital-product-builder": "Digital Product Builder",
+  "community-membership-operator": "Community & Membership Operator",
+  "micro-saas-builder": "Micro-SaaS Builder",
 };
 
 function includes(arr: string[], ...keywords: string[]): boolean {
@@ -302,6 +305,102 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   if (textIncludes(Q2_role, "investor", "vc", "venture", "private equity", "pe ", "fund", "angel")) {
     pathScores["investor-operator"].score += 4;
     pathScores["investor-operator"].reasons.push(`role: ${Q2_role}`);
+  }
+
+  // ---- Digital Product Builder ----
+  // For people who want to build something they own, not sell their time
+  if (textIncludes(answers.Q16_success, "wealth", "equity", "passive", "scale", "product")) {
+    pathScores["digital-product-builder"].score += 2;
+    pathScores["digital-product-builder"].reasons.push("wants wealth creation / scalable income");
+  }
+  if (includes(answers.Q14_interests, "system", "tool", "workflow", "template", "content")) {
+    pathScores["digital-product-builder"].score += 1;
+    pathScores["digital-product-builder"].reasons.push("interested in building tools/systems/content");
+  }
+  if (isSenior && hasBreadth) {
+    pathScores["digital-product-builder"].score += 1;
+    pathScores["digital-product-builder"].reasons.push("deep expertise that can be productized");
+  }
+  if (textIncludes(answers.Q15_scenario, "async")) {
+    pathScores["digital-product-builder"].score += 1;
+    pathScores["digital-product-builder"].reasons.push("prefers async work (fits product model)");
+  }
+  if (avoidsClientDemands) {
+    pathScores["digital-product-builder"].score += 2;
+    pathScores["digital-product-builder"].reasons.push("wants to avoid constant client demands (products solve this)");
+  }
+
+  // ---- Community & Membership Operator ----
+  if (hasNetwork) {
+    pathScores["community-membership-operator"].score += 2;
+    pathScores["community-membership-operator"].reasons.push("strong existing network to seed community");
+  }
+  if (isComfortable) {
+    pathScores["community-membership-operator"].score += 1;
+    pathScores["community-membership-operator"].reasons.push("comfortable with outreach");
+  }
+  if (isSenior) {
+    pathScores["community-membership-operator"].score += 1;
+    pathScores["community-membership-operator"].reasons.push("seniority = credibility as community curator");
+  }
+  if (textIncludes(Q8_weirdly_good, "connect", "bring together", "community", "gather", "friends", "group", "plan")) {
+    pathScores["community-membership-operator"].score += 2;
+    pathScores["community-membership-operator"].reasons.push(`self-described: "${Q8_weirdly_good.substring(0, 60)}"`);
+  }
+  if (textIncludes(answers.Q16_success, "time flexibility", "control")) {
+    pathScores["community-membership-operator"].score += 1;
+    pathScores["community-membership-operator"].reasons.push("wants flexibility (community model supports this)");
+  }
+
+  // ---- Micro-SaaS Builder ----
+  if (bestKey === "systemsBrain") {
+    pathScores["micro-saas-builder"].score += 3;
+    pathScores["micro-saas-builder"].reasons.push("Systems Brain advantage aligns with tool building");
+  }
+  if (textIncludes(Q2_role, "product", "engineer", "technical", "data", "automation")) {
+    pathScores["micro-saas-builder"].score += 2;
+    pathScores["micro-saas-builder"].reasons.push(`technical/product background: ${Q2_role}`);
+  }
+  if (includes(answers.Q14_interests, "system", "tool", "workflow", "automat")) {
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["micro-saas-builder"].reasons.push("interested in building tools/systems");
+  }
+  if (textIncludes(answers.Q16_success, "wealth", "equity", "scale")) {
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["micro-saas-builder"].reasons.push("wants scalable/equity outcomes");
+  }
+  if (avoidsClientDemands) {
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["micro-saas-builder"].reasons.push("wants to avoid client demands (SaaS = customers, not clients)");
+  }
+
+  // ---- "Different direction" modifier ----
+  // When someone says they want something new, boost product/build paths
+  // and dampen paths that mirror their current corporate role
+  const wantsDifferent = textIncludes(answers.Q12_same_or_different, "different");
+  if (wantsDifferent) {
+    // Boost non-service paths
+    pathScores["digital-product-builder"].score += 2;
+    pathScores["digital-product-builder"].reasons.push("wants a different direction (product path)");
+    pathScores["community-membership-operator"].score += 1;
+    pathScores["community-membership-operator"].reasons.push("wants a different direction");
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["micro-saas-builder"].reasons.push("wants a different direction (build path)");
+
+    // Dampen paths that are "do what you did, but freelance"
+    if (textIncludes(Q2_role, "operations", "ops", "coo", "chief of staff", "program manager")) {
+      pathScores["fractional-operator"].score -= 2;
+      pathScores["fractional-operator"].reasons.push("DAMPENED: wants different direction from ops role");
+    }
+    if (textIncludes(Q2_role, "brand", "content", "communications", "marketing", "messaging")) {
+      pathScores["messaging-positioning"].score -= 1;
+      pathScores["messaging-positioning"].reasons.push("DAMPENED: wants different direction from marketing role");
+      pathScores["content-engine-operator"].score -= 1;
+    }
+    if (textIncludes(Q2_role, "sales", "partnerships", "business development")) {
+      pathScores["lead-gen-operator"].score -= 1;
+      pathScores["lead-gen-operator"].reasons.push("DAMPENED: wants different direction from sales role");
+    }
   }
 
   // Sort paths by score, exclude studio-builder from primary recommendation

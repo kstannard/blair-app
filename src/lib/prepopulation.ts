@@ -166,6 +166,9 @@ const pathRelevance: Record<string, RoleCategory[]> = {
   "studio-builder": ["design-ux", "product-pmm"],
   "niche-talent-placement": ["recruiting-talent", "operations-bizops"],
   "investor-operator": ["finance-analytics", "operations-bizops", "enterprise-sales"],
+  "digital-product-builder": ["product-pmm", "marketing-brand", "content-editorial", "operations-bizops"],
+  "community-membership-operator": ["marketing-brand", "recruiting-talent", "operations-bizops", "enterprise-sales"],
+  "micro-saas-builder": ["engineering", "product-pmm", "operations-bizops", "finance-analytics"],
 };
 
 function detectRoleCategory(profile: ProfileInput): RoleCategory {

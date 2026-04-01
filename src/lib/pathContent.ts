@@ -384,4 +384,124 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I've been building out my advisory and angel investing practice - working with early-stage companies where my operating experience in [your domain] can actually move the needle. Not trying to be a VC. More like a hands-on advisor who also writes checks.\n\n" +
       "I'd love your perspective on this. You know the ecosystem and you'd tell me if I'm thinking about it wrong. Got 15 minutes this week?",
   },
+
+  "digital-product-builder": {
+    narrowingExercise: {
+      whatYouveDone:
+        "- Built frameworks, processes, or playbooks that your team used over and over\n" +
+        "- Created training materials, onboarding docs, or internal tools people actually used\n" +
+        "- Solved the same problem for multiple teams, clients, or companies\n" +
+        "- Built spreadsheets, templates, or Notion systems that became the standard\n" +
+        "- Taught or mentored others on something you know deeply",
+      whatLitYouUp:
+        "- Watching someone use a framework you built and get the result without needing you\n" +
+        "- The idea of making money while you sleep (or at pickup)\n" +
+        "- Turning years of hard-won knowledge into something people can buy and use on their own\n" +
+        "- Building something once and selling it 1,000 times instead of doing it 1,000 times",
+      whatCompaniesPay:
+        "- Online course ($200-$2,000) - structured learning with templates and frameworks\n" +
+        "- Template library or toolkit ($50-$500) - plug-and-play resources for a specific role\n" +
+        "- Cohort program ($500-$5,000) - time-boxed group learning with accountability\n" +
+        "- Certification or training ($1,000-$10,000) - companies buy for their teams",
+    },
+    positioningTemplate:
+      "I help [type of person] [achieve outcome] through [type of product].\n\n" +
+      "Examples:\n" +
+      "- I help first-time managers at tech companies lead better 1:1s and build high-performing teams through a self-paced course and toolkit.\n" +
+      "- I help early-stage founders build their go-to-market playbook through a step-by-step template system.\n" +
+      "- I help ops leaders at growing companies systematize their onboarding through a certification program their whole team can use.",
+    buyerProfile: {
+      suggestedTitle: "Individual buyers (professionals investing in themselves) or L&D / team leads buying for their teams",
+      suggestedCompanySize: "Individual buyers at all company sizes, or team purchases at 50-500 employee companies",
+      suggestedTriggerEvent:
+        "New role and need to ramp fast, team scaling and needs shared frameworks, company growing faster than their systems, someone Googling the exact problem your product solves",
+      suggestedBudgetAuthority:
+        "Individual buyers: immediate (credit card purchase). Team buyers: L&D budget or manager discretionary spend, usually under $5K without procurement.",
+    },
+    outreachTemplate:
+      "Hey [name],\n\n" +
+      "Hope you're well! [Something you noticed about their work or role.]\n\n" +
+      "I've been building something and wanted your gut reaction. You know how [specific problem you solve]? I'm turning [years] of doing that into a [course / toolkit / template system] so people can get the result without hiring someone like me.\n\n" +
+      "Would love 15 minutes to show you what I've got and get your honest take. You'd be doing me a favor.",
+  },
+
+  "community-membership-operator": {
+    narrowingExercise: {
+      whatYouveDone:
+        "- Connected people in your network who ended up doing business together\n" +
+        "- Organized dinners, groups, or informal communities around professional topics\n" +
+        "- Been the person people come to when they need an intro or recommendation\n" +
+        "- Built or led internal communities (ERGs, guilds, Slack channels) that people valued\n" +
+        "- Curated knowledge, resources, or conversations that helped your peers",
+      whatLitYouUp:
+        "- Watching two people you introduced end up working together\n" +
+        "- Being the connective tissue between smart people in your space\n" +
+        "- Running a room where real conversations happen (not performative networking)\n" +
+        "- The idea of recurring revenue from people who genuinely want to be in the room",
+      whatCompaniesPay:
+        "- Paid Slack/Discord community ($50-$200/month per member) - curated peer group with real conversation\n" +
+        "- Membership with events ($100-$500/month) - monthly dinners, roundtables, or mastermind sessions\n" +
+        "- Executive peer group ($500-$2,000/month) - high-touch, small group, deep trust\n" +
+        "- Sponsored community (brand partnerships) - companies pay to be in front of your members",
+    },
+    positioningTemplate:
+      "I run a [type of community] for [type of people] who [shared challenge or goal].\n\n" +
+      "Examples:\n" +
+      "- I run a private peer group for Heads of Product at Series A-B companies who want a real sounding board, not LinkedIn noise.\n" +
+      "- I curate a membership for women in revenue leadership who want access to the conversations, connections, and playbooks that used to only happen behind closed doors.\n" +
+      "- I run monthly dinners for startup operators in [city] who want to learn from people doing the same job at different companies.",
+    buyerProfile: {
+      suggestedTitle: "Individual professionals (members), or companies sponsoring access for employees",
+      suggestedCompanySize: "Members are typically mid-to-senior professionals at 50-5,000 person companies. Sponsors are brands selling to your member profile.",
+      suggestedTriggerEvent:
+        "Feeling isolated in their role, new to a senior position, looking for peer benchmarking, company encouraging professional development, tired of generic networking events",
+      suggestedBudgetAuthority:
+        "Individual members: personal or professional development budget. Sponsors: marketing/brand budget. Most community memberships under $500/month are personal spend decisions.",
+    },
+    outreachTemplate:
+      "Hey [name],\n\n" +
+      "Hope you're doing well! [Something about their work or a conversation you had.]\n\n" +
+      "I'm putting together a small group of [type of professionals] for [regular cadence: monthly dinners / a private Slack / peer roundtables]. The idea is a room where people in [role/function] can talk honestly about [the real challenges] without it being a sales pitch or a generic happy hour.\n\n" +
+      "You're exactly who I'd want in the room. Would you be interested? Happy to share more details.",
+  },
+
+  "micro-saas-builder": {
+    narrowingExercise: {
+      whatYouveDone:
+        "- Built internal tools, automations, or dashboards that your team relied on daily\n" +
+        "- Identified workflow problems that existing software didn't solve well\n" +
+        "- Created spreadsheet systems or no-code tools that became mission-critical\n" +
+        "- Managed or worked closely with engineering teams and understand how software gets built\n" +
+        "- Spotted inefficiencies that cost companies time and money every week",
+      whatLitYouUp:
+        "- Seeing a tool you built save someone hours of work every week\n" +
+        "- The idea of building once and charging monthly, forever\n" +
+        "- Solving a specific, annoying problem that millions of people deal with\n" +
+        "- Owning a product, not renting out your time",
+      whatCompaniesPay:
+        "- Micro-SaaS tool ($20-$200/month per user) - solves one specific workflow problem well\n" +
+        "- AI-powered tool ($50-$500/month) - automates a task that currently takes hours\n" +
+        "- Niche vertical software ($100-$1,000/month) - purpose-built for a specific industry or role\n" +
+        "- Marketplace or directory ($10-$50/month) - connects buyers and sellers in a niche",
+    },
+    positioningTemplate:
+      "I build [type of tool] that helps [type of user] [solve specific problem].\n\n" +
+      "Examples:\n" +
+      "- I built a tool that helps RevOps teams automate their comp plan calculations in 10 minutes instead of 3 hours.\n" +
+      "- I built an AI-powered tool that turns customer support tickets into categorized product feedback automatically.\n" +
+      "- I built a niche CRM for independent recruiters who need something simpler than Salesforce but more powerful than a spreadsheet.",
+    buyerProfile: {
+      suggestedTitle: "End users in the role your tool serves, or their managers. For B2B: team leads, ops managers, department heads.",
+      suggestedCompanySize: "For B2B micro-SaaS: 10-500 employee companies where the pain point is most acute. For prosumer tools: individual professionals.",
+      suggestedTriggerEvent:
+        "Frustrated with current tool, wasting hours on manual process, new in role and looking for better ways to do things, company growing and current workaround breaking down",
+      suggestedBudgetAuthority:
+        "Under $200/month: individual or team lead can expense it. $200-$1,000/month: needs manager or department approval. Best products start under the approval threshold.",
+    },
+    outreachTemplate:
+      "Hey [name],\n\n" +
+      "Hope you're well! Quick question for you.\n\n" +
+      "I've been building a [tool/product] that [solves specific problem] - basically because I kept seeing [type of people] waste hours on [the manual process]. I'm looking for 5-10 people who deal with this to try it out and tell me what's missing.\n\n" +
+      "Would you be open to taking a look? Free for early users, and I'd genuinely love your feedback. You know this space better than most.",
+  },
 };
