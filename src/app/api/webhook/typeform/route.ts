@@ -291,7 +291,6 @@ export async function POST(req: NextRequest) {
           personalIntro: draft.personalIntro,
           personalizedWhy: draft.personalizedWhy,
           pricingDetails: JSON.stringify(draft.pricingDetails),
-          transitionPlan: JSON.stringify(draft.transitionPlan),
         },
       });
 

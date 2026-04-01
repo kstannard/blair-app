@@ -10,11 +10,6 @@ interface PricingDetails {
   momFit?: string;
 }
 
-interface TransitionStep {
-  title: string;
-  description: string;
-}
-
 interface DraftReviewProps {
   recId: string;
   status: string;
@@ -22,7 +17,6 @@ interface DraftReviewProps {
     personalIntro: string | null;
     personalizedWhy: string | null;
     pricingDetails: string | null;
-    transitionPlan: string | null;
   };
 }
 
@@ -31,19 +25,12 @@ function parsePricing(raw: string | null): PricingDetails {
   try { return JSON.parse(raw); } catch { return {}; }
 }
 
-function parseTransition(raw: string | null): TransitionStep[] {
-  if (!raw) return [];
-  try { return JSON.parse(raw); } catch { return []; }
-}
-
 export default function DraftReviewSection({ recId, status, initialData }: DraftReviewProps) {
   const router = useRouter();
   const [personalIntro, setPersonalIntro] = useState(initialData.personalIntro ?? "");
   const [personalizedWhy, setPersonalizedWhy] = useState(initialData.personalizedWhy ?? "");
 
-  // Pricing — edit fields individually
   const initPricing = parsePricing(initialData.pricingDetails);
-  const initTransition = parseTransition(initialData.transitionPlan);
 
   const [tier1Name, setTier1Name] = useState(initPricing.tiers?.[0]?.name ?? "");
   const [tier1Price, setTier1Price] = useState(initPricing.tiers?.[0]?.price ?? "");
@@ -52,13 +39,6 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
   const [sideHustleMath, setSideHustleMath] = useState(initPricing.sideHustleMath ?? "");
   const [fullCapacityMath, setFullCapacityMath] = useState(initPricing.fullCapacityMath ?? "");
   const [momFit, setMomFit] = useState(initPricing.momFit ?? "");
-
-  // Transition steps
-  const [steps, setSteps] = useState<TransitionStep[]>(
-    initTransition.length > 0
-      ? initTransition
-      : [{ title: "", description: "" }, { title: "", description: "" }, { title: "", description: "" }, { title: "", description: "" }]
-  );
 
   const [saving, setSaving] = useState(false);
   const [approving, setApproving] = useState(false);
@@ -78,7 +58,6 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
         fullCapacityMath,
         momFit,
       }),
-      transitionPlan: JSON.stringify(steps),
     };
   }
 
@@ -135,13 +114,9 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
         </div>
       )}
 
-      {/* Personal intro */}
       <Field label="Personal intro" value={personalIntro} onChange={setPersonalIntro} />
-
-      {/* Personalized why */}
       <Field label="Personalized why" value={personalizedWhy} onChange={setPersonalizedWhy} />
 
-      {/* Pricing */}
       <div className="space-y-3 rounded-lg border border-gray-100 p-4">
         <p className="text-xs font-medium uppercase tracking-wider text-gray-500">Pricing tiers</p>
         <div className="grid grid-cols-2 gap-3">
@@ -153,27 +128,6 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
         <Field label="Side hustle math" value={sideHustleMath} onChange={setSideHustleMath} />
         <Field label="Full capacity math" value={fullCapacityMath} onChange={setFullCapacityMath} />
         <Field label="Mom fit" value={momFit} onChange={setMomFit} />
-      </div>
-
-      {/* Transition plan */}
-      <div className="space-y-3 rounded-lg border border-gray-100 p-4">
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500">Transition plan (4 steps)</p>
-        {steps.map((step, i) => (
-          <div key={i} className="space-y-2 border-b border-gray-50 pb-3 last:border-0 last:pb-0">
-            <Field
-              label={`Step ${i + 1} title`}
-              value={step.title}
-              onChange={(v) => setSteps(steps.map((s, j) => j === i ? { ...s, title: v } : s))}
-             
-            />
-            <Field
-              label={`Step ${i + 1} description`}
-              value={step.description}
-              onChange={(v) => setSteps(steps.map((s, j) => j === i ? { ...s, description: v } : s))}
-             
-            />
-          </div>
-        ))}
       </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
@@ -228,7 +182,6 @@ function Field({
             el.style.height = `${el.scrollHeight}px`;
           }
         }}
-       
         className="w-full resize-none overflow-hidden rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:border-blair-midnight focus:outline-none focus:ring-1 focus:ring-blair-midnight"
       />
     </div>

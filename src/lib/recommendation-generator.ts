@@ -1,7 +1,7 @@
 /**
  * Auto-generates personalized recommendation copy using Claude.
  * Input: quiz answers + scoring result + enriched profile
- * Output: draft copy for personalIntro, personalizedWhy, pricingDetails, transitionPlan
+ * Output: draft copy for personalIntro, personalizedWhy, pricingDetails
  * Status is always "draft" — Kristin reviews and approves before the user can see it.
  */
 
@@ -21,7 +21,6 @@ export interface GeneratedRecommendation {
     fullCapacityMath: string;
     momFit: string;
   };
-  transitionPlan: Array<{ title: string; description: string }>;
 }
 
 const BRAND_RULES = `
@@ -108,12 +107,6 @@ Now write the full recommendation. Return a valid JSON object with these exact k
     "fullCapacityMath": "...",
     "momFit": "..."
   },
-  "transitionPlan": [
-    { "title": "...", "description": "..." },
-    { "title": "...", "description": "..." },
-    { "title": "...", "description": "..." },
-    { "title": "...", "description": "..." }
-  ]
 }
 
 Guidelines for each field:
@@ -133,8 +126,6 @@ pricingDetails:
 - sideHustleMath: At their stated weekly hours, what's the realistic annual income?
 - fullCapacityMath: At 20-25 hours/week (full side hustle or part-time), what could it be?
 - momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids. Don't be preachy. Explain why this specific business model works for this stage of life.
-
-transitionPlan: 4 concrete steps, in order. Each step title is an action, not a concept.
 
 Return only the JSON object, no other text.`;
 

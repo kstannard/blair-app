@@ -164,7 +164,6 @@ export default async function AdminUserPage({
               personalIntro: rec.personalIntro,
               personalizedWhy: rec.personalizedWhy,
               pricingDetails: rec.pricingDetails,
-              transitionPlan: rec.transitionPlan,
             }}
           />
         </Section>

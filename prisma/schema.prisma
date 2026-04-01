@@ -130,7 +130,6 @@ model Recommendation {
   personalIntro   String?
   personalizedWhy String?
   pricingDetails  String?
-  transitionPlan  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
