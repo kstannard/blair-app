@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      ui_mode: "embedded_page",
       payment_method_types: ["card"],
       line_items: [
         {
@@ -28,11 +29,10 @@ export async function POST(req: NextRequest) {
       metadata: {
         selectedAdvantage: advantage || "",
       },
-      success_url: `${origin}/welcome?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/discover${advantage ? `?a=${advantage}` : ""}`,
+      return_url: `${origin}/welcome?session_id={CHECKOUT_SESSION_ID}`,
     });
 
-    return NextResponse.json({ url: session.url, sessionId: session.id });
+    return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {
     console.error("Checkout error:", err);
     return NextResponse.json(
