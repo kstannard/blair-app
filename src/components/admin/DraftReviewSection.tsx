@@ -17,6 +17,7 @@ interface TransitionStep {
 
 interface DraftReviewProps {
   recId: string;
+  status: string;
   initialData: {
     personalIntro: string | null;
     personalizedWhy: string | null;
@@ -35,7 +36,7 @@ function parseTransition(raw: string | null): TransitionStep[] {
   try { return JSON.parse(raw); } catch { return []; }
 }
 
-export default function DraftReviewSection({ recId, initialData }: DraftReviewProps) {
+export default function DraftReviewSection({ recId, status, initialData }: DraftReviewProps) {
   const router = useRouter();
   const [personalIntro, setPersonalIntro] = useState(initialData.personalIntro ?? "");
   const [personalizedWhy, setPersonalizedWhy] = useState(initialData.personalizedWhy ?? "");
@@ -122,10 +123,17 @@ export default function DraftReviewSection({ recId, initialData }: DraftReviewPr
 
   return (
     <div className="mt-3 space-y-6">
-      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-        <p className="text-sm font-medium text-amber-800">Draft — not visible to user yet</p>
-        <p className="mt-0.5 text-xs text-amber-600">Edit the copy below, then click Approve to make it live.</p>
-      </div>
+      {status === "draft" ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+          <p className="text-sm font-medium text-amber-800">Draft — not visible to user yet</p>
+          <p className="mt-0.5 text-xs text-amber-600">Edit the copy below, then click Approve to make it live.</p>
+        </div>
+      ) : (
+        <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3">
+          <p className="text-sm font-medium text-green-800">Approved — visible to user</p>
+          <p className="mt-0.5 text-xs text-green-600">You can still edit and save changes below.</p>
+        </div>
+      )}
 
       {/* Personal intro */}
       <Field label="Personal intro" value={personalIntro} onChange={setPersonalIntro} rows={6} />
@@ -178,13 +186,15 @@ export default function DraftReviewSection({ recId, initialData }: DraftReviewPr
         >
           {saving ? "Saving..." : "Save edits"}
         </button>
-        <button
-          onClick={handleApprove}
-          disabled={approving}
-          className="rounded-lg bg-blair-midnight px-5 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {approving ? "Approving..." : "Approve and publish"}
-        </button>
+        {status === "draft" && (
+          <button
+            onClick={handleApprove}
+            disabled={approving}
+            className="rounded-lg bg-blair-midnight px-5 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {approving ? "Approving..." : "Approve and publish"}
+          </button>
+        )}
         {saveMsg && <span className="text-sm text-green-600">{saveMsg}</span>}
       </div>
     </div>

@@ -69,13 +69,13 @@ export default async function AdminUserPage({
           <div className="grid grid-cols-2 gap-4">
             <Field label="Unfair Advantage" value={user.profile.unfairAdvantageName} />
             <Field label="Summary" value={user.profile.summary} />
-            <Field label="Traits" value={user.profile.traits} />
-            <Field label="Strengths" value={user.profile.strengths} />
-            <Field label="Constraints" value={user.profile.constraints} />
+            <JsonListField label="Traits" value={user.profile.traits} />
+            <JsonListField label="Strengths" value={user.profile.strengths} />
+            <JsonListField label="Constraints" value={user.profile.constraints} />
           </div>
           {user.profile.unfairAdvantageEvidence && (
             <div className="mt-4">
-              <p className="text-xs font-medium text-gray-500 uppercase">Evidence</p>
+              <p className="text-xs font-medium text-gray-500 uppercase">Scoring evidence</p>
               <p className="mt-1 text-sm text-gray-700">{user.profile.unfairAdvantageEvidence}</p>
             </div>
           )}
@@ -119,26 +119,16 @@ export default async function AdminUserPage({
             )}
           </div>
 
-          {rec.status === "draft" && (
-            <DraftReviewSection
-              recId={rec.id}
-              initialData={{
-                personalIntro: rec.personalIntro,
-                personalizedWhy: rec.personalizedWhy,
-                pricingDetails: rec.pricingDetails,
-                transitionPlan: rec.transitionPlan,
-              }}
-            />
-          )}
-
-          {rec.status === "approved" && rec.personalIntro && (
-            <div className="mt-4 space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Intro</p>
-                <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap">{rec.personalIntro}</p>
-              </div>
-            </div>
-          )}
+          <DraftReviewSection
+            recId={rec.id}
+            status={rec.status}
+            initialData={{
+              personalIntro: rec.personalIntro,
+              personalizedWhy: rec.personalizedWhy,
+              pricingDetails: rec.pricingDetails,
+              transitionPlan: rec.transitionPlan,
+            }}
+          />
         </Section>
       )}
 
@@ -216,6 +206,30 @@ function Field({ label, value }: { label: string; value: string | null | undefin
     <div>
       <p className="text-xs font-medium text-gray-500">{label}</p>
       <p className="mt-0.5 text-sm text-gray-800">{value || "-"}</p>
+    </div>
+  );
+}
+
+function JsonListField({ label, value }: { label: string; value: string | null | undefined }) {
+  let items: string[] = [];
+  try {
+    const parsed = JSON.parse(value || "[]");
+    items = Array.isArray(parsed) ? parsed : [String(parsed)];
+  } catch {
+    items = value ? [value] : [];
+  }
+  return (
+    <div>
+      <p className="text-xs font-medium text-gray-500">{label}</p>
+      {items.length > 0 ? (
+        <ul className="mt-0.5 space-y-0.5">
+          {items.map((item, i) => (
+            <li key={i} className="text-sm text-gray-800">{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-0.5 text-sm text-gray-800">-</p>
+      )}
     </div>
   );
 }
