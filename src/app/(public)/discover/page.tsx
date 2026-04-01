@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
@@ -103,6 +104,7 @@ function DiscoverContent() {
   const router = useRouter();
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   const selectAdvantage = (key: string) => {
     router.push(`/discover?a=${key}`, { scroll: false });
@@ -288,12 +290,28 @@ function DiscoverContent() {
                 </p>
               </div>
 
-              <a
-                href="https://www.hiblair.com/store/p/blair-personalized-plan"
-                className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark"
+              <button
+                onClick={async () => {
+                  setCheckingOut(true);
+                  try {
+                    const res = await fetch("/api/checkout", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ advantage: advantage.key }),
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    }
+                  } catch {
+                    setCheckingOut(false);
+                  }
+                }}
+                disabled={checkingOut}
+                className="mt-6 flex w-full items-center justify-center rounded-lg bg-blair-sage px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-blair-sage-dark disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Get my personalized plan
-              </a>
+                {checkingOut ? "Loading checkout..." : "Get my personalized plan"}
+              </button>
 
               {/* Guarantee */}
               <div className="mt-5 flex items-start gap-3 rounded-lg bg-blair-linen px-4 py-3">

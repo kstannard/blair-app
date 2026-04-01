@@ -46,6 +46,7 @@ model User {
   name          String?
   emailVerified DateTime?
   image         String?
+  password      String?
   role          String    @default("user")
   referralCode  String?   @unique
   createdAt     DateTime  @default(now())
@@ -58,6 +59,7 @@ model User {
   recommendations  Recommendation[]
   taskProgress     TaskProgress[]
   artifacts        GeneratedArtifact[]
+  orders           Order[]
 }
 
 model QuizSubmission {
@@ -222,4 +224,20 @@ model FounderVideo {
   description String?
 
   path BusinessPath? @relation(fields: [pathId], references: [id])
+}
+
+model Order {
+  id                    String   @id @default(cuid())
+  userId                String?
+  email                 String
+  stripeSessionId       String   @unique
+  stripePaymentIntentId String?
+  amount                Int
+  currency              String   @default("usd")
+  status                String   @default("pending")
+  selectedAdvantage     String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
