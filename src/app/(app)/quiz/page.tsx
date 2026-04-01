@@ -35,25 +35,8 @@ export default async function QuizPage() {
   if (firstName) typeformUrl.searchParams.set("name", firstName);
 
   return (
-    <div className="flex min-h-screen flex-col bg-blair-linen">
-      <div className="px-6 pt-6 pb-2 sm:px-10">
-        <span className="font-serif text-xl text-blair-midnight tracking-tight">
-          blair
-        </span>
-      </div>
-
-      <div className="mx-auto w-full max-w-2xl flex-1 px-6 pb-10 sm:px-10">
-        <div className="pt-10 pb-6 text-center">
-          <h1 className="font-serif text-3xl text-blair-midnight">
-            {firstName ? `${firstName}, let\u2019s build your plan` : "Let\u2019s build your plan"}
-          </h1>
-          <p className="mt-3 text-base text-blair-charcoal/60">
-            This takes about 7 minutes. Your answers shape everything: your
-            matched business path, your pricing, and your step-by-step playbook.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-blair-mist bg-white overflow-hidden shadow-sm" style={{ height: "700px" }}>
+    <div className="mx-auto w-full max-w-2xl flex-1 px-6 pb-10 sm:px-10 pt-6">
+        <div className="rounded-2xl border border-blair-mist bg-white overflow-hidden shadow-sm" style={{ height: "80vh", maxHeight: "800px" }}>
           <iframe
             src={typeformUrl.toString()}
             className="h-full w-full border-0"
@@ -62,11 +45,6 @@ export default async function QuizPage() {
           />
         </div>
 
-        <p className="mt-4 text-center text-xs text-blair-charcoal/30">
-          After you submit, we will review your answers and build your
-          personalized plan. You will get an email when it is ready.
-        </p>
-      </div>
     </div>
   );
 }
