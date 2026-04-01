@@ -20,7 +20,9 @@ const SECTION_MARKERS = [
 ];
 
 function parseSections(text: string): { header: string; body: string }[] {
-  const paragraphs = text.split("\n\n").filter(Boolean);
+  // Strip markdown bold markers (**text**) before parsing
+  const cleaned = text.replace(/\*\*(.*?)\*\*/g, "$1");
+  const paragraphs = cleaned.split("\n\n").filter(Boolean);
   const sections: { header: string; body: string }[] = [];
   let currentHeader = "";
   let currentBody: string[] = [];

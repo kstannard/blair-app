@@ -9,7 +9,7 @@ export function PersonalLetter({
   firstName: string;
   personalIntro: string;
 }) {
-  const paragraphs = personalIntro.split("\n\n").filter(Boolean);
+  const paragraphs = personalIntro.replace(/\*\*(.*?)\*\*/g, "$1").split("\n\n").filter(Boolean);
   const [revealed, setRevealed] = useState(false);
 
   const handleReveal = () => {

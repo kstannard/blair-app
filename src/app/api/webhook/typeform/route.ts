@@ -267,9 +267,24 @@ export async function POST(req: NextRequest) {
         where: { userId: user.id },
         create: {
           userId: user.id,
-          traits: JSON.stringify([]),
-          strengths: JSON.stringify([]),
-          constraints: JSON.stringify([]),
+          traits: JSON.stringify([
+            quizAnswers.Q10_work_mode,
+            quizAnswers.Q12_same_or_different,
+            quizAnswers.Q24_visibility,
+          ].filter(Boolean)),
+          strengths: JSON.stringify([
+            ...quizAnswers.Q7_shoulder_tap,
+            quizAnswers.Q8_weirdly_good,
+            quizAnswers.Q9_managing,
+            ...quizAnswers.Q6_business_models,
+          ].filter(Boolean)),
+          constraints: JSON.stringify([
+            ...quizAnswers.Q11_energy_drains,
+            ...quizAnswers.Q17_avoid,
+            quizAnswers.Q25_time ? `${quizAnswers.Q25_time} per week` : "",
+            quizAnswers.Q27_kids_ages ? `Kids: ${quizAnswers.Q27_kids_ages}` : "",
+            quizAnswers.Q13_blocker,
+          ].filter(Boolean)),
           summary: draft.personalIntro.substring(0, 500),
           unfairAdvantageName: advantage.name,
           unfairAdvantageDescription: advantage.description,

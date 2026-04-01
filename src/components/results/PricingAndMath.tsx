@@ -34,8 +34,12 @@ function H4({ children }: { children: React.ReactNode }) {
   );
 }
 
+function stripMarkdown(text: string) {
+  return text.replace(/\*\*(.*?)\*\*/g, "$1");
+}
+
 function renderMultiParagraph(text: string) {
-  const paragraphs = text.split("\n\n").filter(Boolean);
+  const paragraphs = stripMarkdown(text).split("\n\n").filter(Boolean);
   return paragraphs.map((p, i) => (
     <p
       key={i}
@@ -80,7 +84,7 @@ export function PricingAndMath({
                 <div key={i} className="mt-8">
                   <H4>{tier.name}</H4>
                   <p className="text-lg leading-relaxed text-blair-charcoal">
-                    {tier.price}
+                    {stripMarkdown(tier.price)}
                   </p>
                 </div>
               ))}
@@ -97,7 +101,7 @@ export function PricingAndMath({
               <div className="mt-8">
                 <H4>The side hustle math (where you are now)</H4>
                 <p className="text-lg leading-relaxed text-blair-charcoal">
-                  {sideHustleMath}
+                  {stripMarkdown(sideHustleMath)}
                 </p>
               </div>
             )}
@@ -106,7 +110,7 @@ export function PricingAndMath({
               <div className="mt-8">
                 <H4>The full-time math (when you&apos;re ready)</H4>
                 <p className="text-lg leading-relaxed text-blair-charcoal">
-                  {fullCapacityMath}
+                  {stripMarkdown(fullCapacityMath)}
                 </p>
               </div>
             )}
