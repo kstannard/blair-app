@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { TYPEFORM_FORM_ID } from "@/lib/typeform-fields";
+import { QuizEmbed } from "@/components/quiz/QuizEmbed";
 
 export const metadata = {
   title: "Your Quiz - Blair",
@@ -14,7 +15,7 @@ export default async function QuizPage() {
     redirect("/signin");
   }
 
-  // If they already have a quiz submission or approved recommendation, skip to results
+  // If they already have a quiz submission, skip to results
   const existingSubmission = await prisma.quizSubmission.findFirst({
     where: { userId: session.user.id },
   });
@@ -36,15 +37,7 @@ export default async function QuizPage() {
 
   return (
     <div className="mx-auto w-full max-w-2xl flex-1 px-6 pb-10 sm:px-10 pt-6">
-        <div className="rounded-2xl border border-blair-mist bg-white overflow-hidden shadow-sm" style={{ height: "80vh", maxHeight: "800px" }}>
-          <iframe
-            src={typeformUrl.toString()}
-            className="h-full w-full border-0"
-            allow="camera; microphone; autoplay; encrypted-media;"
-            title="Blair Quiz"
-          />
-        </div>
-
+      <QuizEmbed typeformUrl={typeformUrl.toString()} firstName={firstName} />
     </div>
   );
 }
