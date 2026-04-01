@@ -34,7 +34,8 @@ BLAIR BRAND RULES (non-negotiable):
 - Bath time / pickup time is 5:30-6pm. Be specific when referencing parent constraints.
 - Examples of businesses to build should NOT be consulting-only. Mix in fractional roles, advisory retainers, placement practices, coaching, productized services.
 - Price ranges must be realistic. Reference Kelsey's $8K-$15K brand sprint range as a benchmark for messaging work.
-- The guarantee is a "Clarity guarantee" — they'll walk away knowing what to build and how to start.
+- The guarantee is a "Clarity guarantee": they'll walk away knowing what to build and how to start.
+- NEVER use markdown formatting (no **bold**, no *italics*, no ## headers). Return plain text only. Section headers should be plain text followed by a colon (e.g., "The big idea:" not "**The big idea:**").
 `.trim();
 
 export async function generateRecommendationDraft(

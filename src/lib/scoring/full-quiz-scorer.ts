@@ -358,15 +358,23 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["micro-saas-builder"].reasons.push("Systems Brain advantage aligns with tool building");
   }
   if (textIncludes(Q2_role, "product", "engineer", "technical", "data", "automation")) {
-    pathScores["micro-saas-builder"].score += 2;
+    pathScores["micro-saas-builder"].score += 3;
     pathScores["micro-saas-builder"].reasons.push(`technical/product background: ${Q2_role}`);
   }
-  if (includes(answers.Q14_interests, "system", "tool", "workflow", "automat")) {
+  if (includes(Q7_shoulder_tap, "fixer") && textIncludes(Q2_role, "product", "engineer", "technical", "ops")) {
+    pathScores["micro-saas-builder"].score += 2;
+    pathScores["micro-saas-builder"].reasons.push("fixer instinct + technical background = tool builder");
+  }
+  if (textIncludes(Q8_weirdly_good, "tool", "dashboard", "automat", "build", "system", "workflow", "internal")) {
+    pathScores["micro-saas-builder"].score += 2;
+    pathScores["micro-saas-builder"].reasons.push(`builds tools: "${Q8_weirdly_good.substring(0, 60)}"`);
+  }
+  if (includes(answers.Q14_interests, "system", "tool", "workflow", "automat", "technology", "solving")) {
     pathScores["micro-saas-builder"].score += 1;
     pathScores["micro-saas-builder"].reasons.push("interested in building tools/systems");
   }
-  if (textIncludes(answers.Q16_success, "wealth", "equity", "scale")) {
-    pathScores["micro-saas-builder"].score += 1;
+  if (textIncludes(answers.Q16_success, "wealth", "equity", "scale", "own")) {
+    pathScores["micro-saas-builder"].score += 2;
     pathScores["micro-saas-builder"].reasons.push("wants scalable/equity outcomes");
   }
   if (avoidsClientDemands) {
@@ -378,6 +386,8 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   // When someone says they want something new, boost product/build paths
   // and dampen paths that mirror their current corporate role
   const wantsDifferent = textIncludes(answers.Q12_same_or_different, "different");
+  const wantsSame = textIncludes(answers.Q12_same_or_different, "same");
+
   if (wantsDifferent) {
     // Boost non-service paths
     pathScores["digital-product-builder"].score += 2;
@@ -401,6 +411,49 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
       pathScores["lead-gen-operator"].score -= 1;
       pathScores["lead-gen-operator"].reasons.push("DAMPENED: wants different direction from sales role");
     }
+
+    // Dampen community path unless they have strong connector signals
+    if (!textIncludes(Q8_weirdly_good, "connect", "bring together", "community", "gather", "friends", "group", "plan")) {
+      pathScores["community-membership-operator"].score -= 1;
+      pathScores["community-membership-operator"].reasons.push("DAMPENED: no strong connector signals in Q8");
+    }
+  }
+
+  // ---- "Same direction" modifier ----
+  // When someone wants to keep doing what they're good at, boost the service
+  // paths that match their current role and dampen product/build paths
+  if (wantsSame) {
+    // Boost service paths that match their role
+    if (textIncludes(Q2_role, "operations", "ops", "coo", "chief of staff", "program manager", "vp", "director", "head of")) {
+      pathScores["fractional-operator"].score += 3;
+      pathScores["fractional-operator"].reasons.push("wants same direction + senior ops/leadership role");
+    }
+    if (textIncludes(Q2_role, "brand", "content", "communications", "marketing", "messaging", "copywriting")) {
+      pathScores["messaging-positioning"].score += 2;
+      pathScores["messaging-positioning"].reasons.push("wants same direction + marketing/comms role");
+      pathScores["content-engine-operator"].score += 1;
+    }
+    if (textIncludes(Q2_role, "growth", "gtm", "product marketing", "demand gen", "revenue")) {
+      pathScores["gtm-growth-strategist"].score += 2;
+      pathScores["gtm-growth-strategist"].reasons.push("wants same direction + growth role");
+    }
+    if (textIncludes(Q2_role, "sales", "partnerships", "business development")) {
+      pathScores["lead-gen-operator"].score += 2;
+      pathScores["lead-gen-operator"].reasons.push("wants same direction + sales role");
+    }
+    if (textIncludes(Q2_role, "engineer", "technical", "data", "automation", "revops")) {
+      pathScores["automation-systems-builder"].score += 2;
+      pathScores["automation-systems-builder"].reasons.push("wants same direction + technical role");
+    }
+    if (textIncludes(Q2_role, "recruiter", "talent", "hr", "people ops")) {
+      pathScores["niche-talent-placement"].score += 2;
+      pathScores["niche-talent-placement"].reasons.push("wants same direction + talent role");
+    }
+
+    // Dampen product/build paths when they want same direction
+    pathScores["digital-product-builder"].score -= 1;
+    pathScores["community-membership-operator"].score -= 1;
+    pathScores["micro-saas-builder"].score -= 1;
   }
 
   // Sort paths by score, exclude studio-builder from primary recommendation
