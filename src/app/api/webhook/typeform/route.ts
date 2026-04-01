@@ -25,6 +25,7 @@ interface TypeformWebhookPayload {
     form_id: string;
     token: string;
     submitted_at: string;
+    hidden?: Record<string, string>;
     definition: {
       fields: Array<{ id: string; ref: string; title: string; type: string }>;
     };
@@ -170,11 +171,12 @@ export async function POST(req: NextRequest) {
     }
 
     const { form_response } = payload;
-    const { answers, definition, submitted_at } = form_response;
+    const { answers, definition, submitted_at, hidden } = form_response;
 
-    // Extract email
+    // Extract email: check hidden fields first (passed from our app), then answer fields
+    const hiddenEmail = hidden?.email;
     const emailAnswer = answers.find((a) => a.type === "email");
-    const email = emailAnswer?.email;
+    const email = hiddenEmail || emailAnswer?.email;
     if (!email) {
       console.error("Typeform webhook: no email found");
       return NextResponse.json({ error: "No email in submission" }, { status: 400 });

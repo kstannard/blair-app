@@ -141,15 +141,31 @@ function HoldingPage({ firstName }: { firstName: string }) {
     <main className="flex min-h-screen items-center justify-center bg-blair-linen">
       <div className="mx-auto max-w-lg px-6 text-center">
         <p className="text-xs font-medium uppercase tracking-widest text-blair-sage">
-          Blair Recommendation
+          Almost there
         </p>
         <h1 className="mt-6 font-serif text-4xl text-blair-midnight sm:text-5xl">
-          Hang tight, {firstName}.
+          We&apos;re building your plan, {firstName}.
         </h1>
-        <p className="mt-6 text-lg leading-relaxed text-blair-charcoal">
-          Your personalized recommendation is being prepared. We&rsquo;ll
-          let you know as soon as it&rsquo;s ready.
+        <p className="mt-6 text-lg leading-relaxed text-blair-charcoal/70">
+          We&apos;re reviewing your quiz answers and putting together a
+          recommendation matched to your skills, your schedule, and your life.
+          This usually takes less than 24 hours.
         </p>
+        <p className="mt-4 text-sm text-blair-charcoal/40">
+          We&apos;ll email you the moment it&apos;s ready.
+        </p>
+
+        <div className="mt-10 inline-flex items-center gap-3 rounded-xl border border-blair-mist bg-white px-6 py-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blair-sage/10">
+            <svg className="h-5 w-5 text-blair-sage" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+          </div>
+          <div className="text-left">
+            <p className="text-sm font-medium text-blair-midnight">Check your inbox</p>
+            <p className="text-xs text-blair-charcoal/40">You&apos;ll get an email when your plan is ready to view.</p>
+          </div>
+        </div>
       </div>
     </main>
   );

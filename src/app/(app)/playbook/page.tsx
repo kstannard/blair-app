@@ -42,7 +42,7 @@ export default async function PlaybookPage() {
     return (
       <div className="py-20 text-center">
         <p className="text-blair-charcoal/50">
-          Your playbook is being prepared. Check back soon.
+          Your playbook is on the way. We&apos;ll email you when it&apos;s ready.
         </p>
       </div>
     );
@@ -59,7 +59,7 @@ export default async function PlaybookPage() {
     return (
       <div className="py-20 text-center">
         <p className="text-blair-charcoal/50">
-          Your playbook is being prepared. Check back soon.
+          Your playbook is on the way. We&apos;ll email you when it&apos;s ready.
         </p>
       </div>
     );
