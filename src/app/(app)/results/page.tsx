@@ -149,7 +149,7 @@ function HoldingPage({ firstName }: { firstName: string }) {
         <p className="mt-6 text-lg leading-relaxed text-blair-charcoal/70">
           We&apos;re reviewing your quiz answers and putting together a
           recommendation matched to your skills, your schedule, and your life.
-          This usually takes less than 24 hours.
+          This usually takes less than 48 hours.
         </p>
         <p className="mt-4 text-sm text-blair-charcoal/40">
           We&apos;ll email you the moment it&apos;s ready.
