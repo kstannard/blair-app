@@ -82,6 +82,10 @@ export default async function AdminPreviewResultsPage({
           Admin preview: {user.name || user.email}
         </span>
         <span className="mx-2 text-amber-300">|</span>
+        <Link href={`/admin/preview/${userId}/playbook`} className="text-xs text-amber-700 hover:underline">
+          Playbook
+        </Link>
+        <span className="mx-2 text-amber-300">|</span>
         <Link href={`/admin/${userId}`} className="text-xs text-amber-700 hover:underline">
           Back to admin
         </Link>

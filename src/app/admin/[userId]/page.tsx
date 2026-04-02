@@ -74,14 +74,24 @@ export default async function AdminUserPage({
         </div>
         <div className="flex items-start gap-3">
           {rec?.status === "approved" && (
-            <a
-              href={`/admin/preview/${userId}/results`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-blair-sage/30 bg-blair-sage/5 px-3 py-1.5 text-xs font-medium text-blair-sage-dark hover:bg-blair-sage/10 transition-colors"
-            >
-              View their results &rarr;
-            </a>
+            <>
+              <a
+                href={`/admin/preview/${userId}/results`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-blair-sage/30 bg-blair-sage/5 px-3 py-1.5 text-xs font-medium text-blair-sage-dark hover:bg-blair-sage/10 transition-colors"
+              >
+                View results &rarr;
+              </a>
+              <a
+                href={`/admin/preview/${userId}/playbook`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-blair-sage/30 bg-blair-sage/5 px-3 py-1.5 text-xs font-medium text-blair-sage-dark hover:bg-blair-sage/10 transition-colors"
+              >
+                View playbook &rarr;
+              </a>
+            </>
           )}
           <div className="text-right text-xs text-gray-400">
             <p>Joined {new Date(user.createdAt).toLocaleDateString()}</p>
