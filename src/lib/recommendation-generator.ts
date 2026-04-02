@@ -29,9 +29,10 @@ BLAIR BRAND RULES (non-negotiable):
 - Voice: warm, witty, direct. Never preachy, never presumptuous.
 - NO em dashes (—). Use colons, periods, or restructure instead.
 - Never assume salary or how someone felt about their career. State facts about what they did, not narrative about their experience.
+- Never assume childcare or school arrangements. Don't say "when they start school" or "once they're in full-day school." You don't know if kids are in daycare, nanny care, preschool, or home with a parent. Just reference ages and available hours.
+- If enrichment data says the person is NOT currently employed, never write copy that assumes they need to "quit" or "leave" a job. They already left. Acknowledge that.
 - Never say "yet" as a softener, never say "genuinely", never say "straightforward"
 - The main thing holding this person back is probably time, not skill. Acknowledge real life.
-- Bath time / pickup time is 5:30-6pm. Be specific when referencing parent constraints.
 - Examples of businesses to build should NOT be consulting-only. Mix in fractional roles, advisory retainers, placement practices, coaching, productized services.
 - Price ranges must be realistic. Reference Kelsey's $8K-$15K brand sprint range as a benchmark for messaging work.
 - The guarantee is a "Clarity guarantee": they'll walk away knowing what to build and how to start.
@@ -126,7 +127,7 @@ pricingDetails:
 - tiers: 2 tiers. Name them something memorable (not just "Basic/Premium"). Price based on path and their experience level.
 - sideHustleMath: At their stated weekly hours, what's the realistic annual income?
 - fullCapacityMath: At 20-25 hours/week (full side hustle or part-time), what could it be?
-- momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids at their specific ages. Reference their kids' actual ages to make scheduling and time advice concrete. Don't be preachy. Explain why this specific business model works for this stage of life.
+- momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids at their specific ages. Reference their kids' actual ages but do NOT assume school/daycare arrangements. Don't be preachy. Explain why this specific business model works for their stated available hours and schedule flexibility.
 
 Return only the JSON object, no other text.`;
 

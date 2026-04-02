@@ -285,7 +285,23 @@ export async function POST(req: NextRequest) {
             quizAnswers.Q27_kids_ages ? `Kids: ${quizAnswers.Q27_kids_ages}` : "",
             quizAnswers.Q13_blocker,
           ].filter(Boolean)),
-          summary: draft.personalIntro.substring(0, 500),
+          summary: [
+            `${quizAnswers.Q1_name || quizName}.`,
+            quizAnswers.Q2_role,
+            quizAnswers.Q3_years ? `${quizAnswers.Q3_years} experience.` : null,
+            enrichment.linkedinData?.currentRole
+              ? `Currently ${enrichment.linkedinData.currentRole} at ${enrichment.linkedinData.currentCompany}.`
+              : null,
+            quizAnswers.Q12_same_or_different
+              ? `Wants: ${quizAnswers.Q12_same_or_different.toLowerCase()}.`
+              : null,
+            quizAnswers.Q13_blocker ? `Main blocker: ${quizAnswers.Q13_blocker.toLowerCase()}.` : null,
+            quizAnswers.Q27_kids_ages ? `Kids: ${quizAnswers.Q27_kids_ages}.` : null,
+            quizAnswers.Q25_time ? `Available: ${quizAnswers.Q25_time.toLowerCase()}.` : null,
+            quizAnswers.Q8_weirdly_good
+              ? `Weirdly good at: ${quizAnswers.Q8_weirdly_good.substring(0, 150)}`
+              : null,
+          ].filter(Boolean).join(" "),
           unfairAdvantageName: advantage.name,
           unfairAdvantageDescription: advantage.description,
           unfairAdvantageEvidence: scoring.primaryAdvantage.evidence.join(". "),

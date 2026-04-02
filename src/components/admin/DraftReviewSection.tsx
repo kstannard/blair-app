@@ -25,10 +25,57 @@ function parsePricing(raw: string | null): PricingDetails {
   try { return JSON.parse(raw); } catch { return {}; }
 }
 
+function parseWhySections(text: string): { bigIdea: string; whatYouBuild: string; whoPaysYou: string } {
+  const cleaned = text.replace(/\*\*(.*?)\*\*/g, "$1");
+  const sections: Record<string, string> = { bigIdea: "", whatYouBuild: "", whoPaysYou: "" };
+  let current: keyof typeof sections | null = null;
+  const lines: string[] = [];
+
+  for (const para of cleaned.split("\n\n").filter(Boolean)) {
+    const trimmed = para.trim();
+    if (/^the big idea:\s*/i.test(trimmed)) {
+      current = "bigIdea";
+      const rest = trimmed.replace(/^the big idea:\s*/i, "").trim();
+      if (rest) lines.push(rest);
+      continue;
+    }
+    if (/^what you build:\s*/i.test(trimmed)) {
+      if (current) sections[current] = lines.join("\n\n");
+      lines.length = 0;
+      current = "whatYouBuild";
+      const rest = trimmed.replace(/^what you build:\s*/i, "").trim();
+      if (rest) lines.push(rest);
+      continue;
+    }
+    if (/^who pays you/i.test(trimmed)) {
+      if (current) sections[current] = lines.join("\n\n");
+      lines.length = 0;
+      current = "whoPaysYou";
+      const rest = trimmed.replace(/^who pays you[^:]*:\s*/i, "").trim();
+      if (rest) lines.push(rest);
+      continue;
+    }
+    lines.push(trimmed);
+  }
+  if (current) sections[current] = lines.join("\n\n");
+
+  // If no sections were detected, put everything in bigIdea
+  if (!sections.bigIdea && !sections.whatYouBuild && !sections.whoPaysYou) {
+    sections.bigIdea = cleaned;
+  }
+
+  return sections;
+}
+
 export default function DraftReviewSection({ recId, status, initialData }: DraftReviewProps) {
   const router = useRouter();
   const [personalIntro, setPersonalIntro] = useState(initialData.personalIntro ?? "");
-  const [personalizedWhy, setPersonalizedWhy] = useState(initialData.personalizedWhy ?? "");
+
+  // Parse personalizedWhy into its 3 sections for separate editing
+  const parsedWhy = parseWhySections(initialData.personalizedWhy ?? "");
+  const [bigIdea, setBigIdea] = useState(parsedWhy.bigIdea);
+  const [whatYouBuild, setWhatYouBuild] = useState(parsedWhy.whatYouBuild);
+  const [whoPaysYou, setWhoPaysYou] = useState(parsedWhy.whoPaysYou);
 
   const initPricing = parsePricing(initialData.pricingDetails);
 
@@ -46,6 +93,14 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
   const [error, setError] = useState("");
 
   function buildPayload() {
+    // Reassemble personalizedWhy from the 3 sections
+    const whyParts = [
+      bigIdea ? `The big idea:\n${bigIdea}` : "",
+      whatYouBuild ? `What you build:\n${whatYouBuild}` : "",
+      whoPaysYou ? `Who pays you (and how you find them):\n${whoPaysYou}` : "",
+    ].filter(Boolean);
+    const personalizedWhy = whyParts.join("\n\n");
+
     return {
       personalIntro,
       personalizedWhy,
@@ -115,7 +170,13 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
       )}
 
       <Field label="Personal intro" value={personalIntro} onChange={setPersonalIntro} />
-      <Field label="Personalized why" value={personalizedWhy} onChange={setPersonalizedWhy} />
+
+      <div className="space-y-3 rounded-lg border border-gray-100 p-4">
+        <p className="text-xs font-medium uppercase tracking-wider text-gray-500">Personalized why</p>
+        <Field label="The big idea" value={bigIdea} onChange={setBigIdea} />
+        <Field label="What you build" value={whatYouBuild} onChange={setWhatYouBuild} />
+        <Field label="Who pays you" value={whoPaysYou} onChange={setWhoPaysYou} />
+      </div>
 
       <div className="space-y-3 rounded-lg border border-gray-100 p-4">
         <p className="text-xs font-medium uppercase tracking-wider text-gray-500">Pricing tiers</p>

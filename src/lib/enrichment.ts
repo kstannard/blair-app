@@ -11,6 +11,7 @@ export interface EnrichedProfile {
   webSearchSummary?: string;
   publicUrls: string[];
   enrichmentNotes: string[];
+  isCurrentlyEmployed?: boolean; // null = unknown, derived from LinkedIn experience
 }
 
 export interface LinkedinProfile {
@@ -190,11 +191,23 @@ export async function enrichPerson(params: {
     notes.push("Public web search found no confirmed results for this person");
   }
 
+  // Detect employment status from LinkedIn
+  // If their most recent role has an end date, they've left
+  let isCurrentlyEmployed: boolean | undefined;
+  if (linkedinData?.experience?.length) {
+    const mostRecent = linkedinData.experience[0];
+    isCurrentlyEmployed = !mostRecent.endsAt;
+    if (!isCurrentlyEmployed) {
+      notes.push(`LinkedIn shows most recent role ended (${mostRecent.title} at ${mostRecent.company}, ended ${mostRecent.endsAt?.year}). User may not be currently employed.`);
+    }
+  }
+
   return {
     linkedinData,
     webSearchSummary: webSearchSummary || undefined,
     publicUrls,
     enrichmentNotes: notes,
+    isCurrentlyEmployed,
   };
 }
 
@@ -224,6 +237,11 @@ export function formatEnrichmentForPrompt(profile: EnrichedProfile): string {
   if (profile.webSearchSummary) {
     parts.push(`\n## Public Web Search Results (confirmed matches only)`);
     parts.push(profile.webSearchSummary);
+  }
+
+  if (profile.isCurrentlyEmployed === false) {
+    parts.push(`\n## Employment Status`);
+    parts.push(`LinkedIn indicates this person is NOT currently employed. Their most recent role has an end date. Do NOT write copy that assumes they need to "quit" or "leave" their job. They already did.`);
   }
 
   if (!profile.linkedinData && !profile.webSearchSummary) {

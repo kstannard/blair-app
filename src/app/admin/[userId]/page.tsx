@@ -72,9 +72,21 @@ export default async function AdminUserPage({
           <h1 className="text-2xl font-bold text-gray-900">{user.name || user.email}</h1>
           <p className="mt-1 text-sm text-gray-500">{user.email}</p>
         </div>
-        <div className="text-right text-xs text-gray-400">
-          <p>Joined {new Date(user.createdAt).toLocaleDateString()}</p>
-          {user.referralCode && <p>Referral: {user.referralCode}</p>}
+        <div className="flex items-start gap-3">
+          {rec?.status === "approved" && (
+            <a
+              href={`/admin/preview/${userId}/results`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-blair-sage/30 bg-blair-sage/5 px-3 py-1.5 text-xs font-medium text-blair-sage-dark hover:bg-blair-sage/10 transition-colors"
+            >
+              View their results &rarr;
+            </a>
+          )}
+          <div className="text-right text-xs text-gray-400">
+            <p>Joined {new Date(user.createdAt).toLocaleDateString()}</p>
+            {user.referralCode && <p>Referral: {user.referralCode}</p>}
+          </div>
         </div>
       </div>
 

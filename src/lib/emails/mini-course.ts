@@ -1,9 +1,13 @@
 /**
  * 5-day mini-course: "Find Your Business in 5 Days"
  *
- * Modeled after the Hormozi "give away so much value they feel indebted" approach.
- * Each email delivers a real, usable insight. Not teaser content. Not "sign up to learn more."
- * By Day 5, Blair should feel like the obvious next step, not a sales pitch.
+ * Philosophy: Hormozi "give away the secrets, sell the implementation."
+ * Each email is a complete solution to a narrow problem. Not teaser content.
+ * Real stories from real women (anonymized from user research calls).
+ * Real numbers. Real frameworks. Specific enough to act on today.
+ *
+ * KRISTIN: Lines marked [YOUR STORY] need your real details. Don't skip these.
+ * The personal specificity is what separates this from every other email course.
  */
 
 export interface MiniCourseEmail {
@@ -16,179 +20,194 @@ export interface MiniCourseEmail {
 export const MINI_COURSE_EMAILS: MiniCourseEmail[] = [
   {
     day: 1,
-    subject: "The skill you're underpricing (Day 1 of 5)",
-    preheader: "It's not what you think it is.",
+    subject: "The question that replaces 1,000 hours of research (Day 1 of 5)",
+    preheader: "It takes 3 minutes and your phone.",
     body: `Hi{{firstName}},
 
-You signed up because something about this resonated: you have skills that are worth more than your salary reflects.
+You signed up because some part of you knows this isn't it. Not the job itself, maybe. But the math of it: the hours, the inflexibility, the fact that you're building something valuable for someone else's company while your kids grow up in the gaps between meetings.
 
-Here's the thing most people get wrong. They think about what they DO at work. "I manage a team." "I run operations." "I lead marketing." That's your job description. It's not your unfair advantage.
+You've probably been stuck on the same question for months (maybe years): what would I actually build?
 
-Your unfair advantage is the thing people come to you for that has nothing to do with your title. It's the problem you solve before anyone finishes explaining it. The thing your coworkers say you're "weirdly good at." The skill that makes people say: "Can you just look at this for five minutes?"
+I've talked to a lot of women in your exact position, and that question is a trap. It sends you into an endless loop of researching business ideas, bookmarking courses, buying a domain name at 11pm. And then nothing happens.
 
-Here's an exercise that takes 3 minutes. Grab your phone and scroll through the last 20 texts or Slack DMs from colleagues. Look for the pattern. What do people actually ask you for help with?
+The better question: what do people already come to you for?
 
-Common patterns:
-- "Can you look at this deck?" = Translation Ability (you make complicated things click)
-- "Everything is broken, can you fix it?" = Systems Brain (you see how things connect)
-- "Can you introduce me to...?" = Network Density (you're the connector)
-- "How should we think about this?" = Pattern Library (you've seen this movie before)
-- "Can you convince them?" = Closer Instinct (you move people to yes)
+Not your job title. Not your department. The thing people seek you out for that has nothing to do with your role. The reason someone texts you "can you look at this for 5 minutes?" or pulls you into a meeting you weren't invited to.
 
-That pattern? That's the foundation of a business. Not a side hustle. A real business that can replace your income.
+Grab your phone. Open your last 20 texts or Slack DMs from coworkers. Look for the pattern.
 
-Tomorrow I'll show you what people actually build with each of these advantages, including real income numbers.
+"Can you look at this deck before I send it?" That's translation ability. You make complicated things make sense.
+
+"Everything is on fire, can you come fix this?" That's a systems brain. You see how things connect when everyone else sees chaos.
+
+"Do you know anyone who...?" That's network density. You're the connector.
+
+"How should we think about this?" That's a pattern library. You've solved this problem at three other companies and you already know what works.
+
+"Can you get them to say yes?" That's closer instinct. You move people to decisions.
+
+A woman I talked to had spent her career in HR and benefits consulting. When she looked at her DMs, she realized vendors were constantly asking her how to sell into large employers. That pattern became her entire business. She runs it in about 8 hours a week now and told me she "struck gold."
+
+Your pattern is sitting in your phone right now. Go find it.
+
+Tomorrow I'll show you what real women build with each of these patterns, with actual income numbers and actual hours.
 
 Talk soon,
 Kristin
 
-P.S. I spent 3 years stuck in the "researching every business idea" phase before I figured this out. You don't need to.`,
+P.S. If you see more than one pattern, that's normal. We'll narrow it down.`,
   },
   {
     day: 2,
-    subject: "What working moms actually build (Day 2 of 5)",
-    preheader: "Real businesses, real income, real hours.",
+    subject: "6 women, 6 businesses, real numbers (Day 2 of 5)",
+    preheader: "None of them went viral. All of them make real money.",
     body: `Hi{{firstName}},
 
-Yesterday you identified your unfair advantage. Today I want to show you what people actually do with it.
+Yesterday you identified your pattern. Today I want to show you what real women have done with theirs.
 
-These aren't hypothetical. These are the business paths we see working moms build when they stop trying to pick a "business idea" and start building around what they're already good at.
+These aren't hypothetical business models. These are women I've interviewed and worked with who made the jump. I'm sharing their structures and their numbers because the vague "six-figure consulting" advice on the internet is useless without specifics.
 
-If you have Translation Ability:
-You turn confusing things into things that click. Companies pay $5K-$15K for a positioning sprint. You rewrite their pitch, their website, their investor deck. 15-20 hours of actual work per project. One or two clients a month and you're replacing serious income.
+THE POSITIONING STRATEGIST (Translation Ability)
+A former marketing leader noticed everyone asked her to "fix" their messaging. She now runs brand positioning sprints for companies: she rewrites their pitch, their website copy, their investor deck. She charges $5K-$12K per sprint depending on company size. Each sprint is 3-6 weeks of part-time work. Two per quarter alongside her day job was $40K-$64K in year one. She did not build an audience. She did not go viral. She DMed people she already knew.
 
-If you have a Pattern Library:
-You walk in, see what's broken, and know how to fix it because you've seen it break the same way at three other companies. Diagnostic engagements run $12K-$15K. You're not billing hours. You're billing speed and pattern recognition.
+THE FRACTIONAL COO (Systems Brain)
+A former Chief of Staff with three kids under 6 left her role when she was "totally tapped out on all fronts." She positioned herself as a fractional operator for startups. Her starting rate: $250/hour. Her current retainer with one PE-backed company: $15K/month for 15-20 hours a week. She found clients by going through her entire network: B-school classmates, old colleagues, VC contacts. No formal pitch. Just reconnection conversations. 90% response rate.
 
-If you have a Systems Brain:
-You build the ops infrastructure that makes a business run. An automation overhaul for a 50-person company is $8K-$15K. The beautiful part: what you build for one client becomes the template for the next. Your efficiency compounds.
+THE COMMUNITY BUILDER (Network Density)
+A woman who kept getting asked "do you know anyone who..." started a paid community for women in leadership. She launched with a LinkedIn post and a Slack group. Within two years: 2,300 paying members at $15/month. That's roughly $336K/year. She still runs it alongside her VP role. The community markets itself through word of mouth.
 
-If you have Network Density:
-You already know the people. Advisory retainers start at $5K-$8K/month. Talent placement practices earn fees on every introduction that turns into a hire. You're monetizing relationships that already exist.
+THE REVENUE CONSULTANT (Closer Instinct)
+A former sales leader started helping founders close deals they were fumbling. She works with 2-3 startups at once on retainer, focused on their highest-value opportunities. She charges a base retainer plus a percentage of deals she helps close. Her clients don't care about her hours. They care about revenue.
 
-If you have Closer Instinct:
-Founders will pay you a percentage of the deals you close, not a flat hourly rate. Fractional sales leadership serving 2-3 clients at once puts you at $10K-$20K/month.
+THE STRATEGIC ADVISOR (Pattern Library)
+A former product executive realized companies kept asking her the same questions she'd already answered at three previous companies. She offers diagnostic engagements: walk in, assess what's broken, tell them how to fix it. Her first client came from bumping into a former boss. She started at $8K/month for 2-3 hours a week of advising. She now includes equity in some arrangements and is building toward paid board seats.
 
-Here's what all of these have in common: none of them require you to build an audience, go viral, or figure out "passive income." They start with your existing skills and your existing network.
+THE CURATOR TURNED CONSULTANT (The Unexpected Pattern)
+A woman in benefits consulting noticed she was "weirdly good" at sourcing consumer products for friends. She combined her deep industry knowledge with her curation instinct and built a consulting practice helping early-stage vendors break into the employer channel. She runs a structured 6-week program, takes on 2 clients at a time, and is strict about hours and boundaries.
 
-The question isn't "which business should I start?" The question is "which of these fits my actual life?"
+What do they have in common? They all started with skills they already had. None of them had a "business idea." They had a pattern they monetized. And none of them quit their jobs first.
 
-Tomorrow I'll show you the math: what it takes to replace your income working 15-20 hours a week.
+One stat that puts this in context: women founded 49% of all new US businesses in 2024, up from 29% in 2019 (AJC Company Research). And when surveyed about why, 70% cited flexibility as the number one reason. Not money. Control.
+
+Tomorrow: the actual math on replacing your income.
 
 Kristin`,
   },
   {
     day: 3,
-    subject: "The income replacement math (Day 3 of 5)",
-    preheader: "This is the spreadsheet that changed everything for me.",
+    subject: "The income math nobody shows you (Day 3 of 5)",
+    preheader: "A spreadsheet is worth more than a vision board.",
     body: `Hi{{firstName}},
 
-Today I'm going to give you the exact math I wish someone had shown me years ago.
+A Bipartisan Policy Center poll found that 46% of working mothers are interested in starting their own business. The number one barrier? Not ideas. Not motivation. It's money: 81% said insufficient personal funds held them back. Which makes sense. The idea of walking away from a salary when you have kids is paralyzing.
 
-Let's say you want to replace $200K in total comp. That sounds massive as a side business. But let's break it down.
+But most of the women I've talked to didn't walk away from anything. They built alongside. So let me show you the math on that.
 
-The side hustle phase (where you start):
-You have 10-15 hours per week. You take on one client or project per month. You charge $5K-$8K per engagement. That's $60K-$96K/year working part-time alongside your day job.
+Say you want to replace $200K in total comp.
 
-That's not income replacement. But it IS proof. Proof that people will pay you. Proof that you can do this. Proof that the math works.
+When you're still employed with 10-15 hours a week to spare, one client paying you $150-250/hour for 10 hours a month is $1,500-$2,500/month. That's $18K-$30K annualized. Not income replacement. But it's proof of concept. Proof that someone will pay you for what you know without a company logo behind your name.
 
-The transition phase:
-You've delivered for 3-5 clients. You have referrals coming in. You raise your prices (because now you have case studies). You're charging $8K-$15K per engagement and doing 2-3 per month. That's $192K-$540K annually.
+One woman I talked to described this phase perfectly: she had no formal offer out of the gate. She was just asking people she knew to pay her for strategy work. She was way too cheap at first. But the reps mattered more than the rate.
 
-At the low end of that range, you've replaced your salary. At the high end, you've surpassed it. And you're working 25-30 hours a week, not 50-60.
+After 3-5 clients, something shifts. You have referrals coming in. You have receipts. You raise your prices because you're not guessing anymore.
 
-The part nobody talks about:
-You don't need to quit your job to start. In fact, you shouldn't. The smartest path is:
+A positioning consultant went from undercharging on her first project to selling $15-20K strategy sprints within months. Same skill. Better packaging.
 
-Month 1-3: Land your first paying client while still employed. Even one.
-Month 4-6: Deliver, get a referral, raise your price.
-Month 7-12: Build to 2-3 concurrent clients. Start seeing the income overlap.
-Month 12-18: Your side income approaches your salary. Now the conversation about leaving shifts from "scary" to "obvious."
+At $5K-$15K per project, 1-2 per month, 15-20 hours a week: $60K-$360K annualized. The range is wide because it depends on your niche, your network, and how you package. But somewhere in that range, you've passed your salary. And you're working half the hours.
 
-The key insight: your first client is the hardest. Your second client is usually a referral from the first. By client #3, you have a business.
+One fractional COO I talked to was making $225K at her last job. She now works 20-25 hours a week and is at about 60-70% of that. Three kids under 6 at home. She's not working fewer hours because she can't find clients. She's working fewer hours because she wanted to be at pickup. That's the whole point.
 
-Tomorrow: why most working moms stay stuck for years (and the one thing that actually gets them unstuck).
+The part nobody mentions: your first client is the hardest. Everything after compounds. Client #2 is usually a referral. Client #3 comes from the confidence you built. By #4, it's a business.
+
+Your action for today: open a spreadsheet. Target annual income. Divide by 12. Divide that by what you'd charge. That's your client math. It's more useful than anything you'll find on Instagram.
 
 Kristin
 
-P.S. If you're sitting there thinking "but I don't even know what I'd offer," that's exactly what Day 4 is about.`,
+P.S. If you want someone to run this math with you based on your specific skills and situation, that's a big part of what Blair does. https://app.hiblair.com/discover`,
   },
   {
     day: 4,
-    subject: "Why you've been stuck (Day 4 of 5)",
-    preheader: "It's not a motivation problem.",
+    subject: "The real reason you haven't started (Day 4 of 5)",
+    preheader: "It's not motivation. It's something else.",
     body: `Hi{{firstName}},
 
-Let me describe your last few years and tell me if this sounds familiar.
+Tell me if this sounds familiar.
 
-You've spent hundreds of hours researching business ideas. You've bookmarked courses, saved Instagram posts, maybe even bought a domain name. You've thought about consulting, coaching, an Etsy shop, a newsletter, a podcast, an app.
+You think about starting something during bath time. On your commute. At 2am when you're rocking your kid back to sleep. You've bookmarked more courses than you'll ever take. Maybe bought a domain name you've never used. Considered consulting, coaching, an Etsy shop, a newsletter, an app.
 
-And you've built nothing.
+Started none of them.
 
-It's not because you're lazy. It's not because you lack ambition. It's because you have too many options and no framework for choosing.
+This isn't a motivation problem. You're one of the most driven people in any room you walk into. That's how you got where you are. The issue is that you've never actually asked yourself the question underneath the question: what do I want my life to look like? Not someday. Right now. Because until you answer that, every business idea is just another thing competing for the time you already don't have.
 
-Every business idea triggers the same loop: "But what if there's something better?" So you keep researching. You keep scrolling. You keep thinking about it during bath time, on your commute, in the shower. And another year goes by.
+Once you know what you're building toward, the "what should I start" question gets a lot simpler. But most women skip that part and go straight to Googling "best side hustles 2026."
 
-I know this because I lived it. For three years. Three years of "I should start something" while my kids went from babies to preschoolers. Three years of researching while the window for building something was wide open.
+Every new idea triggers the same thought: "But what if there's something better?" So you keep looking. And the looking feels productive. It has all the textures of progress: the tabs, the notes, the late-night rabbit holes. But nothing is actually moving.
 
-Here's what finally broke the loop for me: I stopped asking "what's the perfect business?" and started asking "what am I already good at that someone would pay for this month?"
+There's data on this. An internal HP report found that men apply for jobs when they meet about 60% of the qualifications. Women wait until they hit 100%. That same pattern shows up in entrepreneurship: women delay starting until they feel fully ready, which for most people means never. And a meta-analysis of over 40,000 people in the Journal of Vocational Behavior found that women consistently score higher on impostor syndrome measures than men. The hesitation isn't about ability. It's about perception.
 
-That reframe changes everything. Because the answer already exists. You don't need to invent it. You don't need to learn new skills. You don't need to build an audience first.
+[YOUR STORY: Kristin, write 2-3 paragraphs here about your own version of this. How long were you stuck? What were you researching? What did your kids' ages look like when you started thinking about it vs. when you finally did something? What broke the loop? Be specific. Be a little embarrassed about it. That's what makes this email the one they screenshot and send to a friend.]
 
-You need three things:
-1. Clarity on your unfair advantage (Day 1)
-2. A business path that fits your life (Day 2)
-3. One specific person to reach out to this week (tomorrow, Day 5)
+A coach I spoke with nailed the two feelings that keep people frozen:
 
-The thing that keeps working moms stuck isn't lack of ideas. It's lack of a decision. The research phase feels productive, but it's procrastination wearing a blazer.
+First, you're used to being great at your job. Suddenly you're a beginner again: figuring out pricing, writing your own marketing copy, stumbling through sales calls. It's disorienting. You went from "I run this place" to "I don't know what I'm doing."
 
-Tomorrow is the last day. I'm going to give you the exact first step to take this week. Not "someday." This week.
+Second, you're used to having a team. Now you're your own legal, HR, sales, and IT department. There's nobody to hand things to.
+
+Both are real. Both fade way faster than you'd expect.
+
+Your action today is going to feel a little aggressive: delete your bookmarks folder of business ideas. All of it. Those ideas had their chance. You don't need more options. You need fewer.
+
+Tomorrow I'm going to give you one specific thing to do. Not "someday." This week.
 
 Kristin`,
   },
   {
     day: 5,
-    subject: "Your one move this week (Day 5 of 5)",
-    preheader: "This is where most people stop. Don't.",
+    subject: "Send this message today (Day 5 of 5)",
+    preheader: "15 minutes. One message. That's it.",
     body: `Hi{{firstName}},
 
-This is it. Five days. You now know more about building a business around your skills than most people figure out in a year of Googling.
+I'm not going to recap the last four days. You were there.
 
-You know your unfair advantage. You know what people build with it. You know the math. You know why you've been stuck.
+I want to talk about one thing: the gap between knowing and doing.
 
-Now: what do you actually do?
+You could read a hundred more emails like this one. Listen to every podcast. Buy every course. And still be in the same spot a year from now. Not because the information was bad, but because information isn't the bottleneck. Action is.
 
-Here's your one move for this week. It takes 15 minutes.
+So here's the one thing I want you to do today. It takes 15 minutes.
 
-Think of one person in your network who runs a company or leads a team. Someone who has a problem you know how to solve. Not theoretically. A real person with a real problem you've actually seen.
+Pick the version that fits your pattern:
 
-Send them a message. Not a pitch. A genuine message:
+If you're leaning toward consulting or advisory work: think of one person in your network who has a problem you know how to solve. Send them this: "Hey [name], I've been thinking about [specific problem you know they have]. I have some ideas based on [your experience]. Would you be open to a 20-minute conversation this week?"
 
-"Hey [name], I've been thinking about [specific problem you know they have]. I have some ideas on how to approach it based on [your relevant experience]. Would you be open to a 20-minute conversation about it?"
+If you're leaning toward a digital product or course: find 5 people in your network who match the audience you'd serve. Ask them one question: "What's the thing you're most stuck on right now when it comes to [your topic]?" Their answers are your product outline.
 
-That's it. One message. One conversation. That conversation might turn into nothing. Or it might turn into your first paid project.
+If you're leaning toward community: post in one Slack group, LinkedIn, or group chat you're already in. Say what you're thinking about building and ask who else would want in. If 10 people say yes, you have a community. If nobody responds, you have useful information.
 
-Most people won't send this message. Not because it's hard, but because it makes it real. And real is scarier than research.
+Noah Kagan, who built a $100M+ company, says the only real validation is whether people will give you money or time. Not compliments. Not "cool idea!" Actual commitment. Whatever version you pick above, you'll know within 48 hours whether you're onto something.
 
-But here's what I know from working with hundreds of women in your position: the ones who send the message are the ones who build the business. Every time.
+One woman I talked to got her first client from lunch with a former boss. He just said "I have work for you." Another posted on LinkedIn and someone replied "I want to be your first client." Another built a 2,300-person community from a single Slack group invite.
 
-Now, if you want to skip the trial-and-error and go straight to a plan built around your specific skills, schedule, and life, that's what Blair does.
+None of them had it figured out when they started. They just started.
 
-For $149, you get:
-- Your unfair advantage mapped to a specific business path
-- Pricing guidance with real numbers (what to charge, side hustle math, full-capacity math)
-- A 30-day playbook built for your available hours (not a fantasy schedule)
-- Everything personalized to your experience, your constraints, and your kids' ages
+Send it today.
 
-It's not a course. It's not coaching. It's a personalized plan that tells you exactly what to build and how to start.
+---
+
+If you're reading this thinking "I want to send it but I still don't know what I'd actually offer, or what to charge, or how to fit this around three kids and a full-time job" ...
+
+That's what Blair does.
+
+$149. A plan built around your specific skills, your schedule, and your constraints. Your unfair advantage named and explained. A business path that fits your life. Pricing math with real numbers. A 30-day playbook for your actual available hours.
+
+No call. No upsell. Takes 10 minutes to start.
 
 https://app.hiblair.com/discover
 
-Either way, send that message this week. You've done enough research.
+Either way: send that message this week.
 
 Kristin
 
-P.S. Your kids are only little once. The window for building something that gives you flexibility and ownership is open right now. Don't let another year of "I should start something" go by.`,
+P.S. 46% of working moms say they want to start a business (Bipartisan Policy Center, 2022). You're not the only one thinking about this. You might be the one who actually does it.`,
   },
 ];
 
