@@ -21,6 +21,13 @@ export interface GeneratedRecommendation {
     fullCapacityMath: string;
     momFit: string;
   };
+  alternativePaths: Array<{
+    pathName: string;
+    altDescription: string;
+    altWhyConsider: string;
+    altTradeoff: string;
+    altRevenueRange: string;
+  }>;
 }
 
 const BRAND_RULES = `
@@ -109,6 +116,22 @@ Now write the full recommendation. Return a valid JSON object with these exact k
     "fullCapacityMath": "...",
     "momFit": "..."
   },
+  "alternativePaths": [
+    {
+      "pathName": "exact name of alt path 1",
+      "altDescription": "...",
+      "altWhyConsider": "...",
+      "altTradeoff": "...",
+      "altRevenueRange": "..."
+    },
+    {
+      "pathName": "exact name of alt path 2",
+      "altDescription": "...",
+      "altWhyConsider": "...",
+      "altTradeoff": "...",
+      "altRevenueRange": "..."
+    }
+  ]
 }
 
 Guidelines for each field:
@@ -128,6 +151,13 @@ pricingDetails:
 - sideHustleMath: At their stated weekly hours, what's the realistic annual income?
 - fullCapacityMath: At 20-25 hours/week (full side hustle or part-time), what could it be?
 - momFit: 2-3 paragraphs. Be real about the tension between building a business and having kids at their specific ages. Reference their kids' actual ages but do NOT assume school/daycare arrangements. Don't be preachy. Explain why this specific business model works for their stated available hours and schedule flexibility.
+
+alternativePaths (one entry per alternative path listed above):
+- pathName: Must match the exact alternative path name from the scoring results above.
+- altDescription: 1-2 sentences. What this path is in plain language.
+- altWhyConsider: 2-3 sentences. Why this path could work for THIS specific person given their background. Be concrete, reference their actual experience.
+- altTradeoff: 2-3 sentences. What they'd give up or what's harder about this path vs the primary. Be honest, not salesy.
+- altRevenueRange: Realistic revenue range with timeframe (e.g., "$5K-$10K/month per client, typically 10-15 hours/week").
 
 Return only the JSON object, no other text.`;
 

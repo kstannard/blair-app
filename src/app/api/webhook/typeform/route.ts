@@ -343,13 +343,20 @@ export async function POST(req: NextRequest) {
           where: { slug: scoredPath.pathSlug },
         });
         if (dbPath) {
+          // Find generated alt path copy if available
+          const altCopy = draft.alternativePaths?.find(
+            (ap) => ap.pathName === scoredPath.pathName
+          );
           await prisma.recommendationPath.create({
             data: {
               recommendationId: recommendation.id,
               pathId: dbPath.id,
               rank: scoredPath.rank,
               fitScore: scoredPath.fitScore,
-              altDescription: scoredPath.rank > 1 ? scoredPath.pathName : null,
+              altDescription: altCopy?.altDescription || (scoredPath.rank > 1 ? scoredPath.pathName : null),
+              altWhyConsider: altCopy?.altWhyConsider || null,
+              altTradeoff: altCopy?.altTradeoff || null,
+              altRevenueRange: altCopy?.altRevenueRange || null,
             },
           });
         }
