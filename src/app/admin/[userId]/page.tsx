@@ -104,11 +104,16 @@ export default async function AdminUserPage({
             <>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Unfair Advantage" value={user.profile.unfairAdvantageName} />
-                <Field label="Summary" value={user.profile.summary} />
                 <JsonListField label="Traits" value={user.profile.traits} />
                 <JsonListField label="Strengths" value={user.profile.strengths} />
                 <JsonListField label="Constraints" value={user.profile.constraints} />
               </div>
+              {user.profile.summary && (
+                <div className="mt-4">
+                  <p className="text-xs font-medium text-gray-500">Summary</p>
+                  <p className="mt-0.5 text-sm text-gray-800 whitespace-pre-wrap">{user.profile.summary}</p>
+                </div>
+              )}
               {user.profile.unfairAdvantageEvidence && (
                 <div className="mt-4">
                   <p className="text-xs font-medium text-gray-500 uppercase">Scoring evidence</p>

@@ -105,6 +105,10 @@ function DiscoverContent() {
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
   const [checkingOut, setCheckingOut] = useState(false);
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [leadError, setLeadError] = useState("");
   const preloadedUrl = useRef<string | null>(null);
 
   // Preload checkout session when advantage detail view mounts
@@ -361,6 +365,88 @@ function DiscoverContent() {
             </div>
           </div>
 
+          {/* Mini-course email capture */}
+          <div
+            className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: "900ms", animationFillMode: "both" }}
+          >
+            <div className="rounded-2xl border border-blair-mist bg-white/50 px-6 py-6 sm:px-8 text-center">
+              {leadSubmitted ? (
+                <div className="py-2">
+                  <p className="font-serif text-lg text-blair-midnight">
+                    Check your inbox.
+                  </p>
+                  <p className="mt-2 text-sm text-blair-charcoal/50">
+                    Day 1 is on its way. No fluff, just the real stuff.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm font-medium text-blair-charcoal/40 uppercase tracking-wide">
+                    Not ready to commit?
+                  </p>
+                  <p className="mt-2 font-serif text-lg text-blair-midnight">
+                    Get our free 5-day mini-course
+                  </p>
+                  <p className="mt-1 text-sm text-blair-charcoal/50">
+                    Real strategies, real math, zero fluff. Learn how to turn
+                    your skills into a business that fits your life.
+                  </p>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      if (!leadEmail.trim()) return;
+                      setLeadSubmitting(true);
+                      setLeadError("");
+                      try {
+                        const res = await fetch("/api/leads", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            email: leadEmail.trim(),
+                            source: "discover",
+                            advantageKey: advantage?.key,
+                          }),
+                        });
+                        const data = await res.json();
+                        if (data.alreadyCustomer) {
+                          setLeadError("You already have a Blair account! Sign in to see your results.");
+                        } else if (data.ok) {
+                          setLeadSubmitted(true);
+                        } else {
+                          setLeadError(data.error || "Something went wrong.");
+                        }
+                      } catch {
+                        setLeadError("Something went wrong. Try again.");
+                      }
+                      setLeadSubmitting(false);
+                    }}
+                    className="mt-4 flex gap-2 max-w-sm mx-auto"
+                  >
+                    <input
+                      type="email"
+                      required
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      placeholder="your email"
+                      className="flex-1 rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20 transition-colors"
+                    />
+                    <button
+                      type="submit"
+                      disabled={leadSubmitting}
+                      className="rounded-lg bg-blair-midnight px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blair-charcoal disabled:opacity-60"
+                    >
+                      {leadSubmitting ? "..." : "Send it"}
+                    </button>
+                  </form>
+                  {leadError && (
+                    <p className="mt-2 text-xs text-red-600">{leadError}</p>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
           {/* Personal note */}
           <div
             className="mt-12 border-t border-blair-mist pt-10 animate-in fade-in duration-500"
@@ -395,8 +481,26 @@ function DiscoverContent() {
       </div>
 
       <div className="mx-auto max-w-4xl px-6 pb-20 sm:px-10">
+        {/* Progress steps */}
+        <div className="pt-10 sm:pt-14 flex items-center justify-center gap-2 text-xs font-medium tracking-wide animate-in fade-in duration-500">
+          <span className="flex items-center gap-1.5 text-blair-sage">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blair-sage text-white text-[10px]">1</span>
+            Name your advantage
+          </span>
+          <span className="text-blair-charcoal/20 mx-1">&rarr;</span>
+          <span className="text-blair-charcoal/30">
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blair-charcoal/20 text-[10px] mr-1.5">2</span>
+            Tell us about you
+          </span>
+          <span className="text-blair-charcoal/20 mx-1">&rarr;</span>
+          <span className="text-blair-charcoal/30">
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blair-charcoal/20 text-[10px] mr-1.5">3</span>
+            Get your personalized plan
+          </span>
+        </div>
+
         {/* Hero */}
-        <div className="pt-16 sm:pt-20 animate-in fade-in duration-700">
+        <div className="pt-10 sm:pt-12 animate-in fade-in duration-700">
           <h1 className="font-serif text-4xl leading-tight text-blair-midnight sm:text-5xl max-w-3xl">
             You&apos;ve spent years getting really good at something.
             <br />

@@ -241,3 +241,16 @@ model Order {
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
+
+model EmailLead {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  firstName       String?
+  source          String   @default("mini-course") // mini-course, discover, homepage
+  advantageKey     String?  // which advantage they were viewing when they signed up
+  currentDay      Int      @default(0) // 0 = just signed up, 1-5 = which email they've received
+  status          String   @default("active") // active, unsubscribed, converted
+  convertedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
