@@ -27,7 +27,7 @@ function parsePricing(raw: string | null): PricingDetails {
 
 function parseWhySections(text: string): { bigIdea: string; whatYouBuild: string; whoPaysYou: string } {
   const cleaned = text.replace(/\*\*(.*?)\*\*/g, "$1");
-  const sections: Record<string, string> = { bigIdea: "", whatYouBuild: "", whoPaysYou: "" };
+  const sections = { bigIdea: "", whatYouBuild: "", whoPaysYou: "" };
   let current: keyof typeof sections | null = null;
   const lines: string[] = [];
 
