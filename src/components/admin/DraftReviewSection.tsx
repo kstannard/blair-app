@@ -10,6 +10,16 @@ interface PricingDetails {
   momFit?: string;
 }
 
+interface AltPathData {
+  id: string;
+  rank: number;
+  pathName: string;
+  altDescription: string | null;
+  altWhyConsider: string | null;
+  altTradeoff: string | null;
+  altRevenueRange: string | null;
+}
+
 interface DraftReviewProps {
   recId: string;
   status: string;
@@ -18,6 +28,7 @@ interface DraftReviewProps {
     personalizedWhy: string | null;
     pricingDetails: string | null;
   };
+  altPaths?: AltPathData[];
 }
 
 function parsePricing(raw: string | null): PricingDetails {
@@ -67,7 +78,7 @@ function parseWhySections(text: string): { bigIdea: string; whatYouBuild: string
   return sections;
 }
 
-export default function DraftReviewSection({ recId, status, initialData }: DraftReviewProps) {
+export default function DraftReviewSection({ recId, status, initialData, altPaths = [] }: DraftReviewProps) {
   const router = useRouter();
   const [personalIntro, setPersonalIntro] = useState(initialData.personalIntro ?? "");
 
@@ -87,10 +98,31 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
   const [fullCapacityMath, setFullCapacityMath] = useState(initPricing.fullCapacityMath ?? "");
   const [momFit, setMomFit] = useState(initPricing.momFit ?? "");
 
+  // Alt path state
+  const [altPathState, setAltPathState] = useState(
+    altPaths.map((ap) => ({
+      id: ap.id,
+      rank: ap.rank,
+      pathName: ap.pathName,
+      altDescription: ap.altDescription ?? "",
+      altWhyConsider: ap.altWhyConsider ?? "",
+      altTradeoff: ap.altTradeoff ?? "",
+      altRevenueRange: ap.altRevenueRange ?? "",
+    }))
+  );
+
   const [saving, setSaving] = useState(false);
   const [approving, setApproving] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
   const [error, setError] = useState("");
+
+  function updateAltPath(index: number, field: string, value: string) {
+    setAltPathState((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
 
   function buildPayload() {
     // Reassemble personalizedWhy from the 3 sections
@@ -113,6 +145,13 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
         fullCapacityMath,
         momFit,
       }),
+      altPaths: altPathState.map((ap) => ({
+        id: ap.id,
+        altDescription: ap.altDescription,
+        altWhyConsider: ap.altWhyConsider,
+        altTradeoff: ap.altTradeoff,
+        altRevenueRange: ap.altRevenueRange,
+      })),
     };
   }
 
@@ -190,6 +229,35 @@ export default function DraftReviewSection({ recId, status, initialData }: Draft
         <Field label="Full capacity math" value={fullCapacityMath} onChange={setFullCapacityMath} />
         <Field label="Mom fit" value={momFit} onChange={setMomFit} />
       </div>
+
+      {/* Alternative paths */}
+      {altPathState.map((ap, i) => (
+        <div key={ap.id} className="space-y-3 rounded-lg border border-gray-100 p-4">
+          <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+            Alternative {ap.rank - 1}: {ap.pathName}
+          </p>
+          <Field
+            label="Description"
+            value={ap.altDescription}
+            onChange={(v) => updateAltPath(i, "altDescription", v)}
+          />
+          <Field
+            label="Why consider this path"
+            value={ap.altWhyConsider}
+            onChange={(v) => updateAltPath(i, "altWhyConsider", v)}
+          />
+          <Field
+            label="Tradeoff vs primary"
+            value={ap.altTradeoff}
+            onChange={(v) => updateAltPath(i, "altTradeoff", v)}
+          />
+          <Field
+            label="Revenue range"
+            value={ap.altRevenueRange}
+            onChange={(v) => updateAltPath(i, "altRevenueRange", v)}
+          />
+        </div>
+      ))}
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 

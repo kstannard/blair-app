@@ -192,6 +192,17 @@ export default async function AdminUserPage({
               personalizedWhy: rec.personalizedWhy,
               pricingDetails: rec.pricingDetails,
             }}
+            altPaths={rec.paths
+              .filter((p) => p.rank > 1)
+              .map((p) => ({
+                id: p.id,
+                rank: p.rank,
+                pathName: p.path.name,
+                altDescription: p.altDescription,
+                altWhyConsider: p.altWhyConsider,
+                altTradeoff: p.altTradeoff,
+                altRevenueRange: p.altRevenueRange,
+              }))}
           />
         </Section>
       )}

@@ -9,7 +9,7 @@ export async function PATCH(
   const { recId } = await params;
   const body = await req.json();
 
-  const { personalIntro, personalizedWhy, pricingDetails } = body;
+  const { personalIntro, personalizedWhy, pricingDetails, altPaths } = body;
 
   const rec = await prisma.recommendation.findUnique({ where: { id: recId } });
   if (!rec) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -22,6 +22,23 @@ export async function PATCH(
       ...(pricingDetails !== undefined && { pricingDetails }),
     },
   });
+
+  // Update alt path copy if provided
+  if (altPaths && Array.isArray(altPaths)) {
+    for (const ap of altPaths) {
+      if (ap.id) {
+        await prisma.recommendationPath.update({
+          where: { id: ap.id },
+          data: {
+            altDescription: ap.altDescription ?? null,
+            altWhyConsider: ap.altWhyConsider ?? null,
+            altTradeoff: ap.altTradeoff ?? null,
+            altRevenueRange: ap.altRevenueRange ?? null,
+          },
+        });
+      }
+    }
+  }
 
   return NextResponse.json({ ok: true, rec: updated });
 }
