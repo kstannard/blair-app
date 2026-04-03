@@ -177,6 +177,7 @@ export default async function AdminPreviewPlaybookPage({
                     description={task.description}
                     status={status}
                     slug={task.slug}
+                    hrefPrefix={`/admin/preview/${userId}/playbook`}
                   />
                 );
               })}

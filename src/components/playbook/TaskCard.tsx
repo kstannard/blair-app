@@ -12,6 +12,7 @@ interface TaskCardProps {
   description: string;
   status: TaskStatus;
   slug: string;
+  hrefPrefix?: string;
 }
 
 export function TaskCard({
@@ -20,10 +21,11 @@ export function TaskCard({
   description,
   status,
   slug,
+  hrefPrefix = "/playbook",
 }: TaskCardProps) {
   return (
     <Link
-      href={`/playbook/${slug}`}
+      href={`${hrefPrefix}/${slug}`}
       className={cn(
         "group flex items-start gap-5 rounded-xl border px-6 py-5 transition-all",
         status === "done"
