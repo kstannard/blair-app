@@ -38,7 +38,7 @@ export default async function AdminPreviewTaskPage({
   });
 
   const savedData = progress?.savedData
-    ? (progress.savedData as Record<string, unknown>)
+    ? (progress.savedData as unknown as Record<string, unknown>)
     : null;
 
   const firstName = user.name?.split(" ")[0] ?? "User";

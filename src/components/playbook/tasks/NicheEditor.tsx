@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { RefineButton } from "@/components/playbook/RefineButton";
+import { generateNicheChips } from "@/lib/prepopulation";
 
 interface RecommendationData {
   personalIntro: string | null;
@@ -15,6 +16,13 @@ interface RecommendationData {
     unfairAdvantageDescription: string | null;
     linkedinSummary: string | null;
     notableExperience: string | null;
+  } | null;
+  quizContext?: {
+    role?: string | null;
+    years?: string | null;
+    industries?: string | null;
+    shoulderTap?: string | null;
+    weirdlyGood?: string | null;
   } | null;
 }
 
@@ -42,15 +50,29 @@ function parseToChips(value: string | null): string[] {
     .filter((line) => line.length > 0);
 }
 
-function extractPrePopulationChips(recommendationData: RecommendationData | null): string[] {
+function extractPrePopulationChips(recommendationData: RecommendationData | null, pathSlug: string): string[] {
   if (!recommendationData) return [];
   const profile = recommendationData.userProfile;
+  const quiz = recommendationData.quizContext;
 
-  if (profile?.notableExperience) {
-    return parseToChips(profile.notableExperience);
-  } else if (profile?.linkedinSummary) {
-    return parseToChips(profile.linkedinSummary);
-  } else if (recommendationData.personalIntro) {
+  // Use smart generation: role-aware problem statements instead of raw job titles
+  const profileInput = {
+    role: quiz?.role || undefined,
+    years: quiz?.years || undefined,
+    industries: quiz?.industries || undefined,
+    shoulderTaps: quiz?.shoulderTap || undefined,
+    weirdlyGoodAt: quiz?.weirdlyGood || undefined,
+    linkedinSummary: profile?.linkedinSummary || undefined,
+    notableExperience: profile?.notableExperience || undefined,
+    strengths: profile?.strengths || undefined,
+    traits: profile?.traits || undefined,
+  };
+
+  const chips = generateNicheChips(profileInput, pathSlug);
+  if (chips.length > 0) return chips;
+
+  // Fallback: parse from personalIntro if no profile data at all
+  if (recommendationData.personalIntro) {
     return parseToChips(recommendationData.personalIntro);
   }
   return [];
@@ -110,7 +132,7 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
       return;
     }
 
-    const chips = extractPrePopulationChips(recommendationData);
+    const chips = extractPrePopulationChips(recommendationData, pathSlug);
     if (chips.length > 0) {
       hasPrePopulated.current = true;
       onSave({

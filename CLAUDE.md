@@ -35,7 +35,7 @@ KIT_API_KEY=your-kit-api-key-in-vercel
 - Quiz field mappings for Typeform are in `/src/content/typeform-fields.ts`
 - Unfair advantage scoring rules are in `/src/content/unfair-advantages.ts`
 
-## The 9 Business Paths
+## The 12 Business Paths
 1. GTM & Growth Strategist
 2. Messaging & Positioning Specialist
 3. Fractional Operator
@@ -45,8 +45,16 @@ KIT_API_KEY=your-kit-api-key-in-vercel
 7. Studio Builder
 8. Niche Talent & Placement Operator
 9. Investor-Operator
+10. Digital Product Builder
+11. Community & Membership Operator
+12. Micro-SaaS Builder
 
 Each path has its OWN set of 5 phases with different phase names and tasks. They are NOT the same across paths.
+
+### Playbook Content Status
+- All 12 paths have Phase 1 with 4 tasks (niche-editor, positioning-editor, buyer-profile-editor, gut-check)
+- Community & Membership Operator: Phases 2-5 fully populated (16 deep tasks with research-backed content)
+- All other paths: Phases 2-5 exist as empty shells, need deep research and task content
 
 ## The 5 Unfair Advantages (scoring logic in `/src/content/unfair-advantages.ts`)
 1. **Network Density** — "You already know the people who would pay you." Key signals: Q21 (2+ networks), Q22 (comfortable outreach), Q3 (10+ years)
@@ -101,7 +109,7 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - Results page: full-screen hero → "Tell me more" CTA → reveals unfair advantage + recommendation → alternative paths hidden behind "Not sure this is the right fit?" toggle → "Go to playbook" CTA → share/referral section
 - Playbook page: welcome card (consolidates intro for new users) → 5-phase horizontal-scroll roadmap → Phase 1 tasks
 - Task workspace: title + why-this-matters inline (not collapsed) → pre-filled content → contextual AI buttons (not a chatbot) → auto-check on completion → confetti + quip
-- NicheEditor (figure-out-your-specific-thing task): 3-step vertical flow — chips of problems solved (editable) → select what energizes you → platform suggests what companies pay for (path-specific)
+- NicheEditor (figure-out-your-specific-thing task): 3-step vertical flow — chips of problems solved (editable, pre-populated via role-aware generateNicheChips() in /src/lib/prepopulation.ts, NOT raw LinkedIn job titles) → select what energizes you → platform suggests what companies pay for (path-specific)
 - PositioningEditor: 3 handwritten examples from pathContent.ts (NOT programmatic generation — that broke), user picks and edits
 
 ## What Still Needs Work (as of last session)
