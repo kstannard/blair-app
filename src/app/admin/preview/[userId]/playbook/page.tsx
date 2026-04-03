@@ -84,9 +84,6 @@ export default async function AdminPreviewPlaybookPage({
   });
   const progressMap = new Map(progressRecords.map((p) => [p.taskId, p]));
 
-  const totalTasks = allTaskIds.length;
-  const completedCount = progressRecords.filter((p) => p.status === "done").length;
-
   const firstName = user.name?.split(" ")[0] ?? "there";
 
   return (
@@ -128,49 +125,28 @@ export default async function AdminPreviewPlaybookPage({
           )}
         </div>
 
-        {/* Progress summary */}
-        <div className="mt-6 rounded-lg border border-gray-100 bg-white/60 px-4 py-3">
-          <span className="text-sm text-gray-600">
-            {completedCount} of {totalTasks} tasks complete across {phases.length} phases
-          </span>
-        </div>
-
         {/* 5-phase roadmap */}
         <div className="mt-8">
           <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
             {phases.length}-Phase Roadmap
           </h2>
           <div className="mt-4 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-5 sm:gap-0 sm:overflow-visible sm:pb-0">
-            {phases.map((phase) => {
-              const phaseDone = phase.tasks.filter(
-                (t) => progressMap.get(t.id)?.status === "done"
-              ).length;
-              return (
+            {phases.map((phase) => (
                 <div
                   key={phase.id}
                   className="flex shrink-0 flex-col items-center text-center px-2 sm:px-1"
                   style={{ minWidth: "4.5rem" }}
                 >
                   <div
-                    className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                      phaseDone === phase.tasks.length && phase.tasks.length > 0
-                        ? "bg-green-500 text-white"
-                        : phaseDone > 0
-                          ? "bg-blair-sage text-white"
-                          : "bg-blair-mist text-blair-charcoal/40"
-                    }`}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold bg-blair-mist text-blair-charcoal/40"
                   >
                     {phase.order}
                   </div>
                   <p className="mt-2 text-xs leading-tight text-blair-midnight">
                     {phase.name}
                   </p>
-                  <p className="text-xs text-gray-400">
-                    {phaseDone}/{phase.tasks.length}
-                  </p>
                 </div>
-              );
-            })}
+              ))}
           </div>
         </div>
 
