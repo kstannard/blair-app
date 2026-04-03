@@ -20,7 +20,7 @@ export function PhaseRoadmap({
   completedPhaseOrders = [],
 }: PhaseRoadmapProps) {
   return (
-    <div className="mt-8">
+    <div className="mt-12 sm:mt-16">
       <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
         {phases.length}-Phase Roadmap
       </h2>
