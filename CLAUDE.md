@@ -53,8 +53,8 @@ Each path has its OWN set of 5 phases with different phase names and tasks. They
 
 ### Playbook Content Status
 - All 12 paths have Phase 1 with 4 tasks (niche-editor, positioning-editor, buyer-profile-editor, gut-check)
-- Community & Membership Operator: Phases 2-5 fully populated (16 deep tasks with research-backed content)
-- All other paths: Phases 2-5 exist as empty shells, need deep research and task content
+- Fully built (Phases 1-5, 20 tasks each): GTM & Growth Strategist, Fractional Operator, Messaging & Positioning Specialist, Digital Product Builder, Community & Membership Operator
+- Remaining 7 paths: Phases 2-5 exist as empty shells, need deep research and task content
 
 ## The 5 Unfair Advantages (scoring logic in `/src/content/unfair-advantages.ts`)
 1. **Network Density** — "You already know the people who would pay you." Key signals: Q21 (2+ networks), Q22 (comfortable outreach), Q3 (10+ years)
