@@ -78,7 +78,7 @@ export function TaskCard({
           </h3>
           <StatusBadge status={status} className="shrink-0" />
         </div>
-        <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/60">
+        <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/60 line-clamp-2">
           {description}
         </p>
       </div>
