@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { TaskCard } from "@/components/playbook/TaskCard";
+import { PhaseRoadmap } from "@/components/playbook/PhaseRoadmap";
 
 export const dynamic = "force-dynamic";
 
@@ -126,29 +127,7 @@ export default async function AdminPreviewPlaybookPage({
         </div>
 
         {/* 5-phase roadmap */}
-        <div className="mt-8">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
-            {phases.length}-Phase Roadmap
-          </h2>
-          <div className="mt-4 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-5 sm:gap-0 sm:overflow-visible sm:pb-0">
-            {phases.map((phase) => (
-                <div
-                  key={phase.id}
-                  className="flex shrink-0 flex-col items-center text-center px-2 sm:px-1"
-                  style={{ minWidth: "4.5rem" }}
-                >
-                  <div
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold bg-blair-mist text-blair-charcoal/40"
-                  >
-                    {phase.order}
-                  </div>
-                  <p className="mt-2 text-xs leading-tight text-blair-midnight">
-                    {phase.name}
-                  </p>
-                </div>
-              ))}
-          </div>
-        </div>
+        <PhaseRoadmap phases={phases} />
 
         {/* All phases with tasks */}
         {phases.map((phase) => (

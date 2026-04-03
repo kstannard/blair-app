@@ -7,6 +7,7 @@ import { TaskCard } from "@/components/playbook/TaskCard";
 import { PhaseComplete } from "@/components/playbook/PhaseComplete";
 import { SharePrompt } from "@/components/playbook/SharePrompt";
 import { WelcomeBack } from "@/components/playbook/WelcomeBack";
+import { PhaseRoadmap } from "@/components/playbook/PhaseRoadmap";
 
 export const metadata = {
   title: "Your Playbook - Blair",
@@ -168,35 +169,7 @@ export default async function PlaybookPage() {
       </div>
 
       {/* 5-phase roadmap */}
-      <div className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-blair-charcoal/40">
-          Your {phases.length}-Phase Roadmap
-        </h2>
-        <div className="mt-4 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-5 sm:gap-0 sm:overflow-visible sm:pb-0">
-          {phases.map((phase) => (
-            <div key={phase.id} className="flex shrink-0 flex-col items-center text-center px-2 sm:px-1" style={{ minWidth: "4.5rem" }}>
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                  phase.order === 1
-                    ? "bg-blair-sage text-white"
-                    : "bg-blair-mist text-blair-charcoal/40"
-                }`}
-              >
-                {phase.order}
-              </div>
-              <p
-                className={`mt-2 text-xs leading-tight ${
-                  phase.order === 1
-                    ? "font-semibold text-blair-midnight"
-                    : "text-blair-charcoal/40"
-                }`}
-              >
-                {phase.name}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <PhaseRoadmap phases={phases} activePhaseOrder={1} />
 
       {/* Active phase header */}
       <div className="pt-10 pb-2">

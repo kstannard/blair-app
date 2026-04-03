@@ -114,7 +114,7 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   const isComfortable = Q23_outreach.toLowerCase().startsWith("comfortable");
   const isVeryUncomfortable = Q23_outreach.toLowerCase().startsWith("very uncomfortable");
   const hasBreadth = Q4_company_size.length >= 2 || Q5_industries.filter(i => !i.includes("Generalist")).length >= 2;
-  const hasNetwork = Q22_network.length >= 2;
+  const hasNetwork = Q22_network.length >= 2 || (Q22_network.length === 1 && includes(Q22_network, "decision-makers", "executives", "founders"));
   const avoidsConstantSelling = includes(Q17_avoid, "constant selling", "self-promotion");
   const avoidsClientDemands = includes(Q17_avoid, "constant client", "client demand");
 
@@ -122,6 +122,9 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   if (hasNetwork) { scores.networkDensity += 2; evidence.networkDensity.push("strong professional network"); }
   if (isComfortable) { scores.networkDensity += 2; evidence.networkDensity.push("comfortable with outreach"); }
   if (isSenior) { scores.networkDensity += 1; evidence.networkDensity.push(`${Q3_years} of experience`); }
+  if (textIncludes(Q2_role, "sales", "partnerships", "revops", "business development", "account executive")) {
+    scores.networkDensity += 1; evidence.networkDensity.push("sales/partnerships role = strong network");
+  }
   if (includes(Q7_shoulder_tap, "strategy")) { scores.networkDensity += 1; evidence.networkDensity.push("people tap them for strategy"); }
   // negative
   if (isVeryUncomfortable) { scores.networkDensity = 0; evidence.networkDensity = ["very uncomfortable with outreach — network won't convert"]; }
@@ -213,13 +216,13 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   }
 
   // GTM & Growth Strategist
-  if (textIncludes(Q2_role, "growth", "gtm", "product marketing", "demand gen", "revenue")) {
+  if (textIncludes(Q2_role, "growth", "gtm", "product marketing", "demand gen", "revenue", "sales", "partnerships", "revops", "business development", "account executive")) {
     pathScores["gtm-growth-strategist"].score += 3;
     pathScores["gtm-growth-strategist"].reasons.push(`role: ${Q2_role}`);
   }
-  if (bestKey === "networkDensity" || bestKey === "closerInstinct") {
+  if (bestKey === "networkDensity" || bestKey === "closerInstinct" || bestKey === "patternLibrary") {
     pathScores["gtm-growth-strategist"].score += 2;
-    pathScores["gtm-growth-strategist"].reasons.push("strong network/closer advantage");
+    pathScores["gtm-growth-strategist"].reasons.push("strong network/closer/pattern advantage");
   }
   if (includes(Q5_industries, "saas", "software", "tech", "b2b")) {
     pathScores["gtm-growth-strategist"].score += 1;
