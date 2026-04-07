@@ -11,6 +11,8 @@ import { NicheEditor } from "@/components/playbook/tasks/NicheEditor";
 import { PositioningEditor } from "@/components/playbook/tasks/PositioningEditor";
 import { BuyerProfileEditor } from "@/components/playbook/tasks/BuyerProfileEditor";
 import { GutCheckEditor } from "@/components/playbook/tasks/GutCheckEditor";
+import { WorksheetEditor } from "@/components/playbook/tasks/WorksheetEditor";
+import { communityMembershipOperatorConfigs } from "@/lib/worksheetConfigs/community-membership-operator";
 
 interface RecommendationData {
   primaryPath: {
@@ -189,6 +191,19 @@ export default function TaskWorkspacePage() {
   };
 
   const renderTaskContent = () => {
+    // Check for a worksheet config first (community path + future paths)
+    const worksheetConfig = communityMembershipOperatorConfigs[task.slug];
+    if (worksheetConfig) {
+      return (
+        <WorksheetEditor
+          config={worksheetConfig}
+          savedData={savedData}
+          onSave={handleSave}
+        />
+      );
+    }
+
+    // Fall back to legacy service-path editors
     switch (task.taskType) {
       case "niche-editor":
         return (

@@ -54,7 +54,7 @@ export function AppShell({ user, children }: AppShellProps) {
 
             {/* User area */}
             <div className="flex items-center gap-3">
-              {user?.email && (
+              {user?.email && !user.email.endsWith("@demo.blair.com") && (
                 <span className="hidden sm:block text-sm text-blair-charcoal/50 truncate max-w-[180px]">
                   {user.email}
                 </span>

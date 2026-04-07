@@ -2241,7 +2241,7 @@ async function main() {
     update: {},
     create: {
       email: "liz@demo.blair.com",
-      name: "Liz Holloway",
+      name: "Liz Demo",
       role: "user",
     },
   });
@@ -2389,13 +2389,13 @@ async function main() {
     },
   });
 
-  // ── Demo User 2: Julie Soper ────────────────────────────────────────
+  // ── Demo User 2: Marissa Demo ────────────────────────────────────────
   const julie = await prisma.user.upsert({
-    where: { email: "julie@demo.blair.com" },
+    where: { email: "marissa@demo.blair.com" },
     update: {},
     create: {
-      email: "julie@demo.blair.com",
-      name: "Julie Soper",
+      email: "marissa@demo.blair.com",
+      name: "Marissa Demo",
       role: "user",
     },
   });
@@ -2541,13 +2541,13 @@ async function main() {
     },
   });
 
-  // ── Demo User 3: Sarah Chen - Fractional Operator ─────────────────
+  // ── Demo User 3: Ashley Demo - Fractional Operator ─────────────────
   const sarah = await prisma.user.upsert({
-    where: { email: "sarah@demo.blair.com" },
+    where: { email: "ashley@demo.blair.com" },
     update: {},
     create: {
-      email: "sarah@demo.blair.com",
-      name: "Sarah Chen",
+      email: "ashley@demo.blair.com",
+      name: "Ashley Demo",
       role: "user",
     },
   });
@@ -2698,7 +2698,7 @@ async function main() {
     update: {},
     create: {
       email: "maria@demo.blair.com",
-      name: "Maria Santos",
+      name: "Maria Demo",
       role: "user",
     },
   });
@@ -2849,7 +2849,7 @@ async function main() {
     update: {},
     create: {
       email: "rachel@demo.blair.com",
-      name: "Rachel Gaines",
+      name: "Rachel Demo",
       role: "user",
     },
   });
@@ -3000,7 +3000,7 @@ async function main() {
     update: {},
     create: {
       email: "emma@demo.blair.com",
-      name: "Emma Lawson",
+      name: "Emma Demo",
       role: "user",
     },
   });
@@ -3151,7 +3151,7 @@ async function main() {
     update: {},
     create: {
       email: "danielle@demo.blair.com",
-      name: "Danielle Okafor",
+      name: "Danielle Demo",
       role: "user",
     },
   });
@@ -3302,7 +3302,7 @@ async function main() {
     update: {},
     create: {
       email: "priya@demo.blair.com",
-      name: "Priya Sharma",
+      name: "Priya Demo",
       role: "user",
     },
   });
@@ -3453,7 +3453,7 @@ async function main() {
     update: {},
     create: {
       email: "amanda@demo.blair.com",
-      name: "Amanda Reeves",
+      name: "Amanda Demo",
       role: "user",
     },
   });
@@ -3614,15 +3614,15 @@ async function main() {
   console.log("Seed complete.");
   console.log(`  - 9 business paths (with path-specific playbook content)`);
   console.log(`  - 9 sets of path-specific phases (5 phases each, 4 tasks in Phase 1)`);
-  console.log(`  - User: Liz Holloway (liz@demo.blair.com) - Messaging & Positioning`);
-  console.log(`  - User: Julie Soper (julie@demo.blair.com) - GTM & Growth Strategist`);
-  console.log(`  - User: Sarah Chen (sarah@demo.blair.com) - Fractional Operator`);
-  console.log(`  - User: Maria Santos (maria@demo.blair.com) - Automation & Systems Builder`);
-  console.log(`  - User: Rachel Gaines (rachel@demo.blair.com) - Content Engine Operator`);
-  console.log(`  - User: Emma Lawson (emma@demo.blair.com) - Lead Gen Operator`);
-  console.log(`  - User: Danielle Okafor (danielle@demo.blair.com) - Studio Builder`);
-  console.log(`  - User: Priya Sharma (priya@demo.blair.com) - Niche Talent & Placement`);
-  console.log(`  - User: Amanda Reeves (amanda@demo.blair.com) - Investor-Operator`);
+  console.log(`  - User: Liz Demo (liz@demo.blair.com) - Messaging & Positioning`);
+  console.log(`  - User: Marissa Demo (marissa@demo.blair.com) - GTM & Growth Strategist`);
+  console.log(`  - User: Ashley Demo (ashley@demo.blair.com) - Fractional Operator`);
+  console.log(`  - User: Maria Demo (maria@demo.blair.com) - Automation & Systems Builder`);
+  console.log(`  - User: Rachel Demo (rachel@demo.blair.com) - Content Engine Operator`);
+  console.log(`  - User: Emma Demo (emma@demo.blair.com) - Lead Gen Operator`);
+  console.log(`  - User: Danielle Demo (danielle@demo.blair.com) - Studio Builder`);
+  console.log(`  - User: Priya Demo (priya@demo.blair.com) - Niche Talent & Placement`);
+  console.log(`  - User: Amanda Demo (amanda@demo.blair.com) - Investor-Operator`);
   console.log(`  - Profiles, recommendations, and paths for all 9 users`);
   console.log(`  - Founder video`);
 }
