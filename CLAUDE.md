@@ -84,7 +84,7 @@ Demo accounts use "[First] Demo" format to avoid confusion with real people. To 
 - danielle@ — Danielle Demo, Studio Builder
 - priya@ — Priya Demo, Niche Talent & Placement Operator
 - amanda@ — Amanda Demo, Investor-Operator
-- lauren@ — Lauren Demo, GTM & Growth Strategist (MARKETING account for homepage screenshots, IN PROGRESS)
+- lauren@ — Lauren Demo, GTM & Growth Strategist (MARKETING account for homepage screenshots, READY)
 
 ## Real User Accounts (password: blair2026)
 - Sarah Blahnik — sarahblahnik@gmail.com, Community & Membership Operator, provisioned via scripts/provision-sarah.js
@@ -231,7 +231,7 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - DO NOT mention being laid off as a narrative. State facts only.
 
 ## Lauren Marketing Account (for homepage screenshots)
-This account needs to be created/finished. It was interrupted mid-creation. Details:
+Account is CREATED and READY. Details:
 - Email: lauren@demo.blair.com, password: blair2026, name: "Lauren Demo"
 - Path: GTM & Growth Strategist
 - Background: 13 years, account management at Conde Nast → partnerships at HubSpot → enterprise sales at Datadog
