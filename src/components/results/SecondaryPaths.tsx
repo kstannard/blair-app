@@ -16,7 +16,7 @@ function renderMultiParagraph(text: string) {
   return paragraphs.map((p, i) => (
     <p
       key={i}
-      className={`${i > 0 ? "mt-4 " : ""}text-lg leading-relaxed text-blair-charcoal`}
+      className={`${i > 0 ? "mt-4 " : ""}text-base leading-relaxed text-blair-charcoal`}
     >
       {p}
     </p>
@@ -82,7 +82,7 @@ export function SecondaryPaths({ paths, onChoosePath }: SecondaryPathsProps) {
                 <div className="mt-8 space-y-6">
                   {path.altDescription && (
                     <div>
-                      <p className="text-lg leading-relaxed text-blair-charcoal">
+                      <p className="text-base leading-relaxed text-blair-charcoal">
                         <strong className="text-blair-midnight">The idea:</strong>{" "}
                         {path.altDescription}
                       </p>
@@ -91,7 +91,7 @@ export function SecondaryPaths({ paths, onChoosePath }: SecondaryPathsProps) {
 
                   {path.altWhyConsider && (
                     <div>
-                      <p className="text-lg leading-relaxed text-blair-charcoal mb-4">
+                      <p className="text-base leading-relaxed text-blair-charcoal mb-4">
                         <strong className="text-blair-midnight">
                           Why it&apos;s worth considering:
                         </strong>
@@ -102,7 +102,7 @@ export function SecondaryPaths({ paths, onChoosePath }: SecondaryPathsProps) {
 
                   {path.altTradeoff && (
                     <div>
-                      <p className="text-lg leading-relaxed text-blair-charcoal mb-4">
+                      <p className="text-base leading-relaxed text-blair-charcoal mb-4">
                         <strong className="text-blair-midnight">
                           The tradeoff:
                         </strong>
@@ -113,7 +113,7 @@ export function SecondaryPaths({ paths, onChoosePath }: SecondaryPathsProps) {
 
                   {path.altRevenueRange && (
                     <div>
-                      <p className="text-lg leading-relaxed text-blair-charcoal">
+                      <p className="text-base leading-relaxed text-blair-charcoal">
                         <strong className="text-blair-midnight">
                           Revenue range:
                         </strong>{" "}

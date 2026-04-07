@@ -64,7 +64,7 @@ function BodyText({ text }: { text: string }) {
       {paragraphs.map((p, i) => (
         <p
           key={i}
-          className="mt-4 text-lg leading-relaxed text-blair-charcoal"
+          className="mt-4 text-base leading-relaxed text-blair-charcoal"
         >
           {p}
         </p>

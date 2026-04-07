@@ -67,7 +67,7 @@ export function ResultsCTA({ primaryPath, confirmedPath, onSwitchBack }: Results
           <h2 className="mt-4 font-serif text-3xl text-blair-midnight sm:text-4xl">
             {activePath.name}
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-blair-charcoal">
+          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-blair-charcoal">
             Your personalized playbook is ready. Step-by-step guidance,
             tailored to your path, mom life, and your strengths.
           </p>

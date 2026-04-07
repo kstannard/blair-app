@@ -43,7 +43,7 @@ function renderMultiParagraph(text: string) {
   return paragraphs.map((p, i) => (
     <p
       key={i}
-      className={`${i > 0 ? "mt-4 " : ""}text-lg leading-relaxed text-blair-charcoal`}
+      className={`${i > 0 ? "mt-4 " : ""}text-base leading-relaxed text-blair-charcoal`}
     >
       {p}
     </p>
@@ -83,7 +83,7 @@ export function PricingAndMath({
               {tiers.map((tier, i) => (
                 <div key={i} className="mt-8">
                   <H4>{tier.name}</H4>
-                  <p className="text-lg leading-relaxed text-blair-charcoal">
+                  <p className="text-base leading-relaxed text-blair-charcoal">
                     {stripMarkdown(tier.price)}
                   </p>
                 </div>
@@ -100,7 +100,7 @@ export function PricingAndMath({
             {sideHustleMath && (
               <div className="mt-8">
                 <H4>The side hustle math (where you are now)</H4>
-                <p className="text-lg leading-relaxed text-blair-charcoal">
+                <p className="text-base leading-relaxed text-blair-charcoal">
                   {stripMarkdown(sideHustleMath)}
                 </p>
               </div>
@@ -109,7 +109,7 @@ export function PricingAndMath({
             {fullCapacityMath && (
               <div className="mt-8">
                 <H4>The full-time math (when you&apos;re ready)</H4>
-                <p className="text-lg leading-relaxed text-blair-charcoal">
+                <p className="text-base leading-relaxed text-blair-charcoal">
                   {stripMarkdown(fullCapacityMath)}
                 </p>
               </div>

@@ -33,7 +33,7 @@ export function PersonalLetter({
             {paragraphs.map((paragraph, i) => (
               <p
                 key={i}
-                className="text-lg leading-relaxed text-blair-charcoal"
+                className="text-base leading-relaxed text-blair-charcoal"
               >
                 {paragraph}
               </p>

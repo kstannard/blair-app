@@ -8,7 +8,7 @@ export function ClosingNote({ text }: { text: string }) {
           {paragraphs.map((paragraph, i) => (
             <p
               key={i}
-              className="text-lg leading-relaxed text-blair-charcoal"
+              className="text-base leading-relaxed text-blair-charcoal"
             >
               {paragraph}
             </p>

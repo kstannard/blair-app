@@ -19,7 +19,7 @@ export function TransitionPlan({ steps }: { steps: TransitionStep[] }) {
               <span className="absolute left-0 top-1 font-serif text-2xl text-blair-sage-light">
                 {i + 1}.
               </span>
-              <p className="text-lg leading-relaxed text-blair-charcoal">
+              <p className="text-base leading-relaxed text-blair-charcoal">
                 <strong className="text-blair-midnight">{step.title}</strong>{" "}
                 {step.description}
               </p>

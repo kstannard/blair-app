@@ -19,13 +19,13 @@ export function UnfairAdvantage({
           <span className="text-blair-sage-dark">{name}</span>
         </h2>
 
-        <p className="mt-8 text-lg leading-relaxed text-blair-charcoal">
+        <p className="mt-8 text-base leading-relaxed text-blair-charcoal">
           {description}
         </p>
 
         <div className="mt-8 space-y-6">
           <div>
-            <p className="text-lg leading-relaxed text-blair-charcoal">
+            <p className="text-base leading-relaxed text-blair-charcoal">
               <strong className="text-blair-midnight">
                 Where it showed up in your answers.
               </strong>{" "}
@@ -34,7 +34,7 @@ export function UnfairAdvantage({
           </div>
 
           <div>
-            <p className="text-lg leading-relaxed text-blair-charcoal">
+            <p className="text-base leading-relaxed text-blair-charcoal">
               <strong className="text-blair-midnight">
                 Why this matters for building a business.
               </strong>{" "}
