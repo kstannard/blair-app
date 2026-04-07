@@ -244,6 +244,11 @@ This account needs to be created/finished. It was interrupted mid-creation. Deta
 - Purpose: take 3 clean screenshots for Squarespace homepage: (1) recommendation letter, (2) math section, (3) interactive task exercise
 - After creating the account, log in as lauren@demo.blair.com and take screenshots of the customer experience
 
+## Deployment Rules (non-negotiable)
+- **ALWAYS commit and push after making code changes.** Do not leave changes sitting locally. If you edited a file, commit and push before ending your turn.
+- Vercel auto-deploys from main. Pushing = live.
+- If you say something is "live" or "ready", it must be pushed. Never describe local-only changes as live.
+
 ## Running Locally
 ```bash
 cd ~/Projects/blair-app
