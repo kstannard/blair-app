@@ -131,24 +131,31 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - PositioningEditor: 3 handwritten examples from pathContent.ts (NOT programmatic generation — that broke), user picks and edits
 - AppShell nav: hides email for @demo.blair.com accounts (for clean marketing screenshots)
 
-## What Still Needs Work (as of last session)
+## What Still Needs Work (as of 2026-04-07)
 
-### Immediate / In Progress
-1. **Lauren marketing account** — IN PROGRESS. Account created (lauren@demo.blair.com) but DB insert script needs to be re-run (was interrupted). This is a GTM & Growth Strategist demo with Conde Nast/HubSpot/Datadog background, 3 kids under 6. For homepage screenshots on Squarespace. Script to create: see conversation history or rebuild from Julie Soper's data with tweaked details.
-2. **Homepage screenshots for Squarespace** — Take 3 screenshots of Lauren's customer experience: (1) recommendation letter "Dear Lauren", (5) math section with $60K-$100K / $250K-$400K, (10) interactive task exercise with pre-populated chips. Drop into Squarespace to replace flat wireframe mockups.
-3. **Fix scorer/webhook systemically** — evidence fragments and duplicated "why" will happen for every future user. The webhook stores `advantage.description` as BOTH `unfairAdvantageDescription` AND `unfairAdvantageWhy`, causing duplication on results page.
-4. **HelpPanel shows wrong content** — Only has FAQ content for 4 task types (niche-editor, positioning-editor, buyer-profile-editor, gut-check). All other tasks default to niche-editor FAQs. Needs path-aware content.
-5. **Admin task preview redesign** — Currently shows static text (description + whyItMatters), completely different from customer experience. Should reflect the interactive WorksheetEditor view.
+### Completed This Session
+- ~~Lauren marketing account~~ — DONE. Account created, recommendation written, narrowing exercise pre-filled with realistic data
+- ~~Homepage screenshots~~ — DONE. 3 screenshots saved to Desktop (blair-screenshot-recommendation.png, blair-screenshot-math.png, blair-screenshot-exercise.png). Drop into shots.so for polish, then into Squarespace.
+- ~~Results page text size~~ — DONE. All body copy changed from text-lg (18px) to text-base (16px) across 9 components
+- ~~"YOUR RECOMMENDATION" rename~~ — DONE. Changed from "BLAIR RECOMMENDATION" in ResultsHero.tsx
 
-### Existing Backlog
-6. Kids question in mini quiz — airline-style add/remove UI
-7. Squarespace checkout page — product page being set up
-8. Kit post-purchase email sequence
-9. Post-purchase flow — Squarespace receipt to app sign-in
-10. Full Typeform quiz deduplication
-11. Auto-scorer — Typeform answers → auto-generates recommendation for admin review
-12. Path-specific pre-fills — two different GTM customers should not see identical pre-fills
-13. Remaining 7 paths need Phases 2-5 task content and WorksheetEditor configs
+### Bugs / Technical Debt
+1. **Fix scorer/webhook systemically** — evidence fragments and duplicated "why" will happen for every future user. The webhook stores `advantage.description` as BOTH `unfairAdvantageDescription` AND `unfairAdvantageWhy`, causing duplication on results page.
+2. **HelpPanel shows wrong content** — Only has FAQ content for 4 task types (niche-editor, positioning-editor, buyer-profile-editor, gut-check). All other tasks default to niche-editor FAQs. Needs path-aware content.
+3. **Admin task preview redesign** — Currently shows static text (description + whyItMatters), completely different from customer experience. Should reflect the interactive WorksheetEditor view.
+
+### Product Backlog
+4. Kids question in mini quiz — airline-style add/remove UI
+5. Squarespace checkout page — product page being set up
+6. Kit post-purchase email sequence
+7. Post-purchase flow — Squarespace receipt to app sign-in
+8. Full Typeform quiz deduplication
+9. Auto-scorer — Typeform answers → auto-generates recommendation for admin review
+10. Path-specific pre-fills — two different GTM customers should not see identical pre-fills
+11. Remaining 7 paths need Phases 2-5 task content and WorksheetEditor configs
+
+### Under Consideration
+- Path naming: Tomide flagged "GTM & Growth Strategist" as commoditized/vague. Kristin wants more feedback before changing. "Growth" covers partnerships, ad optimization, funnel optimization, sales playbooks, etc.
 
 ## Important Product Decisions Made
 - Studio Builder is NOT a true alternative path — it's where some paths evolve to. Don't list it as an alt unless it genuinely fits as a starting point.
@@ -231,18 +238,19 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - DO NOT mention being laid off as a narrative. State facts only.
 
 ## Lauren Marketing Account (for homepage screenshots)
-Account is CREATED and READY. Details:
+Account is CREATED, FULLY READY, and SCREENSHOTS TAKEN. Details:
 - Email: lauren@demo.blair.com, password: blair2026, name: "Lauren Demo"
 - Path: GTM & Growth Strategist
 - Background: 13 years, account management at Conde Nast → partnerships at HubSpot → enterprise sales at Datadog
 - 3 kids under 6
 - Unfair advantage: Network Density
 - Evidence: network is revenue/marketing leaders at B2B companies, CMOs/VPs of Sales across SaaS and martech from HubSpot and Datadog
-- Pricing: same as Julie's (GTM Sprint $10K-$18K, Revenue Audit $5K-$8K, side hustle $60K-$100K, full-time $250K-$400K)
-- Notable experience: built outbound pipeline at HubSpot, designed enterprise sales process at Datadog, partner enablement, territory planning, QBR framework
-- Nav email is hidden for @demo.blair.com accounts (already coded in AppShell.tsx)
-- Purpose: take 3 clean screenshots for Squarespace homepage: (1) recommendation letter, (2) math section, (3) interactive task exercise
-- After creating the account, log in as lauren@demo.blair.com and take screenshots of the customer experience
+- Pricing: GTM Sprint $10K-$18K, Revenue Audit $5K-$8K, side hustle $60K-$100K, full-time $250K-$400K
+- Narrowing exercise (Task 1) pre-filled with 5 problems solved, 3 selected in step 2, 2 selected in step 3
+- Nav email is hidden for @demo.blair.com accounts (coded in AppShell.tsx)
+- Copy is UNIQUE from Julie Soper's. Opening line, paragraphs 2-3 are all different. Do NOT duplicate copy between accounts.
+- Screenshots saved to ~/Desktop/: blair-screenshot-recommendation.png, blair-screenshot-math.png, blair-screenshot-exercise.png
+- Next step: drop screenshots into shots.so for device frames/polish, then into Squarespace homepage
 
 ## Deployment Rules (non-negotiable)
 - **ALWAYS commit and push after making code changes.** Do not leave changes sitting locally. If you edited a file, commit and push before ending your turn.
