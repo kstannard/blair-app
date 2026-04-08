@@ -105,10 +105,11 @@ function DiscoverContent() {
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
   const [checkingOut, setCheckingOut] = useState(false);
-  const [leadEmail, setLeadEmail] = useState("");
-  const [leadSubmitting, setLeadSubmitting] = useState(false);
-  const [leadSubmitted, setLeadSubmitted] = useState(false);
-  const [leadError, setLeadError] = useState("");
+  // TODO: Uncomment when email drip is live
+  // const [leadEmail, setLeadEmail] = useState("");
+  // const [leadSubmitting, setLeadSubmitting] = useState(false);
+  // const [leadSubmitted, setLeadSubmitted] = useState(false);
+  // const [leadError, setLeadError] = useState("");
   const preloadedUrl = useRef<string | null>(null);
 
   // Preload checkout session when advantage detail view mounts
@@ -365,7 +366,8 @@ function DiscoverContent() {
             </div>
           </div>
 
-          {/* Mini-course email capture */}
+          {/* Mini-course email capture - hidden until Resend email delivery is wired up */}
+          {/* TODO: Uncomment when email drip is live
           <div
             className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: "900ms", animationFillMode: "both" }}
@@ -446,6 +448,7 @@ function DiscoverContent() {
               )}
             </div>
           </div>
+          */}
 
           {/* Personal note */}
           <div
