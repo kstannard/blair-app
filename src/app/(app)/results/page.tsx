@@ -162,7 +162,7 @@ function HoldingPage({
         {hasAdvantage ? (
           <>
             <p className="text-xs font-medium uppercase tracking-widest text-blair-sage text-center">
-              Your results are in
+              While we build your plan
             </p>
             <h1 className="mt-6 font-serif text-4xl text-blair-midnight sm:text-5xl text-center">
               {firstName}, your unfair advantage is{" "}
