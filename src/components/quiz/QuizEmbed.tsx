@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function QuizEmbed({
   typeformUrl,
@@ -10,6 +11,7 @@ export function QuizEmbed({
   firstName: string;
 }) {
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     function handleMessage(e: MessageEvent) {
@@ -25,13 +27,24 @@ export function QuizEmbed({
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  useEffect(() => {
+    if (submitted) {
+      // Give the webhook a moment to process, then redirect to results
+      // where they'll see their unfair advantage reveal
+      const timer = setTimeout(() => {
+        router.push("/results");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted, router]);
+
   if (submitted) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="mx-auto max-w-md text-center px-6">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blair-sage/10 mb-6">
             <svg
-              className="h-8 w-8 text-blair-sage"
+              className="h-8 w-8 text-blair-sage animate-pulse"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
@@ -48,11 +61,7 @@ export function QuizEmbed({
             {firstName ? `Got it, ${firstName}.` : "Got it."}
           </h1>
           <p className="mt-4 text-base leading-relaxed text-blair-charcoal/60">
-            We&apos;re reviewing your answers and building a recommendation
-            matched to your skills, your schedule, and your life.
-          </p>
-          <p className="mt-6 text-sm text-blair-charcoal/40">
-            You&apos;ll get an email within 48 hours when your plan is ready.
+            Taking you to your results...
           </p>
         </div>
       </div>
