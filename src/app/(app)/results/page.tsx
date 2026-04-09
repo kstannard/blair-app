@@ -177,7 +177,7 @@ function HoldingPage({
               <ul className="mt-3 space-y-2.5 text-sm text-blair-charcoal/60">
                 <li className="flex gap-2.5">
                   <span className="mt-0.5 text-blair-sage">&#10003;</span>
-                  Your unfair advantage (and why it matters more than you think)
+                  What your quiz answers revealed about where your real edge is
                 </li>
                 <li className="flex gap-2.5">
                   <span className="mt-0.5 text-blair-sage">&#10003;</span>
@@ -189,7 +189,7 @@ function HoldingPage({
                 </li>
                 <li className="flex gap-2.5">
                   <span className="mt-0.5 text-blair-sage">&#10003;</span>
-                  A 30-day playbook with the exact steps to get your first client
+                  A step-by-step playbook built around the hours you actually have
                 </li>
               </ul>
             </div>
