@@ -33,6 +33,13 @@ function WelcomeContent() {
           setPaymentValid(true);
           setCheckoutEmail(data.email);
           setEmail(data.email);
+          // Fire Meta pixel Purchase event
+          if (typeof window !== "undefined" && (window as /* eslint-disable-next-line @typescript-eslint/no-explicit-any */ any).fbq) {
+            (window as /* eslint-disable-next-line @typescript-eslint/no-explicit-any */ any).fbq("track", "Purchase", {
+              value: 149.0,
+              currency: "USD",
+            });
+          }
         }
         setVerifying(false);
       })
