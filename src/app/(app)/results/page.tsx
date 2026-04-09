@@ -159,7 +159,7 @@ function HoldingPage({
             You did the hard part
           </p>
           <h1 className="mt-6 font-serif text-4xl text-blair-midnight sm:text-5xl">
-            OK {firstName}, we&apos;re on it.
+            Ok {firstName}, we&apos;re on it.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-blair-charcoal/70">
             Right now we&apos;re reading every answer you gave us and building
@@ -204,7 +204,7 @@ function HoldingPage({
             </div>
             <div className="text-left">
               <p className="text-sm font-medium text-blair-midnight">We&apos;ll email you when it&apos;s ready</p>
-              <p className="text-xs text-blair-charcoal/40">Usually less than 48 hours. Go be with your kids.</p>
+              <p className="text-xs text-blair-charcoal/40">Usually less than 48 hours. Go be with your kids. (If you want to! Also fully support you if you need some me time.)</p>
             </div>
           </div>
         </div>
