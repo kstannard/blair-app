@@ -153,6 +153,9 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 9. Auto-scorer — Typeform answers → auto-generates recommendation for admin review
 10. Path-specific pre-fills — two different GTM customers should not see identical pre-fills
 11. Remaining 7 paths need Phases 2-5 task content and WorksheetEditor configs
+12. **Pricing helper module** (`src/lib/pricing/market-rates.ts`) — single source of truth for all pricing ranges, used by every copy-writing script instead of hardcoding numbers. Shape: `fractionalRate({role, seniority, hoursPerWeek, tier})` and `fullTimeCompBand({role, seniority, stage, location})`. Location-aware for full-time comparisons (the "what a full-time hire would cost them" argument), not for fractional rates (remote-national). Monthly rate-refresh task updates this file, not individual scripts. Unit tests lock rates against CLAUDE.md reference bands. Build once we have 2-3 more real user drafts to pressure-test the shape.
+13. **Scorer test file** — every real Typeform option asserted to trigger at least one scoring branch, to catch regressions when Typeform option text drifts.
+14. **Scorer Commit 4: wantsDifferent + scaredOfFinancialRisk conflict** — when a user says "different direction" AND their role maps to a same-as-old-job fractional target (ops/cos/marketing/etc.), the scaredOfFinancialRisk +4 boost should NOT apply to Fractional. Caught with Sarah: Q12 different + Chief of Staff role was silently flipping her to Fractional-Chief-of-Staff, which is literally "same role, different employer." Fix is to redirect the risk-aversion boost to service paths that are NOT fractional versions of the old role.
 
 ### Under Consideration
 - Path naming: Tomide flagged "GTM & Growth Strategist" as commoditized/vague. Kristin wants more feedback before changing. "Growth" covers partnerships, ad optimization, funnel optimization, sales playbooks, etc.
