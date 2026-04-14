@@ -125,22 +125,23 @@ export default async function AdminUserPage({
           {user.profile && (
             <>
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Unfair Advantage" value={user.profile.unfairAdvantageName} />
-                <JsonListField label="Traits" value={user.profile.traits} />
-                <JsonListField label="Strengths" value={user.profile.strengths} />
-                <JsonListField label="Constraints" value={user.profile.constraints} />
+                <Card label="Unfair Advantage">
+                  <p className="text-sm text-gray-800">{user.profile.unfairAdvantageName || "-"}</p>
+                </Card>
+                <Card label="Traits">
+                  <JsonList value={user.profile.traits} />
+                </Card>
+                <Card label="Strengths">
+                  <JsonList value={user.profile.strengths} />
+                </Card>
+                <Card label="Constraints">
+                  <JsonList value={user.profile.constraints} />
+                </Card>
               </div>
-              {user.profile.summary && (
-                <div className="mt-4">
-                  <p className="text-xs font-medium text-gray-500">Summary</p>
-                  <p className="mt-0.5 text-sm text-gray-800 whitespace-pre-wrap">{user.profile.summary}</p>
-                </div>
-              )}
               {user.profile.unfairAdvantageEvidence && (
-                <div className="mt-4">
-                  <p className="text-xs font-medium text-gray-500 uppercase">Scoring evidence</p>
-                  <p className="mt-1 text-sm text-gray-700">{user.profile.unfairAdvantageEvidence}</p>
-                </div>
+                <Card label="Scoring evidence" className="mt-4">
+                  <p className="text-sm text-gray-700">{user.profile.unfairAdvantageEvidence}</p>
+                </Card>
               )}
             </>
           )}
@@ -302,16 +303,16 @@ function Stat({ label, value }: { label: string; value: ReactNode }) {
   );
 }
 
-function Field({ label, value }: { label: string; value: string | null | undefined }) {
+function Card({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
-    <div>
-      <p className="text-xs font-medium text-gray-500">{label}</p>
-      <p className="mt-0.5 text-sm text-gray-800">{value || "-"}</p>
+    <div className={`rounded-lg border border-gray-200 bg-white px-4 py-3 ${className}`}>
+      <p className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</p>
+      <div className="mt-2">{children}</div>
     </div>
   );
 }
 
-function JsonListField({ label, value }: { label: string; value: string | null | undefined }) {
+function JsonList({ value }: { value: string | null | undefined }) {
   let items: string[] = [];
   try {
     const parsed = JSON.parse(value || "[]");
@@ -319,19 +320,15 @@ function JsonListField({ label, value }: { label: string; value: string | null |
   } catch {
     items = value ? [value] : [];
   }
+  if (items.length === 0) {
+    return <p className="text-sm text-gray-800">-</p>;
+  }
   return (
-    <div>
-      <p className="text-xs font-medium text-gray-500">{label}</p>
-      {items.length > 0 ? (
-        <ul className="mt-1.5 list-disc space-y-1.5 pl-5 marker:text-gray-400">
-          {items.map((item, i) => (
-            <li key={i} className="text-sm leading-relaxed text-gray-800">{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="mt-0.5 text-sm text-gray-800">-</p>
-      )}
-    </div>
+    <ul className="list-disc space-y-1.5 pl-5 marker:text-gray-400">
+      {items.map((item, i) => (
+        <li key={i} className="text-sm leading-relaxed text-gray-800">{item}</li>
+      ))}
+    </ul>
   );
 }
 
