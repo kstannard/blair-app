@@ -292,7 +292,12 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["messaging-positioning"].score += 4;
     pathScores["messaging-positioning"].reasons.push("primary advantage is Translation Ability");
   }
-  if (textIncludes(Q2_role, "brand", "content", "communications", "comms", "pr", "marketing", "messaging", "copywriting")) {
+  // Note: "pr" removed from this list because it's a substring of "product"
+  // and was silently matching every PM role. Real Typeform role options don't
+  // include brand/content/comms/PR as first-class choices anyway — the only
+  // Messaging role match in the current taxonomy is "Performance Marketing"
+  // inside the "Growth / Performance Marketing / Lifecycle" option.
+  if (textIncludes(Q2_role, "brand", "content", "communications", "comms", "marketing", "messaging", "copywriting")) {
     pathScores["messaging-positioning"].score += 2;
     pathScores["messaging-positioning"].reasons.push(`role: ${Q2_role}`);
   }
@@ -334,9 +339,22 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["content-engine-operator"].score += 3;
     pathScores["content-engine-operator"].reasons.push(`role: ${Q2_role}`);
   }
+  // Enablement / L&D / Training roles package deeply as content/curriculum
+  // businesses — previously unscored. Also boosts Niche Talent because L&D
+  // people often come from HR and know the talent-development market.
+  if (textIncludes(Q2_role, "enablement", "l&d", "training", "learning", "curriculum")) {
+    pathScores["content-engine-operator"].score += 3;
+    pathScores["content-engine-operator"].reasons.push(`enablement/L&D role: ${Q2_role}`);
+    pathScores["niche-talent-placement"].score += 1;
+  }
   if (bestKey === "translationAbility") {
     pathScores["content-engine-operator"].score += 1;
     pathScores["content-engine-operator"].reasons.push("translation advantage applies");
+  }
+  // Q14 "Curating knowledge and resources" → strong content/curation signal
+  if (includes(answers.Q14_interests, "curating knowledge", "curating", "resources")) {
+    pathScores["content-engine-operator"].score += 2;
+    pathScores["content-engine-operator"].reasons.push("interested in curating knowledge/resources");
   }
   // negative: avoid constant client demands
   if (avoidsClientDemands) { pathScores["content-engine-operator"].score -= 1; }
@@ -392,6 +410,15 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["digital-product-builder"].score += 1;
     pathScores["digital-product-builder"].reasons.push("prefers async work (fits product model)");
   }
+  // Q15 "Designing systems that others can eventually run" is classic
+  // build-once-sell-many / productization signal. Boosts digital product,
+  // micro-saas, and studio-builder (where studio-as-system applies).
+  if (textIncludes(answers.Q15_scenario, "designing systems", "others can eventually run")) {
+    pathScores["digital-product-builder"].score += 2;
+    pathScores["digital-product-builder"].reasons.push("wants to design systems others can run");
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["studio-builder"].score += 1;
+  }
   if (avoidsClientDemands) {
     pathScores["digital-product-builder"].score += 2;
     pathScores["digital-product-builder"].reasons.push("wants to avoid constant client demands (products solve this)");
@@ -413,6 +440,14 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   if (textIncludes(Q8_weirdly_good, "connect", "bring together", "community", "gather", "friends", "group", "plan")) {
     pathScores["community-membership-operator"].score += 2;
     pathScores["community-membership-operator"].reasons.push(`self-described: "${Q8_weirdly_good.substring(0, 60)}"`);
+  }
+  // Q14 "Connecting people and building community" is a direct community
+  // path signal that was previously unscored. Also lightly boosts niche
+  // talent (network-driven placement is adjacent to community-building).
+  if (includes(answers.Q14_interests, "connecting people", "building community", "community")) {
+    pathScores["community-membership-operator"].score += 2;
+    pathScores["community-membership-operator"].reasons.push("interested in connecting people/community");
+    pathScores["niche-talent-placement"].score += 1;
   }
   if (textIncludes(answers.Q16_success, "time flexibility", "control")) {
     pathScores["community-membership-operator"].score += 1;
