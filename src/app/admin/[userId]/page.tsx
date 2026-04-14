@@ -286,9 +286,9 @@ export default async function AdminUserPage({
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mt-8">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400">{title}</h2>
-      <div className="mt-3">{children}</div>
+    <div className="mt-10 border-t border-gray-200 pt-8">
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">{title}</h2>
+      <div className="mt-4">{children}</div>
     </div>
   );
 }
@@ -323,9 +323,9 @@ function JsonListField({ label, value }: { label: string; value: string | null |
     <div>
       <p className="text-xs font-medium text-gray-500">{label}</p>
       {items.length > 0 ? (
-        <ul className="mt-0.5 space-y-0.5">
+        <ul className="mt-1.5 list-disc space-y-1.5 pl-5 marker:text-gray-400">
           {items.map((item, i) => (
-            <li key={i} className="text-sm text-gray-800">{item}</li>
+            <li key={i} className="text-sm leading-relaxed text-gray-800">{item}</li>
           ))}
         </ul>
       ) : (
