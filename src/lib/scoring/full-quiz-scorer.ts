@@ -240,21 +240,26 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   }
   if (!avoidsClientDemands) { pathScores["messaging-positioning"].score += 1; }
 
-  // Fractional Operator
+  // Fractional Operator — any senior role can go fractional
   if (bestKey === "patternLibrary" || bestKey === "networkDensity") {
     pathScores["fractional-operator"].score += 2;
     pathScores["fractional-operator"].reasons.push("strong pattern/network advantage");
   }
-  if (isSenior && hasBreadth) {
+  if (isSenior) {
     pathScores["fractional-operator"].score += 2;
-    pathScores["fractional-operator"].reasons.push("senior + breadth = fractional credibility");
+    pathScores["fractional-operator"].reasons.push(`${Q3_years} of experience = fractional credibility`);
   }
-  if (textIncludes(Q2_role, "vp", "director", "head of", "chief", "cmo", "coo", "cto", "fractional")) {
-    pathScores["fractional-operator"].score += 2;
+  if (isSenior && hasBreadth) {
+    pathScores["fractional-operator"].score += 1;
+    pathScores["fractional-operator"].reasons.push("breadth across company sizes/industries");
+  }
+  // Explicit senior title is a bonus (VP/Director/Head of/Chief, or anyone
+  // already fractional). Product, Finance, Legal, Research, etc. all go
+  // fractional too and get picked up by the isSenior branch above.
+  if (textIncludes(Q2_role, "vp", "director", "head of", "chief", "cmo", "coo", "cto", "cfo", "fractional", "principal")) {
+    pathScores["fractional-operator"].score += 1;
     pathScores["fractional-operator"].reasons.push(`senior title: ${Q2_role}`);
   }
-  // Fractional is harder with young kids and limited hours
-  if (parseInt(answers.Q25_time) <= 15) { pathScores["fractional-operator"].score -= 1; }
 
   // Automation & Systems Builder
   if (bestKey === "systemsBrain") {
@@ -451,6 +456,14 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     if (textIncludes(Q2_role, "recruiter", "talent", "hr", "people ops")) {
       pathScores["niche-talent-placement"].score += 2;
       pathScores["niche-talent-placement"].reasons.push("wants same direction + talent role");
+    }
+
+    // Catch-all: any senior who wants the same direction can go fractional.
+    // Senior PMs, finance, legal, research, strategy, etc. don't match the
+    // role-specific branches above but can all build fractional practices.
+    if (isSenior) {
+      pathScores["fractional-operator"].score += 2;
+      pathScores["fractional-operator"].reasons.push(`wants same direction + senior role (${Q2_role})`);
     }
 
     // Dampen product/build paths when they want same direction
