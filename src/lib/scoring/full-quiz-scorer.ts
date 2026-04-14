@@ -472,6 +472,37 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["micro-saas-builder"].score -= 1;
   }
 
+  // ---- Hard-constraint penalties ----
+  // Apply after all boosts. These catch users whose top-scoring path
+  // directly violates something they said they want to avoid — e.g. a
+  // user who is scared of financial risk getting Micro-SaaS as #1
+  // because the engine loved their Systems Brain score.
+  const scaredOfFinancialRisk = textIncludes(answers.Q13_blocker, "financial risk", "money", "income", "savings");
+  const wantsPredictableIncome = includes(Q17_avoid, "unpredictable income");
+  const lowHours = parseInt(answers.Q25_time) <= 10;
+
+  if (scaredOfFinancialRisk || wantsPredictableIncome) {
+    // Paths with long time-to-revenue and unpredictable income get penalized
+    pathScores["micro-saas-builder"].score -= 4;
+    pathScores["micro-saas-builder"].reasons.push("PENALTY: long time-to-MRR conflicts with financial risk aversion");
+    pathScores["digital-product-builder"].score -= 3;
+    pathScores["digital-product-builder"].reasons.push("PENALTY: product income is unpredictable early on");
+    pathScores["community-membership-operator"].score -= 2;
+    pathScores["community-membership-operator"].reasons.push("PENALTY: community revenue is slow to build");
+  }
+  if (scaredOfFinancialRisk) {
+    // Fractional is the safest cash-first path: paid from week one
+    pathScores["fractional-operator"].score += 4;
+    pathScores["fractional-operator"].reasons.push("BOOST: scared of financial risk — fractional gets paid immediately");
+    pathScores["messaging-positioning"].score += 1;
+    pathScores["niche-talent-placement"].score += 1;
+  }
+  if (lowHours) {
+    // Paths that need high-volume continuous output struggle at <=10 hours
+    pathScores["micro-saas-builder"].score -= 2;
+    pathScores["content-engine-operator"].score -= 2;
+  }
+
   // Sort paths by score, exclude studio-builder from primary recommendation
   const sortedPaths = Object.entries(pathScores)
     .filter(([slug]) => slug !== "studio-builder") // studio is a graduation, not a start
