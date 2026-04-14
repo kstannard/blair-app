@@ -77,14 +77,44 @@ const PATHS: Record<string, string> = {
   "micro-saas-builder": "Micro-SaaS Builder",
 };
 
+/**
+ * Normalize a raw answer string before keyword matching. Typeform stores
+ * option labels with en/em dashes and curly quotes, which silently break
+ * exact string comparisons and substring checks written against ASCII text.
+ * Always run inputs through this before `.includes()` / `===`.
+ */
+function normalize(s: string | undefined | null): string {
+  if (!s) return "";
+  return s
+    .replace(/[–—]/g, "-")      // en dash, em dash → ASCII hyphen
+    .replace(/[''‛`]/g, "'")    // curly single quotes → ASCII
+    .replace(/[""„]/g, '"')     // curly double quotes → ASCII
+    .trim();
+}
+
 function includes(arr: string[], ...keywords: string[]): boolean {
   return keywords.some((kw) =>
-    arr.some((item) => item.toLowerCase().includes(kw.toLowerCase()))
+    arr.some((item) => normalize(item).toLowerCase().includes(kw.toLowerCase()))
   );
 }
 
 function textIncludes(text: string, ...keywords: string[]): boolean {
-  return keywords.some((kw) => text.toLowerCase().includes(kw.toLowerCase()));
+  const t = normalize(text).toLowerCase();
+  return keywords.some((kw) => t.includes(kw.toLowerCase()));
+}
+
+/**
+ * Parse a time-range answer like "6-8 hours (a few focused evenings...)"
+ * or "10-15 hours/week" and return the midpoint of the range. Returns the
+ * first number if no range is present. Used for thresholds like lowHours,
+ * since parseInt("10-15") returns 10 (the floor) which puts 10-15 hour
+ * users in the same penalty bucket as 3-5 hour users.
+ */
+function parseHoursMidpoint(s: string): number {
+  const match = normalize(s).match(/(\d+)\s*-\s*(\d+)/);
+  if (match) return (parseInt(match[1]) + parseInt(match[2])) / 2;
+  const single = normalize(s).match(/(\d+)/);
+  return single ? parseInt(single[1]) : 0;
 }
 
 export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
@@ -109,14 +139,39 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     Q11_energy_drains, Q16_success, Q17_avoid, Q22_network, Q23_outreach,
   } = answers;
 
-  const isSenior = Q3_years === "10-14 years" || Q3_years === "15+ years";
-  const isVetted = Q3_years === "15+ years";
-  const isComfortable = Q23_outreach.toLowerCase().startsWith("comfortable");
-  const isVeryUncomfortable = Q23_outreach.toLowerCase().startsWith("very uncomfortable");
-  const hasBreadth = Q4_company_size.length >= 2 || Q5_industries.filter(i => !i.includes("Generalist")).length >= 2;
-  const hasNetwork = Q22_network.length >= 2 || (Q22_network.length === 1 && includes(Q22_network, "decision-makers", "executives", "founders"));
-  const avoidsConstantSelling = includes(Q17_avoid, "constant selling", "self-promotion");
-  const avoidsClientDemands = includes(Q17_avoid, "constant client", "client demand");
+  // Normalize Q3_years so en-dash variants ("10–14 years") match the
+  // ASCII hyphen the code was originally written against. Without this,
+  // isSenior was silently false for every real Typeform user.
+  const q3Normalized = normalize(Q3_years);
+  const isSenior = q3Normalized === "10-14 years" || q3Normalized === "15+ years";
+  const isVetted = q3Normalized === "15+ years";
+  const q23Normalized = normalize(Q23_outreach).toLowerCase();
+  const isComfortable = q23Normalized.startsWith("comfortable");
+  const isVeryUncomfortable = q23Normalized.startsWith("very uncomfortable");
+  const hasBreadth =
+    Q4_company_size.length >= 2 ||
+    Q5_industries.filter((i) => !normalize(i).toLowerCase().includes("generalist")).length >= 2;
+  const hasNetwork =
+    Q22_network.length >= 2 ||
+    (Q22_network.length === 1 && includes(Q22_network, "decision-makers", "executives", "founders"));
+
+  // Q17_avoid keyword checks — broaden beyond "constant selling" to catch
+  // the real Typeform option text ("Having to consistently sell, network,
+  // or market myself to get work") and variations across form edits.
+  const avoidsConstantSelling = includes(
+    Q17_avoid,
+    "constant selling",
+    "consistently sell",
+    "sell, network",
+    "market myself",
+    "self-promot"
+  );
+  const avoidsClientDemands = includes(
+    Q17_avoid,
+    "constant client",
+    "client demand",
+    "fire drill"
+  );
 
   // ---- Network Density ----
   if (hasNetwork) { scores.networkDensity += 2; evidence.networkDensity.push("strong professional network"); }
@@ -159,8 +214,11 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   if (textIncludes(Q2_role, "operations", "ops", "engineer", "technical", "product", "program manager", "chief of staff", "coo")) {
     scores.systemsBrain += 2; evidence.systemsBrain.push(`role: ${Q2_role}`);
   }
-  if (Q10_work_mode.toLowerCase().includes("deep") || Q10_work_mode.toLowerCase().includes("independent")) {
-    scores.systemsBrain += 1; evidence.systemsBrain.push("deep independent work mode");
+  // Q10 work mode — catch "Deep focused creation" AND "Owned execution with
+  // some collaboration - clear ownership, focused build time". The latter is
+  // the most common answer from systems-brain users and was previously unscored.
+  if (textIncludes(Q10_work_mode, "deep", "independent", "owned", "ownership", "focused", "solo")) {
+    scores.systemsBrain += 1; evidence.systemsBrain.push("deep/owned independent work mode");
   }
   if (textIncludes(Q8_weirdly_good, "system", "automat", "process", "workflow", "build", "fix", "infrastructure")) {
     scores.systemsBrain += 1; evidence.systemsBrain.push(`self-described: "${Q8_weirdly_good.substring(0, 60)}"`);
@@ -283,12 +341,13 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
   // negative: avoid constant client demands
   if (avoidsClientDemands) { pathScores["content-engine-operator"].score -= 1; }
 
-  // Lead Gen Operator
-  if (bestKey === "closerInstinct" || bestKey === "systemsBrain") {
+  // Lead Gen Operator — outbound sales / demand gen role, not a generic
+  // systems path. Requires actual closer instinct or a sales/growth role.
+  if (bestKey === "closerInstinct") {
     pathScores["lead-gen-operator"].score += 2;
-    pathScores["lead-gen-operator"].reasons.push("closer/systems advantage applies");
+    pathScores["lead-gen-operator"].reasons.push("closer advantage applies");
   }
-  if (textIncludes(Q2_role, "demand gen", "growth", "performance", "lead gen", "sdr", "bdr")) {
+  if (textIncludes(Q2_role, "demand gen", "growth", "performance marketing", "lead gen", "sdr", "bdr", "sales", "revops")) {
     pathScores["lead-gen-operator"].score += 3;
     pathScores["lead-gen-operator"].reasons.push(`role: ${Q2_role}`);
   }
@@ -474,18 +533,41 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
 
   // ---- Hard-constraint penalties ----
   // Apply after all boosts. These catch users whose top-scoring path
-  // directly violates something they said they want to avoid — e.g. a
-  // user who is scared of financial risk getting Micro-SaaS as #1
-  // because the engine loved their Systems Brain score.
-  const scaredOfFinancialRisk = textIncludes(answers.Q13_blocker, "financial risk", "money", "income", "savings");
-  const wantsPredictableIncome = includes(Q17_avoid, "unpredictable income");
-  const lowHours = parseInt(answers.Q25_time) <= 10;
+  // directly violates something they explicitly said they want to avoid.
+  // Signals come from Q13 (blocker), Q16 (success picture), and Q17 (avoid).
+  const scaredOfFinancialRisk = textIncludes(
+    answers.Q13_blocker,
+    "financial risk",
+    "money",
+    "income",
+    "savings"
+  );
+  // Q17 has two "predictable income" options with different phrasing
+  // ("Unpredictable income or feast-or-famine cycles", "Income that is
+  // unpredictable month to month"). Match both, plus Q16 where they can
+  // positively pick "Stable and predictable income I can count on" or
+  // "Reliable income outside my job".
+  const avoidsUnpredictableIncome =
+    includes(Q17_avoid, "unpredictable income", "unpredictable month", "feast-or-famine", "feast or famine") ||
+    textIncludes(answers.Q16_success, "stable and predictable", "reliable income", "predictable income");
+  const avoidsFullTimeJobFeel = includes(
+    Q17_avoid,
+    "full-time job",
+    "another full-time job"
+  );
+  // parseInt("10-15 hours") = 10 (the floor), which wrongly put 10-15 hour
+  // users in the same bucket as 3-5 hour users. Use the midpoint instead.
+  const hoursAvailable = parseHoursMidpoint(answers.Q25_time);
+  const lowHours = hoursAvailable > 0 && hoursAvailable < 10;
 
-  if (scaredOfFinancialRisk || wantsPredictableIncome) {
-    // Paths with long time-to-revenue and unpredictable income get penalized
-    pathScores["micro-saas-builder"].score -= 4;
-    pathScores["micro-saas-builder"].reasons.push("PENALTY: long time-to-MRR conflicts with financial risk aversion");
-    pathScores["digital-product-builder"].score -= 3;
+  if (scaredOfFinancialRisk || avoidsUnpredictableIncome) {
+    // Paths with long time-to-revenue and unpredictable income get penalized.
+    // Calibrated so these don't crater — they should drop out of primary
+    // consideration but can still appear as Alt 2/3 if the user has strong
+    // product-building signals (systemsBrain, product role, Q16 wealth).
+    pathScores["micro-saas-builder"].score -= 2;
+    pathScores["micro-saas-builder"].reasons.push("PENALTY: long time-to-MRR conflicts with income predictability");
+    pathScores["digital-product-builder"].score -= 2;
     pathScores["digital-product-builder"].reasons.push("PENALTY: product income is unpredictable early on");
     pathScores["community-membership-operator"].score -= 2;
     pathScores["community-membership-operator"].reasons.push("PENALTY: community revenue is slow to build");
@@ -497,8 +579,20 @@ export function scoreFullQuiz(answers: FullQuizAnswers): FullScoringResult {
     pathScores["messaging-positioning"].score += 1;
     pathScores["niche-talent-placement"].score += 1;
   }
+  if (avoidsFullTimeJobFeel) {
+    // "Feeling like I just created another full-time job with no flexibility"
+    // is a huge signal for async/leveraged paths and against high-touch
+    // retainer work. Boost product and passive-leaning paths; penalize the
+    // paths that require constant client availability.
+    pathScores["digital-product-builder"].score += 1;
+    pathScores["digital-product-builder"].reasons.push("BOOST: wants async/leveraged over full-time feel");
+    pathScores["micro-saas-builder"].score += 1;
+    pathScores["micro-saas-builder"].reasons.push("BOOST: wants async/leveraged over full-time feel");
+    pathScores["content-engine-operator"].score -= 1;
+    pathScores["content-engine-operator"].reasons.push("PENALTY: continuous content can feel like another full-time job");
+  }
   if (lowHours) {
-    // Paths that need high-volume continuous output struggle at <=10 hours
+    // Paths that need high-volume continuous output struggle at <10 hours
     pathScores["micro-saas-builder"].score -= 2;
     pathScores["content-engine-operator"].score -= 2;
   }

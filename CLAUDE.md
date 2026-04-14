@@ -180,7 +180,16 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - Tone: warm, direct, confidence-building. Never preachy, never presumptuous.
 - Bath time is 5:30-6pm (use this when referencing parent constraints)
 - Examples in results should NOT be consulting-only. Mix in fractional, advisory, placement, content — whatever fits the path.
-- Price ranges must be validated against real research (Carla: $8K/month for 2-3 hrs advising; Nadine: $250/hr, $15K/month for PE; Erin: $15-20K strategy projects; Kaleana: good money for 8 hrs/week)
+- Price ranges must be validated against real research AND current market rates. Don't defer to the user or be vague — use what you know about the market. Claude has general knowledge of fractional/consulting rates; use it confidently. Reference points to anchor against:
+  - **Fractional CPO / Head of Product (senior SaaS, 10+ yrs):** $200-$400/hr, $8K-$25K/mo at 1-2 days/week, $15K-$35K at 2-3 days/week. Named operators (Reforge/Lenny's network): $20K-$50K/mo.
+  - **Fractional Head of Marketing / CMO:** similar bands; $8K-$20K/mo at 1-2 days/week for mid-market SaaS.
+  - **Fractional COO / Head of Ops:** $10K-$25K/mo at 1-2 days/week; larger scopes at $25K-$40K/mo.
+  - **Advisor retainer (2-4 hrs/week, not embedded):** $3K-$8K/mo at senior levels.
+  - **Strategy/positioning projects:** $10K-$25K per engagement, typically 3-6 weeks of part-time work.
+  - **Content/comms consulting:** $5K-$15K per engagement for packaged deliverables.
+  - **Research customers (interviewed):** Carla $8K/mo for 2-3 hrs advising; Nadine $250/hr, $15K/mo for PE; Erin $15-20K strategy projects; Kaleana good money at 8 hrs/week.
+- Adjust by location: Bay Area / NYC senior operators price 20-30% higher than Midwest/mountain. Principal-at-big-tech credentials (HP, Meta, Google, Stripe, Airbnb) support the top of each band.
+- **Re-check market rates monthly.** Rates drift. Run the "market-rate refresh" scheduled task or ask Claude to pull current benchmarks before writing new pricing copy. If the numbers in this file feel stale vs what you see in market, update this file.
 
 ## QA Standards (non-negotiable)
 - **Evidence text must be complete sentences**, personalized to the specific user. No fragments like "strong professional network. comfortable with outreach." Write about their actual career.
