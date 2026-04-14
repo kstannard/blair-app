@@ -266,6 +266,13 @@ Account is CREATED, FULLY READY, and SCREENSHOTS TAKEN. Details:
 - Vercel auto-deploys from main. Pushing = live.
 - If you say something is "live" or "ready", it must be pushed. Never describe local-only changes as live.
 
+## Real-User Data Rules (non-negotiable)
+- **Never write to a Recommendation with status "approved" for a real user without explicit per-user permission from Kristin.** Approved real-user records are published content that Jami/Sarah/Julie/Kelsey/Claire/etc have either seen or are about to see. Overwriting them without asking is a trust violation and can't be undone cleanly.
+- Demo accounts (@demo.blair.com) and QA accounts (@demo.blair.com with `.qa` in email) are safe to regenerate freely.
+- Re-score scripts are read-only by default. They show what the engine *would* produce, they do not write. If you need to backfill recommendations for existing users, ask first and scope the update to one user at a time with explicit confirmation.
+- When showing re-score output, label columns clearly: "STORED (not touched)" vs "NEW (would-be, not written)". Do not describe re-score output as if it changed anything in the DB.
+- Scripts in `/scripts/` that write to the DB should target a single user by ID, not iterate over all users, unless Kristin has explicitly asked for a bulk operation.
+
 ## Running Locally
 ```bash
 cd ~/Projects/blair-app

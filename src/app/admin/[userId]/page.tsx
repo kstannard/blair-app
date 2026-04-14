@@ -107,6 +107,12 @@ export default async function AdminUserPage({
           {Object.keys(quizSnapshot).length > 0 && (
             <div className="mb-5 flex flex-wrap gap-3">
               {quizSnapshot.Q2_role && <Stat label="Role" value={quizSnapshot.Q2_role} />}
+              {quizSnapshot.Q12_same_or_different && (
+                <Stat
+                  label="Direction"
+                  value={quizSnapshot.Q12_same_or_different.split(" - ")[0]}
+                />
+              )}
               {quizSnapshot.Q3_years && <Stat label="Experience" value={quizSnapshot.Q3_years} />}
               {quizSnapshot.Q25_time && <Stat label="Hours/week" value={quizSnapshot.Q25_time} />}
               {quizSnapshot.Q18_income_timeline && <Stat label="Income timeline" value={quizSnapshot.Q18_income_timeline} />}
@@ -129,7 +135,10 @@ export default async function AdminUserPage({
                   <p className="text-sm text-gray-800">{user.profile.unfairAdvantageName || "-"}</p>
                 </Card>
                 <Card label="Traits">
-                  <JsonList value={user.profile.traits} />
+                  <JsonList
+                    value={user.profile.traits}
+                    excludePrefixes={["Same direction", "Different direction", "Same general direction"]}
+                  />
                 </Card>
                 <Card label="Strengths">
                   <JsonList value={user.profile.strengths} />
@@ -312,13 +321,18 @@ function Card({ label, children, className = "" }: { label: string; children: Re
   );
 }
 
-function JsonList({ value }: { value: string | null | undefined }) {
+function JsonList({ value, excludePrefixes }: { value: string | null | undefined; excludePrefixes?: string[] }) {
   let items: string[] = [];
   try {
     const parsed = JSON.parse(value || "[]");
     items = Array.isArray(parsed) ? parsed : [String(parsed)];
   } catch {
     items = value ? [value] : [];
+  }
+  if (excludePrefixes && excludePrefixes.length > 0) {
+    items = items.filter(
+      (item) => !excludePrefixes.some((pfx) => item.toLowerCase().startsWith(pfx.toLowerCase()))
+    );
   }
   if (items.length === 0) {
     return <p className="text-sm text-gray-800">-</p>;
