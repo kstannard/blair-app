@@ -104,12 +104,10 @@ export default async function AdminPreviewResultsPage({
         <ResultsReveal>
           {profile?.unfairAdvantageName &&
             profile.unfairAdvantageDescription &&
-            profile.unfairAdvantageEvidence &&
             profile.unfairAdvantageWhy && (
               <UnfairAdvantage
                 name={profile.unfairAdvantageName}
                 description={profile.unfairAdvantageDescription}
-                evidence={profile.unfairAdvantageEvidence}
                 why={profile.unfairAdvantageWhy}
               />
             )}
