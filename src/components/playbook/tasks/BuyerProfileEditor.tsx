@@ -269,45 +269,27 @@ export function BuyerProfileEditor({
         <p className="mt-1 text-xs text-blair-charcoal/50">
           Who is the person that would hire you? Be as specific as possible.
         </p>
-        <input
-          type="text"
+        <textarea
           value={buyerTitle}
           onChange={(e) => handleChange("buyerTitle", e.target.value)}
-          className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+          onInput={(e) => {
+            const el = e.currentTarget;
+            el.style.height = "auto";
+            el.style.height = el.scrollHeight + "px";
+          }}
+          ref={(el) => {
+            if (el) {
+              el.style.height = "auto";
+              el.style.height = el.scrollHeight + "px";
+            }
+          }}
+          rows={1}
+          className="mt-3 w-full resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-snug text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
-
-        {/* AI action buttons */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          <RefineButton
-            label="Suggest a buyer"
-            taskType="buyer-profile-editor"
-            action="suggest-buyer"
-            fieldName="buyerTitle"
-            currentValue={buyerTitle}
-            context={{ pathSlug, fieldName: "buyerTitle" }}
-            onResult={(result) => {
-              setRefineSuggestion(result);
-            }}
-          />
-          <RefineButton
-            label="Add more detail"
-            taskType="buyer-profile-editor"
-            action="add-detail"
-            fieldName="buyerTitle"
-            currentValue={buyerTitle}
-            context={{ pathSlug, fieldName: "buyerTitle" }}
-            onResult={(result) => setRefineSuggestion(result)}
-          />
-          <RefineButton
-            label="Who else?"
-            taskType="buyer-profile-editor"
-            action="who-else"
-            fieldName="buyerTitle"
-            currentValue={buyerTitle}
-            context={{ pathSlug, fieldName: "buyerTitle" }}
-            onResult={(result) => setRefineSuggestion(result)}
-          />
-        </div>
+        {/* AI buttons removed per product review: Suggest a buyer, Add more
+            detail, and Who else? were all template-based canned responses
+            that overwrote or nagged, not refined. The field is now pre-filled
+            with role-aware content; the user edits directly. */}
 
         {/* Inline suggestion */}
         {refineSuggestion && (
@@ -347,11 +329,22 @@ export function BuyerProfileEditor({
           What kind of organization do they work at? Include industry, size, and
           stage if relevant.
         </p>
-        <input
-          type="text"
+        <textarea
           value={companyType}
           onChange={(e) => handleChange("companyType", e.target.value)}
-          className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+          onInput={(e) => {
+            const el = e.currentTarget;
+            el.style.height = "auto";
+            el.style.height = el.scrollHeight + "px";
+          }}
+          ref={(el) => {
+            if (el) {
+              el.style.height = "auto";
+              el.style.height = el.scrollHeight + "px";
+            }
+          }}
+          rows={1}
+          className="mt-3 w-full resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-snug text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
       </div>
 
@@ -367,14 +360,25 @@ export function BuyerProfileEditor({
         </p>
         <div className="mt-3 space-y-2">
           {triggerEvents.map((item, i) => (
-            <div key={i} className="flex gap-2">
-              <input
-                type="text"
+            <div key={i} className="flex items-start gap-2">
+              <textarea
                 value={item}
                 onChange={(e) =>
                   handleListChange("triggerEvents", i, e.target.value)
                 }
-                className="flex-1 rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                onInput={(e) => {
+                  const el = e.currentTarget;
+                  el.style.height = "auto";
+                  el.style.height = el.scrollHeight + "px";
+                }}
+                ref={(el) => {
+                  if (el) {
+                    el.style.height = "auto";
+                    el.style.height = el.scrollHeight + "px";
+                  }
+                }}
+                rows={1}
+                className="flex-1 resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm leading-snug text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
                 placeholder="Describe a trigger event..."
               />
               {triggerEvents.length > 1 && (
@@ -487,14 +491,25 @@ export function BuyerProfileEditor({
         </p>
         <div className="mt-3 space-y-2">
           {whereTheyHangOut.map((item, i) => (
-            <div key={i} className="flex gap-2">
-              <input
-                type="text"
+            <div key={i} className="flex items-start gap-2">
+              <textarea
                 value={item}
                 onChange={(e) =>
                   handleListChange("whereTheyHangOut", i, e.target.value)
                 }
-                className="flex-1 rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                onInput={(e) => {
+                  const el = e.currentTarget;
+                  el.style.height = "auto";
+                  el.style.height = el.scrollHeight + "px";
+                }}
+                ref={(el) => {
+                  if (el) {
+                    el.style.height = "auto";
+                    el.style.height = el.scrollHeight + "px";
+                  }
+                }}
+                rows={1}
+                className="flex-1 resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm leading-snug text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
                 placeholder="A community, platform, or event..."
               />
               {whereTheyHangOut.length > 1 && (

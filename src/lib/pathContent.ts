@@ -47,7 +47,6 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
       "- I help B2B SaaS startups that just raised funding sound like the company they're becoming, not the one they were.\n" +
-      "- I help service businesses explain what they do in one sentence so their website actually converts.\n" +
       "- I help founders who know their product is great but can't figure out why nobody's buying it.",
     buyerProfile: {
       suggestedTitle: "Founder, Head of Marketing, Agency Owner, VP of Brand",
@@ -88,7 +87,6 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
       "- I help B2B startups that just raised Series A build their first repeatable sales motion so they stop relying on founder-led sales.\n" +
-      "- I help SaaS companies moving upmarket from SMB to enterprise build the outbound playbook that actually gets meetings.\n" +
       "- I help revenue teams figure out why deals are stalling and fix the process so pipeline converts.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, VP Sales, Head of Revenue, CRO",
@@ -127,8 +125,7 @@ export const pathContent: Record<string, PathContentConfig> = {
     positioningTemplate:
       "I help [type of company] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
-      "- I help seed-stage startups that just hired past 15 people build the operational infrastructure so the founders can focus on product and customers.\n" +
-      "- I help growing agencies that are drowning in delivery get their project management, hiring, and internal processes running smoothly.\n" +
+      "- I help seed-to-Series-A startups that just hired past 15 people install the operating systems and rhythms the founder no longer has time to build.\n" +
       "- I help founder-led companies that know things are falling through the cracks but don't need a full-time COO yet.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, COO, Head of Ops, Chief of Staff",
@@ -168,8 +165,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
       "- I help service businesses that are drowning in manual work build the automations that let them scale without hiring.\n" +
-      "- I help SaaS companies whose data lives in 12 different tools connect everything into one system that actually works.\n" +
-      "- I help agencies that waste hours on client onboarding and reporting build workflows that run on autopilot.",
+      "- I help SaaS companies whose data lives in 12 different tools connect everything into one system that actually works.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, Head of Ops, RevOps Lead, Agency Owner",
       suggestedCompanySize: "5-100 employees (SMBs and startups that have outgrown spreadsheets)",
@@ -208,8 +204,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company/person] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
       "- I help B2B founders who know they should be posting but never do build a content engine that runs every week without them writing a word.\n" +
-      "- I help consulting firms turn their expertise into LinkedIn and newsletter content that generates inbound leads.\n" +
-      "- I help coaches and course creators who are great on camera but terrible at distribution build a system that turns one recording into a week of content.",
+      "- I help consulting firms turn their expertise into LinkedIn and newsletter content that generates inbound leads.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, Head of Marketing, Personal Brand (solo operator), Agency Owner",
       suggestedCompanySize: "1-50 employees (founders, solo operators, small marketing teams)",
@@ -248,7 +243,6 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company] [achieve outcome] by [what you do].\n\n" +
       "Examples:\n" +
       "- I help B2B service companies that rely on referrals build a paid lead gen system that fills their pipeline without them networking 24/7.\n" +
-      "- I help e-commerce brands that are burning ad spend without results fix their funnel so every dollar works harder.\n" +
       "- I help coaches and consultants who are great at closing but terrible at filling the top of funnel build a machine that books 10+ calls a week.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, Head of Growth, VP Marketing, Agency Owner",
@@ -288,7 +282,6 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company/person] [achieve outcome] through [your productized offering].\n\n" +
       "Examples:\n" +
       "- I help early-stage SaaS companies nail their positioning in 2 weeks through The Brand Sprint - same process, same deliverables, $8K flat.\n" +
-      "- I help agencies build their ops infrastructure in 30 days through The Ops-in-a-Box package - everything from project management to hiring workflows.\n" +
       "- I help consultants package their expertise into a digital product through The Productize Sprint - from custom work to scalable offer in 6 weeks.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, Agency Owner, Consultant, Department Head",
@@ -328,8 +321,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of company] find [type of talent] by [how you do it differently].\n\n" +
       "Examples:\n" +
       "- I help B2B SaaS companies find senior sales leaders who've actually built pipeline at scale - not just managed it.\n" +
-      "- I help fintech startups hire their first 5 engineers by tapping the network I built over a decade in the space.\n" +
-      "- I help agencies find senior strategists and account directors who won't need 6 months to ramp because they've done the exact job before.",
+      "- I help fintech startups hire their first 5 engineers by tapping the network I built over a decade in the space.",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, VP People, Head of Talent, Hiring Manager",
       suggestedCompanySize: "20-500 employees (companies growing fast enough to need specialized talent but not big enough to have a full recruiting team)",
@@ -368,8 +360,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I invest in and advise [type of company] by bringing [your operational expertise].\n\n" +
       "Examples:\n" +
       "- I invest in and advise early-stage B2B SaaS companies by bringing 15 years of go-to-market and sales leadership to the table.\n" +
-      "- I advise seed-stage consumer companies on operations and growth strategy, backed by my track record scaling ops at [company].\n" +
-      "- I invest in and sit on boards of companies in [industry] where my network and operating experience can accelerate their path to revenue.",
+      "- I advise seed-stage consumer companies on operations and growth strategy, backed by my track record scaling ops at [company].",
     buyerProfile: {
       suggestedTitle: "Founder/CEO, existing investors (who refer you)",
       suggestedCompanySize: "2-30 employees (pre-seed to Series A, where your expertise is highest leverage)",
@@ -408,8 +399,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I help [type of person] [achieve outcome] through [type of product].\n\n" +
       "Examples:\n" +
       "- I help first-time managers at tech companies lead better 1:1s and build high-performing teams through a self-paced course and toolkit.\n" +
-      "- I help early-stage founders build their go-to-market playbook through a step-by-step template system.\n" +
-      "- I help ops leaders at growing companies systematize their onboarding through a certification program their whole team can use.",
+      "- I help early-stage founders build their go-to-market playbook through a step-by-step template system.",
     buyerProfile: {
       suggestedTitle: "Individual buyers (professionals investing in themselves) or L&D / team leads buying for their teams",
       suggestedCompanySize: "Individual buyers at all company sizes, or team purchases at 50-500 employee companies",
@@ -448,8 +438,7 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I run a [type of community] for [type of people] who [shared challenge or goal].\n\n" +
       "Examples:\n" +
       "- I run a private peer group for Heads of Product at Series A-B companies who want a real sounding board, not LinkedIn noise.\n" +
-      "- I curate a membership for women in revenue leadership who want access to the conversations, connections, and playbooks that used to only happen behind closed doors.\n" +
-      "- I run monthly dinners for startup operators in [city] who want to learn from people doing the same job at different companies.",
+      "- I curate a membership for women in revenue leadership who want access to the conversations, connections, and playbooks that used to only happen behind closed doors.",
     buyerProfile: {
       suggestedTitle: "Individual professionals (members), or companies sponsoring access for employees",
       suggestedCompanySize: "Members are typically mid-to-senior professionals at 50-5,000 person companies. Sponsors are brands selling to your member profile.",
@@ -488,7 +477,6 @@ export const pathContent: Record<string, PathContentConfig> = {
       "I build [type of tool] that helps [type of user] [solve specific problem].\n\n" +
       "Examples:\n" +
       "- I built a tool that helps RevOps teams automate their comp plan calculations in 10 minutes instead of 3 hours.\n" +
-      "- I built an AI-powered tool that turns customer support tickets into categorized product feedback automatically.\n" +
       "- I built a niche CRM for independent recruiters who need something simpler than Salesforce but more powerful than a spreadsheet.",
     buyerProfile: {
       suggestedTitle: "End users in the role your tool serves, or their managers. For B2B: team leads, ops managers, department heads.",

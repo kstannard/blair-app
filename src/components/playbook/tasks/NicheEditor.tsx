@@ -297,28 +297,34 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                   Based on your background, these are problems we think you may have solved. Edit, remove, or add anything we missed.
                 </p>
 
-                {/* Editable chips */}
+                {/* Editable chips — use textarea so long multi-line entries
+                    wrap cleanly on mobile instead of truncating. */}
                 <div className="space-y-2">
                   {step1Items.map((item, i) => (
                     <div
                       key={i}
-                      className="group flex items-center gap-2 rounded-lg border border-blair-mist bg-blair-linen/50 px-3 py-2 text-sm text-blair-charcoal transition-all hover:border-blair-charcoal/20"
+                      className="group flex items-start gap-2 rounded-lg border border-blair-mist bg-blair-linen/50 px-3 py-2 text-sm text-blair-charcoal transition-all hover:border-blair-charcoal/20"
                     >
-                      <input
-                        type="text"
+                      <textarea
                         defaultValue={item}
                         onBlur={(e) => handleEditChip(i, e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            (e.target as HTMLInputElement).blur();
+                        onInput={(e) => {
+                          const el = e.currentTarget;
+                          el.style.height = "auto";
+                          el.style.height = el.scrollHeight + "px";
+                        }}
+                        ref={(el) => {
+                          if (el) {
+                            el.style.height = "auto";
+                            el.style.height = el.scrollHeight + "px";
                           }
                         }}
-                        className="flex-1 bg-transparent leading-snug text-blair-charcoal outline-none placeholder:text-blair-charcoal/30"
+                        rows={1}
+                        className="flex-1 resize-none bg-transparent leading-snug text-blair-charcoal outline-none placeholder:text-blair-charcoal/30 overflow-hidden"
                       />
                       <button
                         onClick={() => handleRemoveChip(i)}
-                        className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-blair-charcoal/30 transition-colors hover:bg-blair-charcoal/10 hover:text-blair-charcoal/60"
+                        className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-blair-charcoal/30 transition-colors hover:bg-blair-charcoal/10 hover:text-blair-charcoal/60"
                         aria-label="Remove"
                       >
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -351,58 +357,10 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                   </button>
                 </div>
 
-                {/* AI help */}
-                {step1Items.length > 0 && (
-                  <div className="mt-4 border-t border-blair-mist/60 pt-3">
-                    <p className="mb-2 text-xs text-blair-charcoal/40">
-                      Need help with your list?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <RefineButton
-                        label="Sharpen these"
-                        taskType="niche-editor"
-                        action="sharpen"
-                        fieldName="step1Items"
-                        currentValue={step1Items.join(", ")}
-                        context={{ pathSlug }}
-                        onResult={(result) => setRefineSuggestion(result)}
-                      />
-                      <RefineButton
-                        label="Make them more specific"
-                        taskType="niche-editor"
-                        action="get-specific"
-                        fieldName="step1Items"
-                        currentValue={step1Items.join(", ")}
-                        context={{ pathSlug }}
-                        onResult={(result) => setRefineSuggestion(result)}
-                      />
-                      <RefineButton
-                        label="Show me an example"
-                        taskType="niche-editor"
-                        action="example"
-                        fieldName="step1Items"
-                        currentValue={step1Items.join(", ")}
-                        context={{ pathSlug }}
-                        onResult={(result) => setRefineSuggestion(result)}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Inline suggestion */}
-                {refineSuggestion && (
-                  <div className="mt-3 rounded-lg border border-blair-sage/20 bg-blair-sage/5 p-4">
-                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-blair-charcoal/80">
-                      {refineSuggestion}
-                    </p>
-                    <button
-                      onClick={() => setRefineSuggestion(null)}
-                      className="mt-2 text-xs text-blair-charcoal/40 hover:text-blair-charcoal/60"
-                    >
-                      Dismiss
-                    </button>
-                  </div>
-                )}
+                {/* AI buttons removed per product review: the actions were
+                    template-based string concat (not LLM) and added noise
+                    without value. The chips are already pre-populated with
+                    role-aware personalized content. */}
               </div>
             </div>
           </div>

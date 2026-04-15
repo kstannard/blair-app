@@ -34,6 +34,7 @@ interface RecommendationData {
   }>;
   personalIntro: string | null;
   personalizedWhy: string | null;
+  userName: string | null;
   userProfile: {
     traits: string;
     strengths: string;
@@ -186,6 +187,14 @@ export default function TaskWorkspacePage() {
     recommendation?.primaryPath?.slug ||
     "";
 
+  // Resolve the user's first name for [your name] substitution in task copy
+  const firstName = (recommendation?.userName || "").trim().split(/\s+/)[0] || "you";
+
+  // Substitute [your name] placeholders so task.whyItMatters and other DB
+  // copy can address the user by name without needing per-user edits.
+  const personalize = (text: string): string =>
+    text.replace(/\[your name\]/gi, firstName);
+
   const handleSave = (data: Record<string, unknown>) => {
     updateFields(data);
   };
@@ -268,7 +277,7 @@ export default function TaskWorkspacePage() {
               {task.title}
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-blair-charcoal/50">
-              {task.whyItMatters}
+              {personalize(task.whyItMatters)}
             </p>
           </div>
 

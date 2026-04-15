@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import DraftReviewSection from "@/components/admin/DraftReviewSection";
+import { ResetProgressButton } from "@/components/admin/ResetProgressButton";
 import { TYPEFORM_FIELD_MAP } from "@/lib/typeform-fields";
 
 export const dynamic = "force-dynamic";
@@ -93,6 +94,7 @@ export default async function AdminUserPage({
               </a>
             </>
           )}
+          <ResetProgressButton userId={userId} />
           <div className="text-right text-xs text-gray-400">
             <p>Joined {new Date(user.createdAt).toLocaleDateString()}</p>
             {user.referralCode && <p>Referral: {user.referralCode}</p>}

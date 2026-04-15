@@ -102,7 +102,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     positioningExamples: [
       "I help Series A B2B SaaS companies that need senior product leadership but can't commit to a full-time hire ship better roadmaps and coach their first PMs into the role.",
       "I help founder-led startups that have product-market fit but no senior product person turn customer feedback into a quarterly roadmap their team can actually execute.",
-      "I help post-Series A SaaS teams that just promoted their first PMs build the discovery and prioritization habits that scale beyond the founder's gut.",
     ],
     buyerProfile: {
       suggestedTitle: "Founder, CEO, or CTO at a Series A SaaS company that has product-market fit but no senior product hire yet",
@@ -156,7 +155,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     positioningExamples: [
       "I help Series A B2B SaaS companies that have product-market fit but no senior marketing leader build a brand and demand engine that doesn't depend on the founder doing all the talking.",
       "I help founder-led startups whose marketing is one junior person and a Substack figure out what to actually build first, then build it.",
-      "I help post-Series A teams that just hired a marketer they want to grow into a head of marketing role coach them through the first 90 days while owning the strategy.",
     ],
     buyerProfile: {
       suggestedTitle: "Founder, CEO, or Head of Sales at a Series A SaaS company without a senior marketing leader",
@@ -210,7 +208,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     positioningExamples: [
       "I help seed-to-Series-A startups that just hired past 15 people install the operating systems and rhythms the founder no longer has time to build.",
       "I help founder-led companies that know things are falling through the cracks but don't need a full-time COO yet.",
-      "I help growing services businesses that are drowning in delivery get their project management, hiring, and internal processes running smoothly.",
     ],
     buyerProfile: {
       suggestedTitle: "Founder, CEO, or COO at a 15-100 person company that has outgrown its early operating model",
@@ -263,7 +260,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     positioningExamples: [
       "I help Series A B2B startups that need a CFO-level perspective but can't justify a full-time hire build the financial discipline that gets them to their next round.",
-      "I help founder-led companies whose finances are held together with QuickBooks and a scared CFO friend get clean books, real forecasts, and a board-ready monthly close.",
       "I help post-seed startups preparing to raise their Series A get the model, the data room, and the financial story tight before the first investor call.",
     ],
     buyerProfile: {
@@ -317,7 +313,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     positioningExamples: [
       "I help Series A founders who need to tell a credible story to investors, customers, and their own team without hiring a full-time head of comms build the narrative and the discipline to land it.",
-      "I help mission-driven startups whose external story isn't matching what they actually do build the messaging and editorial systems that make the public-facing work as good as the product.",
       "I help founder-led companies preparing for a launch or fundraise tighten the narrative and run the comms moment without scrambling.",
     ],
     buyerProfile: {
@@ -372,7 +367,6 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     positioningExamples: [
       "I help Series A B2B SaaS companies whose first technical hires are now leading teams build the engineering practices, hiring bar, and architectural discipline they need to scale to Series B.",
       "I help founder-led startups whose engineering is held together by the technical co-founder install the on-call, deploy, and code review practices that let the team ship without paging the founder.",
-      "I help post-seed startups preparing for a funding round or technical due diligence get their architecture, security, and engineering processes ready for senior scrutiny.",
     ],
     buyerProfile: {
       suggestedTitle: "Founder, CEO, or technical co-founder at a Series A SaaS company without a senior engineering leader",
@@ -431,7 +425,6 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     ],
     positioningExamples: [
       "I help Series A SaaS teams whose product ops is held together with spreadsheets and Slack threads design and build the internal tools and workflows that scale with them.",
-      "I help product teams that have great engineers but no product ops person ship the dashboards, workflows, and internal tools the team needs to move faster.",
       "I help founder-led startups whose customer onboarding flow is a mess of manual steps and Zapier hacks redesign it into something that activates users without anyone touching it.",
     ],
     buyerProfile: {
@@ -485,7 +478,6 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     positioningExamples: [
       "I help service businesses that are drowning in manual work build the automations and systems that let them scale without hiring more people.",
       "I help SaaS companies whose data lives in 12 different tools connect everything into one system that the team actually uses.",
-      "I help agencies that waste hours every week on client onboarding and reporting build the workflows that run on autopilot.",
     ],
     buyerProfile: {
       suggestedTitle: "Founder, Head of Ops, RevOps lead, or agency owner at a company that has outgrown spreadsheets",
@@ -537,7 +529,6 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     ],
     positioningExamples: [
       "I help Series A SaaS teams whose internal tooling is held together with shell scripts and good luck build the data pipelines and internal tools the team needs to scale.",
-      "I help engineering leaders inherit messy infrastructure and decide what to keep, what to rebuild, and what to kill.",
       "I help founder-led companies whose data lives in spreadsheets and Slack messages build the reporting and integration layer that makes their numbers trustworthy.",
     ],
     buyerProfile: {

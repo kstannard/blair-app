@@ -16,6 +16,7 @@ export async function GET() {
         include: { path: true },
         orderBy: { rank: "asc" },
       },
+      user: { select: { name: true } },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -41,6 +42,7 @@ export async function GET() {
       personalIntro: null,
       personalizedWhy: null,
       userProfile: null,
+      userName: null,
     });
   }
 
@@ -56,6 +58,7 @@ export async function GET() {
     confirmedPathId: recommendation.confirmedPathId,
     personalIntro: recommendation.personalIntro || null,
     personalizedWhy: recommendation.personalizedWhy || null,
+    userName: recommendation.user?.name || null,
     primaryPath: primaryRecPath
       ? {
           slug: primaryRecPath.path.slug,

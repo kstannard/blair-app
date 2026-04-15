@@ -189,30 +189,24 @@ export function GutCheckEditor({
           className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-relaxed text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
 
-        {/* AI action buttons */}
+        {/* AI action buttons — "Write it for me" removed because the
+            template is already pre-filled (no blank canvas to start from).
+            Kept Shorter and Warmer as the two most common refinement
+            actions users want on draft outreach. */}
         <div className="mt-3 flex flex-wrap gap-2">
           <RefineButton
-            label="Write it for me"
+            label="Make it shorter"
             taskType="gut-check"
-            action="write-it"
-            fieldName="outreachMessage"
-            currentValue={outreachMessage}
-            context={{ pathSlug, positioning: (savedData.editedStatement as string) || "" }}
-            onResult={(result) => setRefineSuggestion(result)}
-          />
-          <RefineButton
-            label="Make it warmer"
-            taskType="gut-check"
-            action="warmer"
+            action="shorten"
             fieldName="outreachMessage"
             currentValue={outreachMessage}
             context={{ pathSlug }}
             onResult={(result) => setRefineSuggestion(result)}
           />
           <RefineButton
-            label="Shorten this"
+            label="Make it warmer"
             taskType="gut-check"
-            action="shorten"
+            action="warmer"
             fieldName="outreachMessage"
             currentValue={outreachMessage}
             context={{ pathSlug }}
