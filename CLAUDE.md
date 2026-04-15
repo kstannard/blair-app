@@ -131,6 +131,57 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - PositioningEditor: 3 handwritten examples from pathContent.ts (NOT programmatic generation — that broke), user picks and edits
 - AppShell nav: hides email for @demo.blair.com accounts (for clean marketing screenshots)
 
+## Session Handoff (2026-04-14) — Pending Work From Jami Playbook Polish
+
+Latest commit: `3b740e2` "Trim Fractional Operator Phase 1 copy + shared UI fixes". Everything below is either committed-but-cache-stale, or not-yet-done. Start a new session by restarting the dev server (clears stale `.next` cache) before debugging content issues — several of Kristin's "your changes didn't go through" complaints traced back to the cache, not the code.
+
+### Done and committed (verify with git log, not by reading stale dev server)
+- Scorer fixes: en dash normalize() helper, removed "pr" substring bug from Messaging, hard-constraint penalties, wantsSame senior catch-all for fractional
+- Role-aware content system: `src/lib/playbook/role-aware-content.ts` with FRACTIONAL_OPERATOR and AUTOMATION_SYSTEMS_BUILDER archetypes (product-pmm, marketing-brand, operations-bizops, finance-analytics, content-editorial, engineering). Each has narrowingChips, whatLitYouUp, whatCompaniesPay, positioningExamples (2 each), buyerProfile, outreachTemplate.
+- All 12 paths trimmed to 2 positioning examples (was 3) in `src/lib/pathContent.ts`
+- `[your name]` placeholder substitution via `personalize()` helper in `src/app/(app)/playbook/[taskSlug]/page.tsx` — applied to `task.whyItMatters` only, NOT yet to descriptions, positioning examples, or outreach templates
+- `src/app/api/playbook/recommendation/route.ts` now returns `userName` from user record
+- NicheEditor: chips are auto-resizing textareas, all 3 AI buttons removed ("Sharpen these", "Make them more specific", "Show me an example")
+- PositioningEditor: merged duplicate heading, uses role-aware examples
+- BuyerProfileEditor: inputs → auto-resizing textareas, all 3 AI buttons removed
+- GutCheckEditor: "Write it for me" removed, "Make it warmer" swapped for "Make it more direct", refine API updated
+- `src/components/admin/ResetProgressButton.tsx` — soft reset only, hard reset removed from UI (API still supports `?mode=hard` if called directly)
+- Fractional Operator Phase 1 copy trimmed via `scripts/trim-fractional-phase1.js` (−175 words across 4 tasks)
+- Stripe checkout email preservation (customer_creation fix)
+- Admin customer page: bullets, section dividers, cards
+
+### Pending — urgent, start here next session
+1. **Phase 1 Complete overlay is stuck.** `src/components/playbook/CompletionAnimation.tsx` — for `isLastTask && phase === "check"` the overlay stays forever. Needs auto-dismiss timer (4-5s) AND click-to-dismiss anywhere on overlay.
+2. **"You found your lane" should be clickable.** `src/components/playbook/PhaseComplete.tsx` — after Phase 1 completion the user can't get back to Phase 1 task content. Make the hero block expandable/clickable so they can still access what they generated.
+3. **Time-aware quips.** `src/lib/quips.ts` — Kristin saw a "naptime" quip at 9:55pm PT. Add time-of-day gating so kid/daytime-themed quips don't fire at night.
+4. **Restart dev server first.** Multiple "your changes didn't go through" complaints were cache, not code. Verify via `git log -1` + grep before re-editing anything.
+
+### Pending — from Kristin's long feedback list ("i feel like your changes didnt go through")
+5. **Intro letter copy size divergence** on results page — paragraphs render at different sizes.
+6. **Systemic `[your name]` substitution sweep** — extend `personalize()` to descriptions, positioning examples, outreach templates, buyer profile defaults, anywhere `[your name]` could appear.
+7. **Remove Task 1 step 2 auto-selection.** `scripts/personalize-jami-playbook.js` sets `step2Selections: [0, 2, 4]` which Kristin flagged as wrong — users should pick for themselves. Remove pre-selection from the Jami script AND make sure fresh users never get auto-selected step 2.
+8. **"What companies pay for" should be dynamic** based on what chips the user selected in step 2 of NicheEditor. Right now it's static from role-aware-content.ts.
+9. **Jami saw 4 ops fractional engagement types instead of product** — verify role-aware content is actually being used for her (her role category should be "product-pmm"). May be a detectRoleCategory() bug or a fallback path.
+10. **PositioningEditor "start from scratch" button** — Kristin saw it, thought it was cut. Verify and remove if still present (it's `showRefinement` branch in `src/components/playbook/tasks/PositioningEditor.tsx`).
+11. **Cut "cocktail party test"** from Task 2 completion checklist — it's in `PositioningEditor.tsx` line ~354 `"It passes the cocktail party test: someone could picture my ideal client"`.
+12. **"Where they hang out" wrong content for Jami** — `scripts/personalize-jami-playbook.js` currently has "Former HP, Zendesk, or Amway colleagues" which is a PEOPLE category, not places. Should be actual venues/platforms.
+13. **Rewrite Jami's outreach template** — it's wrong (Kristin flagged).
+14. **Redesign "Who to reach out to" section layout** — looks terrible per Kristin.
+15. **"What I heard" transcript feature** — add paste-transcript textarea + AI summarize button for GutCheckEditor "what I heard" field.
+16. **Trim Phase 1 for other 3 bloated paths** — Messaging & Positioning Specialist, GTM & Growth Strategist, Digital Product Builder. Fractional is done as template. Don't touch Phases 2-5 (those are teaching content, not bloat).
+
+### Do not touch without explicit permission
+- Approved real-user Recommendations (Jami, Sarah Blahnik, Julie Soper, Kelsey, Claire, Amanda Schwab). See "Real-User Data Rules" below.
+- Jami's Recommendation is `approved`. Any edits to her savedData or recommendation require per-user permission from Kristin.
+
+### Context on Jami specifically
+- Michigan-based, former PM at HP/Zendesk/Amway
+- Path: Fractional Operator (product archetype), with Micro-SaaS Builder as #1 aspirational
+- Pricing anchored generic `$200K+` not Bay Area `$350K`
+- Intro letter: forward tense, does NOT reveal primary rec in intro ("Here's where we'd have you start.")
+- Positioning framed as "Embedded product lead (fractional)" — she does not identify as Head of Product, contract title is flexible
+- Her Phase 1 savedData was pre-populated via `scripts/personalize-jami-playbook.js`
+
 ## What Still Needs Work (as of 2026-04-07)
 
 ### Completed This Session
