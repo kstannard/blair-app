@@ -72,7 +72,7 @@ async function run() {
   console.log("Jami Q25_time:", JSON.stringify((a as Record<string, unknown>).Q25_time));
   console.log("Jami Q16_success:", JSON.stringify((a as Record<string, unknown>).Q16_success));
 
-  const result = scoreFullQuiz(a as FullQuizAnswers);
+  const result = scoreFullQuiz(a as unknown as FullQuizAnswers);
   console.log("\nPrimary advantage:", result.primaryAdvantage.name, result.primaryAdvantage.score);
   console.log("All advantages:", result.allAdvantages.map(x => `${x.name}=${x.score}`).join(", "));
   console.log("\nTop 3 paths:");
