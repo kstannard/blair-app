@@ -150,26 +150,6 @@ function refineBuyerProfile(action: string, currentValue: string, context: Recor
 
 function refineGutCheck(action: string, currentValue: string, context: Record<string, unknown>): string {
   switch (action) {
-    case "write-it": {
-      const pathSlug = (context.pathSlug as string) || "";
-      const positioning = (context.positioning as string) || "my consulting focus";
-      return `Hey [name],\n\nHope you're doing well! I've been thinking about going independent and focusing on ${positioning}.\n\nBefore I go too far down this road, I'd really value your honest take. You know my work better than most people, and I trust your judgment on whether this direction makes sense.\n\nWould you have 15 minutes this week? No pitch, just a real conversation. I want the unfiltered version.\n\nThanks!`;
-    }
-    case "warmer": {
-      if (!currentValue.trim()) return "Start with something personal - reference a shared experience or something you admire about their work.";
-      // Add warmth
-      let warmer = currentValue;
-      if (!warmer.includes("hope you")) {
-        warmer = warmer.replace(/^(Hey|Hi|Hello)\s+\[?name\]?,?\s*/i, "Hey [name],\n\nHope things are going well on your end! ");
-      }
-      // Replace formal phrases
-      warmer = warmer
-        .replace(/I would appreciate/gi, "I'd really love")
-        .replace(/I am reaching out/gi, "I'm reaching out")
-        .replace(/would you be willing/gi, "would you be up for")
-        .replace(/at your earliest convenience/gi, "whenever works for you");
-      return warmer;
-    }
     case "shorten": {
       if (!currentValue.trim()) return "Nothing to shorten yet - write your message first.";
       const lines = currentValue.split("\n").filter((l) => l.trim());
@@ -177,6 +157,32 @@ function refineGutCheck(action: string, currentValue: string, context: Record<st
       // Keep the greeting, core ask, and sign-off
       const shortened = lines.slice(0, Math.min(lines.length, 5)).join("\n\n");
       return shortened + "\n\n(Shorter messages get more replies. Keep it to 3-4 sentences if you can.)";
+    }
+    case "direct": {
+      if (!currentValue.trim()) return "Nothing to tighten yet - write your message first.";
+      // Cut hedging language and soften-to-direct replacements
+      let direct = currentValue
+        .replace(/\bI was wondering if\b/gi, "")
+        .replace(/\bI just wanted to\b/gi, "I want to")
+        .replace(/\bI'm just\b/gi, "I'm")
+        .replace(/\bI'd really love to\b/gi, "I'd love to")
+        .replace(/\bI would appreciate\b/gi, "")
+        .replace(/\bif you don't mind\b/gi, "")
+        .replace(/\bif it's not too much trouble\b/gi, "")
+        .replace(/\bat your earliest convenience\b/gi, "when you can")
+        .replace(/\bsorry to bother you\b/gi, "")
+        .replace(/\bjust a quick\b/gi, "a")
+        .replace(/\breally\b/gi, "")
+        .replace(/\bjust\b/gi, "")
+        .replace(/\bkind of\b/gi, "")
+        .replace(/\bsort of\b/gi, "")
+        .replace(/\bmaybe\b/gi, "")
+        .replace(/\bpossibly\b/gi, "")
+        .replace(/  +/g, " ")
+        .replace(/ ,/g, ",")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+      return direct + "\n\n(Cut the hedging. Name what you want in the first two sentences.)";
     }
     default:
       return currentValue;
