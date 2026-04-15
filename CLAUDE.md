@@ -269,6 +269,13 @@ Account is CREATED, FULLY READY, and SCREENSHOTS TAKEN. Details:
 - Vercel auto-deploys from main. Pushing = live.
 - If you say something is "live" or "ready", it must be pushed. Never describe local-only changes as live.
 
+## Systemic Thinking Rule (non-negotiable)
+- **Every fix and audit must be framed across ALL customers and ALL paths, not just the one in front of me.** If Kristin points out a problem on Jami's Fractional Operator playbook, the question is never "how do I fix this for Jami?" — it's "which customers and which paths have this problem, and how do I fix them all in one pass?"
+- Before claiming an audit is done, list what I actually checked vs what I didn't. If the scope is "all 12 paths Phase 1–5 (128 tasks)", I need to pull data for all 128, not 4. If I only looked at one path, I must say so explicitly up front — don't present a narrow audit as if it were systemic.
+- The cheap way to audit copy, content, or DB shape across all paths is a single SQL query against `BusinessPath` / `Phase` / `Task` / `RecommendationPath`. Prefer that over loading pages in a browser when the question is structural.
+- Default to fixing at the shared layer: `pathContent.ts`, `role-aware-content.ts`, `prepopulation.ts`, shared editor components, the scorer, the task page renderer. Per-path patches are acceptable only when the content is genuinely different (e.g. Community & Membership Operator uses WorksheetEditor configs). Per-user patches (e.g. writing personalized savedData for one specific customer) are acceptable only for already-approved real users who need a bespoke update; new customers should land on auto-generated personalized content from the shared layer.
+- When Kristin asks a follow-up like "did you look across all paths?" and the answer is "no, only one", say so immediately and do the broader audit before continuing. Do not defend the narrow answer.
+
 ## Real-User Data Rules (non-negotiable)
 - **Never write to a Recommendation with status "approved" for a real user without explicit per-user permission from Kristin.** Approved real-user records are published content that Jami/Sarah/Julie/Kelsey/Claire/etc have either seen or are about to see. Overwriting them without asking is a trust violation and can't be undone cleanly.
 - Demo accounts (@demo.blair.com) and QA accounts (@demo.blair.com with `.qa` in email) are safe to regenerate freely.
