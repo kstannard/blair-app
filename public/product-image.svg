@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <rect width="800" height="800" fill="#FFFCF7"/>
+  <text x="400" y="340" text-anchor="middle" font-family="'DM Serif Display', Georgia, serif" font-size="42" fill="#1F2041" letter-spacing="0.02em">Your personalized</text>
+  <text x="400" y="400" text-anchor="middle" font-family="'DM Serif Display', Georgia, serif" font-size="42" fill="#1F2041" letter-spacing="0.02em">business playbook</text>
+  <line x1="340" y1="440" x2="460" y2="440" stroke="#8B9B7E" stroke-width="2"/>
+  <text x="400" y="490" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="18" fill="#1F2041" opacity="0.5" letter-spacing="0.1em">BLAIR</text>
+</svg>

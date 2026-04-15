@@ -290,18 +290,11 @@ export default function TaskWorkspacePage() {
         </div>
       </div>
 
-      {/* Incomplete previous task warning */}
-      {incompletePreviousTask && (
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-5 py-3.5">
-          <p className="text-sm text-amber-800">
-            This task builds on your work in{" "}
-            <a href={`/playbook/${incompletePreviousTask.slug}`} className="font-semibold underline hover:text-amber-900">
-              {incompletePreviousTask.title}
-            </a>
-            . You'll get the most out of it if you complete that first.
-          </p>
-        </div>
-      )}
+      {/* Prereq callout removed per product review — the task list
+          already shows prior tasks right above, so the callout was a
+          redundant nag that slowed down skimmers. If a prereq nudge is
+          needed in the future, put it inline where the content depends
+          on the prior task, not as a banner above every sub-task. */}
 
       {/* Two-column layout */}
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">

@@ -127,11 +127,11 @@ export function PositioningEditor({
       {/* Draft selection */}
       <div>
         <h3 className="font-serif text-xl text-blair-midnight">
-          Pick a starting point
+          Pick a starting point and make it yours
         </h3>
         <p className="mt-2 text-sm text-blair-charcoal/50">
-          These are examples of how people on your path typically position
-          themselves. Pick the one that feels closest, then make it yours.
+          Pick the one that feels closest, then edit it until it sounds like
+          you.
         </p>
 
         <div className="mt-6 space-y-3">
@@ -180,16 +180,11 @@ export function PositioningEditor({
         </div>
       </div>
 
-      {/* Editable textarea */}
+      {/* Editable textarea — dual helpers merged with the picker above,
+          so this section just renders the editable statement without a
+          second h3 + helper paragraph. */}
       {selectedIndex !== undefined && (
         <div>
-          <h3 className="font-serif text-xl text-blair-midnight">
-            Make it yours
-          </h3>
-          <p className="mt-2 text-sm text-blair-charcoal/50">
-            Edit the statement below until it sounds like you. It doesn&apos;t
-            need to be perfect, it needs to be true.
-          </p>
           <textarea
             value={editedStatement}
             onChange={(e) => handleChange("editedStatement", e.target.value)}
