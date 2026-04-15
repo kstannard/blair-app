@@ -39,27 +39,50 @@ const defaultContacts: ContactSlot[] = [
 // is already captured in the user's edited positioning statement, which is
 // what gets interpolated into the outreach template.
 const pathDescriptions: Record<string, string> = {
-  "gtm-growth-strategist": "GTM and growth strategy",
-  "messaging-positioning": "messaging and positioning",
-  "fractional-operator": "senior fractional work",
+  "gtm-growth-strategist": "fractional GTM and growth work",
+  "messaging-positioning": "messaging and positioning work",
+  "fractional-operator": "fractional work",
   "studio-builder": "productized consulting",
-  "content-engine-operator": "content strategy and thought leadership",
-  "lead-gen-operator": "lead generation and pipeline building",
-  "niche-talent-placement": "talent placement and recruiting",
+  "content-engine-operator": "content and thought leadership work",
+  "lead-gen-operator": "lead gen and pipeline work",
+  "niche-talent-placement": "talent placement work",
   "automation-systems-builder": "systems and tooling work",
-  "investor-operator": "investing and advisory",
+  "investor-operator": "investing and advisory work",
 };
 
-function buildOutreachTemplate(pathName: string, savedData: Record<string, unknown>, pathSlug: string): string {
-  const positioning = (savedData.editedStatement as string) || "";
+function buildOutreachTemplate(
+  pathName: string,
+  savedData: Record<string, unknown>,
+  pathSlug: string,
+  crossTaskPositioning: string
+): string {
+  // Prefer the user's actual positioning statement (from task 2) if we have it.
+  // Falls back to this task's savedData (in case the user typed it directly here),
+  // then to a generic path description.
+  const positioning =
+    crossTaskPositioning.trim() ||
+    ((savedData.editedStatement as string) || "").trim();
   const naturalName = pathDescriptions[pathSlug] || pathName.toLowerCase() || "my area of expertise";
-  const focus = positioning || naturalName;
+
+  // Two templates — one that quotes the positioning statement, one that falls
+  // back to a generic noun phrase. Both read cleanly.
+  if (positioning) {
+    return `Hey [name],
+
+Hope you're doing well! [Mention something you've noticed about them recently — a job change, a post, a life update.]
+
+I'm exploring an idea and I'd love your honest take before I go too far. Here's the rough version: "${positioning}"
+
+Does that land for you? Anyone come to mind who needs exactly this?
+
+No pitch, just a gut-check from someone whose opinion I trust. 15 minutes this week or next?`;
+  }
 
   return `Hey [name],
 
-Hope you're doing well! [Mention something you've noticed about them recently - a job change, a post, a life update.]
+Hope you're doing well! [Mention something you've noticed about them recently — a job change, a post, a life update.]
 
-I've been exploring the idea of doing some independent work around ${focus}, and before I go too far down the road, I'd love to get your honest take on whether it makes sense.
+I've been thinking about doing some ${naturalName}, and before I go too far, I'd love to get your honest take on whether it makes sense.
 
 Would you have 15 minutes this week or next? No pitch, just a gut-check from someone whose opinion I trust.`;
 }
@@ -70,12 +93,28 @@ export function GutCheckEditor({
   onSave,
   pathName = "",
 }: GutCheckEditorProps) {
-  const defaultTemplate = buildOutreachTemplate(pathName, savedData, pathSlug);
-  const outreachMessage =
-    (savedData.outreachMessage as string) ?? defaultTemplate;
   const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
   const contacts = (savedData.contacts as ContactSlot[]) ?? defaultContacts;
   const whatIHeard = (savedData.whatIHeard as string) ?? "";
+
+  // Cross-task fetch: pull the positioning statement from task 2 so the
+  // outreach template quotes the user's actual positioning instead of a
+  // generic path description.
+  const [crossTaskPositioning, setCrossTaskPositioning] = useState<string>("");
+
+  useEffect(() => {
+    fetch("/api/playbook/positioning-editor")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        const editedStatement = json?.progress?.savedData?.editedStatement;
+        if (typeof editedStatement === "string") setCrossTaskPositioning(editedStatement);
+      })
+      .catch(() => {});
+  }, []);
+
+  const defaultTemplate = buildOutreachTemplate(pathName, savedData, pathSlug, crossTaskPositioning);
+  const outreachMessage =
+    (savedData.outreachMessage as string) ?? defaultTemplate;
 
   // Fetch buyer profile data for contact suggestions
   const [buyerProfile, setBuyerProfile] = useState<BuyerProfileData | null>(null);
@@ -214,12 +253,12 @@ export function GutCheckEditor({
           Who to reach out to
         </p>
         <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/70">
-          {buyerProfile?.buyerTitle && buyerProfile?.companyType ? (
+          {buyerProfile?.buyerTitle || buyerProfile?.companyType ? (
             <>
-              Based on your buyer profile, look for people who work with or know{" "}
-              <span className="font-medium text-blair-midnight">{buyerProfile.buyerTitle}</span> at{" "}
-              <span className="font-medium text-blair-midnight">{buyerProfile.companyType}</span> companies.
-              Former colleagues who are now at similar companies are a great place to start.
+              Based on the buyer profile you just wrote, think about people who
+              work with — or know — someone like your target buyer. Former
+              colleagues who are now at similar companies are a great place to
+              start.
             </>
           ) : (
             <>
