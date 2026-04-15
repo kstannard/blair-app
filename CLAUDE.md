@@ -317,8 +317,11 @@ Account is CREATED, FULLY READY, and SCREENSHOTS TAKEN. Details:
 
 ## Deployment Rules (non-negotiable)
 - **ALWAYS commit and push after making code changes.** Do not leave changes sitting locally. If you edited a file, commit and push before ending your turn.
-- Vercel auto-deploys from main. Pushing = live.
-- If you say something is "live" or "ready", it must be pushed. Never describe local-only changes as live.
+- Vercel auto-deploys from main. Pushing ≠ live — pushing starts a build, and the build can fail. Never assume a push became a live deploy.
+- **After every push, verify the Vercel deploy reached Ready before claiming anything is live.** Run `npx vercel ls` and confirm the top-of-list deployment for `kristin-kents-projects/blair-app` is `● Ready`, not `● Error` or `● Building`. If it's still Building, wait and re-check. If it's Error, run `npx vercel inspect <url> --logs` and fix the build before moving on.
+- **If Kristin reports "I don't see it" for a change that's already committed and pushed, check Vercel deploy status BEFORE blaming browser cache.** A broken build on main means every subsequent push also serves stale code — all recent changes look like they didn't go through. This happened on 2026-04-14: a TypeScript error in `scripts/debug-jami-score.ts` broke the build for 2+ hours, silently dead-lettering the reset button, Fractional Phase 1 trim, AI button cleanup, and the `[your name]` substitution. Check `npx vercel ls` first, hard refresh second.
+- Debug and migration scripts in `/scripts/` are type-checked by `next build`. A broken cast in a one-off debug script will take down production. Either fix the types or move the file out of the type-check path.
+- If you say something is "live" or "ready", it must be pushed AND the Vercel deploy must be Ready. Never describe local-only changes as live.
 
 ## Systemic Thinking Rule (non-negotiable)
 - **Every fix and audit must be framed across ALL customers and ALL paths, not just the one in front of me.** If Kristin points out a problem on Jami's Fractional Operator playbook, the question is never "how do I fix this for Jami?" — it's "which customers and which paths have this problem, and how do I fix them all in one pass?"
