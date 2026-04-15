@@ -79,9 +79,23 @@ function extractPrePopulationChips(recommendationData: RecommendationData | null
 }
 
 import { pathContent } from "@/lib/pathContent";
+import { getRoleAwareContent, profileFromRecommendation } from "@/lib/playbook/role-aware-content";
 
-// Parse "what companies pay for" from pathContent into structured suggestions
-function getPathPayForSuggestions(slug: string): { title: string; description: string }[] {
+// Parse "what companies pay for" from pathContent into structured suggestions.
+// Prefers role-aware content if available for this (path, profile) combination,
+// otherwise falls back to the generic pathContent entry, otherwise a default.
+function getPathPayForSuggestions(
+  slug: string,
+  recommendationData: unknown
+): { title: string; description: string }[] {
+  // Try role-aware content first
+  const profile = profileFromRecommendation(recommendationData);
+  const roleAware = getRoleAwareContent(slug, profile);
+  if (roleAware) {
+    return roleAware.whatCompaniesPay;
+  }
+
+  // Fall back to generic pathContent
   const content = pathContent[slug];
   if (!content?.narrowingExercise?.whatCompaniesPay) {
     return [
@@ -143,8 +157,8 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
     }
   }, [recommendationData, step1Items.length, onSave, savedData]);
 
-  // Get path-specific "what companies pay for" suggestions from pathContent
-  const payForSuggestions = getPathPayForSuggestions(pathSlug);
+  // Get path-specific "what companies pay for" suggestions, role-aware
+  const payForSuggestions = getPathPayForSuggestions(pathSlug, recommendationData);
 
   // Handlers
   const handleRemoveChip = (index: number) => {

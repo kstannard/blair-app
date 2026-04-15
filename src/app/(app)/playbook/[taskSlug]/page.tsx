@@ -223,6 +223,7 @@ export default function TaskWorkspacePage() {
             quizContext={recommendation?.quizContext || null}
             savedData={savedData}
             onSave={handleSave}
+            recommendationData={recommendation}
           />
         );
       case "buyer-profile-editor":
@@ -231,6 +232,7 @@ export default function TaskWorkspacePage() {
             pathSlug={confirmedPathSlug}
             savedData={savedData}
             onSave={handleSave}
+            recommendationData={recommendation}
           />
         );
       case "gut-check":

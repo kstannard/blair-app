@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { RefineButton } from "@/components/playbook/RefineButton";
+import { getRoleAwareContent, profileFromRecommendation } from "@/lib/playbook/role-aware-content";
 
 interface BuyerProfileEditorProps {
   pathSlug: string;
   savedData: Record<string, unknown>;
   onSave: (data: Record<string, unknown>) => void;
+  recommendationData?: unknown;
 }
 
 interface BuyerDefaults {
@@ -141,9 +143,27 @@ export function BuyerProfileEditor({
   pathSlug,
   savedData,
   onSave,
+  recommendationData,
 }: BuyerProfileEditorProps) {
   const [refineSuggestion, setRefineSuggestion] = useState<string | null>(null);
-  const defaults = pathDefaults[pathSlug] || fallbackDefaults;
+
+  // Try role-aware content first. If we have a buyer profile in role-aware
+  // content for this (path, profile) combo, convert it to the BuyerDefaults
+  // shape and use it. Otherwise fall back to pathDefaults / fallbackDefaults.
+  const profile = profileFromRecommendation(recommendationData);
+  const roleAware = getRoleAwareContent(pathSlug, profile);
+  const defaults: BuyerDefaults = roleAware
+    ? {
+        buyerTitle: roleAware.buyerProfile.suggestedTitle,
+        companyType: roleAware.buyerProfile.suggestedCompanySize,
+        triggerEvents: roleAware.buyerProfile.suggestedTriggerEvent
+          .split(/[,;]\s+/)
+          .map((t) => t.trim())
+          .filter(Boolean),
+        budgetAuthority: ["direct"],
+        whereTheyHangOut: pathDefaults[pathSlug]?.whereTheyHangOut || fallbackDefaults.whereTheyHangOut,
+      }
+    : pathDefaults[pathSlug] || fallbackDefaults;
 
   const buyerTitle = (savedData.buyerTitle as string) ?? defaults.buyerTitle;
   const companyType = (savedData.companyType as string) ?? defaults.companyType;

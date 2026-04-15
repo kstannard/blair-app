@@ -34,16 +34,19 @@ const defaultContacts: ContactSlot[] = [
   { name: "", notes: "", status: "not-yet" },
 ];
 
-// Map path slugs to natural conversational descriptions
+// Map path slugs to natural conversational descriptions. Kept generic for
+// paths that can host multiple functional archetypes — the specific flavor
+// is already captured in the user's edited positioning statement, which is
+// what gets interpolated into the outreach template.
 const pathDescriptions: Record<string, string> = {
   "gtm-growth-strategist": "GTM and growth strategy",
   "messaging-positioning": "messaging and positioning",
-  "fractional-operator": "fractional operations leadership",
+  "fractional-operator": "senior fractional work",
   "studio-builder": "productized consulting",
   "content-engine-operator": "content strategy and thought leadership",
   "lead-gen-operator": "lead generation and pipeline building",
   "niche-talent-placement": "talent placement and recruiting",
-  "automation-systems-builder": "automation and systems design",
+  "automation-systems-builder": "systems and tooling work",
   "investor-operator": "investing and advisory",
 };
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { RefineButton } from "@/components/playbook/RefineButton";
 import { pathContent } from "@/lib/pathContent";
+import { getRoleAwareContent, profileFromRecommendation } from "@/lib/playbook/role-aware-content";
 
 interface PositioningEditorProps {
   pathSlug: string;
@@ -12,9 +13,18 @@ interface PositioningEditorProps {
   quizContext: Record<string, unknown> | null;
   savedData: Record<string, unknown>;
   onSave: (data: Record<string, unknown>) => void;
+  recommendationData?: unknown;
 }
 
-function extractExamples(pathSlug: string): string[] {
+function extractExamples(pathSlug: string, recommendationData: unknown): string[] {
+  // Try role-aware first
+  const profile = profileFromRecommendation(recommendationData);
+  const roleAware = getRoleAwareContent(pathSlug, profile);
+  if (roleAware && roleAware.positioningExamples.length > 0) {
+    return roleAware.positioningExamples;
+  }
+
+  // Fall back to generic pathContent
   const content = pathContent[pathSlug];
   if (!content?.positioningTemplate) return [];
 
@@ -33,8 +43,9 @@ export function PositioningEditor({
   pathSlug,
   savedData,
   onSave,
+  recommendationData,
 }: PositioningEditorProps) {
-  const examples = extractExamples(pathSlug);
+  const examples = extractExamples(pathSlug, recommendationData);
   const selectedIndex = savedData.selectedDraft as number | undefined;
   const editedStatement = (savedData.editedStatement as string) || "";
   const showRefinement = !!savedData.showRefinement;

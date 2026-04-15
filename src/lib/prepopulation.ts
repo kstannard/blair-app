@@ -18,7 +18,7 @@ interface ProfileInput {
   traits?: string;
 }
 
-type RoleCategory =
+export type RoleCategory =
   | "enterprise-sales"
   | "marketing-brand"
   | "operations-bizops"
@@ -241,12 +241,38 @@ function detectSeniority(profile: ProfileInput): "junior" | "mid" | "senior" | "
   return "mid";
 }
 
+// Meta-paths that can host any senior functional archetype. For these,
+// we DON'T mix in chips from other role categories — a Principal PM
+// going Fractional shouldn't see "Led system migrations CRM ERP" chips,
+// because that's an ops-flavored chip from a different functional lane.
+// The user's own role is the relevance.
+const META_PATHS_NO_SECONDARY = new Set([
+  "fractional-operator",
+  "automation-systems-builder",
+]);
+
 export function generateNicheChips(profile: ProfileInput, pathSlug: string): string[] {
   const roleCategory = detectRoleCategory(profile);
   const seniority = detectSeniority(profile);
 
   // Get primary accomplishments from the detected role category
   const primaryAccomplishments = roleAccomplishments[roleCategory] || roleAccomplishments.general;
+
+  // Build the chip list: prioritize primary, supplement with path-relevant
+  const chips: string[] = [];
+
+  // Add seniority-appropriate primary accomplishments
+  const seniorityOffset = seniority === "executive" ? 0 : seniority === "senior" ? 1 : seniority === "mid" ? 2 : 3;
+
+  // For meta-paths, take a longer slice of primary chips (no secondary mixing)
+  if (META_PATHS_NO_SECONDARY.has(pathSlug)) {
+    const primarySlice = primaryAccomplishments.slice(seniorityOffset, seniorityOffset + 8);
+    chips.push(...primarySlice);
+    return chips.slice(0, 8);
+  }
+
+  const primarySlice = primaryAccomplishments.slice(seniorityOffset, seniorityOffset + 5);
+  chips.push(...primarySlice);
 
   // Get path-relevant categories for cross-referencing
   const relevantCategories = pathRelevance[pathSlug] || [];
@@ -256,14 +282,6 @@ export function generateNicheChips(profile: ProfileInput, pathSlug: string): str
       secondaryAccomplishments.push(...(roleAccomplishments[cat] || []).slice(0, 3));
     }
   }
-
-  // Build the chip list: prioritize primary, supplement with path-relevant
-  const chips: string[] = [];
-
-  // Add seniority-appropriate primary accomplishments
-  const seniorityOffset = seniority === "executive" ? 0 : seniority === "senior" ? 1 : seniority === "mid" ? 2 : 3;
-  const primarySlice = primaryAccomplishments.slice(seniorityOffset, seniorityOffset + 5);
-  chips.push(...primarySlice);
 
   // Add 2-3 path-relevant accomplishments from other categories
   const secondarySlice = secondaryAccomplishments.filter((a) => !chips.includes(a)).slice(0, 3);
