@@ -5,7 +5,7 @@
  * rather than generic job descriptions.
  */
 
-interface ProfileInput {
+export interface ProfileInput {
   role?: string;
   companies?: string;
   years?: string;
@@ -171,7 +171,7 @@ const pathRelevance: Record<string, RoleCategory[]> = {
   "micro-saas-builder": ["engineering", "product-pmm", "operations-bizops", "finance-analytics"],
 };
 
-function detectRoleCategory(profile: ProfileInput): RoleCategory {
+export function detectRoleCategory(profile: ProfileInput): RoleCategory {
   const text = [
     profile.role,
     profile.companies,
