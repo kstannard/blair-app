@@ -253,6 +253,11 @@ const META_PATHS_NO_SECONDARY = new Set([
   "automation-systems-builder",
 ]);
 
+/**
+ * All chips are generic transferable skill statements — no company names.
+ * The user's company history is already in the recommendation letter and
+ * their profile. The chips are about what they DID, not where they did it.
+ */
 export function generateNicheChips(profile: ProfileInput, pathSlug: string): string[] {
   const roleCategory = detectRoleCategory(profile);
   const seniority = detectSeniority(profile);
@@ -260,7 +265,6 @@ export function generateNicheChips(profile: ProfileInput, pathSlug: string): str
   // Get primary accomplishments from the detected role category
   const primaryAccomplishments = roleAccomplishments[roleCategory] || roleAccomplishments.general;
 
-  // Build the chip list: prioritize primary, supplement with path-relevant
   const chips: string[] = [];
 
   // Add seniority-appropriate primary accomplishments

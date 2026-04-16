@@ -32,6 +32,12 @@ import type { RoleCategory } from "@/lib/prepopulation";
 export interface EngagementType {
   title: string;
   description: string;
+  /**
+   * Keywords that link this engagement type to step 2 chip selections.
+   * If any selected chip contains any of these keywords (case-insensitive),
+   * this engagement type shows up in step 3 as "derived from what you picked."
+   */
+  chipKeywords?: string[];
 }
 
 export interface RoleAwareContent {
@@ -92,18 +98,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional product lead ($6,000-$10,000/month)",
         description: "6-10 hrs/week as their senior product person. You own a product area, run discovery, coach their PMs, sit in on exec meetings.",
+        chipKeywords: ["roadmap", "prioritization", "discovery", "cross-team", "launches", "shipped", "strategy", "founders", "execs"],
       },
       {
         title: "Product strategy sprint ($8,000-$15,000)",
         description: "Scoped 4-8 week engagement to deliver one specific outcome: a quarterly roadmap, a launch plan, a discovery program, a positioning rebuild.",
+        chipKeywords: ["roadmap", "launch", "discovery", "strategy", "positioning", "specs"],
       },
       {
         title: "Senior product advisor ($3,000-$6,000/month)",
         description: "2-4 hrs/week of strategic input. Weekly 1:1s with the founder, async roadmap reviews, hiring help, no embedded execution.",
+        chipKeywords: ["coached", "mentored", "grew", "strategy", "founders", "execs", "tradeoffs"],
       },
       {
         title: "Interim head of product ($12,000-$18,000/month)",
         description: "Fill the senior product seat while they hire a full-time head of product. 15-20 hrs/week, 3-4 month commitment.",
+        chipKeywords: ["roadmap", "cadence", "operating", "metrics", "cross-team", "team"],
       },
     ],
     positioningExamples: [
@@ -153,18 +163,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional head of marketing ($8,000-$15,000/month)",
         description: "8-12 hrs/week running marketing for a company that needs senior strategy and has someone (or no one) executing.",
+        chipKeywords: ["brand", "demand", "pipeline", "content", "strategy", "team", "budget", "campaigns", "messaging", "launches"],
       },
       {
         title: "Brand or positioning sprint ($10,000-$20,000)",
         description: "Scoped 4-8 week engagement: rebrand, category narrative, messaging framework, or homepage rewrite delivered as a packaged project.",
+        chipKeywords: ["brand", "repositioning", "messaging", "narrative", "positioning", "rebrand", "voice", "guidelines", "framework"],
       },
       {
         title: "Demand gen audit + roadmap ($5,000-$10,000)",
         description: "2-3 week assessment of their funnel, channels, and team. Deliverable: a 90-day plan they can execute themselves.",
+        chipKeywords: ["demand", "pipeline", "funnel", "mql", "sql", "revenue", "campaigns", "channels"],
       },
       {
         title: "Senior marketing advisor ($3,000-$6,000/month)",
         description: "2-4 hrs/week. Weekly 1:1s with the founder or in-house marketer, async campaign reviews, hiring help.",
+        chipKeywords: ["coached", "mentored", "hired", "agency", "strategy", "team", "grew"],
       },
     ],
     positioningExamples: [
@@ -213,18 +227,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional COO or head of ops ($8,000-$15,000/month)",
         description: "8-12 hrs/week as the senior ops person. You own the operating cadence, the hiring plan, and the systems that keep things moving.",
+        chipKeywords: ["operations", "systems", "hiring", "onboarding", "planning", "cross-functional", "workflows", "cadence", "standups"],
       },
       {
         title: "Ops overhaul sprint ($10,000-$20,000)",
         description: "Scoped 4-8 week engagement to install one specific system: a planning process, an OKR system, a vendor consolidation, a hiring plan.",
+        chipKeywords: ["planning", "okrs", "process", "vendors", "sops", "reporting", "kpi", "frameworks"],
       },
       {
         title: "Interim leadership ($12,000-$18,000/month)",
         description: "Fill a senior ops gap while they hire a full-time COO or head of ops. 15-20 hrs/week, 3-6 month commitment.",
+        chipKeywords: ["operations", "cross-functional", "team", "scaling", "handoffs", "accountability", "budget"],
       },
       {
         title: "Senior ops advisor ($3,000-$6,000/month)",
         description: "2-4 hrs/week. Weekly 1:1s with the founder, async planning reviews, hiring help, no embedded execution.",
+        chipKeywords: ["coached", "planning", "hiring", "strategy", "retros", "reviews"],
       },
     ],
     positioningExamples: [
@@ -273,18 +291,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional CFO ($8,000-$15,000/month)",
         description: "8-12 hrs/week running finance for a company that needs senior numbers but isn't ready for a full-time CFO. Forecast, board reporting, fundraising prep.",
+        chipKeywords: ["financial", "models", "forecast", "board", "reporting", "budget", "close", "fundraising", "variance"],
       },
       {
         title: "Fundraise readiness sprint ($10,000-$20,000)",
         description: "Scoped 4-8 week engagement to get a company ready to raise: model, deck financials, due diligence prep, data room.",
+        chipKeywords: ["fundraising", "diligence", "models", "investors", "data", "deck", "equity", "term"],
       },
       {
         title: "Senior finance advisor ($3,000-$6,000/month)",
         description: "2-4 hrs/week. Monthly close review, board prep, ad hoc modeling, weekly founder 1:1s.",
+        chipKeywords: ["coached", "board", "close", "modeling", "forecast", "strategy", "compensation"],
       },
       {
         title: "Interim CFO ($12,000-$20,000/month)",
         description: "Fill the CFO seat while they hire full-time. 15-20 hrs/week, 3-6 month commitment, often through a fundraise or transition.",
+        chipKeywords: ["financial", "planning", "budget", "reporting", "board", "audit", "team", "close"],
       },
     ],
     positioningExamples: [
@@ -333,18 +355,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional head of comms ($6,000-$12,000/month)",
         description: "6-10 hrs/week running external comms, executive thought leadership, and media relationships for a company that needs senior comms but isn't ready for a full-time hire.",
+        chipKeywords: ["communications", "pr", "narrative", "media", "thought leadership", "press", "editorial", "agency", "social"],
       },
       {
         title: "Comms / narrative sprint ($8,000-$15,000)",
         description: "Scoped 4-6 week engagement: a launch, a fundraise announcement, a category-defining narrative, an executive thought-leadership program.",
+        chipKeywords: ["launch", "narrative", "messaging", "announcement", "positioning", "brand", "framework"],
       },
       {
         title: "Executive comms coaching ($3,000-$5,000/month)",
         description: "Weekly or bi-weekly sessions with the founder or executive. Voice, narrative, media prep, ghostwriting on key pieces.",
+        chipKeywords: ["coached", "executives", "voice", "ghostwriting", "media", "speaking", "thought leadership"],
       },
       {
         title: "Crisis comms retainer ($5,000-$10,000/month)",
         description: "On-call senior comms support for a company in a sensitive moment. Press, board, employee, and customer comms.",
+        chipKeywords: ["crisis", "press", "communications", "stakeholder", "board", "managed"],
       },
     ],
     positioningExamples: [
@@ -393,18 +419,22 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       {
         title: "Embedded fractional CTO or head of engineering ($10,000-$18,000/month)",
         description: "8-12 hrs/week as the senior technical voice. Architecture decisions, hiring, technical strategy, exec meetings.",
+        chipKeywords: ["architected", "systems", "team", "hiring", "infrastructure", "migration", "scaled", "engineering"],
       },
       {
         title: "Technical due diligence or audit ($8,000-$15,000)",
         description: "Scoped 2-4 week engagement: architecture review, security audit, scalability assessment, M&A diligence.",
+        chipKeywords: ["architecture", "security", "audit", "diligence", "scalability", "incident", "reliability"],
       },
       {
         title: "Senior engineering advisor ($4,000-$8,000/month)",
         description: "2-4 hrs/week. Weekly 1:1s with the technical founder or first engineering hire, async architecture reviews, hiring help.",
+        chipKeywords: ["mentored", "coached", "architecture", "hiring", "interviews", "reviews"],
       },
       {
         title: "Interim head of engineering ($12,000-$20,000/month)",
         description: "Fill the engineering leadership seat while they hire full-time. 15-20 hrs/week, 3-6 month commitment.",
+        chipKeywords: ["team", "engineering", "hiring", "on-call", "ci/cd", "deploy", "infrastructure", "legacy"],
       },
     ],
     positioningExamples: [
@@ -459,18 +489,22 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       {
         title: "Internal tools build ($8,000-$20,000)",
         description: "Scoped 4-8 week project: build a custom workflow, dashboard, or internal app that replaces spreadsheets and Slack threads. Modern AI-assisted tooling means delivery is faster than it used to be.",
+        chipKeywords: ["tools", "dashboard", "workflow", "internal", "spreadsheets", "analytics", "data", "built"],
       },
       {
         title: "Product ops audit + roadmap ($5,000-$10,000)",
         description: "2-3 week engagement to map a team's product, data, and analytics stack and recommend what to fix first.",
+        chipKeywords: ["analytics", "data", "stack", "prioritization", "roadmap", "feedback", "metrics"],
       },
       {
         title: "Embedded systems retainer ($4,000-$8,000/month)",
         description: "4-6 hrs/week as the person who keeps internal systems improving. Add new workflows, fix broken ones, ship small tools as needed.",
+        chipKeywords: ["systems", "workflow", "tools", "operating", "cadence", "process", "automation"],
       },
       {
         title: "Customer onboarding redesign ($6,000-$15,000)",
         description: "Scoped engagement to redesign and rebuild the activation flow that turns signups into retained users.",
+        chipKeywords: ["onboarding", "activation", "flows", "designed", "retention", "signups", "users"],
       },
     ],
     positioningExamples: [
@@ -518,18 +552,22 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       {
         title: "System build or migration ($5,000-$15,000)",
         description: "Scoped 2-6 week project: a workflow, integration, automation, CRM setup, or data pipeline.",
+        chipKeywords: ["automation", "zapier", "make", "workflow", "integration", "migration", "pipeline", "connected"],
       },
       {
         title: "CRM setup and migration ($8,000-$20,000)",
         description: "Get the entire sales/ops stack running right: HubSpot or Salesforce, integrations, workflows, reporting, the works.",
+        chipKeywords: ["crm", "salesforce", "hubspot", "migration", "integration", "workflow", "reporting", "data"],
       },
       {
         title: "Ongoing optimization retainer ($3,000-$6,000/month)",
         description: "4-6 hrs/week keeping systems humming, adding new ones, fixing breakage as the team grows.",
+        chipKeywords: ["systems", "operational", "processes", "sops", "dashboards", "vendors", "onboarding"],
       },
       {
         title: "Audit + roadmap ($2,000-$5,000)",
         description: "1-2 week engagement: map their current stack, identify what to fix or automate first, deliver a 90-day plan.",
+        chipKeywords: ["audit", "stack", "reporting", "kpi", "frameworks", "planning", "manual"],
       },
     ],
     positioningExamples: [
@@ -577,18 +615,22 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       {
         title: "Internal tools build ($10,000-$25,000)",
         description: "Scoped 4-8 week project to build a custom tool, dashboard, or integration that replaces spreadsheets, scripts, or manual work.",
+        chipKeywords: ["tools", "internal", "built", "dashboard", "automation", "scripts", "productivity"],
       },
       {
         title: "Data pipeline or integration build ($8,000-$20,000)",
         description: "Build the data infrastructure, ETL pipelines, or integration layer that the company has been hacking around.",
+        chipKeywords: ["pipeline", "data", "integration", "api", "infrastructure", "analytics", "enterprise"],
       },
       {
         title: "Senior engineering retainer ($4,000-$8,000/month)",
         description: "4-6 hrs/week as the senior technical voice on internal systems and tooling. Architecture reviews, code reviews, infrastructure decisions.",
+        chipKeywords: ["architecture", "reviews", "mentored", "systems", "ci/cd", "deploy", "legacy"],
       },
       {
         title: "Technical audit ($5,000-$12,000)",
         description: "2-4 week engagement to assess code, architecture, infrastructure, or security and deliver a remediation plan.",
+        chipKeywords: ["audit", "architecture", "security", "incident", "reliability", "scalability", "diligence"],
       },
     ],
     positioningExamples: [

@@ -157,27 +157,36 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
     }
   }, [recommendationData, step1Items.length, onSave, savedData]);
 
-  // Get path-specific "what companies pay for" suggestions, role-aware
-  const payForSuggestions = getPathPayForSuggestions(pathSlug, recommendationData);
+  // Get path-specific "what companies pay for" suggestions, role-aware.
+  // These include chipKeywords for matching against step 2 selections.
+  const allPayForSuggestions = getPathPayForSuggestions(pathSlug, recommendationData);
 
-  // Score each engagement type by how well it matches the user's step 2 picks.
-  // If they selected chips about coaching/mentoring, the "advisor" engagement
-  // type should feel more relevant. Simple keyword overlap.
+  // Derive step 3 from step 2: only show engagement types whose chipKeywords
+  // overlap with the user's step 2 selections. Step 3 is hidden until step 2
+  // has at least 1 pick — this makes the connection between the steps visible.
   const step2Texts = step2Selections.map((i) => (step1Items[i] || "").toLowerCase());
-  const engagementRelevance = payForSuggestions.map((suggestion) => {
-    if (step2Texts.length === 0) return 0;
-    const titleWords = suggestion.title.toLowerCase().split(/\s+/);
-    const descWords = suggestion.description.toLowerCase().split(/\s+/);
-    const allWords = [...titleWords, ...descWords];
-    let score = 0;
-    for (const chipText of step2Texts) {
-      const chipWords = chipText.split(/\s+/);
-      for (const word of chipWords) {
-        if (word.length > 3 && allWords.some((w) => w.includes(word))) score++;
+
+  const payForSuggestions = (() => {
+    if (step2Texts.length === 0) return [];
+
+    // Score each engagement type by keyword overlap with step 2 chips
+    const scored = allPayForSuggestions.map((suggestion) => {
+      const keywords = (suggestion as { chipKeywords?: string[] }).chipKeywords || [];
+      let score = 0;
+      for (const chipText of step2Texts) {
+        for (const kw of keywords) {
+          if (chipText.includes(kw)) score++;
+        }
       }
-    }
-    return score;
-  });
+      return { suggestion, score };
+    });
+
+    // Show engagement types with score > 0, sorted by relevance.
+    // If nothing matches (chipKeywords not set or no overlap), show all.
+    const matched = scored.filter((s) => s.score > 0).sort((a, b) => b.score - a.score);
+    if (matched.length > 0) return matched.map((s) => s.suggestion);
+    return allPayForSuggestions;
+  })();
 
   // Handlers
   const handleRemoveChip = (index: number) => {
@@ -437,60 +446,52 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
             </div>
           </div>
 
-          {/* Step 3: What companies pay for */}
-          <div className="relative">
-            <div className="flex items-start gap-4">
-              <div className={cn(
-                "relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors",
-                step3Selections.length > 0
-                  ? "border-blair-sage bg-blair-sage text-white"
-                  : "border-blair-mist bg-white text-blair-charcoal/40"
-              )}>
-                3
-              </div>
-              <div className="flex-1 rounded-xl border border-blair-mist bg-white p-6">
-                <div className="mb-1 flex items-baseline justify-between gap-4">
-                  <h4 className="text-base font-semibold text-blair-midnight">
-                    What companies pay for
-                  </h4>
-                  <span className="shrink-0 text-xs font-medium text-blair-charcoal/30 uppercase tracking-wide">
-                    Focused
-                  </span>
+          {/* Step 3: What companies pay for — derived from step 2 selections.
+              Hidden until the user picks at least 1 thing in step 2. */}
+          {step2Selections.length > 0 && payForSuggestions.length > 0 && (
+            <div className="relative">
+              <div className="flex items-start gap-4">
+                <div className={cn(
+                  "relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors",
+                  step3Selections.length > 0
+                    ? "border-blair-sage bg-blair-sage text-white"
+                    : "border-blair-mist bg-white text-blair-charcoal/40"
+                )}>
+                  3
                 </div>
-                <p className="mb-4 text-sm leading-relaxed text-blair-charcoal/60">
-                  These are the kinds of engagements companies actually hire for on your path. Pick 1-2 that you could see yourself doing.
-                </p>
+                <div className="flex-1 rounded-xl border border-blair-mist bg-white p-6">
+                  <div className="mb-1 flex items-baseline justify-between gap-4">
+                    <h4 className="text-base font-semibold text-blair-midnight">
+                      What companies pay for
+                    </h4>
+                    <span className="shrink-0 text-xs font-medium text-blair-charcoal/30 uppercase tracking-wide">
+                      Focused
+                    </span>
+                  </div>
+                  <p className="mb-4 text-sm leading-relaxed text-blair-charcoal/60">
+                    Based on what lights you up, these are the kinds of engagements companies actually hire for. Pick 1-2 you could see yourself doing.
+                  </p>
 
-                <div className="space-y-2">
+                  <div className="space-y-2">
                     {payForSuggestions.map((suggestion, i) => {
                       const isSelected = step3Selections.includes(i);
-                      const hasRelevance = engagementRelevance[i] > 0 && step2Texts.length > 0;
                       return (
                         <button
-                          key={i}
+                          key={`pay-${i}-${suggestion.title.slice(0, 20)}`}
                           onClick={() => handleToggleStep3(i)}
                           className={cn(
                             "w-full rounded-lg border p-4 text-left transition-all",
                             isSelected
                               ? "border-blair-sage bg-blair-sage text-white shadow-sm"
-                              : hasRelevance
-                                ? "border-blair-sage/40 bg-blair-sage/5 text-blair-charcoal ring-1 ring-blair-sage/10"
-                                : "border-blair-mist bg-blair-linen/50 text-blair-charcoal hover:border-blair-sage/40"
+                              : "border-blair-mist bg-blair-linen/50 text-blair-charcoal hover:border-blair-sage/40"
                           )}
                         >
-                          <div className="flex items-start justify-between gap-2">
-                            <p className={cn(
-                              "text-sm font-semibold",
-                              isSelected ? "text-white" : "text-blair-midnight"
-                            )}>
-                              {suggestion.title}
-                            </p>
-                            {hasRelevance && !isSelected && (
-                              <span className="shrink-0 rounded-full bg-blair-sage/10 px-2 py-0.5 text-[10px] font-medium text-blair-sage-dark">
-                                Matches what lights you up
-                              </span>
-                            )}
-                          </div>
+                          <p className={cn(
+                            "text-sm font-semibold",
+                            isSelected ? "text-white" : "text-blair-midnight"
+                          )}>
+                            {suggestion.title}
+                          </p>
                           <p className={cn(
                             "mt-1 text-xs leading-relaxed",
                             isSelected ? "text-white/80" : "text-blair-charcoal/60"
@@ -504,9 +505,10 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                       Pick 1-2 that resonate most.
                     </p>
                   </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
