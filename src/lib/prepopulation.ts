@@ -178,19 +178,21 @@ export function detectRoleCategory(profile: ProfileInput): RoleCategory {
     profile.industries,
     profile.strengths,
     profile.linkedinSummary,
+    profile.notableExperience,
+    profile.traits,
     profile.weirdlyGoodAt,
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
-  if (/sales|revenue|account executive|ae\b|sdr|bdr|business development|deal|pipeline|quota/i.test(text)) {
+  if (/\bsales\b|revenue|account executive|\bae\b|\bsdr\b|\bbdr\b|business development|\bdeal\b|pipeline|quota/i.test(text)) {
     return "enterprise-sales";
   }
   if (/recruit|talent|hiring|headhunt|staffing|placement/i.test(text)) {
     return "recruiting-talent";
   }
-  if (/design|ux|ui|figma|user experience|product design|visual/i.test(text)) {
+  if (/\bdesign\b|\bux\b|\bui\b|\bfigma\b|user experience|product design|\bvisual\b/i.test(text)) {
     return "design-ux";
   }
   if (/content|editorial|newsletter|copywriting|social media|blog|writer/i.test(text)) {

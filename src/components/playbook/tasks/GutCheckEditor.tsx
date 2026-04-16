@@ -240,45 +240,22 @@ export function GutCheckEditor({
         )}
       </div>
 
-      {/* Who to reach out to - suggestions */}
-      <div className="rounded-xl border border-blair-sage/20 bg-blair-sage/5 px-5 py-4">
-        <p className="text-sm font-semibold text-blair-sage-dark">
-          Who to reach out to
-        </p>
-        <p className="mt-2 text-sm leading-relaxed text-blair-charcoal/70">
-          {buyerProfile?.buyerTitle || buyerProfile?.companyType ? (
-            <>
-              Based on the buyer profile you just wrote, think about people who
-              work with — or know — someone like your target buyer. Former
-              colleagues who are now at similar companies are a great place to
-              start.
-            </>
-          ) : (
-            <>
-              Think about former colleagues, current connections, or people in your network who
-              work with your target buyer. You don&apos;t need to find perfect matches - just people
-              who are close enough to your target market to give you a useful gut reaction.
-            </>
-          )}
-        </p>
-      </div>
-
-      {/* People to reach out to */}
+      {/* People to reach out to — consolidated section with built-in context */}
       <div>
         <label className="text-sm font-semibold text-blair-midnight">
           People to reach out to
         </label>
-        <p className="mt-1 text-xs text-blair-charcoal/50">
+        <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/50">
           Pick 2-3 people who know your work well enough to give you an honest
-          reaction. Former colleagues, mentors, or people in your network who
-          understand the market.
+          reaction. Think former colleagues, mentors, or anyone close enough to
+          your target market to tell you whether this positioning lands.
         </p>
 
-        <div className="mt-4 space-y-4">
+        <div className="mt-5 space-y-4">
           {contacts.map((contact, i) => (
             <div
               key={i}
-              className="rounded-xl border border-blair-mist bg-white p-5"
+              className="rounded-xl border border-blair-mist bg-white p-5 space-y-3"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 text-xs font-semibold text-blair-sage-dark">
@@ -291,23 +268,32 @@ export function GutCheckEditor({
                     handleContactChange(i, "name", e.target.value)
                   }
                   placeholder="Name"
-                  className="flex-1 rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+                  className="flex-1 rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm font-medium text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
                 />
               </div>
 
-              <div className="mt-3 pl-10">
-                <input
-                  type="text"
-                  value={contact.notes}
-                  onChange={(e) =>
-                    handleContactChange(i, "notes", e.target.value)
+              <textarea
+                value={contact.notes}
+                onChange={(e) =>
+                  handleContactChange(i, "notes", e.target.value)
+                }
+                onInput={(e) => {
+                  const el = e.currentTarget;
+                  el.style.height = "auto";
+                  el.style.height = el.scrollHeight + "px";
+                }}
+                ref={(el) => {
+                  if (el) {
+                    el.style.height = "auto";
+                    el.style.height = el.scrollHeight + "px";
                   }
-                  placeholder="Why this person? What do they know about your work?"
-                  className="w-full rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
-                />
-              </div>
+                }}
+                rows={2}
+                placeholder="Why this person? What do they know about your work?"
+                className="w-full resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm leading-relaxed text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+              />
 
-              <div className="mt-3 flex gap-2 pl-10">
+              <div className="flex gap-2">
                 {statusOptions.map((opt) => (
                   <button
                     key={opt.value}
@@ -350,6 +336,38 @@ export function GutCheckEditor({
           placeholder="After your conversations, capture what you learned here..."
           className="mt-3 w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-relaxed text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
         />
+
+        {/* Transcript paste — for users with Granola, Otter, or similar tools */}
+        <details className="mt-4 group">
+          <summary className="cursor-pointer text-sm font-medium text-blair-sage-dark hover:text-blair-sage transition-colors">
+            Have a transcript? Paste it here and we&apos;ll summarize.
+          </summary>
+          <div className="mt-3 space-y-3">
+            <textarea
+              value={(savedData.rawTranscript as string) ?? ""}
+              onChange={(e) => handleChange("rawTranscript", e.target.value)}
+              rows={8}
+              placeholder="Paste the full transcript from Granola, Otter, or any recording tool..."
+              className="w-full rounded-lg border border-blair-mist bg-white px-4 py-3 text-sm leading-relaxed text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+            />
+            <RefineButton
+              label="Summarize into key takeaways"
+              taskType="gut-check"
+              action="summarize-transcript"
+              fieldName="rawTranscript"
+              currentValue={(savedData.rawTranscript as string) ?? ""}
+              context={{ pathSlug, whatIHeard }}
+              onResult={(result) => {
+                // Append the summary to whatIHeard rather than replacing
+                const existing = whatIHeard.trim();
+                const combined = existing
+                  ? `${existing}\n\n---\nFrom transcript:\n${result}`
+                  : result;
+                handleChange("whatIHeard", combined);
+              }}
+            />
+          </div>
+        </details>
       </div>
 
       {/* Completion checklist */}

@@ -54,6 +54,13 @@ export interface RoleAwareContent {
     suggestedTriggerEvent: string;
     suggestedBudgetAuthority: string;
   };
+  /**
+   * Where the user's BUYERS hang out: communities, Slacks, newsletters,
+   * podcasts, conferences, platforms. NOT the user's personal network
+   * (former colleagues, LinkedIn connections) — that belongs in the
+   * "who to reach out to" section of GutCheckEditor, not here.
+   */
+  whereTheyHangOut?: string[];
   /** Outreach template the user can adapt. */
   outreachTemplate: string;
 }
@@ -106,9 +113,17 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     buyerProfile: {
       suggestedTitle: "Founder, CEO, or CTO at a Series A SaaS company that has product-market fit but no senior product hire yet",
       suggestedCompanySize: "15-50 employees, typically post-seed through Series B",
-      suggestedTriggerEvent: "Just raised a round and the roadmap is drifting, the founder is still owning product full-time, a junior PM was promoted into a role they need senior coaching for, a launch is coming up and discovery hasn't been done",
+      suggestedTriggerEvent: "Just raised a round and the roadmap is drifting; the founder is still owning product full-time; a junior PM was promoted into a stretch role and needs senior coaching; a launch is coming up and discovery hasn't been done",
       suggestedBudgetAuthority: "Founders and CEOs decide directly. CTOs often have budget for product hires when there's no head of product yet.",
     },
+    /** Where their BUYERS hang out (not where the user's network is). */
+    whereTheyHangOut: [
+      "Lenny's Newsletter community and Slack",
+      "First Round Review and the Reforge alumni network",
+      "Mind the Product community",
+      "Product-focused podcasts (Lenny's Podcast, Product Thinking, This is Product Management)",
+      "LinkedIn (posts from Series A SaaS founders and product leaders)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company or their move from a bigger company to where they are now.]\n\n" +
@@ -162,6 +177,13 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       suggestedTriggerEvent: "Just raised and need to scale demand, hired a marketer who needs senior coaching, sales team is asking for better materials, a launch is coming up, an acquisition or pivot needs a new narrative",
       suggestedBudgetAuthority: "Founders decide directly at this stage. Heads of Sales often have budget when marketing reports up through revenue.",
     },
+    whereTheyHangOut: [
+      "Pavilion (formerly Revenue Collective) community and Slack",
+      "SaaStr Annual and SaaStr community forums",
+      "Dave Gerhardt's Exit Five community and podcast",
+      "OnDeck Founders and First Round Network Slack channels",
+      "LinkedIn (posts from Series A SaaS founders asking for marketing help)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -215,6 +237,13 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       suggestedTriggerEvent: "Just raised a round and team is growing fast, key ops person left, founder realizes they're the bottleneck, things are falling through the cracks, preparing for next fundraise",
       suggestedBudgetAuthority: "Founders and CEOs decide directly. COOs usually have budget authority for operational hires and contractors.",
     },
+    whereTheyHangOut: [
+      "YC Startup School forums and alumni Slack",
+      "Founders Network and TechStars alumni communities",
+      "Chief of Staff Network Slack",
+      "Operators Guild (invite-only ops community)",
+      "LinkedIn (posts from seed/Series A founders about growing pains and hiring)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -268,6 +297,13 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       suggestedTriggerEvent: "Preparing to raise a round, monthly close is broken, board wants better reporting, just hired a controller who needs senior coaching, an audit is coming",
       suggestedBudgetAuthority: "Founders and CEOs decide directly at this stage.",
     },
+    whereTheyHangOut: [
+      "CFO Connect community (Brex-backed, Slack + events)",
+      "Kruze Consulting webinars and startup finance newsletter",
+      "SaaStr community (founders asking about fundraise readiness)",
+      "Carta's Startup Finance blog and community events",
+      "LinkedIn (posts from pre-Series A founders about board reporting and fundraise prep)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -321,6 +357,13 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       suggestedTriggerEvent: "Preparing for a launch, fundraise, or major announcement; a sensitive moment that needs careful handling; the founder is being asked to be more public; a junior comms person needs senior coaching",
       suggestedBudgetAuthority: "Founders decide directly. Chief of Staff or Head of Marketing often have budget authority too.",
     },
+    whereTheyHangOut: [
+      "The Information and Strictly VC (startup news where founders and chiefs of staff read)",
+      "Chief of Staff Network Slack and events",
+      "First Round Review and First Round Network",
+      "Founder-focused podcasts (How I Built This, The Twenty Minute VC, Acquired)",
+      "LinkedIn (Series A founders posting about launches, fundraise announcements, and hiring comms leaders)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -374,6 +417,13 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       suggestedTriggerEvent: "Just raised and the team is doubling, the technical co-founder is the bottleneck, an outage or incident exposed gaps, preparing for due diligence, a junior engineering manager needs senior coaching",
       suggestedBudgetAuthority: "Founders and technical co-founders decide directly. CTOs have budget authority for senior contractors.",
     },
+    whereTheyHangOut: [
+      "Hacker News (Show HN threads, hiring posts, and Who's Hiring threads)",
+      "CTO Craft community and Slack",
+      "Rands Leadership Slack (engineering leadership community)",
+      "InfoQ and LeadDev conferences and newsletters",
+      "LinkedIn (technical co-founders posting about scaling challenges and engineering hiring)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -433,6 +483,13 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       suggestedTriggerEvent: "Team is drowning in manual workflow, dashboards are stale, onboarding is broken, customer feedback isn't reaching the roadmap, or a new analytics tool was bought but never set up right",
       suggestedBudgetAuthority: "Heads of Product and founders decide directly. Engineering leads often have budget for tooling.",
     },
+    whereTheyHangOut: [
+      "Lenny's Newsletter community and Slack (product leaders discussing ops gaps)",
+      "Product-Led Growth community (Slack + newsletter)",
+      "Reforge alumni network and programs",
+      "Mind the Product community and conferences",
+      "LinkedIn (Heads of Product and founding PMs posting about scaling product ops)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope you're doing well! [Something specific about their company.]\n\n" +
@@ -485,6 +542,13 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       suggestedTriggerEvent: "Team is drowning in manual work, just adopted a new tool but nobody's using it right, data is in 5 different systems with no integration, hired an ops person who doesn't know the tooling",
       suggestedBudgetAuthority: "Founders decide quickly. Ops leads usually have project budget for tooling and systems work.",
     },
+    whereTheyHangOut: [
+      "RevOps Co-op community and Slack",
+      "HubSpot Community forums and partner ecosystem events",
+      "Zapier and Make community forums (buyers posting about workflow problems)",
+      "Operations Nation and MOps communities on Slack",
+      "LinkedIn (founders and ops leads posting about outgrowing spreadsheets and manual processes)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope things are good! [Something specific about their company or stack.]\n\n" +
@@ -537,6 +601,13 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
       suggestedTriggerEvent: "Just raised and the team is growing, internal tooling is breaking, data isn't trustworthy, an outage exposed gaps, hired junior engineers who need senior infrastructure",
       suggestedBudgetAuthority: "CTOs and technical founders decide directly. Engineering leads have budget authority for senior contractors.",
     },
+    whereTheyHangOut: [
+      "Hacker News (technical founders posting about infrastructure problems)",
+      "CTO Craft community and Slack",
+      "Dev.to and IndieHackers forums (technical founders discussing tooling gaps)",
+      "The Pragmatic Engineer newsletter community",
+      "LinkedIn (CTOs and engineering leaders posting about scaling pain and technical debt)",
+    ],
     outreachTemplate:
       "Hey [name],\n\n" +
       "Hope things are good! [Something specific about their company or stack.]\n\n" +

@@ -133,7 +133,15 @@ export default async function PlaybookPage() {
 
   return (
     <div className="mx-auto max-w-3xl pb-20">
-      {allTasksComplete && <PhaseComplete />}
+      {allTasksComplete && (
+        <PhaseComplete
+          tasks={activePhase.tasks.map((t) => ({
+            slug: t.slug,
+            title: t.title,
+            order: t.order,
+          }))}
+        />
+      )}
 
       {/* Smart welcome back / resume card */}
       {!allTasksComplete && (
@@ -216,7 +224,7 @@ export default async function PlaybookPage() {
               key={task.id}
               order={task.order}
               title={task.title}
-              description={task.description}
+              description={task.description.replace(/\[your name\]/gi, firstName)}
               status={status}
               slug={task.slug}
             />

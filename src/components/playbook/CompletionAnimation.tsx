@@ -2,13 +2,15 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { getQuip } from "@/lib/quips";
+import { getQuip, getPathShape } from "@/lib/quips";
 
 interface CompletionAnimationProps {
   show: boolean;
   isLastTask: boolean;
   nextTaskSlug?: string;
+  pathSlug?: string;
   onAutoAdvance?: () => void;
+  onDismiss?: () => void;
 }
 
 function fireConfetti() {
@@ -82,21 +84,24 @@ export function CompletionAnimation({
   show,
   isLastTask,
   nextTaskSlug,
+  pathSlug,
   onAutoAdvance,
+  onDismiss,
 }: CompletionAnimationProps) {
   const [phase, setPhase] = useState<"idle" | "check" | "transitioning">("idle");
   const [quip, setQuip] = useState("");
 
   const handleShow = useCallback(() => {
+    const ctx = { pathShape: getPathShape(pathSlug) };
     if (isLastTask) {
-      setQuip(getQuip("phase-complete"));
+      setQuip(getQuip("phase-complete", ctx));
       fireBigConfetti();
     } else {
-      setQuip(getQuip("task-complete"));
+      setQuip(getQuip("task-complete", ctx));
       fireConfetti();
     }
     setPhase("check");
-  }, [isLastTask]);
+  }, [isLastTask, pathSlug]);
 
   useEffect(() => {
     if (!show) {
@@ -106,26 +111,42 @@ export function CompletionAnimation({
 
     handleShow();
 
-    const advanceTimer = setTimeout(() => {
-      if (!isLastTask && nextTaskSlug && onAutoAdvance) {
+    // For non-last tasks: auto-advance to the next task at 2.2s.
+    // For the last task (phase complete): auto-dismiss the overlay at 4.5s
+    // so the user lands back on the underlying Phase 1 page instead of
+    // being stuck behind a celebration card.
+    if (!isLastTask && nextTaskSlug && onAutoAdvance) {
+      const advanceTimer = setTimeout(() => {
         setPhase("transitioning");
         setTimeout(() => {
           onAutoAdvance();
         }, 400);
-      }
-    }, 2200);
+      }, 2200);
+      return () => clearTimeout(advanceTimer);
+    }
 
-    return () => {
-      clearTimeout(advanceTimer);
-    };
-  }, [show, isLastTask, nextTaskSlug, onAutoAdvance, handleShow]);
+    if (isLastTask && onDismiss) {
+      const dismissTimer = setTimeout(() => {
+        onDismiss();
+      }, 4500);
+      return () => clearTimeout(dismissTimer);
+    }
+  }, [show, isLastTask, nextTaskSlug, onAutoAdvance, onDismiss, handleShow]);
 
   if (!show) return null;
 
-  // Phase complete celebration
+  // Phase complete celebration — click anywhere on the overlay to dismiss.
   if (isLastTask && phase === "check") {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-300">
+      <div
+        className="fixed inset-0 z-50 flex cursor-pointer items-center justify-center bg-white/80 backdrop-blur-sm animate-in fade-in duration-300"
+        onClick={() => onDismiss?.()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Escape" || e.key === "Enter" || e.key === " ") onDismiss?.();
+        }}
+      >
         <div className="text-center animate-in zoom-in-75 duration-500">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blair-sage/10">
             <svg

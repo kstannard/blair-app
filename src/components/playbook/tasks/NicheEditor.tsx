@@ -160,6 +160,25 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
   // Get path-specific "what companies pay for" suggestions, role-aware
   const payForSuggestions = getPathPayForSuggestions(pathSlug, recommendationData);
 
+  // Score each engagement type by how well it matches the user's step 2 picks.
+  // If they selected chips about coaching/mentoring, the "advisor" engagement
+  // type should feel more relevant. Simple keyword overlap.
+  const step2Texts = step2Selections.map((i) => (step1Items[i] || "").toLowerCase());
+  const engagementRelevance = payForSuggestions.map((suggestion) => {
+    if (step2Texts.length === 0) return 0;
+    const titleWords = suggestion.title.toLowerCase().split(/\s+/);
+    const descWords = suggestion.description.toLowerCase().split(/\s+/);
+    const allWords = [...titleWords, ...descWords];
+    let score = 0;
+    for (const chipText of step2Texts) {
+      const chipWords = chipText.split(/\s+/);
+      for (const word of chipWords) {
+        if (word.length > 3 && allWords.some((w) => w.includes(word))) score++;
+      }
+    }
+    return score;
+  });
+
   // Handlers
   const handleRemoveChip = (index: number) => {
     const updated = step1Items.filter((_, i) => i !== index);
@@ -445,6 +464,7 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                 <div className="space-y-2">
                     {payForSuggestions.map((suggestion, i) => {
                       const isSelected = step3Selections.includes(i);
+                      const hasRelevance = engagementRelevance[i] > 0 && step2Texts.length > 0;
                       return (
                         <button
                           key={i}
@@ -453,15 +473,24 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                             "w-full rounded-lg border p-4 text-left transition-all",
                             isSelected
                               ? "border-blair-sage bg-blair-sage text-white shadow-sm"
-                              : "border-blair-mist bg-blair-linen/50 text-blair-charcoal hover:border-blair-sage/40"
+                              : hasRelevance
+                                ? "border-blair-sage/40 bg-blair-sage/5 text-blair-charcoal ring-1 ring-blair-sage/10"
+                                : "border-blair-mist bg-blair-linen/50 text-blair-charcoal hover:border-blair-sage/40"
                           )}
                         >
-                          <p className={cn(
-                            "text-sm font-semibold",
-                            isSelected ? "text-white" : "text-blair-midnight"
-                          )}>
-                            {suggestion.title}
-                          </p>
+                          <div className="flex items-start justify-between gap-2">
+                            <p className={cn(
+                              "text-sm font-semibold",
+                              isSelected ? "text-white" : "text-blair-midnight"
+                            )}>
+                              {suggestion.title}
+                            </p>
+                            {hasRelevance && !isSelected && (
+                              <span className="shrink-0 rounded-full bg-blair-sage/10 px-2 py-0.5 text-[10px] font-medium text-blair-sage-dark">
+                                Matches what lights you up
+                              </span>
+                            )}
+                          </div>
                           <p className={cn(
                             "mt-1 text-xs leading-relaxed",
                             isSelected ? "text-white/80" : "text-blair-charcoal/60"

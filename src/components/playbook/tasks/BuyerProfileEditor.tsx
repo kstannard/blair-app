@@ -118,9 +118,10 @@ const fallbackDefaults: BuyerDefaults = {
   ],
   budgetAuthority: ["direct"],
   whereTheyHangOut: [
-    "LinkedIn communities relevant to your niche",
-    "Industry-specific Slack groups",
-    "Conferences and events in your space",
+    "LinkedIn (industry-specific communities and thought leaders)",
+    "Slack groups in their space (e.g. Pavilion, RevOps Co-op, On Deck)",
+    "Conferences and events where your buyers speak or attend",
+    "Newsletters and podcasts they subscribe to in your niche",
   ],
 };
 
@@ -157,11 +158,11 @@ export function BuyerProfileEditor({
         buyerTitle: roleAware.buyerProfile.suggestedTitle,
         companyType: roleAware.buyerProfile.suggestedCompanySize,
         triggerEvents: roleAware.buyerProfile.suggestedTriggerEvent
-          .split(/[,;]\s+/)
+          .split(/[;]\s*/)
           .map((t) => t.trim())
           .filter(Boolean),
         budgetAuthority: ["direct"],
-        whereTheyHangOut: pathDefaults[pathSlug]?.whereTheyHangOut || fallbackDefaults.whereTheyHangOut,
+        whereTheyHangOut: roleAware.whereTheyHangOut || pathDefaults[pathSlug]?.whereTheyHangOut || fallbackDefaults.whereTheyHangOut,
       }
     : pathDefaults[pathSlug] || fallbackDefaults;
 

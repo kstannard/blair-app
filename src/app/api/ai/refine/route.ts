@@ -158,6 +158,28 @@ function refineGutCheck(action: string, currentValue: string, context: Record<st
       const shortened = lines.slice(0, Math.min(lines.length, 5)).join("\n\n");
       return shortened + "\n\n(Shorter messages get more replies. Keep it to 3-4 sentences if you can.)";
     }
+    case "summarize-transcript": {
+      if (!currentValue.trim()) return "Paste a transcript first, then hit summarize.";
+      // Pull out the meaningful lines: questions asked, reactions, key phrases.
+      // This is a simple heuristic — it strips filler and extracts lines with
+      // signal words. A future version could use an LLM call for real summarization.
+      const lines = currentValue.split("\n").map((l) => l.trim()).filter(Boolean);
+      const signalWords = /resonat|surprised|pushed back|didn't expect|interesting|love|hate|confus|unclear|strong|weak|yes|no|worried|excited|told me|said|asked|feedback/i;
+      const signalLines = lines.filter((l) => signalWords.test(l));
+      if (signalLines.length === 0) {
+        // Fall back to first 8 non-trivial lines as bullet points
+        const summary = lines
+          .filter((l) => l.length > 20)
+          .slice(0, 8)
+          .map((l) => `- ${l.slice(0, 150)}`)
+          .join("\n");
+        return summary || "Couldn't pull out clear takeaways. Try highlighting the key moments manually.";
+      }
+      return signalLines
+        .slice(0, 10)
+        .map((l) => `- ${l.slice(0, 150)}`)
+        .join("\n");
+    }
     case "direct": {
       if (!currentValue.trim()) return "Nothing to tighten yet - write your message first.";
       // Cut hedging language and soften-to-direct replacements

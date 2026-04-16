@@ -33,8 +33,8 @@ const task1Data = {
     "Built the operating cadence between product, engineering, and design",
     "Translated complex customer pain into clean product specs the team could ship",
   ],
-  // Step 2: pre-select the 3 chips most likely to energize a senior PM
-  step2Selections: [0, 2, 4],
+  // Step 2: no pre-selection — users should pick for themselves
+  step2Selections: [],
   // Step 3: pre-select the embedded fractional product lead engagement type (index 0)
   step3Selections: [0],
   prePopulated: true,
@@ -75,11 +75,11 @@ const task3Data = {
   ],
   budgetAuthority: ["direct"],
   whereTheyHangOut: [
-    "Former HP, Zendesk, or Amway colleagues who have moved to smaller companies",
     "Lenny's Newsletter community and Slack",
     "First Round Review and the Reforge alumni network",
     "Mind the Product community",
-    "Founders in your extended network on LinkedIn",
+    "Product-focused podcasts (Lenny's Podcast, Product Thinking, This is Product Management)",
+    "LinkedIn (posts from Series A SaaS founders and product leaders)",
   ],
   prePopulated: true,
 };
@@ -91,23 +91,30 @@ const task3Data = {
 // keyed to her network. Names are blank for her to fill in, but the
 // "why this person" framing is done.
 const task4Data = {
-  people: [
+  contacts: [
     {
       name: "",
-      why: "A former Zendesk colleague who has since moved to a smaller, faster company. They saw how you ran customer experience and innovation work, and they're either now in a role that needs senior product help or they know a founder who is.",
-      status: "not_yet",
+      notes: "A former Zendesk colleague who moved to a smaller, faster company. They saw how you ran customer experience and innovation work. Either a potential first client or someone who knows a founder who needs exactly this.",
+      status: "not-yet",
     },
     {
       name: "",
-      why: "A former HP teammate or peer who has either moved on or is at a startup now. They worked with you on product strategy and would either be a first client or a strong referral source.",
-      status: "not_yet",
+      notes: "A former HP teammate who moved on or is at a startup. They worked with you on product strategy and roadmap decisions. Strong referral source even if they're not the buyer.",
+      status: "not-yet",
     },
     {
       name: "",
-      why: "A friend or peer in product management who won't become a client but will give you honest feedback on whether the positioning lands. Pick someone who would tell you if it sounded off.",
-      status: "not_yet",
+      notes: "A friend or peer in product management who won't become a client but will tell you the truth about whether this positioning lands. Pick someone who'd say 'that doesn't sound like you' if it didn't.",
+      status: "not-yet",
     },
   ],
+  outreachMessage: `Hey [name],
+
+Hope you're doing well! [Something you noticed about them recently — a job change, a post, a project they shipped.]
+
+I'm starting to take on fractional product work — embedding 6-8 hours a week with a Series A SaaS team that needs a senior product person but isn't ready for a full-time head of product. Think roadmap ownership, discovery, PM coaching. You've seen how I work, and I'd love your honest take on whether this makes sense.
+
+Got 15 minutes this week? Not a pitch, just a gut-check from someone whose opinion I trust.`,
   prePopulated: true,
 };
 

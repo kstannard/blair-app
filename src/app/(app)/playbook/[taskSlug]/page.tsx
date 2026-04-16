@@ -321,7 +321,9 @@ export default function TaskWorkspacePage() {
         show={showCompletion}
         isLastTask={!nextTask}
         nextTaskSlug={nextTask?.slug}
+        pathSlug={confirmedPathSlug}
         onAutoAdvance={handleAutoAdvance}
+        onDismiss={() => setShowCompletion(false)}
       />
     </div>
   );
