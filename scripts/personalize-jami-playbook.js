@@ -24,8 +24,8 @@ const USER_ID = 'cmnrrx7bn000004jpoqpgyqx6';
 // "lit you up" items, plus pre-selected engagement type.
 const task1Data = {
   step1Items: [
-    "Owned product roadmap and prioritization for an enterprise SaaS area",
-    "Led a customer experience to innovation and custom solutions transition",
+    "Owned product roadmap and prioritization at HP",
+    "Led product strategy and cross-functional execution at Zendesk",
     "Ran customer discovery and turned it into shipped features",
     "Shipped cross-team launches with engineering, design, and customer success",
     "Coached PMs and helped them grow into ownership of their own areas",

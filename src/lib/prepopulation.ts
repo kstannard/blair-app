@@ -254,45 +254,206 @@ const META_PATHS_NO_SECONDARY = new Set([
 ]);
 
 /**
- * All chips are generic transferable skill statements — no company names.
- * The user's company history is already in the recommendation letter and
- * their profile. The chips are about what they DID, not where they did it.
+ * Parse notableExperience into structured role+company pairs.
+ * notableExperience is typically a JSON array like:
+ * ["Principal Product Manager at HP", "Senior PM at Zendesk"]
+ */
+interface RoleEntry {
+  title: string;
+  company: string;
+  full: string;
+}
+
+function parseNotableExperience(profile: ProfileInput): RoleEntry[] {
+  if (!profile.notableExperience) return [];
+  const entries: RoleEntry[] = [];
+  try {
+    const parsed = JSON.parse(profile.notableExperience);
+    if (Array.isArray(parsed)) {
+      for (const entry of parsed) {
+        const s = String(entry);
+        const match = s.match(/^(.+?)\s+at\s+(.+)$/i);
+        if (match) {
+          entries.push({ title: match[1].trim(), company: match[2].trim(), full: s });
+        }
+      }
+    }
+  } catch {
+    // not JSON, skip
+  }
+  return entries;
+}
+
+/**
+ * Company-aware chip templates per role category.
+ * {company} and {title} get replaced with the user's actual data.
+ * Each template array is ordered from most specific (company-referenced)
+ * to most generic (transferable skill). The generator picks from both
+ * depending on what data is available.
+ */
+const companyAwareTemplates: Partial<Record<RoleCategory, string[]>> = {
+  "product-pmm": [
+    "Owned product roadmap and prioritization at {company}",
+    "Led product strategy and cross-functional execution at {company}",
+    "Ran customer discovery and turned it into shipped features",
+    "Shipped cross-team launches with engineering, design, and customer success",
+    "Coached PMs and helped them grow into ownership of their own areas",
+    "Worked directly with founders and execs on product strategy and tradeoffs",
+    "Built the operating cadence between product, engineering, and design",
+    "Translated complex customer pain into clean product specs the team could ship",
+    "Managed product roadmap prioritization across multiple stakeholders",
+    "Ran beta programs and user feedback loops that changed product direction",
+  ],
+  "marketing-brand": [
+    "Built the brand and demand engine at {company}",
+    "Led marketing strategy and grew the team at {company}",
+    "Launched a category narrative that the sales team actually used",
+    "Ran the team that owned MQL to SQL to Closed-Won handoffs",
+    "Managed agency relationships and creative production",
+    "Built messaging frameworks for product launches",
+    "Connected marketing motion to revenue in a way the CFO believed",
+    "Developed brand guidelines and voice documentation",
+    "Created demand generation programs tied to revenue",
+    "Ran competitive positioning and differentiation projects",
+  ],
+  "operations-bizops": [
+    "Ran operations for a startup that scaled rapidly at {company}",
+    "Built the internal systems nobody else wanted to own at {company}",
+    "Managed cross-functional projects where the founder needed someone to make it happen",
+    "Fixed broken handoffs between teams that were causing slips",
+    "Owned the operating rhythm for the leadership team",
+    "Designed the company-wide planning process from scratch",
+    "Built reporting and KPI frameworks the leadership team uses weekly",
+    "Hired and managed contractors, vendors, or first ops hires",
+    "Built SOPs that reduced onboarding time by weeks",
+    "Managed budget planning and resource allocation",
+  ],
+  "enterprise-sales": [
+    "Built outbound pipeline from scratch at {company}",
+    "Designed enterprise sales process for complex deal cycles at {company}",
+    "Managed multi-stakeholder deals at $100K+ ACV",
+    "Created sales enablement materials and playbooks",
+    "Developed partner and channel sales motions",
+    "Built and led a team of SDRs and AEs",
+    "Ran QBRs and revenue forecasting",
+    "Defined ICP and territory planning for new markets",
+    "Negotiated and closed enterprise contracts with legal review",
+    "Built account-based selling strategies for named accounts",
+  ],
+  engineering: [
+    "Architected systems that scaled to handle 10x traffic at {company}",
+    "Led the engineering team through a major migration at {company}",
+    "Built automation that saved the team hours every week",
+    "Designed API integrations between enterprise systems",
+    "Built internal tools that improved team productivity",
+    "Led incident response and built reliability practices",
+    "Designed data pipelines for real-time analytics",
+    "Mentored junior engineers and led technical interviews",
+    "Built CI/CD pipelines that cut deploy time significantly",
+    "Led technical due diligence for acquisitions or partnerships",
+  ],
+  "finance-analytics": [
+    "Built financial models that helped raise funding at {company}",
+    "Ran monthly close and the board reporting package at {company}",
+    "Owned the FP&A function from forecast to variance analysis",
+    "Built unit economics analysis that changed pricing decisions",
+    "Designed the equity and compensation framework the company still uses",
+    "Led due diligence for an acquisition or strategic partnership",
+    "Built the data pipelines that powered weekly KPI reviews",
+    "Created investor reporting and communication processes",
+  ],
+  "content-editorial": [
+    "Led communications and PR through a major moment at {company}",
+    "Built executive thought leadership programs at {company}",
+    "Owned the external narrative across press, social, and stage",
+    "Built brand and editorial systems that the rest of the team uses",
+    "Wrote the messaging framework the sales team actually quotes",
+    "Ran the agency relationship and got real work out of them",
+    "Coached executives into being credible public voices",
+    "Created editorial calendar and production workflow",
+  ],
+  "recruiting-talent": [
+    "Built the recruiting pipeline from scratch at {company}",
+    "Designed structured interview processes at {company}",
+    "Managed campus and early-career recruiting programs",
+    "Created employer branding and candidate experience programs",
+    "Negotiated compensation packages for senior hires",
+    "Built diversity recruiting strategies and partnerships",
+    "Led recruiting team and managed agency relationships",
+    "Created hiring manager training programs",
+  ],
+  "design-ux": [
+    "Built design systems from scratch at {company}",
+    "Led user research that changed product direction at {company}",
+    "Created component libraries used across engineering teams",
+    "Designed onboarding experiences that improved activation rates",
+    "Ran usability testing programs and synthesized insights",
+    "Built brand identity systems for startups",
+    "Led design team and established design review processes",
+    "Redesigned core product flows that improved key metrics",
+  ],
+};
+
+/**
+ * Generate personalized chips based on the user's actual profile data.
+ *
+ * Company names are included when they add grounding context (typically
+ * for role-specific accomplishments at a specific employer). Generic
+ * transferable skills don't get company names. The mix is natural —
+ * not forced into a pattern like "first 2 have companies, rest don't."
  */
 export function generateNicheChips(profile: ProfileInput, pathSlug: string): string[] {
   const roleCategory = detectRoleCategory(profile);
-  const seniority = detectSeniority(profile);
+  const roles = parseNotableExperience(profile);
 
-  // Get primary accomplishments from the detected role category
-  const primaryAccomplishments = roleAccomplishments[roleCategory] || roleAccomplishments.general;
+  // Get the template list for this role category
+  const templates = companyAwareTemplates[roleCategory] || companyAwareTemplates.general || [
+    "Led cross-functional projects from concept to delivery",
+    "Built processes that made teams more efficient",
+    "Managed stakeholder relationships across departments",
+    "Created frameworks that teams still use today",
+    "Hired, trained, and managed team members",
+    "Presented to leadership and got buy-in for new initiatives",
+    "Designed workflows that reduced manual work",
+    "Built reporting systems that improved decision-making",
+  ];
 
   const chips: string[] = [];
+  const usedCompanies = new Set<string>();
 
-  // Add seniority-appropriate primary accomplishments
-  const seniorityOffset = seniority === "executive" ? 0 : seniority === "senior" ? 1 : seniority === "mid" ? 2 : 3;
+  for (const template of templates) {
+    if (chips.length >= 8) break;
 
-  // For meta-paths, take a longer slice of primary chips (no secondary mixing)
-  if (META_PATHS_NO_SECONDARY.has(pathSlug)) {
-    const primarySlice = primaryAccomplishments.slice(seniorityOffset, seniorityOffset + 8);
-    chips.push(...primarySlice);
-    return chips.slice(0, 8);
-  }
-
-  const primarySlice = primaryAccomplishments.slice(seniorityOffset, seniorityOffset + 5);
-  chips.push(...primarySlice);
-
-  // Get path-relevant categories for cross-referencing
-  const relevantCategories = pathRelevance[pathSlug] || [];
-  const secondaryAccomplishments: string[] = [];
-  for (const cat of relevantCategories) {
-    if (cat !== roleCategory) {
-      secondaryAccomplishments.push(...(roleAccomplishments[cat] || []).slice(0, 3));
+    if (template.includes("{company}")) {
+      // This template wants a company name. Find a company we haven't used
+      // for this template pattern yet.
+      const availableCompany = roles.find((r) => !usedCompanies.has(r.company));
+      if (availableCompany) {
+        chips.push(template.replace("{company}", availableCompany.company));
+        usedCompanies.add(availableCompany.company);
+      } else if (roles.length > 0) {
+        // All companies used — reuse the first one
+        chips.push(template.replace("{company}", roles[0].company));
+      } else {
+        // No company data — skip the {company} template, use a generic one
+        // by continuing to the next template
+        continue;
+      }
+    } else {
+      // Generic transferable skill — no company name needed
+      chips.push(template);
     }
   }
 
-  // Add 2-3 path-relevant accomplishments from other categories
-  const secondarySlice = secondaryAccomplishments.filter((a) => !chips.includes(a)).slice(0, 3);
-  chips.push(...secondarySlice);
+  // If we have fewer than 6 chips (e.g. limited templates or no company data),
+  // backfill from the roleAccomplishments array
+  if (chips.length < 6) {
+    const fallbacks = roleAccomplishments[roleCategory] || roleAccomplishments.general;
+    for (const fb of fallbacks) {
+      if (chips.length >= 8) break;
+      if (!chips.includes(fb)) chips.push(fb);
+    }
+  }
 
-  // Cap at 8 chips
   return chips.slice(0, 8);
 }
