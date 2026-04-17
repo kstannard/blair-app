@@ -181,38 +181,36 @@ function DiscoverContent() {
         {/* Colored hero banner */}
         <div className={cn("relative overflow-hidden", advantage.bgColor)}>
           <div className="px-6 pt-6 pb-2 sm:px-10">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={goBack}
-                className={cn(
-                  "flex items-center gap-1 text-sm transition-colors cursor-pointer hover:opacity-80",
-                  advantage.ctaColor
-                )}
+            <span
+              className={cn(
+                "font-serif text-xl tracking-tight",
+                advantage.textColor
+              )}
+            >
+              blair
+            </span>
+            <button
+              onClick={goBack}
+              className={cn(
+                "mt-3 flex items-center gap-1 text-sm transition-colors cursor-pointer hover:opacity-80",
+                advantage.ctaColor
+              )}
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
               >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                  />
-                </svg>
-                Back
-              </button>
-              <span
-                className={cn(
-                  "font-serif text-xl tracking-tight",
-                  advantage.textColor
-                )}
-              >
-                blair
-              </span>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+              Back
+            </button>
           </div>
 
           {/* Decorative number */}
