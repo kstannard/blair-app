@@ -105,12 +105,8 @@ function DiscoverContent() {
   const selectedKey = searchParams.get("a");
   const advantage = ADVANTAGES.find((a) => a.key === selectedKey);
   const [checkingOut, setCheckingOut] = useState(false);
-  // TODO: Uncomment when email drip is live
-  // const [leadEmail, setLeadEmail] = useState("");
-  // const [leadSubmitting, setLeadSubmitting] = useState(false);
-  // const [leadSubmitted, setLeadSubmitted] = useState(false);
-  // const [leadError, setLeadError] = useState("");
   const preloadedUrl = useRef<string | null>(null);
+  const kitContainerRef = useRef<HTMLDivElement>(null);
 
   // Preload checkout session when advantage detail view mounts
   useEffect(() => {
@@ -126,6 +122,45 @@ function DiscoverContent() {
         if (data.url) preloadedUrl.current = data.url;
       })
       .catch(() => {});
+  }, [advantage]);
+
+  // Load Kit embed and inject the selected advantage as a hidden custom field
+  useEffect(() => {
+    if (!advantage) return;
+    const container = kitContainerRef.current;
+    if (!container) return;
+
+    // Clear any existing embed (so re-selecting an advantage rebuilds the form)
+    container.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://hiblair.kit.com/bad1f58ed9/index.js";
+    script.setAttribute("data-uid", "bad1f58ed9");
+    container.appendChild(script);
+
+    const injectAdvantageField = () => {
+      const form = container.querySelector<HTMLFormElement>("form");
+      if (!form) return;
+      let hidden = form.querySelector<HTMLInputElement>(
+        'input[name="fields[advantage]"]'
+      );
+      if (!hidden) {
+        hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = "fields[advantage]";
+        form.appendChild(hidden);
+      }
+      hidden.value = advantage.key;
+    };
+
+    const observer = new MutationObserver(() => injectAdvantageField());
+    observer.observe(container, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      container.innerHTML = "";
+    };
   }, [advantage]);
 
   const selectAdvantage = (key: string) => {
@@ -147,18 +182,10 @@ function DiscoverContent() {
         <div className={cn("relative overflow-hidden", advantage.bgColor)}>
           <div className="px-6 pt-6 pb-2 sm:px-10">
             <div className="flex items-center justify-between">
-              <span
-                className={cn(
-                  "font-serif text-xl tracking-tight",
-                  advantage.textColor
-                )}
-              >
-                blair
-              </span>
               <button
                 onClick={goBack}
                 className={cn(
-                  "flex items-center gap-1 text-sm transition-colors",
+                  "flex items-center gap-1 text-sm transition-colors cursor-pointer hover:opacity-80",
                   advantage.ctaColor
                 )}
               >
@@ -177,6 +204,14 @@ function DiscoverContent() {
                 </svg>
                 Back
               </button>
+              <span
+                className={cn(
+                  "font-serif text-xl tracking-tight",
+                  advantage.textColor
+                )}
+              >
+                blair
+              </span>
             </div>
           </div>
 
@@ -366,89 +401,24 @@ function DiscoverContent() {
             </div>
           </div>
 
-          {/* Mini-course email capture - hidden until Resend email delivery is wired up */}
-          {/* TODO: Uncomment when email drip is live
+          {/* Mini-course email capture - Kit embed */}
           <div
             className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: "900ms", animationFillMode: "both" }}
           >
-            <div className="rounded-2xl border border-blair-mist bg-white/50 px-6 py-6 sm:px-8 text-center">
-              {leadSubmitted ? (
-                <div className="py-2">
-                  <p className="font-serif text-lg text-blair-midnight">
-                    Check your inbox.
-                  </p>
-                  <p className="mt-2 text-sm text-blair-charcoal/50">
-                    Day 1 is on its way. No fluff, just the real stuff.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <p className="text-sm font-medium text-blair-charcoal/40 uppercase tracking-wide">
-                    Not ready to commit?
-                  </p>
-                  <p className="mt-2 font-serif text-lg text-blair-midnight">
-                    Get our free 5-day mini-course
-                  </p>
-                  <p className="mt-1 text-sm text-blair-charcoal/50">
-                    Real strategies, real math, zero fluff. Learn how to turn
-                    your skills into a business that fits your life.
-                  </p>
-                  <form
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      if (!leadEmail.trim()) return;
-                      setLeadSubmitting(true);
-                      setLeadError("");
-                      try {
-                        const res = await fetch("/api/leads", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            email: leadEmail.trim(),
-                            source: "discover",
-                            advantageKey: advantage?.key,
-                          }),
-                        });
-                        const data = await res.json();
-                        if (data.alreadyCustomer) {
-                          setLeadError("You already have a Blair account! Sign in to see your results.");
-                        } else if (data.ok) {
-                          setLeadSubmitted(true);
-                        } else {
-                          setLeadError(data.error || "Something went wrong.");
-                        }
-                      } catch {
-                        setLeadError("Something went wrong. Try again.");
-                      }
-                      setLeadSubmitting(false);
-                    }}
-                    className="mt-4 flex gap-2 max-w-sm mx-auto"
-                  >
-                    <input
-                      type="email"
-                      required
-                      value={leadEmail}
-                      onChange={(e) => setLeadEmail(e.target.value)}
-                      placeholder="your email"
-                      className="flex-1 rounded-lg border border-blair-mist bg-white px-4 py-2.5 text-sm text-blair-charcoal placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20 transition-colors"
-                    />
-                    <button
-                      type="submit"
-                      disabled={leadSubmitting}
-                      className="rounded-lg bg-blair-midnight px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blair-charcoal disabled:opacity-60"
-                    >
-                      {leadSubmitting ? "..." : "Send it"}
-                    </button>
-                  </form>
-                  {leadError && (
-                    <p className="mt-2 text-xs text-red-600">{leadError}</p>
-                  )}
-                </>
-              )}
+            <div className="rounded-2xl border border-blair-mist bg-white/50 px-6 py-6 sm:px-8">
+              <p className="text-sm font-medium text-blair-charcoal/40 uppercase tracking-wide">
+                Not quite ready to commit?
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-blair-charcoal/60">
+                Here&apos;s a 5-day email series on what working moms with
+                corporate careers are actually building, what it pays, and why
+                most people stay stuck. Worth reading whether or not you ever
+                buy anything.
+              </p>
+              <div ref={kitContainerRef} className="mt-5" />
             </div>
           </div>
-          */}
 
           {/* Personal note */}
           <div
