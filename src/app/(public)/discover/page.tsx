@@ -181,14 +181,15 @@ function DiscoverContent() {
         {/* Colored hero banner */}
         <div className={cn("relative overflow-hidden", advantage.bgColor)}>
           <div className="px-6 pt-6 pb-2 sm:px-10">
-            <span
+            <a
+              href="https://hiblair.com"
               className={cn(
-                "font-serif text-xl tracking-tight",
+                "font-serif text-xl tracking-tight transition-opacity hover:opacity-80",
                 advantage.textColor
               )}
             >
               blair
-            </span>
+            </a>
             <button
               onClick={goBack}
               className={cn(
@@ -446,9 +447,12 @@ function DiscoverContent() {
     <div className="min-h-screen bg-blair-linen">
       {/* Header */}
       <div className="px-6 pt-6 pb-2 sm:px-10">
-        <span className="font-serif text-xl text-blair-midnight tracking-tight">
+        <a
+          href="https://hiblair.com"
+          className="font-serif text-xl text-blair-midnight tracking-tight transition-opacity hover:opacity-80"
+        >
           blair
-        </span>
+        </a>
       </div>
 
       <div className="mx-auto max-w-4xl px-6 pb-20 sm:px-10">
