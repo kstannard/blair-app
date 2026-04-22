@@ -316,11 +316,28 @@ export function GutCheckEditor({
   const madeDecision = !!synthesis.decision;
 
   return (
-    <div className="space-y-10">
-      {/* Tip */}
-      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
-        The point of this task is to test your positioning with real humans before you take it to strangers. You&apos;re listening, not selling.
-      </p>
+    <div className="space-y-8">
+      {/* Page-top intro card — matches the sage gradient header used on
+          tasks 2 and 3 for visual consistency across Phase 1 */}
+      <div className="overflow-hidden rounded-2xl border border-blair-sage/20 bg-white shadow-sm">
+        <div className="border-b border-blair-sage/20 bg-gradient-to-r from-blair-sage/10 to-blair-sage/5 px-6 py-5">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/20">
+              <svg className="h-4 w-4 text-blair-sage-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="font-serif text-lg text-blair-midnight">
+                Test your positioning with real humans
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+                Pick 3 people who know your work. Send the outreach below, have the calls, capture what you hear. Then we&apos;ll pull out the patterns so you know whether your positioning lands or needs another pass.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Outreach message — ONE template, not per-person */}
       <section>

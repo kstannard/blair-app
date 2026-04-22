@@ -266,23 +266,31 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
   };
 
   return (
-    <div className="space-y-10">
-      {/* Tip */}
-      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
-        The tighter your niche, the easier it is to find clients, charge premium rates, and build a reputation. Specificity isn't a limitation, it's your competitive advantage.
-      </p>
+    <div className="space-y-6">
+      {/* Draft card wrapper — matches the pattern used on tasks 2 and 3 */}
+      <div className="overflow-hidden rounded-2xl border border-blair-sage/20 bg-white shadow-sm">
+        {/* Sage gradient header */}
+        <div className="border-b border-blair-sage/20 bg-gradient-to-r from-blair-sage/10 to-blair-sage/5 px-6 py-5">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/20">
+              <svg className="h-4 w-4 text-blair-sage-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="font-serif text-lg text-blair-midnight">
+                The narrowing exercise
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+                Three steps that go from broad to focused. We drafted a starting list of problems based on your background. Edit, remove, or add anything we missed.
+              </p>
+            </div>
+          </div>
+        </div>
 
-      {/* Narrowing exercise */}
-      <div>
-        <h3 className="font-serif text-xl text-blair-midnight">
-          The narrowing exercise
-        </h3>
-        <p className="mt-2 text-sm text-blair-charcoal/50">
-          Work through these three steps top to bottom. Each one narrows your
-          focus.
-        </p>
-
-        <div className="relative mt-8 space-y-0">
+        {/* 3-step workflow lives inside the card */}
+        <div className="p-6">
+        <div className="relative space-y-0">
           {/* Vertical connector line */}
           <div className="absolute left-5 top-10 bottom-10 w-px bg-blair-mist" />
 
@@ -511,6 +519,7 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
           )}
         </div>
       </div>
+      </div>{/* end draft card */}
 
       {/* Completion checklist */}
       <div className="rounded-xl border border-blair-mist bg-white p-6">
