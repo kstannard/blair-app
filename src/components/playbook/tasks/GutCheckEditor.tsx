@@ -419,7 +419,9 @@ export function GutCheckEditor({
         <div className="mt-4 space-y-3">
           {contacts.map((contact, i) => {
             const status = statusLabels[contact.status];
-            const showCapture = contact.status === "done";
+            // Open capture as soon as the call is scheduled so users can
+            // take notes live during the call (not just paste after).
+            const showCapture = contact.status === "scheduled" || contact.status === "done";
             return (
               <div
                 key={i}
@@ -452,9 +454,14 @@ export function GutCheckEditor({
                 {/* Capture pane — inline when status is "done", no toggle */}
                 {showCapture && (
                   <div className="border-t border-blair-mist/60 bg-blair-linen/20 p-4 space-y-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
-                      Capture what you heard
-                    </p>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                        Capture what you heard
+                      </p>
+                      <p className="mt-1 text-xs text-blair-charcoal/50">
+                        Type notes here during the call, or paste a transcript at the bottom after.
+                      </p>
+                    </div>
                     <div>
                       <label className="text-xs font-semibold text-blair-midnight">
                         Their gut reaction (their exact words if you can)
@@ -556,7 +563,18 @@ export function GutCheckEditor({
                 Before the call (2 min)
               </p>
               <p className="mt-2 text-blair-charcoal/75">
-                Block 25 minutes. Keep this page open. You&apos;ll capture their exact words in the notes fields on each contact card above right after the call, while everything&apos;s fresh.
+                Block 25 minutes. Pull up your one-sentence. Pick your notes method:
+              </p>
+              <ul className="mt-2 space-y-1 text-blair-charcoal/75 list-disc list-inside marker:text-blair-sage/60">
+                <li>
+                  <strong>In Blair:</strong> keep this page open in another tab. The notes fields on each contact card above are live as soon as the call is scheduled, so you can type as you go.
+                </li>
+                <li>
+                  <strong>External tool:</strong> use Google Docs, Notion, or a transcription tool (Granola, Otter). Paste the transcript into the expandable &ldquo;Paste it instead&rdquo; field at the bottom of each contact card after.
+                </li>
+              </ul>
+              <p className="mt-2 text-blair-charcoal/75">
+                Either way, capture their exact words. The phrases they use are more honest data than your paraphrase.
               </p>
             </div>
 
