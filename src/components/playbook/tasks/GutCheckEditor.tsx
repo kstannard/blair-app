@@ -620,7 +620,34 @@ export function GutCheckEditor({
         </section>
       )}
 
-      {/* 4. Synthesis */}
+      {/* 4. Synthesis — shown as a locked placeholder until 2+ captures exist */}
+      {!canSynthesize && (
+        <section className="opacity-60">
+          <h3 className="font-serif text-lg text-blair-charcoal/60">
+            4. What you heard
+          </h3>
+          <p className="mt-1 text-sm text-blair-charcoal/50">
+            After you capture 2+ conversations above, we&apos;ll pull out the patterns for you. You&apos;ll see what landed, what didn&apos;t, and who to follow up with first.
+          </p>
+          <div className="mt-4 rounded-xl border border-dashed border-blair-mist bg-blair-linen/30 px-6 py-8 text-center">
+            <svg
+              className="mx-auto h-5 w-5 text-blair-charcoal/30"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <p className="mt-3 text-xs text-blair-charcoal/50">
+              {doneCount === 0
+                ? "Unlocks after your first 2 conversations."
+                : `1 captured. ${2 - doneCount} more to unlock.`}
+            </p>
+          </div>
+        </section>
+      )}
+
       {canSynthesize && (
         <section>
           <div className="flex items-baseline justify-between gap-4">
