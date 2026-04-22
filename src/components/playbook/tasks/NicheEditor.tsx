@@ -499,27 +499,11 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
                               </span>
                             </div>
                             <p className={cn(
-                              "mt-1.5 text-xs leading-relaxed",
-                              isSelected ? "text-white/80" : "text-blair-charcoal/60"
+                              "mt-2 text-sm leading-relaxed",
+                              isSelected ? "text-white/85" : "text-blair-charcoal/70"
                             )}>
                               {engagement.description}
                             </p>
-                            {engagement.connection && (
-                              <p className={cn(
-                                "mt-2 text-[11px] italic",
-                                isSelected ? "text-white/60" : "text-blair-sage-dark/60"
-                              )}>
-                                {engagement.connection}
-                              </p>
-                            )}
-                            <div className={cn(
-                              "mt-2 flex items-center gap-3 text-[11px]",
-                              isSelected ? "text-white/60" : "text-blair-charcoal/40"
-                            )}>
-                              <span>{engagement.duration}</span>
-                              <span>·</span>
-                              <span>{engagement.scope.slice(0, 60)}{engagement.scope.length > 60 ? "..." : ""}</span>
-                            </div>
                           </button>
                         );
                       })}
