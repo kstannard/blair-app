@@ -567,10 +567,10 @@ export function GutCheckEditor({
               </p>
               <ul className="mt-2 space-y-1 text-blair-charcoal/75 list-disc list-inside marker:text-blair-sage/60">
                 <li>
-                  <strong>In Blair:</strong> keep this page open in another tab. The notes fields on each contact card above are live as soon as the call is scheduled, so you can type as you go.
+                  <strong>In Blair:</strong>{" "}keep this page open in another tab. The notes fields on each contact card above are live as soon as the call is scheduled, so you can type as you go.
                 </li>
                 <li>
-                  <strong>External tool:</strong> use Google Docs, Notion, or a transcription tool (Granola, Otter). Paste the transcript into the expandable &ldquo;Paste it instead&rdquo; field at the bottom of each contact card after.
+                  <strong>External tool:</strong>{" "}use Google Docs, Notion, or a transcription tool (Granola, Otter). Paste the transcript into the expandable &ldquo;Paste it instead&rdquo; field at the bottom of each contact card after.
                 </li>
               </ul>
               <p className="mt-2 text-blair-charcoal/75">
