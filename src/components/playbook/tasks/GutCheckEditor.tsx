@@ -322,10 +322,10 @@ export function GutCheckEditor({
         The point of this task is to test your positioning with real humans before you take it to strangers. You&apos;re listening, not selling.
       </p>
 
-      {/* 1. Outreach message — ONE template, not per-person */}
+      {/* Outreach message — ONE template, not per-person */}
       <section>
         <h3 className="font-serif text-lg text-blair-midnight">
-          1. Your outreach message
+          Your outreach message
         </h3>
         <p className="mt-1 text-sm text-blair-charcoal/60">
           Send this to all 3 people. Swap in their name and a line that shows
@@ -370,11 +370,11 @@ export function GutCheckEditor({
         </div>
       </section>
 
-      {/* 2. Your 3 conversations */}
+      {/* Your 3 conversations */}
       <section>
         <div className="flex items-baseline justify-between gap-4">
           <h3 className="font-serif text-lg text-blair-midnight">
-            2. Your 3 conversations
+            Your 3 conversations
           </h3>
           <span className="text-xs font-medium text-blair-sage-dark">
             {doneCount} of 3 captured
@@ -494,13 +494,38 @@ export function GutCheckEditor({
         </div>
       </section>
 
-      {/* 3. Conversation guide — appears when any call is scheduled.
-          Research-grounded: The Mom Test, customer discovery best practices,
-          founder interview research. Includes the user's positioning inline. */}
+      {/* 3. Conversation guide — shown as locked placeholder until at least
+          one call is scheduled. Research-grounded: The Mom Test, customer
+          discovery best practices. Includes the user's positioning inline. */}
+      {!anyScheduledOrDone && (
+        <section className="opacity-60">
+          <h3 className="font-serif text-lg text-blair-charcoal/60">
+            On the call
+          </h3>
+          <p className="mt-1 text-sm text-blair-charcoal/50">
+            Once a conversation is scheduled, we&apos;ll show you a tested script for the call. It includes your positioning statement and the 5 questions that pull the most honest reactions out of people.
+          </p>
+          <div className="mt-4 rounded-xl border border-dashed border-blair-mist bg-blair-linen/30 px-6 py-8 text-center">
+            <svg
+              className="mx-auto h-5 w-5 text-blair-charcoal/30"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <p className="mt-3 text-xs text-blair-charcoal/50">
+              Unlocks once any call is scheduled above.
+            </p>
+          </div>
+        </section>
+      )}
+
       {anyScheduledOrDone && (
         <section>
           <h3 className="font-serif text-lg text-blair-midnight">
-            3. On the call
+            On the call
           </h3>
           <p className="mt-1 text-sm text-blair-charcoal/60">
             A tested script for a positioning gut-check. 15-20 minutes. You&apos;re
@@ -624,7 +649,7 @@ export function GutCheckEditor({
       {!canSynthesize && (
         <section className="opacity-60">
           <h3 className="font-serif text-lg text-blair-charcoal/60">
-            4. What you heard
+            What you heard
           </h3>
           <p className="mt-1 text-sm text-blair-charcoal/50">
             After you capture 2+ conversations above, we&apos;ll pull out the patterns for you. You&apos;ll see what landed, what didn&apos;t, and who to follow up with first.
@@ -652,7 +677,7 @@ export function GutCheckEditor({
         <section>
           <div className="flex items-baseline justify-between gap-4">
             <h3 className="font-serif text-lg text-blair-midnight">
-              4. What you heard
+              What you heard
             </h3>
             <button
               onClick={() => runSynthesis("regenerate")}

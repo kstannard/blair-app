@@ -1,5 +1,10 @@
 # Blair App — Claude Code Context
 
+## New session? Read these in order:
+1. This file (CLAUDE.md) — technical architecture, environment, data model
+2. **`DESIGN.md`** in the repo root — design & product decisions, UX patterns, voice rules, do-not-revert log. Any design decision that survived a session is captured there.
+3. Recent commits (`git log --oneline -20`) for the latest context
+
 ## What This Is
 Blair is a personalized business-starting coach for ambitious working moms. It helps them figure out which business fits their skills, time, and life constraints, then guides them through a step-by-step playbook to launch.
 
