@@ -203,9 +203,12 @@ function ProposedBuyerProfile() {
                 Who hires you
               </label>
             </div>
+            <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+              The specific person who&apos;d sign the invoice. Title plus enough context that you&apos;d spot them on LinkedIn in 5 minutes.
+            </p>
             <AutoTextarea
               defaultValue={jamiBuyerTitle}
-              className={`mt-2 ${editableTextarea} text-base`}
+              className={`mt-3 ${editableTextarea} text-base`}
             />
           </div>
 
@@ -217,9 +220,12 @@ function ProposedBuyerProfile() {
                 The kind of company
               </label>
             </div>
+            <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+              Size, stage, industry. What&apos;s going on internally that makes them ripe for someone like you.
+            </p>
             <AutoTextarea
               defaultValue={jamiCompanyType}
-              className={`mt-2 ${editableTextarea} text-base`}
+              className={`mt-3 ${editableTextarea} text-base`}
             />
           </div>
 
@@ -231,7 +237,10 @@ function ProposedBuyerProfile() {
                 When they buy
               </label>
             </div>
-            <div className="mt-2 space-y-2">
+            <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+              The moments that flip them from &ldquo;someday&rdquo; to &ldquo;find someone now.&rdquo; Listen for these in casual conversations.
+            </p>
+            <div className="mt-3 space-y-2">
               {jamiTriggerEvents.map((t, i) => (
                 <AutoTextarea
                   key={i}
@@ -256,7 +265,10 @@ function ProposedBuyerProfile() {
                 How they decide
               </label>
             </div>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+              Can your buyer sign off, or are you selling to a committee? Changes your pricing and the sales motion.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
               <button className="rounded-full bg-blair-sage text-white px-3.5 py-1.5 text-sm font-medium">
                 Direct budget
               </button>
@@ -277,7 +289,10 @@ function ProposedBuyerProfile() {
                 Where to find them
               </label>
             </div>
-            <div className="mt-2 space-y-2">
+            <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+              The newsletters, Slacks, and podcasts they spend professional attention on. Not your network, theirs.
+            </p>
+            <div className="mt-3 space-y-2">
               {jamiHangouts.map((h, i) => (
                 <AutoTextarea
                   key={i}
