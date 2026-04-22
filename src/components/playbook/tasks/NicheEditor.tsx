@@ -442,6 +442,33 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
           {/* Step 3: What companies pay for — dynamically generated from
               step 2 selections via the engagement-shapes API. Shows a thinking
               animation while loading, then personalized engagement cards. */}
+          {/* Locked placeholder when step 2 is empty — so users see step 3 is coming */}
+          {step2Selections.length === 0 && (
+            <div className="relative">
+              <div className="flex items-start gap-4">
+                <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-blair-mist bg-white text-sm font-semibold text-blair-charcoal/40">
+                  3
+                </div>
+                <div className="flex-1 rounded-xl border border-dashed border-blair-mist bg-blair-linen/30 px-6 py-8 text-center opacity-80">
+                  <div className="mb-2 flex items-baseline justify-center gap-2">
+                    <h4 className="text-base font-semibold text-blair-charcoal/60">
+                      What companies pay for
+                    </h4>
+                    <span className="text-xs font-medium text-blair-charcoal/30 uppercase tracking-wide">
+                      Focused
+                    </span>
+                  </div>
+                  <svg className="mx-auto h-5 w-5 text-blair-charcoal/30" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                  </svg>
+                  <p className="mt-3 text-xs text-blair-charcoal/50">
+                    After you pick what lights you up above, we&apos;ll show you the engagement types companies actually hire for.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {step2Selections.length > 0 && (
             <div className="relative">
               {engagementsLoading ? (

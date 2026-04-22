@@ -142,6 +142,16 @@ async function run() {
       'fractional-operator--gut-check-with-real-people': task4Data,
     };
 
+    // Attach an __initialState snapshot to every task so reset can
+    // restore to "pretend I didn't touch anything" without needing
+    // to re-run this script.
+    for (const slug of Object.keys(taskData)) {
+      taskData[slug] = {
+        ...taskData[slug],
+        __initialState: JSON.parse(JSON.stringify(taskData[slug])),
+      };
+    }
+
     for (const [slug, data] of Object.entries(taskData)) {
       // Get the task ID
       const taskRes = await client.query('SELECT id FROM "Task" WHERE slug = $1', [slug]);

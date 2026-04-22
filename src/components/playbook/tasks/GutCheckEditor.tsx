@@ -556,8 +556,7 @@ export function GutCheckEditor({
                 Before the call (2 min)
               </p>
               <p className="mt-2 text-blair-charcoal/75">
-                Block 25 minutes. Pull up your one-sentence. Have a blank doc or notebook
-                ready. You&apos;ll want to capture their exact words, not just the gist.
+                Block 25 minutes. Keep this page open. You&apos;ll capture their exact words in the notes fields on each contact card above right after the call, while everything&apos;s fresh.
               </p>
             </div>
 
@@ -652,10 +651,12 @@ export function GutCheckEditor({
                 Right after the call
               </p>
               <p className="mt-2 text-blair-charcoal/75">
-                Fill in the capture fields on this page while the call is fresh.
-                Look for three things: <strong>phrases they echoed back</strong> (what
-                landed), <strong>where they stopped you to clarify</strong> (what
-                didn&apos;t), and <strong>specific names or intros they offered</strong>.
+                Fill in the capture fields above while the call is fresh. Look for three things:{" "}
+                <strong>phrases they echoed back</strong>{" "}
+                (what landed),{" "}
+                <strong>where they stopped you to clarify</strong>{" "}
+                (what didn&apos;t), and{" "}
+                <strong>specific names or intros they offered</strong>.
               </p>
             </div>
           </div>

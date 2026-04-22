@@ -297,10 +297,11 @@ export default function TaskWorkspacePage() {
           needed in the future, put it inline where the content depends
           on the prior task, not as a banner above every sub-task. */}
 
-      {/* Two-column layout */}
+      {/* Two-column layout. Main workspace capped to match the page
+          title's max-w-2xl so draft cards wrap at the same right edge. */}
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">
         {/* Main workspace */}
-        <div className="min-w-0">{renderTaskContent()}</div>
+        <div className="min-w-0 max-w-2xl">{renderTaskContent()}</div>
 
         {/* Help panel */}
         <div className="lg:sticky lg:top-24 lg:self-start">

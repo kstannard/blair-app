@@ -4,23 +4,24 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * POST /api/admin/reset-progress/[userId]
  *
- * Resets a customer's playbook progress. Two modes, selected via the
- * `?mode=` query param:
+ * Resets a customer's playbook progress back to "pretend I didn't
+ * touch anything" — the initial pre-populated state.
  *
- *   - `status-only` (default) — resets every TaskProgress row's status to
- *     'not_started' and clears completedAt, but PRESERVES savedData. Use
- *     this after logging in as the customer to test their experience:
- *     when they actually log in, they'll see the pre-populated content
- *     back at "not started" without having lost any of the personalization
- *     we wrote for them.
+ * Three modes via `?mode=`:
  *
- *   - `hard` — deletes every TaskProgress row entirely. Use this if you
- *     want the customer to start fully fresh with no pre-populated content
- *     at all (rare; usually not what you want).
+ *   - `status-only` (default) — restores savedData to its initial
+ *     pre-populated snapshot (`__initialState` field) if one exists,
+ *     so user clicks, edits, deletions, and selections all revert
+ *     to the drafted starting point. If no snapshot exists, falls
+ *     back to deleting TaskProgress so the component re-auto-populates
+ *     fresh on next load.
  *
- * Admin-only: this route is behind the admin layout's password gate, same
- * as the other /api/admin/* routes.
+ *   - `hard` — deletes every TaskProgress row. Customer starts with
+ *     no pre-populated content at all (rarely what you want).
+ *
+ * Admin-only: behind the admin layout's password gate.
  */
+
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
@@ -37,13 +38,44 @@ export async function POST(
     return NextResponse.json({ ok: true, mode: "hard", deleted: count });
   }
 
-  // Default: status-only reset. Preserves savedData.
-  const { count } = await prisma.taskProgress.updateMany({
+  // Default: restore each TaskProgress from its __initialState snapshot.
+  // If no snapshot exists, delete the row so the editor auto-populates
+  // fresh on next load.
+  const progressRecords = await prisma.taskProgress.findMany({
     where: { userId },
-    data: {
-      status: "not_started",
-      completedAt: null,
-    },
   });
-  return NextResponse.json({ ok: true, mode: "status-only", reset: count });
+
+  let restoredCount = 0;
+  let deletedCount = 0;
+
+  for (const progress of progressRecords) {
+    const data = progress.savedData as Record<string, unknown> | null;
+    const snapshot = data?.__initialState as Record<string, unknown> | undefined;
+
+    if (snapshot && typeof snapshot === "object") {
+      // Restore from snapshot. Preserve the snapshot itself so future
+      // resets still work.
+      await prisma.taskProgress.update({
+        where: { id: progress.id },
+        data: {
+          status: "not_started",
+          completedAt: null,
+          savedData: { ...snapshot, __initialState: snapshot } as object,
+        },
+      });
+      restoredCount++;
+    } else {
+      // No snapshot — delete the row. Component will re-auto-populate
+      // on next load (for task types that support auto-population).
+      await prisma.taskProgress.delete({ where: { id: progress.id } });
+      deletedCount++;
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    mode: "status-only",
+    restored: restoredCount,
+    deleted: deletedCount,
+  });
 }
