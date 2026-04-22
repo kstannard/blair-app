@@ -116,6 +116,14 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
   const [engagementsLoading, setEngagementsLoading] = useState(false);
   const lastStep2Key = useRef<string>("");
 
+  // Keep a ref to the latest savedData so async callbacks don't use stale state.
+  // Without this, the fetch completion would overwrite fresh user clicks that
+  // happened during the ~200ms API call.
+  const savedDataRef = useRef(savedData);
+  const onSaveRef = useRef(onSave);
+  useEffect(() => { savedDataRef.current = savedData; }, [savedData]);
+  useEffect(() => { onSaveRef.current = onSave; }, [onSave]);
+
   const roleCategory = detectRoleCategory(profileFromRecommendation(recommendationData));
 
   const fetchEngagements = useCallback(async (selectedChips: string[]) => {
@@ -130,11 +138,17 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
         const data = await res.json();
         const results = data.engagements || [];
         setEngagements(results);
-        onSave({ ...savedData, engagementResults: results, step3Selections: [] });
+        // Use the ref to get the LATEST savedData, not the stale closure value.
+        // This preserves any step 2 clicks that happened during the fetch.
+        onSaveRef.current({
+          ...savedDataRef.current,
+          engagementResults: results,
+          step3Selections: [],
+        });
       }
     } catch { /* silently fail */ }
     finally { setEngagementsLoading(false); }
-  }, [roleCategory, pathSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [roleCategory, pathSlug]);
 
   // Fetch when step 2 selections change
   useEffect(() => {
