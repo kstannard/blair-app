@@ -136,56 +136,69 @@ Purchased → Quiz submitted → Results ready → Playbook started → Phase 1 
 - PositioningEditor: 3 handwritten examples from pathContent.ts (NOT programmatic generation — that broke), user picks and edits
 - AppShell nav: hides email for @demo.blair.com accounts (for clean marketing screenshots)
 
-## Session Handoff (2026-04-14) — Pending Work From Jami Playbook Polish
+## Session Handoff (2026-04-15) — Jami Shipped, Phase 1 UX Rebuilt
 
-Latest commit: `3b740e2` "Trim Fractional Operator Phase 1 copy + shared UI fixes". Everything below is either committed-but-cache-stale, or not-yet-done. Start a new session by restarting the dev server (clears stale `.next` cache) before debugging content issues — several of Kristin's "your changes didn't go through" complaints traced back to the cache, not the code.
+**Latest commit:** `b646ad9`. **Jami's email went out tonight** with 5 feedback questions and login link (`jamilundborg@gmail.com` / `blair2026`). She is the first real beta user on the rebuilt Phase 1 experience.
 
-### Done and committed (verify with git log, not by reading stale dev server)
-- Scorer fixes: en dash normalize() helper, removed "pr" substring bug from Messaging, hard-constraint penalties, wantsSame senior catch-all for fractional
-- Role-aware content system: `src/lib/playbook/role-aware-content.ts` with FRACTIONAL_OPERATOR and AUTOMATION_SYSTEMS_BUILDER archetypes (product-pmm, marketing-brand, operations-bizops, finance-analytics, content-editorial, engineering). Each has narrowingChips, whatLitYouUp, whatCompaniesPay, positioningExamples (2 each), buyerProfile, outreachTemplate.
-- All 12 paths trimmed to 2 positioning examples (was 3) in `src/lib/pathContent.ts`
-- `[your name]` placeholder substitution via `personalize()` helper in `src/app/(app)/playbook/[taskSlug]/page.tsx` — applied to `task.whyItMatters` only, NOT yet to descriptions, positioning examples, or outreach templates
-- `src/app/api/playbook/recommendation/route.ts` now returns `userName` from user record
-- NicheEditor: chips are auto-resizing textareas, all 3 AI buttons removed ("Sharpen these", "Make them more specific", "Show me an example")
-- PositioningEditor: merged duplicate heading, uses role-aware examples
-- BuyerProfileEditor: inputs → auto-resizing textareas, all 3 AI buttons removed
-- GutCheckEditor: "Write it for me" removed, "Make it warmer" swapped for "Make it more direct", refine API updated
-- `src/components/admin/ResetProgressButton.tsx` — soft reset only, hard reset removed from UI (API still supports `?mode=hard` if called directly)
-- Fractional Operator Phase 1 copy trimmed via `scripts/trim-fractional-phase1.js` (−175 words across 4 tasks)
-- Stripe checkout email preservation (customer_creation fix)
-- Admin customer page: bullets, section dividers, cards
+### Phase 1 is done and shipped
+Full Phase 1 experience is rebuilt around a consistent visual pattern across all 4 tasks. Read `DESIGN.md` in the repo root for the full design system — it's the session-proof source of truth and should be loaded alongside this file at session start.
 
-### Pending — urgent, start here next session
-1. **Phase 1 Complete overlay is stuck.** `src/components/playbook/CompletionAnimation.tsx` — for `isLastTask && phase === "check"` the overlay stays forever. Needs auto-dismiss timer (4-5s) AND click-to-dismiss anywhere on overlay.
-2. **"You found your lane" should be clickable.** `src/components/playbook/PhaseComplete.tsx` — after Phase 1 completion the user can't get back to Phase 1 task content. Make the hero block expandable/clickable so they can still access what they generated.
-3. **Time-aware quips.** `src/lib/quips.ts` — Kristin saw a "naptime" quip at 9:55pm PT. Add time-of-day gating so kid/daytime-themed quips don't fire at night.
-4. **Restart dev server first.** Multiple "your changes didn't go through" complaints were cache, not code. Verify via `git log -1` + grep before re-editing anything.
+**All 4 Phase 1 tasks now share the draft card pattern**: sage gradient header with pencil icon, font-serif title, one-sentence subtitle, content inside. Applied to NicheEditor (wraps 3-step narrowing exercise), PositioningEditor (wraps example picker + editable sentence), BuyerProfileEditor (single card with 5 icon-labeled sections), GutCheckEditor (page-top intro card + 4 sections below).
 
-### Pending — from Kristin's long feedback list ("i feel like your changes didnt go through")
-5. **Intro letter copy size divergence** on results page — paragraphs render at different sizes.
-6. **Systemic `[your name]` substitution sweep** — extend `personalize()` to descriptions, positioning examples, outreach templates, buyer profile defaults, anywhere `[your name]` could appear.
-7. **Remove Task 1 step 2 auto-selection.** `scripts/personalize-jami-playbook.js` sets `step2Selections: [0, 2, 4]` which Kristin flagged as wrong — users should pick for themselves. Remove pre-selection from the Jami script AND make sure fresh users never get auto-selected step 2.
-8. **"What companies pay for" should be dynamic** based on what chips the user selected in step 2 of NicheEditor. Right now it's static from role-aware-content.ts.
-9. **Jami saw 4 ops fractional engagement types instead of product** — verify role-aware content is actually being used for her (her role category should be "product-pmm"). May be a detectRoleCategory() bug or a fallback path.
-10. **PositioningEditor "start from scratch" button** — Kristin saw it, thought it was cut. Verify and remove if still present (it's `showRefinement` branch in `src/components/playbook/tasks/PositioningEditor.tsx`).
-11. **Cut "cocktail party test"** from Task 2 completion checklist — it's in `PositioningEditor.tsx` line ~354 `"It passes the cocktail party test: someone could picture my ideal client"`.
-12. **"Where they hang out" wrong content for Jami** — `scripts/personalize-jami-playbook.js` currently has "Former HP, Zendesk, or Amway colleagues" which is a PEOPLE category, not places. Should be actual venues/platforms.
-13. **Rewrite Jami's outreach template** — it's wrong (Kristin flagged).
-14. **Redesign "Who to reach out to" section layout** — looks terrible per Kristin.
-15. **"What I heard" transcript feature** — add paste-transcript textarea + AI summarize button for GutCheckEditor "what I heard" field.
-16. **Trim Phase 1 for other 3 bloated paths** — Messaging & Positioning Specialist, GTM & Growth Strategist, Digital Product Builder. Fractional is done as template. Don't touch Phases 2-5 (those are teaching content, not bloat).
+**Quick tip italic sentences were cut** from editor bodies. The draft card subtitle is the teaching; don't double up.
 
-### Do not touch without explicit permission
-- Approved real-user Recommendations (Jami, Sarah Blahnik, Julie Soper, Kelsey, Claire, Amanda Schwab). See "Real-User Data Rules" below.
-- Jami's Recommendation is `approved`. Any edits to her savedData or recommendation require per-user permission from Kristin.
+**Task 4 (GutCheckEditor) is fully rebuilt** around a 3-state workflow:
+- Section 1: ONE outreach message at top (not per-contact — personalization via `[name]` placeholder)
+- Section 2: 3 blank contact slots with name + status pill (cycles Not sent → Sent → Scheduled → Conversation had)
+- Section 3: Research-backed conversation guide (The Mom Test + customer discovery) with the user's positioning statement inlined. **Locked placeholder** until any call is scheduled.
+- Section 4: AI synthesis (auto-generates via `/api/ai/synthesize` keyword extraction) with 3 editable fields + validated/revising decision. **Locked placeholder** until 2+ captures exist.
+- Capture fields open at "Scheduled" (not just "Done") so users can take notes live OR paste a transcript after — both workflows are first-class.
+- Completion gate: 2+ real captures + synthesis decision. Hard gate, not manually checkable.
+
+**Task 1 step 3 ("What companies pay for") is API-driven**. `/api/ai/engagement-shapes` takes step 2 chip picks + role category + path, scores against a researched catalog in `src/lib/pricing/engagement-catalog.ts` (49 shapes across 7 role categories, with real pricing from A.Team / Growth Collective / Reforge / Kristin's customer research). Returns 2-3 personalized engagements. Shows a `ThinkingAnimation` (bouncing dots + rotating status) during the ~200ms fetch. Locked placeholder when step 2 is empty.
+
+### Done and committed this session
+- **Reset is snapshot-based.** `scripts/personalize-jami-playbook.js` writes `__initialState: {...}` alongside each task's savedData. `/api/admin/reset-progress/[userId]` restores savedData to the snapshot, so user clicks/edits/deletions revert. For users without a snapshot, deletes the TaskProgress row so the component re-auto-populates fresh. Old "wipe specific fields per task type" approach was replaced.
+- **Chip generation uses company-aware templates** (`companyAwareTemplates` in `src/lib/prepopulation.ts`). Templates with `{company}` get filled from the user's `notableExperience`. Natural mix — not forced to first-N positions. NicheEditor's step 1 renders these as auto-sizing textarea chips.
+- **`detectRoleCategory` bug fixed.** The `ui` regex was matching inside "build" (b-**ui**-ld), classifying Jami (with "focused build time" in her traits) as `design-ux` instead of `product-pmm`. Added word boundaries: `\bui\b`, `\bdesign\b`, `\bdeal\b`, `\bsales\b`, etc. `detectRoleCategory` now also reads `notableExperience` and `traits` in addition to role/companies/industries/strengths/linkedinSummary/weirdlyGoodAt.
+- **All 4 Phase 1 editors' quick tips cut.** The italic one-sentence tips were replaced by the draft card header subtitle. Pattern consistent across Niche, Positioning, Buyer Profile, GutCheck.
+- **Completion overlays + phase-complete.** `CompletionAnimation.tsx` auto-dismisses at 4.5s for last-task celebration + click-anywhere-to-close + Escape key. `PhaseComplete.tsx` has a "See your Phase 1 work" expander that links to each completed task.
+- **Quips are typed.** `src/lib/quips.ts` now uses `Quip` objects with `timeOfDay: "day"|"night"` and `pathShape: "service"|"product"|"community"` filters, plus `requiresMomentum` flag so "One more down" doesn't fire on the first completed task. `getQuip(category, { hour, pathShape, hasMomentum })` filters before random-picking.
+- **Systemic `whereTheyHangOut` defaults.** Each of the 9 role-aware archetypes has a `whereTheyHangOut` array of real venues (Lenny's Newsletter, Pavilion, SaaStr, Reforge alumni, etc.) — not the user's personal network. `BuyerProfileEditor` pulls role-aware defaults with pathDefaults + fallback chain.
+- **Phase 1 copy trimmed for Messaging, GTM, Digital Product Builder.** Same ~30% trim applied to Fractional earlier. 12 tasks updated via `scripts/trim-phase1-3paths.js`.
+- **Outreach templates rewritten** across all 9 role-aware archetypes + GutCheckEditor fallback + Jami's script. Zero em dashes, varied phrasings replacing "Got 15 minutes?" cliché.
+- **CLAUDE.md Real-User Data Rules added** (below in this file).
+- **"Ok not OK" voice rule added to DESIGN.md.**
+
+### Known gaps / next-session priorities
+
+1. **Await Jami's feedback** before doing more Phase 1 changes. Her responses are the signal for what to polish next.
+2. **Sentry + Vercel deploy alerts + PostHog session replay** are the 45-min system Kristin wants installed so silent-failure bugs (the stale-closure click-does-nothing class) get caught before users report them. Proposal was accepted but not installed.
+3. **Pricing helper module** (`src/lib/pricing/market-rates.ts`) — Kristin approved the architecture. Build once 2-3 more real users are in queue to pressure-test the shape.
+4. **Scorer test file + Scorer Commit 4** (wantsDifferent + scaredOfFinancialRisk conflict for same-role fractional targets). Both deferred — tracked in the Product Backlog below.
+5. **HelpPanel sidebar questions haven't been audited** for the new editor patterns — may show stale prompts now that the editors changed shape.
+6. **Admin task preview still shows static text** (known tech debt). Log in as the user to QA, never rely on admin preview.
+7. **Mobile QA was incomplete** — preview tool kept defaulting to 346px viewport and couldn't reliably do desktop. The draft card pattern was built responsive but no one's walked it through real mobile end-to-end. Worth doing before the next real user lands.
+
+### Voice + UX rules locked in this session (see DESIGN.md for full spec)
+- **No em dashes** anywhere. Use periods, commas, colons, or restructure. Multiple JSX whitespace collapse bugs (`clarify(what didn't)`, `tool:use`) were caused by `<strong>...</strong>` + inline text on multiline JSX. Fix pattern: explicit `{" "}` between `</strong>` and following text.
+- **"Ok" not "OK"** (lowercase k). Applies to Blair's voice, not user-entered text.
+- **"Got 15 minutes?" is banned** — cliché. Vary the phrasing in outreach templates.
+- **No pre-filled contact notes.** User's actual 3 people may not match categories. Specific examples live in a collapsible **inspiration panel** instead.
+- **Field subtitles = one sentence.** Second sentences consistently got cut in review. The first one frames, the second adds noise.
+- **Numbered circles = workflow steps within an exercise** (e.g. Task 1's 1/2/3 narrowing). **Plain headings = page sections** (Tasks 2/3/4 sections). Don't mix.
+- **Locked placeholder pattern for dependent sections.** Dashed border, lock icon, copy like "After you [prerequisite], we'll [value prop]." Never hide sections users need to know exist.
 
 ### Context on Jami specifically
-- Michigan-based, former PM at HP/Zendesk/Amway
-- Path: Fractional Operator (product archetype), with Micro-SaaS Builder as #1 aspirational
-- Pricing anchored generic `$200K+` not Bay Area `$350K`
-- Intro letter: forward tense, does NOT reveal primary rec in intro ("Here's where we'd have you start.")
-- Positioning framed as "Embedded product lead (fractional)" — she does not identify as Head of Product, contract title is flexible
-- Her Phase 1 savedData was pre-populated via `scripts/personalize-jami-playbook.js`
+- Michigan-based Principal PM, HP/Zendesk/Amway background
+- Path: Fractional Operator (product archetype), Alt 2 is Micro-SaaS Builder (framed as year-two stretch goal)
+- Pricing: Embedded fractional product lead ($6-10K/mo at 6-8 hrs/week, opens at $7K first engagement progressing to $9-12K), senior product advisor ($3-5K/mo)
+- Intro letter uses forward tense, does NOT reveal "fractional" before the "Tell me more" reveal button
+- Positioning: "Embedded product lead (fractional)" — she doesn't identify as Head of Product, contract title flexible
+- Her 6-8 hours/week is ADDITIONAL capacity on top of full-time HP role, not total available
+- Phase 1 savedData pre-populated via `scripts/personalize-jami-playbook.js` with `__initialState` snapshots for reset
+- Recommendation status: approved. **Per Real-User Data Rules — do not write to her recommendation row without explicit per-user permission from Kristin.** savedData edits via her personalize script are fine since she hasn't completed anything yet.
+- Email sent 2026-04-15 with 5 feedback questions (gut reaction, expectations vs reality, personalization hits/misses, WTP, one-thing-to-fix)
 
 ## What Still Needs Work (as of 2026-04-07)
 
