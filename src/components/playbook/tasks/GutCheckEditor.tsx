@@ -25,9 +25,7 @@ interface ConversationCapture {
 interface Contact {
   name: string;
   status: ContactStatus;
-  customMessage: string;
   capture: ConversationCapture;
-  expanded?: boolean; // UI state only — which section is open
 }
 
 interface Synthesis {
@@ -49,13 +47,11 @@ const statusOrder: ContactStatus[] = ["not-sent", "sent", "scheduled", "done"];
 const defaultContact = (): Contact => ({
   name: "",
   status: "not-sent",
-  customMessage: "",
   capture: { gutReaction: "", peopleMentioned: "", pushback: "", transcript: "" },
 });
 
 const defaultContacts: Contact[] = [defaultContact(), defaultContact(), defaultContact()];
 
-// Path-level generic fallback description for the outreach template.
 const pathDescriptions: Record<string, string> = {
   "gtm-growth-strategist": "fractional GTM and growth work",
   "messaging-positioning": "messaging and positioning work",
@@ -95,8 +91,7 @@ Not a pitch, just a gut-check from someone whose opinion I trust. Open to a quic
 }
 
 // ============================================================================
-// Role-aware inspiration patterns — grounded in the user's actual companies
-// when we have them. Generic fallback otherwise.
+// Role-aware inspiration — grounded in the user's actual companies.
 // ============================================================================
 
 function parseCompanies(profile: ProfileInput): string[] {
@@ -123,7 +118,6 @@ function buildInspirationPatterns(profile: ProfileInput): string[] {
   const companies = parseCompanies(profile);
   const roleCategory = detectRoleCategory(profile);
 
-  // Role-specific "third person" — someone in their field who'll tell the truth
   const roleFriend: Record<string, string> = {
     "product-pmm": "A PM friend who won't become a client but will tell you if the positioning sounds vague",
     "marketing-brand": "A marketing friend who'll tell you if the pitch sounds like every other fractional CMO's",
@@ -137,28 +131,19 @@ function buildInspirationPatterns(profile: ProfileInput): string[] {
   const patterns: string[] = [];
 
   if (companies.length > 0) {
-    patterns.push(
-      `A former ${companies[0]} colleague who has since moved to a smaller, faster company`
-    );
+    patterns.push(`A former ${companies[0]} colleague who has since moved to a smaller, faster company`);
   } else {
-    patterns.push(
-      "A former colleague who has since moved to a smaller, faster company"
-    );
+    patterns.push("A former colleague who has since moved to a smaller, faster company");
   }
 
   if (companies.length > 1) {
-    patterns.push(
-      `A former ${companies[1]} teammate who's at a startup now, leading the function you used to support`
-    );
+    patterns.push(`A former ${companies[1]} teammate who's at a startup now, leading the function you used to support`);
   } else {
-    patterns.push(
-      "A peer at your level who worked alongside you and knows your strengths without needing proof"
-    );
+    patterns.push("A peer at your level who worked alongside you and knows your strengths without needing proof");
   }
 
   patterns.push(
-    roleFriend[roleCategory] ||
-      "A peer in your field who'll tell you the truth, not what you want to hear"
+    roleFriend[roleCategory] || "A peer in your field who'll tell you the truth, not what you want to hear"
   );
 
   return patterns;
@@ -181,9 +166,8 @@ export function GutCheckEditor({
     pushback: "",
     warmLeads: "",
   };
+  const outreachMessage = (savedData.outreachMessage as string) ?? "";
 
-  // UI-only state for which contact card is expanded to show message vs capture
-  const [expandedCard, setExpandedCard] = useState<{ index: number; pane: "message" | "capture" } | null>(null);
   const [synthesisLoading, setSynthesisLoading] = useState(false);
   const autoSynthesizeFired = useRef(false);
   const savedDataRef = useRef(savedData);
@@ -191,8 +175,7 @@ export function GutCheckEditor({
   useEffect(() => { savedDataRef.current = savedData; }, [savedData]);
   useEffect(() => { onSaveRef.current = onSave; }, [onSave]);
 
-  // Cross-task: fetch the positioning statement from task 2 so we can
-  // quote it in the outreach template and use it for synthesis context.
+  // Fetch the positioning statement from task 2
   const [crossTaskPositioning, setCrossTaskPositioning] = useState<string>("");
   useEffect(() => {
     fetch("/api/playbook/positioning-editor")
@@ -204,7 +187,6 @@ export function GutCheckEditor({
       .catch(() => {});
   }, []);
 
-  // Profile for role-aware inspiration
   const profile: ProfileInput = useMemo(() => {
     const r = recommendationData as {
       userProfile?: {
@@ -224,11 +206,11 @@ export function GutCheckEditor({
   }, [recommendationData]);
 
   const inspirationPatterns = useMemo(() => buildInspirationPatterns(profile), [profile]);
-
   const defaultOutreach = useMemo(
     () => buildDefaultOutreachMessage(pathSlug, pathName, crossTaskPositioning),
     [pathSlug, pathName, crossTaskPositioning]
   );
+  const currentOutreach = outreachMessage || defaultOutreach;
 
   // Handlers
   const handleContactChange = <K extends keyof Contact>(
@@ -260,15 +242,15 @@ export function GutCheckEditor({
     handleContactChange(index, "status", next);
   };
 
-  const getMessage = (c: Contact) => c.customMessage || defaultOutreach;
-
   const captureIsMeaningful = (c: Contact) =>
     c.status === "done" &&
-    (c.capture.gutReaction.trim().length > 0 ||
-      c.capture.transcript.trim().length > 0);
+    (c.capture.gutReaction.trim().length > 0 || c.capture.transcript.trim().length > 0);
 
   const doneCount = contacts.filter(captureIsMeaningful).length;
   const canSynthesize = doneCount >= 2;
+  const anyScheduledOrDone = contacts.some(
+    (c) => c.status === "scheduled" || c.status === "done"
+  );
 
   const runSynthesis = async (mode: "auto" | "regenerate") => {
     setSynthesisLoading(true);
@@ -289,12 +271,12 @@ export function GutCheckEditor({
       });
       if (res.ok) {
         const data = await res.json();
-        const currentSynthesis = (savedDataRef.current.synthesis as Synthesis) ?? {
-          agreement: "",
-          pushback: "",
-          warmLeads: "",
-        };
-        // On auto-generate, only fill empty fields. On regenerate, overwrite all.
+        const currentSynthesis =
+          (savedDataRef.current.synthesis as Synthesis) ?? {
+            agreement: "",
+            pushback: "",
+            warmLeads: "",
+          };
         const next: Synthesis =
           mode === "regenerate"
             ? { ...currentSynthesis, agreement: data.agreement, pushback: data.pushback, warmLeads: data.warmLeads }
@@ -310,8 +292,6 @@ export function GutCheckEditor({
     finally { setSynthesisLoading(false); }
   };
 
-  // Auto-fire synthesis once 2+ captures exist AND synthesis is empty.
-  // Guards against re-fire via a ref so we don't loop.
   useEffect(() => {
     if (autoSynthesizeFired.current) return;
     if (!canSynthesize) return;
@@ -325,66 +305,90 @@ export function GutCheckEditor({
     runSynthesis("auto");
   }, [canSynthesize, synthesis.agreement, synthesis.pushback, synthesis.warmLeads]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSynthesisChange = (field: keyof Synthesis, value: string | "validated" | "revising") => {
+  const handleSynthesisChange = (
+    field: keyof Synthesis,
+    value: string | "validated" | "revising"
+  ) => {
     onSave({ ...savedData, synthesis: { ...synthesis, [field]: value } });
   };
 
-  // Auto-check: both checklist items come from real progress
   const hadConversations = doneCount >= 2;
   const madeDecision = !!synthesis.decision;
 
   return (
-    <div className="space-y-8">
-      {/* Tip — single short sentence, no block */}
+    <div className="space-y-10">
+      {/* Tip */}
       <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
-        The point of this task is to test your positioning with real humans before you take it to strangers. You're listening, not selling.
+        The point of this task is to test your positioning with real humans before you take it to strangers. You&apos;re listening, not selling.
       </p>
 
-      {/* Conversation guide — collapsed by default, one place to find */}
-      <details className="rounded-lg border border-blair-mist bg-white">
-        <summary className="cursor-pointer px-5 py-3 text-sm font-medium text-blair-midnight hover:text-blair-sage-dark transition-colors">
-          Conversation guide (what to say on the call)
-        </summary>
-        <div className="border-t border-blair-mist px-5 py-4 text-sm leading-relaxed text-blair-charcoal/80 space-y-3">
-          <div>
-            <p className="font-semibold text-blair-midnight">1. Open with context (30 sec)</p>
-            <p className="text-blair-charcoal/70">&ldquo;Thanks for making time. Quick context: I&apos;m exploring going independent. I want your gut reaction on an idea before I go too far. Not a pitch.&rdquo;</p>
-          </div>
-          <div>
-            <p className="font-semibold text-blair-midnight">2. Read your one sentence, then stop talking (1 min)</p>
-            <p className="text-blair-charcoal/70">Literally read your positioning statement. Then wait. Their first reaction is the most honest data you&apos;ll get.</p>
-          </div>
-          <div>
-            <p className="font-semibold text-blair-midnight">3. Ask these in order (10 min)</p>
-            <ul className="mt-1 space-y-1 list-disc list-inside marker:text-blair-sage/60 text-blair-charcoal/70">
-              <li>&ldquo;When you heard that, what was your first reaction?&rdquo;</li>
-              <li>&ldquo;Who came to mind? Anyone specific?&rdquo;</li>
-              <li>&ldquo;What part felt off or unclear?&rdquo;</li>
-              <li>&ldquo;What would make this a no-brainer for the person you&apos;re thinking of?&rdquo;</li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold text-blair-midnight">4. Close (2 min)</p>
-            <p className="text-blair-charcoal/70">&ldquo;Super helpful. Would you be open to an intro if someone specific comes to mind later?&rdquo; Then actually send them a thank-you the next day.</p>
-          </div>
+      {/* 1. Outreach message — ONE template, not per-person */}
+      <section>
+        <h3 className="font-serif text-lg text-blair-midnight">
+          1. Your outreach message
+        </h3>
+        <p className="mt-1 text-sm text-blair-charcoal/60">
+          Send this to all 3 people. Swap in their name and a line that shows
+          you actually pay attention to what they&apos;re up to.
+        </p>
+        <textarea
+          value={currentOutreach}
+          onChange={(e) => onSave({ ...savedData, outreachMessage: e.target.value })}
+          onInput={(e) => {
+            const el = e.currentTarget;
+            el.style.height = "auto";
+            el.style.height = el.scrollHeight + "px";
+          }}
+          ref={(el) => {
+            if (el) {
+              el.style.height = "auto";
+              el.style.height = el.scrollHeight + "px";
+            }
+          }}
+          rows={1}
+          className="mt-3 w-full resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-3 text-sm leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+        />
+        <div className="mt-3 flex flex-wrap gap-2">
+          <RefineButton
+            label="Make it shorter"
+            taskType="gut-check"
+            action="shorten"
+            fieldName="outreachMessage"
+            currentValue={currentOutreach}
+            context={{ pathSlug }}
+            onResult={(result) => onSave({ ...savedData, outreachMessage: result })}
+          />
+          <RefineButton
+            label="Make it more direct"
+            taskType="gut-check"
+            action="direct"
+            fieldName="outreachMessage"
+            currentValue={currentOutreach}
+            context={{ pathSlug }}
+            onResult={(result) => onSave({ ...savedData, outreachMessage: result })}
+          />
         </div>
-      </details>
+      </section>
 
-      {/* Progress + contact cards */}
-      <div>
-        <div className="mb-4 flex items-baseline justify-between">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-blair-charcoal/50">
-            Your 3 conversations
+      {/* 2. Your 3 conversations */}
+      <section>
+        <div className="flex items-baseline justify-between gap-4">
+          <h3 className="font-serif text-lg text-blair-midnight">
+            2. Your 3 conversations
           </h3>
           <span className="text-xs font-medium text-blair-sage-dark">
             {doneCount} of 3 captured
           </span>
         </div>
+        <p className="mt-1 text-sm text-blair-charcoal/60">
+          Pick 3 people who know your work. Send the message above. As you move
+          each one along, tap the status pill to update it.
+        </p>
 
-        {/* Inspiration — collapsed by default, profile-aware */}
-        <details className="mb-4 rounded-lg border border-blair-mist bg-blair-linen/40">
+        {/* Inspiration — collapsed, profile-aware */}
+        <details className="mt-4 rounded-lg border border-blair-mist bg-blair-linen/40">
           <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-blair-sage-dark hover:text-blair-sage transition-colors">
-            Not sure who to reach out to? Here&apos;s who tends to give the best gut-checks.
+            Not sure who? Here are some ideas for who might be good to gut-check with.
           </summary>
           <div className="border-t border-blair-mist px-4 py-3 text-sm leading-relaxed text-blair-charcoal/70">
             <ul className="space-y-1.5 list-disc list-inside marker:text-blair-sage/60">
@@ -395,19 +399,16 @@ export function GutCheckEditor({
           </div>
         </details>
 
-        <div className="space-y-3">
+        <div className="mt-4 space-y-3">
           {contacts.map((contact, i) => {
             const status = statusLabels[contact.status];
-            const messageOpen =
-              expandedCard?.index === i && expandedCard?.pane === "message";
-            const captureOpen =
-              expandedCard?.index === i && expandedCard?.pane === "capture";
+            const showCapture = contact.status === "done";
             return (
               <div
                 key={i}
                 className="rounded-xl border border-blair-mist bg-white"
               >
-                {/* Row 1: name + status pill — always visible, minimal */}
+                {/* Row: name + status pill */}
                 <div className="flex items-center gap-3 p-4">
                   <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blair-sage/10 text-xs font-semibold text-blair-sage-dark">
                     {i + 1}
@@ -431,107 +432,15 @@ export function GutCheckEditor({
                   </button>
                 </div>
 
-                {/* Row 2: two inline tabs — message / capture. Only one open at a time. */}
-                <div className="flex gap-1 border-t border-blair-mist/60 px-2">
-                  <button
-                    onClick={() =>
-                      setExpandedCard(messageOpen ? null : { index: i, pane: "message" })
-                    }
-                    className={cn(
-                      "flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors",
-                      messageOpen
-                        ? "text-blair-sage-dark"
-                        : "text-blair-charcoal/50 hover:text-blair-charcoal"
-                    )}
-                  >
-                    <svg
-                      className={cn("h-3.5 w-3.5 transition-transform", messageOpen && "rotate-90")}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                    Message to send
-                  </button>
-                  {(contact.status === "scheduled" || contact.status === "done") && (
-                    <button
-                      onClick={() =>
-                        setExpandedCard(captureOpen ? null : { index: i, pane: "capture" })
-                      }
-                      className={cn(
-                        "flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors",
-                        captureOpen
-                          ? "text-blair-sage-dark"
-                          : "text-blair-charcoal/50 hover:text-blair-charcoal"
-                      )}
-                    >
-                      <svg
-                        className={cn("h-3.5 w-3.5 transition-transform", captureOpen && "rotate-90")}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                      </svg>
+                {/* Capture pane — inline when status is "done", no toggle */}
+                {showCapture && (
+                  <div className="border-t border-blair-mist/60 bg-blair-linen/20 p-4 space-y-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
                       Capture what you heard
-                    </button>
-                  )}
-                </div>
-
-                {/* Message pane */}
-                {messageOpen && (
-                  <div className="border-t border-blair-mist/60 p-4 space-y-3">
-                    <textarea
-                      value={getMessage(contact)}
-                      onChange={(e) =>
-                        handleContactChange(i, "customMessage", e.target.value)
-                      }
-                      onInput={(e) => {
-                        const el = e.currentTarget;
-                        el.style.height = "auto";
-                        el.style.height = el.scrollHeight + "px";
-                      }}
-                      ref={(el) => {
-                        if (el) {
-                          el.style.height = "auto";
-                          el.style.height = el.scrollHeight + "px";
-                        }
-                      }}
-                      rows={1}
-                      className="w-full resize-none overflow-hidden rounded-lg border border-blair-mist bg-white px-4 py-3 text-sm leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
-                    />
-                    <div className="flex gap-2">
-                      <RefineButton
-                        label="Make it shorter"
-                        taskType="gut-check"
-                        action="shorten"
-                        fieldName="customMessage"
-                        currentValue={getMessage(contact)}
-                        context={{ pathSlug }}
-                        onResult={(result) => handleContactChange(i, "customMessage", result)}
-                      />
-                      <RefineButton
-                        label="Make it more direct"
-                        taskType="gut-check"
-                        action="direct"
-                        fieldName="customMessage"
-                        currentValue={getMessage(contact)}
-                        context={{ pathSlug }}
-                        onResult={(result) => handleContactChange(i, "customMessage", result)}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Capture pane */}
-                {captureOpen && (
-                  <div className="border-t border-blair-mist/60 p-4 space-y-4">
+                    </p>
                     <div>
                       <label className="text-xs font-semibold text-blair-midnight">
-                        Their gut reaction (first 10 seconds)
+                        Their gut reaction (their exact words if you can)
                       </label>
                       <textarea
                         value={contact.capture.gutReaction}
@@ -543,13 +452,13 @@ export function GutCheckEditor({
                     </div>
                     <div>
                       <label className="text-xs font-semibold text-blair-midnight">
-                        Who they thought of (names, companies, roles)
+                        Who they thought of (names, companies, intros offered)
                       </label>
                       <textarea
                         value={contact.capture.peopleMentioned}
                         onChange={(e) => handleCaptureChange(i, "peopleMentioned", e.target.value)}
                         rows={2}
-                        placeholder="Specific names or patterns. Intros they offered."
+                        placeholder="Specific names. Any intros they offered."
                         className="mt-1 w-full resize-y rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm leading-relaxed text-blair-charcoal focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
                       />
                     </div>
@@ -565,9 +474,9 @@ export function GutCheckEditor({
                         className="mt-1 w-full resize-y rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm leading-relaxed text-blair-charcoal focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
                       />
                     </div>
-                    <details className="rounded-lg bg-blair-linen/40">
+                    <details className="rounded-lg border border-blair-mist bg-white">
                       <summary className="cursor-pointer px-3 py-2 text-xs font-medium text-blair-sage-dark hover:text-blair-sage">
-                        Have a transcript (Granola, Otter)? Paste it here instead.
+                        Have a transcript (Granola, Otter)? Paste it instead.
                       </summary>
                       <textarea
                         value={contact.capture.transcript}
@@ -583,14 +492,140 @@ export function GutCheckEditor({
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Synthesis — auto-generates once 2+ captures exist. The user edits. */}
+      {/* 3. Conversation guide — appears when any call is scheduled.
+          Research-grounded: The Mom Test, customer discovery best practices,
+          founder interview research. Includes the user's positioning inline. */}
+      {anyScheduledOrDone && (
+        <section>
+          <h3 className="font-serif text-lg text-blair-midnight">
+            3. On the call
+          </h3>
+          <p className="mt-1 text-sm text-blair-charcoal/60">
+            A tested script for a positioning gut-check. 15-20 minutes. You&apos;re
+            listening, not selling. Keep your sentence up and a blank doc open.
+          </p>
+
+          <div className="mt-4 space-y-6 rounded-xl border border-blair-mist bg-white p-6 text-sm leading-relaxed">
+            {/* Before */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                Before the call (2 min)
+              </p>
+              <p className="mt-2 text-blair-charcoal/75">
+                Block 25 minutes. Pull up your one-sentence. Have a blank doc or notebook
+                ready. You&apos;ll want to capture their exact words, not just the gist.
+              </p>
+            </div>
+
+            {/* 1. Open */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                1. Set the frame (2 min)
+              </p>
+              <p className="mt-2 text-blair-charcoal/75">
+                After the hello, say this almost word-for-word:
+              </p>
+              <blockquote className="mt-2 border-l-2 border-blair-sage/40 pl-4 italic text-blair-charcoal/80">
+                &ldquo;Thanks for making time. Quick context: I&apos;m exploring going
+                independent and I want your honest gut reaction to an idea before
+                I go too far. This isn&apos;t a pitch. I want you to tell me if it&apos;s
+                off, vague, or lands wrong. Cool?&rdquo;
+              </blockquote>
+              <p className="mt-2 text-blair-charcoal/60 text-xs">
+                Wait for their nod. Don&apos;t keep talking.
+              </p>
+            </div>
+
+            {/* 2. Read the sentence */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                2. Read your one sentence, then stop (1 min)
+              </p>
+              {crossTaskPositioning ? (
+                <div className="mt-2 rounded-lg bg-blair-sage/10 px-4 py-3 text-blair-midnight">
+                  <p className="text-xs font-semibold text-blair-sage-dark uppercase tracking-wide">Your sentence</p>
+                  <p className="mt-1 leading-relaxed">&ldquo;{crossTaskPositioning}&rdquo;</p>
+                </div>
+              ) : (
+                <p className="mt-2 italic text-blair-charcoal/50">
+                  Your positioning statement will show up here once you finish task 2.
+                </p>
+              )}
+              <p className="mt-3 text-blair-charcoal/75">
+                Read it once, clearly. Then stop talking for at least 5 full
+                seconds. This is the hardest part. Their first unprompted words
+                after the silence are the most honest data you&apos;ll get.
+              </p>
+              <p className="mt-1 text-blair-charcoal/75">
+                Write down what they say <em>verbatim</em>, not a paraphrase.
+              </p>
+            </div>
+
+            {/* 3. Probe */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                3. Probe their reaction (10-12 min)
+              </p>
+              <p className="mt-2 text-blair-charcoal/75">
+                Ask these in order. Write down the <em>exact phrases</em> they
+                use, not your interpretation. Most of the signal comes from
+                which words they repeat.
+              </p>
+              <ul className="mt-3 space-y-2 list-disc list-inside marker:text-blair-sage/60 text-blair-charcoal/80">
+                <li>&ldquo;When you heard that, what was your first reaction?&rdquo;</li>
+                <li>&ldquo;What part, if any, felt unclear or vague?&rdquo;</li>
+                <li>&ldquo;Who specifically came to mind when you heard it? Anyone by name?&rdquo;</li>
+                <li>&ldquo;If you were describing me to someone who needed this, how would <em>you</em> say it?&rdquo; (This is the gold question. Listen for their framing.)</li>
+                <li>&ldquo;What would make this a no-brainer for the person you&apos;re thinking of?&rdquo;</li>
+              </ul>
+              <p className="mt-3 text-blair-charcoal/75">
+                If they get stuck or too polite, try:
+              </p>
+              <blockquote className="mt-2 border-l-2 border-blair-sage/40 pl-4 italic text-blair-charcoal/80">
+                &ldquo;Where&apos;s the line between someone you&apos;d recommend me to and someone you&apos;d hire me for yourself?&rdquo;
+              </blockquote>
+            </div>
+
+            {/* 4. Close */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                4. Close with a specific ask (2 min)
+              </p>
+              <blockquote className="mt-2 border-l-2 border-blair-sage/40 pl-4 italic text-blair-charcoal/80">
+                &ldquo;Super helpful. If someone specific comes to mind in the next
+                week, would you be willing to make a quick intro? Feel free to
+                send them my way without even checking with me.&rdquo;
+              </blockquote>
+              <p className="mt-2 text-blair-charcoal/75">
+                Send a thank-you within 24 hours. If they offered names, log
+                them immediately in the capture above.
+              </p>
+            </div>
+
+            {/* After */}
+            <div className="rounded-lg bg-blair-linen/60 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-blair-sage-dark">
+                Right after the call
+              </p>
+              <p className="mt-2 text-blair-charcoal/75">
+                Fill in the capture fields on this page while the call is fresh.
+                Look for three things: <strong>phrases they echoed back</strong> (what
+                landed), <strong>where they stopped you to clarify</strong> (what
+                didn&apos;t), and <strong>specific names or intros they offered</strong>.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 4. Synthesis */}
       {canSynthesize && (
-        <div className="rounded-xl border border-blair-sage/20 bg-blair-sage/5 p-6">
+        <section>
           <div className="flex items-baseline justify-between gap-4">
             <h3 className="font-serif text-lg text-blair-midnight">
-              What you heard
+              4. What you heard
             </h3>
             <button
               onClick={() => runSynthesis("regenerate")}
@@ -606,7 +641,7 @@ export function GutCheckEditor({
               : "We pulled these out of your captures. Edit anything that doesn't sound right."}
           </p>
 
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 space-y-4 rounded-xl border border-blair-sage/20 bg-blair-sage/5 p-6">
             <div>
               <label className="text-xs font-semibold text-blair-midnight">
                 What did they agree on?
@@ -643,48 +678,47 @@ export function GutCheckEditor({
                 className="mt-1 w-full resize-y rounded-lg border border-blair-mist bg-white px-3 py-2 text-sm leading-relaxed text-blair-charcoal focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
               />
             </div>
-          </div>
 
-          {/* Decision block — only shows once all 3 synthesis fields have content */}
-          {synthesis.agreement.trim() &&
-            synthesis.pushback.trim() &&
-            synthesis.warmLeads.trim() && (
-              <div className="mt-6 border-t border-blair-sage/20 pt-5">
-                <p className="text-sm font-semibold text-blair-midnight">
-                  Based on what you heard, what&apos;s your call?
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <button
-                    onClick={() => handleSynthesisChange("decision", "validated")}
-                    className={cn(
-                      "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
-                      synthesis.decision === "validated"
-                        ? "border-blair-sage bg-blair-sage text-white"
-                        : "border-blair-mist bg-white text-blair-charcoal/70 hover:border-blair-sage/40"
-                    )}
-                  >
-                    My positioning is validated
-                  </button>
-                  <button
-                    onClick={() => handleSynthesisChange("decision", "revising")}
-                    className={cn(
-                      "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
-                      synthesis.decision === "revising"
-                        ? "border-blair-sage bg-blair-sage text-white"
-                        : "border-blair-mist bg-white text-blair-charcoal/70 hover:border-blair-sage/40"
-                    )}
-                  >
-                    I&apos;m going back to sharpen it
-                  </button>
-                </div>
-                {synthesis.decision === "revising" && (
-                  <p className="mt-3 text-xs text-blair-charcoal/60">
-                    Good call. Head back to task 2 and update your one sentence using what you heard. You can come back here when the new version is ready.
+            {synthesis.agreement.trim() &&
+              synthesis.pushback.trim() &&
+              synthesis.warmLeads.trim() && (
+                <div className="border-t border-blair-sage/20 pt-5">
+                  <p className="text-sm font-semibold text-blair-midnight">
+                    Based on what you heard, what&apos;s your call?
                   </p>
-                )}
-              </div>
-            )}
-        </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      onClick={() => handleSynthesisChange("decision", "validated")}
+                      className={cn(
+                        "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
+                        synthesis.decision === "validated"
+                          ? "border-blair-sage bg-blair-sage text-white"
+                          : "border-blair-mist bg-white text-blair-charcoal/70 hover:border-blair-sage/40"
+                      )}
+                    >
+                      My positioning is validated
+                    </button>
+                    <button
+                      onClick={() => handleSynthesisChange("decision", "revising")}
+                      className={cn(
+                        "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
+                        synthesis.decision === "revising"
+                          ? "border-blair-sage bg-blair-sage text-white"
+                          : "border-blair-mist bg-white text-blair-charcoal/70 hover:border-blair-sage/40"
+                      )}
+                    >
+                      I&apos;m going back to sharpen it
+                    </button>
+                  </div>
+                  {synthesis.decision === "revising" && (
+                    <p className="mt-3 text-xs text-blair-charcoal/60">
+                      Good call. Head back to task 2 and update your one sentence using what you heard.
+                    </p>
+                  )}
+                </div>
+              )}
+          </div>
+        </section>
       )}
 
       {/* Completion checklist */}
@@ -702,18 +736,11 @@ export function GutCheckEditor({
             label="I decided whether my positioning is validated or needs revising"
           />
         </div>
-        {!(hadConversations && madeDecision) && (
-          <p className="mt-4 text-xs text-blair-charcoal/50">
-            Complete both steps above before you mark this task done. The point is to road-test your positioning with real humans, not to check boxes.
-          </p>
-        )}
       </div>
     </div>
   );
 }
 
-// Minimal, display-only checklist item. Both checks auto-derive from real
-// state — no manual override — because the point is to force the work.
 function ChecklistItem({ checked, label }: { checked: boolean; label: string }) {
   return (
     <div className="flex items-center gap-3">
