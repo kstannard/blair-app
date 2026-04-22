@@ -77,23 +77,28 @@ export function PositioningEditor({
   };
 
   return (
-    <div className="space-y-10">
-      {/* Tip */}
-      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
-        Your positioning statement isn&apos;t a tagline. It&apos;s the answer to &quot;what do you do?&quot; that makes the right person lean in.
-      </p>
+    <div className="space-y-6">
+      {/* Draft card — frames the 2 examples as "we wrote these for you" */}
+      <div className="overflow-hidden rounded-2xl border border-blair-sage/20 bg-white shadow-sm">
+        <div className="border-b border-blair-sage/20 bg-gradient-to-r from-blair-sage/10 to-blair-sage/5 px-6 py-5">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/20">
+              <svg className="h-4 w-4 text-blair-sage-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="font-serif text-lg text-blair-midnight">
+                Pick a starting point and make it yours
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+                Two positioning statements we drafted based on your background. Pick the one that feels closest, then edit it until it sounds like you.
+              </p>
+            </div>
+          </div>
+        </div>
 
-      {/* Draft selection */}
-      <div>
-        <h3 className="font-serif text-xl text-blair-midnight">
-          Pick a starting point and make it yours
-        </h3>
-        <p className="mt-2 text-sm text-blair-charcoal/50">
-          Pick the one that feels closest, then edit it until it sounds like
-          you.
-        </p>
-
-        <div className="mt-6 space-y-3">
+        <div className="px-6 py-5 space-y-3">
           {examples.map((draft, i) => (
             <button
               key={i}
@@ -137,17 +142,32 @@ export function PositioningEditor({
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Editable textarea — dual helpers merged with the picker above,
-          so this section just renders the editable statement without a
-          second h3 + helper paragraph. */}
-      {selectedIndex !== undefined && (
-        <div>
+        {/* Editable textarea — lives inside the same card, appears once they pick */}
+        {selectedIndex !== undefined && (
+        <div className="border-t border-blair-mist/60 px-6 py-5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+            Your sentence
+          </label>
+          <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+            Edit until it sounds like you would actually say it.
+          </p>
           <textarea
             value={editedStatement}
             onChange={(e) => handleChange("editedStatement", e.target.value)}
-            className="mt-4 h-32 w-full resize-none rounded-lg border border-blair-mist bg-white px-4 py-3 text-base leading-relaxed text-blair-midnight placeholder:text-blair-charcoal/30 focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20"
+            onInput={(e) => {
+              const el = e.currentTarget;
+              el.style.height = "auto";
+              el.style.height = el.scrollHeight + "px";
+            }}
+            ref={(el) => {
+              if (el) {
+                el.style.height = "auto";
+                el.style.height = el.scrollHeight + "px";
+              }
+            }}
+            rows={1}
+            className="mt-3 w-full resize-none overflow-hidden rounded-lg border border-blair-mist/70 bg-white px-3 py-2.5 text-base leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20 hover:border-blair-charcoal/20 transition-colors"
           />
 
           {/* AI refine buttons */}
@@ -210,6 +230,7 @@ export function PositioningEditor({
 
         </div>
       )}
+      </div>{/* end draft card */}
 
       {/* Completion checklist */}
       <div className="rounded-xl border border-blair-mist bg-white p-6">

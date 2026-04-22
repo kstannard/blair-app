@@ -86,13 +86,39 @@ Shared visual structure across NicheEditor, PositioningEditor, BuyerProfileEdito
 - Teaching copy that duplicates the task `whyItMatters` subtitle.
 - Fields at equal visual weight to labels — content should be the hero.
 
-### Draft framing
-When a task pre-populates content for the user, frame it as a draft Blair wrote for them. Example header: "We drafted your buyer profile. Edit anything that doesn't sound right."
+### Draft card pattern (for editors with pre-populated form fields)
 
-This replaces the government-form pattern with a coach-review pattern.
+When a task pre-populates content for the user to edit, wrap it in a single rounded "draft card":
+
+- Header: sage gradient band with a pencil icon, font-serif title ("We drafted your buyer profile"), and a one-sentence subtitle ("Based on your quiz answers and what we could find about you. Edit anything that doesn't sound right.")
+- Body: fields separated by subtle dividers (not individual card boxes per field)
+- Each field has:
+  - A small icon + uppercase sage label
+  - A one-sentence subtitle that adds framing (not restating the label)
+  - An editable control (textarea with subtle always-visible border, or pills, or list of textareas)
+- Inline "+ Add" buttons for list fields (trigger events, hangouts) at the bottom of each list
+
+This replaces the government-form pattern (bold label + grey help text + input, repeated) with a coach-review pattern. Currently applied to BuyerProfileEditor and PositioningEditor.
+
+**Not forced on NicheEditor** — it uses a numbered 3-step workflow which is a different visual language and doesn't have the government-form problem. Don't force the draft card pattern where the task structure isn't a form.
+
+### Field subtitles — one sentence only
+Field subtitles in draft cards are **one short sentence** that adds framing. Examples:
+- "The specific person who'd sign the invoice."
+- "Size, stage, industry."
+- "The moments that flip them from 'someday' to 'find someone now.'"
+
+NOT two sentences. Second sentences were getting cut consistently in review because they did less work than their word count deserved.
+
+### Editable textarea styling (inside draft cards)
+```
+className="w-full resize-none overflow-hidden rounded-lg border border-blair-mist/70 bg-white px-3 py-2.5 text-sm leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20 hover:border-blair-charcoal/20 transition-colors"
+```
+
+Subtle always-visible border (not borderless prose, not form-field heavy). Hover darkens slightly. Focus shows full sage ring.
 
 ### Quiet labels
-When labels are used inside a draft card, make them **small uppercase grey**, not bold midnight. The content reads as the subject; the label is just orientation.
+Inside a draft card, labels are **text-xs uppercase tracking-wider text-blair-sage-dark** with a small 3.5×3.5 icon to the left. Pre-populated content is the hero; labels are just orientation.
 
 ---
 
@@ -145,6 +171,9 @@ Decisions that were litigated with Kristin and settled. Don't re-open without as
 - **Synthesis auto-generates, doesn't wait for a button click.** If they uploaded notes/transcripts, the AI has the raw data.
 - **Locked placeholders, not hidden sections.** Sections that depend on earlier work always render — greyed out — so users see the roadmap.
 - **"Ok" not "OK"** (lowercase k) throughout.
+- **BuyerProfileEditor + PositioningEditor use the draft card pattern.** Single rounded card with sage gradient header, pencil icon, "We drafted your X" framing. Mockup was iterated 4 times before Kristin signed off. Don't revert to the bold-label + grey-help-text + full-width-button form pattern.
+- **Field subtitles are ONE sentence.** Tried two sentences; Kristin cut the second each time. One sentence adds framing, more adds noise.
+- **NicheEditor doesn't use the draft card pattern.** It has a numbered 3-step workflow which is different visual language. Don't force the pattern where the info architecture doesn't match.
 
 ---
 
