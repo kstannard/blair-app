@@ -322,6 +322,7 @@ export default function TaskWorkspacePage() {
         isLastTask={!nextTask}
         nextTaskSlug={nextTask?.slug}
         pathSlug={confirmedPathSlug}
+        hasMomentum={!!previousTask}
         onAutoAdvance={handleAutoAdvance}
         onDismiss={() => setShowCompletion(false)}
       />

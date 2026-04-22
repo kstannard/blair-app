@@ -9,6 +9,7 @@ interface CompletionAnimationProps {
   isLastTask: boolean;
   nextTaskSlug?: string;
   pathSlug?: string;
+  hasMomentum?: boolean;
   onAutoAdvance?: () => void;
   onDismiss?: () => void;
 }
@@ -85,6 +86,7 @@ export function CompletionAnimation({
   isLastTask,
   nextTaskSlug,
   pathSlug,
+  hasMomentum,
   onAutoAdvance,
   onDismiss,
 }: CompletionAnimationProps) {
@@ -92,7 +94,7 @@ export function CompletionAnimation({
   const [quip, setQuip] = useState("");
 
   const handleShow = useCallback(() => {
-    const ctx = { pathShape: getPathShape(pathSlug) };
+    const ctx = { pathShape: getPathShape(pathSlug), hasMomentum: !!hasMomentum };
     if (isLastTask) {
       setQuip(getQuip("phase-complete", ctx));
       fireBigConfetti();
@@ -101,7 +103,7 @@ export function CompletionAnimation({
       fireConfetti();
     }
     setPhase("check");
-  }, [isLastTask, pathSlug]);
+  }, [isLastTask, pathSlug, hasMomentum]);
 
   useEffect(() => {
     if (!show) {

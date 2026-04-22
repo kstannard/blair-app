@@ -151,12 +151,34 @@ function refineBuyerProfile(action: string, currentValue: string, context: Recor
 function refineGutCheck(action: string, currentValue: string, context: Record<string, unknown>): string {
   switch (action) {
     case "shorten": {
-      if (!currentValue.trim()) return "Nothing to shorten yet - write your message first.";
-      const lines = currentValue.split("\n").filter((l) => l.trim());
-      if (lines.length <= 4) return currentValue + "\n\n(This is already pretty concise!)";
-      // Keep the greeting, core ask, and sign-off
-      const shortened = lines.slice(0, Math.min(lines.length, 5)).join("\n\n");
-      return shortened + "\n\n(Shorter messages get more replies. Keep it to 3-4 sentences if you can.)";
+      if (!currentValue.trim()) return "Nothing to shorten yet. Write your message first.";
+
+      // Aggressive shorten: strip em dashes, remove placeholder brackets,
+      // cut filler words, then keep greeting + 1-2 pitch sentences + the ask.
+      const cleaned = currentValue
+        .replace(/—/g, ",")
+        .replace(/\[[^\]]+\]/g, "")                           // remove [placeholder] brackets
+        .replace(/\bI was wondering if\b/gi, "")
+        .replace(/\bI just wanted to\b/gi, "I want to")
+        .replace(/\breally\s+/gi, "")
+        .replace(/\bjust\s+/gi, "")
+        .replace(/\bactually\s+/gi, "")
+        .replace(/\bbasically\s+/gi, "")
+        .replace(/\n+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      const sentences = cleaned.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
+      if (sentences.length <= 3) return cleaned;
+
+      // Keep: first sentence (greeting), longest middle sentence (pitch), last sentence (ask).
+      const greeting = sentences[0];
+      const ask = sentences[sentences.length - 1];
+      const middle = sentences.slice(1, -1).sort((a, b) => b.length - a.length)[0] || "";
+
+      return middle
+        ? `${greeting}\n\n${middle}\n\n${ask}`
+        : `${greeting}\n\n${ask}`;
     }
     case "summarize-transcript": {
       if (!currentValue.trim()) return "Paste a transcript first, then hit summarize.";
@@ -181,18 +203,26 @@ function refineGutCheck(action: string, currentValue: string, context: Record<st
         .join("\n");
     }
     case "direct": {
-      if (!currentValue.trim()) return "Nothing to tighten yet - write your message first.";
-      // Cut hedging language and soften-to-direct replacements
-      let direct = currentValue
+      if (!currentValue.trim()) return "Nothing to tighten yet. Write your message first.";
+
+      // Aggressively cut hedging, soften-to-direct replacements, remove em
+      // dashes and cliché phrases. Returns a directly-usable message.
+      const direct = currentValue
+        .replace(/—/g, ",")                                   // em dash → comma
         .replace(/\bI was wondering if\b/gi, "")
         .replace(/\bI just wanted to\b/gi, "I want to")
         .replace(/\bI'm just\b/gi, "I'm")
-        .replace(/\bI'd really love to\b/gi, "I'd love to")
+        .replace(/\bI'd really love to\b/gi, "I want to")
+        .replace(/\bI'd love to get your honest take\b/gi, "I want your honest take")
         .replace(/\bI would appreciate\b/gi, "")
         .replace(/\bif you don't mind\b/gi, "")
         .replace(/\bif it's not too much trouble\b/gi, "")
         .replace(/\bat your earliest convenience\b/gi, "when you can")
         .replace(/\bsorry to bother you\b/gi, "")
+        .replace(/\bI hope this finds you well[.,!]?\s*/gi, "")
+        .replace(/\bHope you're doing well[.,!]?\s*/gi, "")
+        .replace(/\bHope things are going well[.,!]?\s*/gi, "")
+        .replace(/\bgot 15 minutes\b/gi, "have time for a call")
         .replace(/\bjust a quick\b/gi, "a")
         .replace(/\breally\b/gi, "")
         .replace(/\bjust\b/gi, "")
@@ -200,11 +230,17 @@ function refineGutCheck(action: string, currentValue: string, context: Record<st
         .replace(/\bsort of\b/gi, "")
         .replace(/\bmaybe\b/gi, "")
         .replace(/\bpossibly\b/gi, "")
+        .replace(/\bperhaps\b/gi, "")
+        .replace(/\ba bit\b/gi, "")
+        .replace(/\bsomewhat\b/gi, "")
+        .replace(/\bactually\b/gi, "")
+        .replace(/\bbasically\b/gi, "")
         .replace(/  +/g, " ")
         .replace(/ ,/g, ",")
+        .replace(/ \./g, ".")
         .replace(/\n{3,}/g, "\n\n")
         .trim();
-      return direct + "\n\n(Cut the hedging. Name what you want in the first two sentences.)";
+      return direct;
     }
     default:
       return currentValue;

@@ -136,9 +136,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company or their move from a bigger company to where they are now.]\n\n" +
-      "I'm starting to do fractional product work — embedding 6-10 hours a week with a Series A SaaS team that needs senior product help but isn't ready for a full-time head of product. You've seen how I think about roadmaps and discovery, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company or their move from a bigger company to where they are now.]\n\n" +
+      "I'm starting to do fractional product work. The idea is to embed 6-10 hours a week with a Series A SaaS team that needs senior product help but isn't ready for a full-time head of product. You've seen how I think about roadmaps and discovery, and I'd love your honest take.\n\n" +
+      "Would you have time for a quick call this week or next? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 
   // -------- Marketing / Brand --------
@@ -200,9 +200,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do fractional marketing work — embedding 8-12 hours a week with a Series A team that needs senior marketing strategy but isn't ready for a full-time hire. You've seen how I think about brand and demand, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do fractional marketing work. The shape is 8-12 hours a week with a Series A team that needs senior marketing strategy but isn't ready for a full-time hire. You've seen how I think about brand and demand, and I'd love your honest take.\n\n" +
+      "Open to a quick call this week or next? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 
   // -------- Operations / BizOps / Chief of Staff --------
@@ -212,7 +212,7 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       "Built the internal systems (hiring, onboarding, planning) nobody else wanted to own",
       "Managed cross-functional projects where the founder needed someone to just make it happen",
       "Fixed broken handoffs between teams that were causing slips",
-      "Owned the operating rhythm — standups, planning cycles, OKRs, retros",
+      "Owned the operating rhythm: standups, planning cycles, OKRs, retros",
       "Designed the company-wide planning process from scratch",
       "Built reporting and KPI frameworks the leadership team uses weekly",
       "Hired and managed contractors, vendors, or first ops hires",
@@ -264,9 +264,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do fractional ops work — embedding 8-12 hours a week with a Series A team that needs senior operating strategy but isn't ready for a full-time COO. You've seen how I work, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do fractional ops work, embedding 8-12 hours a week with a Series A team that needs senior operating strategy but isn't ready for a full-time COO. You've seen how I work, and I'd love your honest take.\n\n" +
+      "Any chance you have time for a quick call this week or next? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 
   // -------- Finance / Analytics --------
@@ -328,9 +328,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do fractional CFO work — embedding 8-12 hours a week with a Series A team that needs CFO-level finance support but isn't ready for a full-time hire. You've seen how I work with numbers, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do fractional CFO work, embedding 8-12 hours a week with a Series A team that needs CFO-level finance support but isn't ready for a full-time hire. You've seen how I work with numbers, and I'd love your honest take.\n\n" +
+      "Free for a short call this week or next? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 
   // -------- Communications / PR / Brand storytelling --------
@@ -349,7 +349,7 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
       "Watching a founder land a press hit that actually moved the needle",
       "Turning a tangled story into a clean narrative that lands the first time",
       "Coaching a CEO into a media moment they were dreading and crushing it",
-      "Building the editorial system that compounds — every piece makes the next one easier",
+      "Building the editorial system that compounds, where every piece makes the next one easier",
     ],
     whatCompaniesPay: [
       {
@@ -392,9 +392,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do fractional comms work — embedding 6-10 hours a week with a Series A team that needs senior comms support around a launch, fundraise, or critical moment. You've seen how I think about narrative, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do fractional comms work, embedding 6-10 hours a week with a Series A team that needs senior comms support around a launch, fundraise, or critical moment. You've seen how I think about narrative, and I'd love your honest take.\n\n" +
+      "Would you have time for a short call this week or next? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 
   // -------- Engineering / Technical --------
@@ -456,9 +456,9 @@ const FRACTIONAL_OPERATOR: Partial<Record<RoleCategory, RoleAwareContent>> = {
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do fractional technical leadership work — embedding 8-12 hours a week with a Series A team that needs senior engineering perspective but isn't ready for a full-time CTO or VP. You've seen how I think about systems, and I'd love your honest take.\n\n" +
-      "Got 15 minutes this week? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea — or who might know a founder who needs exactly this.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do fractional technical leadership work, embedding 8-12 hours a week with a Series A team that needs senior engineering perspective but isn't ready for a full-time CTO or VP. You've seen how I think about systems, and I'd love your honest take.\n\n" +
+      "Any chance you're open to a quick call soon? Not a pitch, just a gut-check from someone who'd tell me if it's a bad idea, or who might know a founder who needs exactly this.",
   },
 };
 
@@ -526,9 +526,9 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope you're doing well! [Something specific about their company.]\n\n" +
-      "I'm starting to do independent product systems work — building the dashboards, internal tools, and workflows that product teams need but never have time to build. You've seen how I think about this stuff.\n\n" +
-      "Got 15 minutes this week? Just gut-checking before I go too far.",
+      "Hope you're doing well. [Something specific about their company.]\n\n" +
+      "I'm starting to do independent product systems work. Think dashboards, internal tools, and workflows that product teams need but never have time to build. You've seen how I think about this stuff, and I'd love your honest take.\n\n" +
+      "Open to a quick call this week or next? Just gut-checking before I go too far.",
   },
   // -------- Operations / Bizops (the original automation-systems-builder content) --------
   "operations-bizops": {
@@ -589,9 +589,9 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope things are good! [Something specific about their company or stack.]\n\n" +
-      "I'm starting to do independent systems and automation work — building the workflows, integrations, and operational infrastructure that let teams stop doing things manually. You know how I think about this stuff.\n\n" +
-      "Got 15 minutes for a gut-check? Just testing whether this makes sense as an independent play.",
+      "Hope things are good. [Something specific about their company or stack.]\n\n" +
+      "I'm starting to do independent systems and automation work. Think workflows, integrations, and operational infrastructure that let teams stop doing things manually. You know how I think about this stuff, and I'd love your honest take.\n\n" +
+      "Would you have time for a short call this week or next? Just testing whether this makes sense as an independent play.",
   },
   // -------- Engineering --------
   "engineering": {
@@ -652,9 +652,9 @@ const AUTOMATION_SYSTEMS_BUILDER: Partial<Record<RoleCategory, RoleAwareContent>
     ],
     outreachTemplate:
       "Hey [name],\n\n" +
-      "Hope things are good! [Something specific about their company or stack.]\n\n" +
-      "I'm starting to do independent technical systems work — building internal tools, data infrastructure, and the kind of engineering systems that companies need but never prioritize. You know how I think about this stuff.\n\n" +
-      "Got 15 minutes for a gut-check?",
+      "Hope things are good. [Something specific about their company or stack.]\n\n" +
+      "I'm starting to do independent technical systems work. Think internal tools, data infrastructure, and the kind of engineering systems that companies need but never prioritize. You know how I think about this stuff, and I'd love your honest take.\n\n" +
+      "Any chance you're open to a quick call soon? Just a gut-check before I go too far.",
   },
 };
 

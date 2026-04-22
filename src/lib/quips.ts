@@ -21,6 +21,12 @@ interface Quip {
   text: string;
   timeOfDay?: "day" | "night";
   pathShape?: PathShape[];
+  /**
+   * Quips that imply prior completions ("one more down", "further along than
+   * you think") should only fire after the user has completed at least one
+   * task. Set requiresMomentum: true on those and pass hasMomentum in context.
+   */
+  requiresMomentum?: boolean;
 }
 
 const quips: Record<string, Quip[]> = {
@@ -30,8 +36,8 @@ const quips: Record<string, Quip[]> = {
     { text: "Checked off. Your LinkedIn network has no idea what's coming." },
     { text: "That was the hard part. (Ok fine, there are more hard parts. But this one's done.)" },
     { text: "Done. Go grab some water. (Or coffee. Or wine.) You earned it." },
-    { text: "One more down. The momentum is real." },
-    { text: "Saved. You're further along than you think." },
+    { text: "One more down. The momentum is real.", requiresMomentum: true },
+    { text: "Saved. You're further along than you think.", requiresMomentum: true },
   ],
 
   "phase-complete": [
@@ -92,6 +98,12 @@ interface QuipContext {
   hour?: number;
   /** Path shape of the user's confirmed path. Omit to skip path filtering. */
   pathShape?: PathShape;
+  /**
+   * Whether the user has completed at least one task before this one.
+   * Momentum-implying quips ("one more down", "further along") only fire
+   * when this is true. Defaults to false (first-task-safe).
+   */
+  hasMomentum?: boolean;
 }
 
 function isDay(hour: number): boolean {
@@ -109,6 +121,7 @@ export function getQuip(category: string, ctx: QuipContext = {}): string {
     if (q.timeOfDay === "day" && !dayNow) return false;
     if (q.timeOfDay === "night" && dayNow) return false;
     if (q.pathShape && ctx.pathShape && !q.pathShape.includes(ctx.pathShape)) return false;
+    if (q.requiresMomentum && !ctx.hasMomentum) return false;
     return true;
   });
 

@@ -91,30 +91,22 @@ const task3Data = {
 // keyed to her network. Names are blank for her to fill in, but the
 // "why this person" framing is done.
 const task4Data = {
+  // Contact slots are intentionally blank — Jami's actual 3 people may not
+  // match the generic "former colleague" / "peer" categories, and pre-filling
+  // the notes locks her into descriptions that may be wrong. The inspiration
+  // panel in GutCheckEditor shows prompts to get her brain spinning.
   contacts: [
-    {
-      name: "",
-      notes: "A former Zendesk colleague who moved to a smaller, faster company. They saw how you ran customer experience and innovation work. Either a potential first client or someone who knows a founder who needs exactly this.",
-      status: "not-yet",
-    },
-    {
-      name: "",
-      notes: "A former HP teammate who moved on or is at a startup. They worked with you on product strategy and roadmap decisions. Strong referral source even if they're not the buyer.",
-      status: "not-yet",
-    },
-    {
-      name: "",
-      notes: "A friend or peer in product management who won't become a client but will tell you the truth about whether this positioning lands. Pick someone who'd say 'that doesn't sound like you' if it didn't.",
-      status: "not-yet",
-    },
+    { name: "", notes: "", status: "not-yet" },
+    { name: "", notes: "", status: "not-yet" },
+    { name: "", notes: "", status: "not-yet" },
   ],
   outreachMessage: `Hey [name],
 
-Hope you're doing well! [Something you noticed about them recently — a job change, a post, a project they shipped.]
+Hope you're doing well. [Something you noticed about them recently, like a job change, a post, or a project they shipped.]
 
-I'm starting to take on fractional product work — embedding 6-8 hours a week with a Series A SaaS team that needs a senior product person but isn't ready for a full-time head of product. Think roadmap ownership, discovery, PM coaching. You've seen how I work, and I'd love your honest take on whether this makes sense.
+I'm starting to take on fractional product work, embedding 6-8 hours a week with a Series A SaaS team that needs a senior product person but isn't ready for a full-time head of product. Think roadmap ownership, discovery, PM coaching. You've seen how I work, and I'd love your honest take on whether this makes sense.
 
-Got 15 minutes this week? Not a pitch, just a gut-check from someone whose opinion I trust.`,
+Would you have time for a quick call this week or next? Not a pitch, just a gut-check from someone whose opinion I trust.`,
   prePopulated: true,
 };
 
