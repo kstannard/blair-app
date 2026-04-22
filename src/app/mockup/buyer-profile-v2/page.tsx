@@ -204,7 +204,7 @@ function ProposedBuyerProfile() {
               </label>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
-              The specific person who&apos;d sign the invoice. Title plus enough context that you&apos;d spot them on LinkedIn in 5 minutes.
+              The specific person who&apos;d sign the invoice.
             </p>
             <AutoTextarea
               defaultValue={jamiBuyerTitle}
@@ -221,7 +221,7 @@ function ProposedBuyerProfile() {
               </label>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
-              Size, stage, industry. What&apos;s going on internally that makes them ripe for someone like you.
+              Size, stage, industry.
             </p>
             <AutoTextarea
               defaultValue={jamiCompanyType}
@@ -238,7 +238,7 @@ function ProposedBuyerProfile() {
               </label>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
-              The moments that flip them from &ldquo;someday&rdquo; to &ldquo;find someone now.&rdquo; Listen for these in casual conversations.
+              The moments that flip them from &ldquo;someday&rdquo; to &ldquo;find someone now.&rdquo;
             </p>
             <div className="mt-3 space-y-2">
               {jamiTriggerEvents.map((t, i) => (
@@ -266,7 +266,7 @@ function ProposedBuyerProfile() {
               </label>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
-              Can your buyer sign off, or are you selling to a committee? Changes your pricing and the sales motion.
+              Can your buyer sign off, or are you selling to a committee?
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <button className="rounded-full bg-blair-sage text-white px-3.5 py-1.5 text-sm font-medium">
@@ -290,7 +290,7 @@ function ProposedBuyerProfile() {
               </label>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
-              The newsletters, Slacks, and podcasts they spend professional attention on. Not your network, theirs.
+              The newsletters, Slacks, and podcasts they spend professional attention on.
             </p>
             <div className="mt-3 space-y-2">
               {jamiHangouts.map((h, i) => (
