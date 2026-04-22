@@ -149,74 +149,121 @@ function CurrentBuyerProfile() {
 // PROPOSED DESIGN — single card, quiet labels, no help text below, prose-feel
 // ============================================================================
 
+// Small inline icon component for section labels
+function SectionIcon({ d }: { d: string }) {
+  return (
+    <svg
+      className="h-3.5 w-3.5 text-blair-sage-dark/70"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d={d} />
+    </svg>
+  );
+}
+
+// Common textarea styling — always-visible subtle border so it reads editable,
+// focus state more obvious.
+const editableTextarea =
+  "w-full resize-none overflow-hidden rounded-lg border border-blair-mist/70 bg-white px-3 py-2.5 text-sm leading-relaxed text-blair-midnight focus:border-blair-sage focus:outline-none focus:ring-2 focus:ring-blair-sage/20 hover:border-blair-charcoal/20 transition-colors";
+
 function ProposedBuyerProfile() {
   return (
     <div>
-      {/* One wrapping card with a clear "this is a draft" header */}
-      <div className="rounded-2xl border border-blair-sage/20 bg-white">
-        <div className="border-b border-blair-sage/15 bg-blair-sage/5 px-6 py-4">
-          <p className="text-sm font-semibold text-blair-sage-dark">
-            We drafted your buyer profile
-          </p>
-          <p className="mt-0.5 text-xs text-blair-charcoal/60">
-            Based on your quiz and what you told us. Edit anything that doesn&apos;t sound right.
-          </p>
+      {/* One wrapping card framed as a draft */}
+      <div className="overflow-hidden rounded-2xl border border-blair-sage/20 bg-white shadow-sm">
+        {/* Header with warm accent */}
+        <div className="border-b border-blair-sage/20 bg-gradient-to-r from-blair-sage/10 to-blair-sage/5 px-6 py-5">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blair-sage/20">
+              <svg className="h-4 w-4 text-blair-sage-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="font-serif text-lg text-blair-midnight">
+                We drafted your buyer profile
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-blair-charcoal/60">
+                Based on your quiz answers and what we could find about you. Edit anything that doesn&apos;t sound right.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="divide-y divide-blair-mist/60">
+        {/* Body — sections separated by subtle dividers */}
+        <div className="divide-y divide-blair-mist/50">
           {/* Who hires you */}
           <div className="px-6 py-5">
-            <label className="text-xs font-medium uppercase tracking-wide text-blair-charcoal/50">
-              Who hires you
-            </label>
+            <div className="flex items-center gap-2">
+              <SectionIcon d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+                Who hires you
+              </label>
+            </div>
             <AutoTextarea
               defaultValue={jamiBuyerTitle}
-              className="mt-2 w-full resize-none overflow-hidden rounded-md bg-transparent px-0 py-0 text-base leading-relaxed text-blair-midnight focus:bg-blair-linen/30 focus:outline-none focus:ring-0 hover:bg-blair-linen/20 transition-colors -mx-2 px-2 rounded"
+              className={`mt-2 ${editableTextarea} text-base`}
             />
           </div>
 
           {/* Company */}
           <div className="px-6 py-5">
-            <label className="text-xs font-medium uppercase tracking-wide text-blair-charcoal/50">
-              The kind of company
-            </label>
+            <div className="flex items-center gap-2">
+              <SectionIcon d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h15M3 21h18" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+                The kind of company
+              </label>
+            </div>
             <AutoTextarea
               defaultValue={jamiCompanyType}
-              className="mt-2 w-full resize-none overflow-hidden rounded-md bg-transparent px-0 py-0 text-base leading-relaxed text-blair-midnight focus:bg-blair-linen/30 focus:outline-none focus:ring-0 hover:bg-blair-linen/20 transition-colors -mx-2 px-2 rounded"
+              className={`mt-2 ${editableTextarea} text-base`}
             />
           </div>
 
           {/* Trigger events */}
           <div className="px-6 py-5">
-            <label className="text-xs font-medium uppercase tracking-wide text-blair-charcoal/50">
-              When they buy
-            </label>
-            <div className="mt-2 space-y-1.5">
+            <div className="flex items-center gap-2">
+              <SectionIcon d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+                When they buy
+              </label>
+            </div>
+            <div className="mt-2 space-y-2">
               {jamiTriggerEvents.map((t, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-blair-sage/60" />
-                  <AutoTextarea
-                    defaultValue={t}
-                    className="flex-1 resize-none overflow-hidden rounded-md bg-transparent px-2 py-1 text-sm leading-relaxed text-blair-charcoal hover:bg-blair-linen/20 focus:bg-blair-linen/30 focus:outline-none focus:ring-0 transition-colors"
-                  />
-                </div>
+                <AutoTextarea
+                  key={i}
+                  defaultValue={t}
+                  className={editableTextarea}
+                />
               ))}
+              <button className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-blair-sage-dark hover:text-blair-sage">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Add a trigger
+              </button>
             </div>
           </div>
 
           {/* Budget authority */}
           <div className="px-6 py-5">
-            <label className="text-xs font-medium uppercase tracking-wide text-blair-charcoal/50">
-              How they decide
-            </label>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <button className="rounded-full bg-blair-sage text-white px-3 py-1 text-xs font-medium">
+            <div className="flex items-center gap-2">
+              <SectionIcon d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 12a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V12zm-12 0h.008v.008H6V12z" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+                How they decide
+              </label>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <button className="rounded-full bg-blair-sage text-white px-3.5 py-1.5 text-sm font-medium">
                 Direct budget
               </button>
-              <button className="rounded-full border border-blair-mist bg-white text-blair-charcoal/50 px-3 py-1 text-xs hover:border-blair-sage/40">
+              <button className="rounded-full border border-blair-mist bg-white text-blair-charcoal/60 px-3.5 py-1.5 text-sm hover:border-blair-sage/40 hover:text-blair-charcoal transition-colors">
                 Needs approval
               </button>
-              <button className="rounded-full border border-blair-mist bg-white text-blair-charcoal/50 px-3 py-1 text-xs hover:border-blair-sage/40">
+              <button className="rounded-full border border-blair-mist bg-white text-blair-charcoal/60 px-3.5 py-1.5 text-sm hover:border-blair-sage/40 hover:text-blair-charcoal transition-colors">
                 Committee
               </button>
             </div>
@@ -224,19 +271,26 @@ function ProposedBuyerProfile() {
 
           {/* Where to find */}
           <div className="px-6 py-5">
-            <label className="text-xs font-medium uppercase tracking-wide text-blair-charcoal/50">
-              Where to find them
-            </label>
-            <div className="mt-2 space-y-1.5">
+            <div className="flex items-center gap-2">
+              <SectionIcon d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-blair-sage-dark">
+                Where to find them
+              </label>
+            </div>
+            <div className="mt-2 space-y-2">
               {jamiHangouts.map((h, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-blair-sage/60" />
-                  <AutoTextarea
-                    defaultValue={h}
-                    className="flex-1 resize-none overflow-hidden rounded-md bg-transparent px-2 py-1 text-sm leading-relaxed text-blair-charcoal hover:bg-blair-linen/20 focus:bg-blair-linen/30 focus:outline-none focus:ring-0 transition-colors"
-                  />
-                </div>
+                <AutoTextarea
+                  key={i}
+                  defaultValue={h}
+                  className={editableTextarea}
+                />
               ))}
+              <button className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-blair-sage-dark hover:text-blair-sage">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Add a place
+              </button>
             </div>
           </div>
         </div>
@@ -341,28 +395,25 @@ export default function MockupPage() {
         </div>
 
         <div className="mx-auto mt-12 max-w-3xl rounded-xl border border-blair-mist bg-white p-6 text-sm leading-relaxed text-blair-charcoal/70">
-          <p className="font-semibold text-blair-midnight">What changed</p>
+          <p className="font-semibold text-blair-midnight">What changed (v2, after feedback)</p>
           <ul className="mt-3 space-y-2 list-disc list-inside marker:text-blair-sage/60">
             <li>
-              <strong>One card wraps everything</strong> with a header that names it as a draft: &ldquo;We drafted your buyer profile. Edit anything that doesn&apos;t sound right.&rdquo; Removes the sense that each field is a separate survey question.
+              <strong>Editable cue back on.</strong> Textareas have a subtle always-visible border so users immediately know they can edit. Hover shows slightly darker border, focus shows full sage ring.
             </li>
             <li>
-              <strong>No help text under each label.</strong> Labels become short prompt-style phrases (&ldquo;Who hires you&rdquo;, &ldquo;When they buy&rdquo;) that work on their own.
+              <strong>Visual texture added.</strong> Small icons next to each section label (person, building, lightning, dollar, pin). Header has a soft sage gradient + pencil icon. The card doesn&apos;t feel dead anymore.
             </li>
             <li>
-              <strong>Labels are quieter</strong> — small uppercase gray, not bold midnight. The pre-populated content becomes the hero.
+              <strong>Font sizes boosted.</strong> Subcopy under &ldquo;We drafted your buyer profile&rdquo; is now text-sm (was text-xs). Header title is font-serif text-lg. Labels stay uppercase but readable.
             </li>
             <li>
-              <strong>Editable content looks like prose</strong>, not form inputs. No visible border around the textarea by default. Hover / focus shows a subtle highlight so users still know it&apos;s editable.
+              <strong>Kept the useful copy, cut the noise.</strong> Header has title + one-line subcopy (what we drafted, where from, how to edit). Individual field labels are short prompts only — no redundant help text under each.
             </li>
             <li>
-              <strong>Italic quick tip is cut</strong> from the editor body. The task&apos;s why-it-matters subtitle above is enough teaching.
+              <strong>Add buttons where they make sense.</strong> Trigger events and hangouts have inline &ldquo;+ Add a trigger&rdquo; / &ldquo;+ Add a place&rdquo; so users can extend without looking for a separate control.
             </li>
             <li>
-              <strong>Trigger events and hangouts use dot bullets</strong> instead of boxed rows — reads like a list, not 4 separate inputs.
-            </li>
-            <li>
-              <strong>Budget authority uses pill selectors</strong> instead of full-width buttons — takes less space, doesn&apos;t compete with the content.
+              <strong>Budget authority pills are bigger / more tappable</strong> than v1, still compact vs. the original full-width buttons.
             </li>
           </ul>
         </div>
