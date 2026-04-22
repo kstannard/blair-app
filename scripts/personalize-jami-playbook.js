@@ -91,14 +91,30 @@ const task3Data = {
 // keyed to her network. Names are blank for her to fill in, but the
 // "why this person" framing is done.
 const task4Data = {
-  // Contact slots are intentionally blank — Jami's actual 3 people may not
-  // match the generic "former colleague" / "peer" categories, and pre-filling
-  // the notes locks her into descriptions that may be wrong. The inspiration
-  // panel in GutCheckEditor shows prompts to get her brain spinning.
+  // New shape: 3 contact slots with inline message + inline capture.
+  // All slots start blank — the user picks their actual 3 people,
+  // customizes the message per-person, and captures notes after each call.
+  // The completion gate requires 2+ conversations captured + a synthesis
+  // decision, so nothing is pre-checked.
   contacts: [
-    { name: "", notes: "", status: "not-yet" },
-    { name: "", notes: "", status: "not-yet" },
-    { name: "", notes: "", status: "not-yet" },
+    {
+      name: "",
+      status: "not-sent",
+      customMessage: "",
+      capture: { gutReaction: "", peopleMentioned: "", pushback: "", transcript: "" },
+    },
+    {
+      name: "",
+      status: "not-sent",
+      customMessage: "",
+      capture: { gutReaction: "", peopleMentioned: "", pushback: "", transcript: "" },
+    },
+    {
+      name: "",
+      status: "not-sent",
+      customMessage: "",
+      capture: { gutReaction: "", peopleMentioned: "", pushback: "", transcript: "" },
+    },
   ],
   outreachMessage: `Hey [name],
 

@@ -79,15 +79,9 @@ export function PositioningEditor({
   return (
     <div className="space-y-10">
       {/* Tip */}
-      <div className="rounded-lg border-l-4 border-blair-sage bg-blair-sage/5 p-5">
-        <p className="text-sm font-semibold text-blair-sage-dark">Quick tip</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/70">
-          Your positioning statement isn&apos;t a tagline. It&apos;s the answer to
-          &quot;what do you do?&quot; that makes the right person lean in. Get this
-          right, and your website, proposals, and sales conversations all become
-          easier to write.
-        </p>
-      </div>
+      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
+        Your positioning statement isn&apos;t a tagline. It&apos;s the answer to &quot;what do you do?&quot; that makes the right person lean in.
+      </p>
 
       {/* Draft selection */}
       <div>

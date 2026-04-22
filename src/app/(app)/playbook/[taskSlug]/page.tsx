@@ -251,6 +251,7 @@ export default function TaskWorkspacePage() {
             savedData={savedData}
             onSave={handleSave}
             pathName={recommendation?.primaryPath?.name || ""}
+            recommendationData={recommendation}
           />
         );
       default:

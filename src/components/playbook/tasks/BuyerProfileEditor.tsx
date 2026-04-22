@@ -250,17 +250,9 @@ export function BuyerProfileEditor({
   return (
     <div className="space-y-10">
       {/* Tip */}
-      <div className="rounded-lg border-l-4 border-blair-sage bg-blair-sage/5 p-5">
-        <p className="text-sm font-semibold text-blair-sage-dark">
-          Quick tip
-        </p>
-        <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/70">
-          You're not describing a demographic. You're building a profile of
-          someone with a real problem at a specific moment in time. The more
-          vividly you can picture this person, the more effective your sales
-          conversations and marketing will be.
-        </p>
-      </div>
+      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
+        You&apos;re not describing a demographic. You&apos;re building a profile of someone with a real problem at a specific moment in time.
+      </p>
 
       {/* Buyer title */}
       <div>

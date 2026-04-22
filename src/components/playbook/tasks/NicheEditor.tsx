@@ -268,16 +268,9 @@ export function NicheEditor({ pathSlug, savedData, onSave, recommendationData }:
   return (
     <div className="space-y-10">
       {/* Tip */}
-      <div className="rounded-lg border-l-4 border-blair-sage bg-blair-sage/5 p-5">
-        <p className="text-sm font-semibold text-blair-sage-dark">
-          Quick tip
-        </p>
-        <p className="mt-1.5 text-sm leading-relaxed text-blair-charcoal/70">
-          The tighter your niche, the easier it is to find clients, charge
-          premium rates, and build a reputation. Specificity isn't a limitation
-          - it's your competitive advantage.
-        </p>
-      </div>
+      <p className="text-sm italic leading-relaxed text-blair-charcoal/50">
+        The tighter your niche, the easier it is to find clients, charge premium rates, and build a reputation. Specificity isn't a limitation, it's your competitive advantage.
+      </p>
 
       {/* Narrowing exercise */}
       <div>
